@@ -69,7 +69,7 @@ grouping_dimension_map <- list(
   "Actor sector"="sector",
   "Actor type (core categories)"="core_type",
   "Actor type (most specific)"="type",
-  "Actor region/country"="region"
+  "Actor country/region"="region"
 ) 
 
 get_dispersal_initial_museums <- function(dispersal_events,

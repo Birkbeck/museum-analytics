@@ -69,7 +69,7 @@ dispersalUI <- function(id) {
               "Actor sector",
               "Actor type (core categories)",
               "Actor type (most specific)",
-              "Actor region/country"
+              "Actor country/region"
             ),
             selected="Actor type (core categories)"
           )

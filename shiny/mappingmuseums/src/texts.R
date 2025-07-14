@@ -81,7 +81,7 @@ tooltip_group_actors_by <- "<p>GW: Select how to group and display actors on the
 <p><strong>Actor sector:</strong> The sector of the economy (<i>public</i>, <i>private</i>, <i>third</i>, <i>etc.</i>) that they belong to.</p>
 <p><strong>Most specific actor type:</strong> The most specific actor type that actors are known to belong to.</p>
 <p><strong>Core category actor type:</strong> The core category that they belong to. Refer to the actor types hierarchy to see which types are included as core categories.</p>
-<p><strong>Actor region/country:</strong> The country or UK region where actors are located.</p>"
+<p><strong>Actor country/region:</strong> The country or UK region where actors are located.</p>"
 
 tooltip_transaction_types <- "<p>GW: Select which transactions should appear on the diagram.</p>
 <p>Most <strong>changes of ownership</strong> are also changes of custody, but occasionally an item is sold without being sent to its new owner.</p>

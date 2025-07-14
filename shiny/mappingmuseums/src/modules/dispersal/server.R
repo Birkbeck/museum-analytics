@@ -80,7 +80,7 @@ dispersalServer <- function(id) {
         "Actor sector"="sector",
         "Actor type (core categories)"="core_type",
         "Actor type (most specific)"="type",
-        "Actor region/country"="region"
+        "Actor country/region"="region"
       )[input$grouping]
     })
     sender_grouping <- reactive({
