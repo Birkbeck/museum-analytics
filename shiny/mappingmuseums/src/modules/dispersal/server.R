@@ -106,6 +106,8 @@ dispersalServer <- function(id) {
         return("subject_broad")
       } else if (input$groupingMuseums == "Country/Region") {
         return("region")
+      } else if (input$groupingMuseums == "Country") {
+        return("country")
       }
     })
     scatter_grouping_field <- reactive({
@@ -321,6 +323,8 @@ dispersalServer <- function(id) {
         return("subject_broad")
       } else if (input$groupingMuseums == "Country/Region") {
         return("region")
+      } else if (input$groupingMuseums == "Country") {
+        return("country")
       }
     })
 
@@ -460,8 +464,7 @@ dispersalServer <- function(id) {
     )
 
     output$pathwaysTable <- renderDT({
-      #pathway_table(filtered_sequences(), selected_columns())
-      pathways_layout()$nodes |> select(id, name, count, count_label)
+      pathway_table(filtered_sequences(), selected_columns())
     }, options=list(pageLength=100))
 
   })

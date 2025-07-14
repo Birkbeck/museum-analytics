@@ -108,15 +108,27 @@ get_actor_choices <- function(grouping_dimension, museum_grouping_dimension) {
       group_by(.data[[recipient_grouping_dimension]])
   } else {
     grouped_events <- dispersal_events |>
-      group_by(.data[[recipient_museum_grouping_dimension]], .data[[recipient_grouping_dimension]])
+      group_by(
+        .data[[recipient_museum_grouping_dimension]],
+        .data[[recipient_grouping_dimension]]
+      )
   }
   choices_table <- grouped_events |>
+    mutate(
+      recipient_museum_group=ifelse(
+        !is.na(recipient_all),
+        .data[[paste0("recipient_", museum_grouping_dimension)]],
+        NA
+      )
+    ) |>
     summarize(
-      to=paste(.data[[recipient_museum_grouping_dimension]], .data[[recipient_grouping_dimension]], sep="@"),
+      to=paste(
+        recipient_museum_group, .data[[recipient_grouping_dimension]], sep="@"
+      ),
       label=ifelse(
-        !is.na(.data[[recipient_museum_grouping_dimension]]),
-        paste(.data[[recipient_museum_grouping_dimension]], "museum"),
-        .data[[recipient_grouping_dimension]]
+        is.na(recipient_museum_group),
+        .data[[recipient_grouping_dimension]],
+        paste(recipient_museum_group, "museum")
       )
     ) |>
     ungroup() |>
@@ -170,9 +182,9 @@ get_filtered_sequences <- function(events_data,
     filter_by_final_recipient(
       show_ending_points, grouping_dimension, museum_grouping_dimension
     ) |>
-    filter_by_intermediary_recipient(
-      show_passes_through, grouping_dimension, museum_grouping_dimension
-    ) |>
+    #filter_by_intermediary_recipient(
+    #  show_passes_through, grouping_dimension, museum_grouping_dimension
+    #) |>
     filter(
       collection_status %in% collection_status_filter,
       event_core_type %in% c(event_type_filter),
@@ -356,11 +368,7 @@ filter_by_final_recipient <- function(events_data,
     group_by(event_id, ancestor_events) |>
     filter(recipient_position==max(recipient_position)) |>
     summarize(
-      final_recipient=paste(
-        .data[[paste0("recipient_", museum_grouping_dimension)]],
-        .data[[paste0("recipient_", grouping_dimension)]],
-        sep="@"
-      )
+      final_recipient=paste(recipient_museum_group, recipient_group, sep="@")
     ) |>
     ungroup()
   ancestor_final_recipients <- events_final_recipients |>
@@ -379,6 +387,8 @@ filter_by_final_recipient <- function(events_data,
   )
   events_with_allowed_final_recipients <- events_final_recipients |>
     filter(final_recipient %in% show_ending_points)
+  events_without_allowed_final_recipients <- events_final_recipients |>
+    filter(!final_recipient %in% show_ending_points)
   events_data |>
     filter(
       event_id %in% events_with_allowed_final_recipients$event_id
@@ -391,11 +401,7 @@ filter_by_intermediary_recipient <- function(events_data,
                                              museum_grouping_dimension) {
   events_recipients <- events_data |>
     mutate(
-      recipient=paste(
-        recipient_museum_group,
-        recipient_group,
-        sep="@"
-      )
+      recipient=paste(recipient_museum_group, recipient_group, sep="@")
     )
   ancestor_recipients <- events_recipients |>
     mutate(
