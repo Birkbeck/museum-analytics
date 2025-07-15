@@ -7,20 +7,19 @@ The code in this directory defines an interactive web app based on mapping museu
 Running this app requires the following R packages:
 
 - DT
-- ggmap
 - ggplot2
 - ggraph
 - ggrepel
 - htmlwidgets
 - igraph
 - janitor
-- jsonlite
 - plotly
 - readr
 - shiny
 - shinyBS
+- shinyWidgets
+- shinycssloaders
 - shinyjs
-- shinyWidges
 - tidyverse
 
 If you wish to run the app locally, you will need to make sure these are installed on your machine. If you wish to run the app on a shinyapps server, they will be automatically installed during deployment.
