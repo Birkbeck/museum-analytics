@@ -15,3 +15,4 @@ sheet_to_graph/queries.txt
 shiny/mappingmuseums/keys.csv
 shiny/mappingmuseums/users.rds
 shiny/mappingmuseums/rsconnect
+shiny/mappingmuseums/www/*types.png
