@@ -9,7 +9,7 @@ data/dispersal-sheet-2*
 
 sheet_to_graph/credentials.json
 sheet_to_graph/output.xlsx
-sheet_to_graph/postcode_directory.json
+sheet_to_graph/*lookup.json
 sheet_to_graph/queries.txt
 
 shiny/mappingmuseums/keys.csv
