@@ -173,7 +173,6 @@ get_outcomes_by_museum_for_type <- function(events_with_numeric_collection_size,
           TRUE ~ "mixed destinations"
         )
       )
-    write.csv(outcome_proportions, "outcome_destination_proportions.csv")
     return(outcome_proportions)
   }
   outcome_proportions |>

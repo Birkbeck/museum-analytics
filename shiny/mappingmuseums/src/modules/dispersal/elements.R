@@ -535,7 +535,6 @@ get_pathways_layout <- function(sequences,
   }
 
   edges <- get_edges(dendrogram_data, nodes)
-  write_csv(edges, "edges.csv")
   count_edges <- edges |> filter(label != "")
 
   dendrogram_graph <- graph_from_data_frame(count_edges)
@@ -667,8 +666,6 @@ get_sequences_layout <- function(sequences,
       ),
       label_position_y = mean(c(from_position, to_position)) + random_offset,
     )
-
-  write_csv(edges, "edges-sequences.csv")
 
   list("nodes"=nodes, "edges"=edges, "name_mapping"=name_mapping)
 }
