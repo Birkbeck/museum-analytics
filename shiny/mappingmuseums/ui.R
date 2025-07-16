@@ -6,7 +6,7 @@ library(shinyWidgets)
 
 source("src/labels.R")
 
-PRODUCTION <- as.logical(Sys.getenv("PRODUCTION"))
+PRODUCTION <- FALSE
 
 if (PRODUCTION) {
   error_style <- ".shiny-output-error{color: white;}"

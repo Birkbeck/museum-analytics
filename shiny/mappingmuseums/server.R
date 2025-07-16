@@ -56,7 +56,7 @@ source("src/modules/dispersal/server.R")
 source("src/modules/data/ui.R")
 source("src/modules/data/server.R")
 
-PRODUCTION <- as.logical(Sys.getenv("PRODUCTION"))
+PRODUCTION <- FALSE
 
 user_base <- readRDS("users.rds")
 
