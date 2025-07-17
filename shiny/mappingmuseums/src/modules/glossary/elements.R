@@ -37,17 +37,116 @@ governance_taxonomy <- function(governance_types) {
       nudge_y=0.05
     ) +
     coord_flip() +
-    scale_y_continuous(limits=c(-3,1)) +
+    scale_y_continuous(limits=c(-2,1)) +
     scale_fill_manual(values=governance_colours, guide="none") +
     scale_colour_manual(
       values=c("TRUE"="black", "FALSE"="lightgrey"),
-      labels=c("TRUE"="'broad' governance types", "FALSE"="sub-types of independent museum"),
+      labels=c("TRUE"="'broad' governance categories", "FALSE"="sub-categories"),
       name="",
       guide=guide_legend(reverse=TRUE),
       na.translate=FALSE
     ) +
-    labs(
-      title="Taxonomy of museum governance"
+    taxonomy_theme
+}
+
+size_taxonomy <- function(size_types) {
+  size_edges <- size_types |>
+    mutate(sub_type_of=ifelse(is.na(sub_type_of), "size", sub_type_of)) |>
+    arrange(sub_type_of, type_name) |>
+    select(
+      from=sub_type_of,
+      to=type_name
+    )
+
+  graph <- graph_from_data_frame(size_edges, directed=TRUE)
+  V(graph)$distance_to_root <- distances(graph, v=V(graph), to=which(V(graph)$name == "size"))
+  max_distance <- max(V(graph)$distance_to_root)
+  layout <- create_layout(graph, layout="dendrogram", circular=FALSE) |>
+    left_join(size_types |> select(name=type_name, definition), by="name") |>
+    mutate(is_broad=ifelse(name == "size", NA, TRUE))
+  layout$y <- layout$distance_to_root - max_distance
+  layout$x <- -layout$x
+
+  ggraph(layout) + 
+    geom_edge_diagonal(
+      colour="lightgrey",
+      show.legend=FALSE
+    ) +
+    geom_node_point(
+      data=layout,
+      aes(fill=name, colour=is_broad),
+      shape=21,
+      size=4,
+      stroke=2
+    ) +
+    geom_node_text(
+      data = layout |> filter(name != "size"),
+      aes(label=paste0(name, " (", definition, ")")),
+      size=4,
+      angle=0,
+      vjust="center",
+      hjust="left",
+      nudge_y=0.05
+    ) +
+    coord_flip() +
+    scale_y_continuous(limits=c(-1,1)) +
+    scale_fill_manual(values=size_colours, guide="none") +
+    scale_colour_manual(
+      values=c("TRUE"="black", "FALSE"="lightgrey"),
+      name="",
+      guide="none",
+      na.translate=FALSE
+    ) +
+    taxonomy_theme
+}
+
+subject_taxonomy <- function(subject_types) {
+  subject_edges <- subject_types |>
+    mutate(sub_type_of=ifelse(is.na(sub_type_of), "subject", sub_type_of)) |>
+    arrange(sub_type_of, type_name) |>
+    select(
+      from=sub_type_of,
+      to=type_name
+    )
+
+  graph <- graph_from_data_frame(subject_edges, directed=TRUE)
+  V(graph)$distance_to_root <- distances(graph, v=V(graph), to=which(V(graph)$name == "subject"))
+  max_distance <- max(V(graph)$distance_to_root)
+  layout <- create_layout(graph, layout="dendrogram", circular=FALSE) |>
+    left_join(subject_types |> select(name=type_name, is_broad), by="name")
+  layout$y <- layout$distance_to_root - max_distance
+  layout$x <- -layout$x
+
+  ggraph(layout) + 
+    geom_edge_diagonal(
+      colour="lightgrey",
+      show.legend=FALSE
+    ) +
+    geom_node_point(
+      data=layout,
+      aes(fill=name, colour=is_broad),
+      shape=21,
+      size=4,
+      stroke=2
+    ) +
+    geom_node_text(
+      data = layout |> filter(name != "subject"),
+      aes(label=name),
+      size=4,
+      angle=0,
+      vjust="center",
+      hjust="left",
+      nudge_y=0.05
+    ) +
+    coord_flip() +
+    scale_y_continuous(limits=c(-2,1)) +
+    scale_fill_manual(values=subject_colours, guide="none") +
+    scale_colour_manual(
+      values=c("TRUE"="black", "FALSE"="lightgrey"),
+      labels=c("TRUE"="'broad' subject categories", "FALSE"="sub-categories"),
+      name="",
+      guide=guide_legend(reverse=TRUE),
+      na.translate=FALSE
     ) +
     taxonomy_theme
 }
@@ -185,14 +284,11 @@ actors_taxonomy <- function() {
     ) +
     scale_colour_manual(
       values=c("TRUE"="black", "FALSE"="lightgrey"),
-      labels=c("TRUE"="core categories", "FALSE"="non-core categories"),
+      labels=c("TRUE"="core categories", "FALSE"="sub-categories"),
       name=""
     ) +
     scale_edge_colour_manual(
       values=c("dummy"="white", "normal"="lightgrey")
-    ) +
-    labs(
-      title="Taxonomy of actors involved in dispersal of museum collections"
     ) +
     taxonomy_theme
 }
@@ -344,14 +440,11 @@ events_taxonomy <- function() {
     ) +
     scale_colour_manual(
       values=c("TRUE"="black", "FALSE"="lightgrey"),
-      labels=c("TRUE"="core categories", "FALSE"="non-core categories"),
+      labels=c("TRUE"="core categories", "FALSE"="sub-categories"),
       name=""
     ) +
     scale_edge_colour_manual(
       values=c("dummy"="white", "normal"="lightgrey")
-    ) +
-    labs(
-      title="Taxonomy of events involved in dispersal of museum collections"
     ) +
     taxonomy_theme
 }
@@ -445,11 +538,8 @@ reasons_taxonomy <- function() {
     scale_y_continuous(limits=c(-3, 1)) +
     scale_colour_manual(
       values=c("TRUE"="black", "FALSE"="lightgrey"),
-      labels=c("TRUE"="core categories", "FALSE"="non-core categories"),
+      labels=c("TRUE"="core categories", "FALSE"="sub-categories"),
       name=""
-    ) +
-    labs(
-      title="Taxonomy of reasons for museum closure"
     ) +
     taxonomy_theme
 }

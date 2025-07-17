@@ -1,3 +1,15 @@
+top_glossary <- "<p>Information about museums, their closure, and collections dispersal are organised into taxonomies. These taxonomies underpin all the visualisations and analyses available in the database. In all cases the main categories of analyses are marked by a bold circle, the sub-categories by a grey circle.</p>
+<p>The taxonomies we have used are as follows:</p>
+<ul>
+<li><a href='#size'>Museum size</a></li>
+<li><a href='#governance'>Museum governance</a></li>
+<li><a href='#subject'>Museum subject matter</a></li>
+<li><a href='#reasons'>Reasons for closure</a></li>
+<li><a href='#actors'>Actors involved in collection dispersal</a></li>
+<li><a href='#events'>Collection dispersal events</a></li>
+</ul>"
+
+
 tooltip_view <- "Controls the overall parameters of your search."
 tooltip_filter <- "Allows you to refine your searches. E.g. you might choose to view museums according to size, and then further select according to governance."
 

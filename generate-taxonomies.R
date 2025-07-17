@@ -58,15 +58,18 @@ closure_reasons <- dispersal_events |>
       )
     )
 
-actor_types_csv <- "data/query_results/actor_types.csv"
-actor_types <- read_csv(actor_types_csv)
- 
-event_types_csv <- "data/query_results/event_types.csv"
-event_types <- read_csv(event_types_csv)
+size_types_csv <- "data/size_types.csv"
+size_types <- read_csv(size_types_csv)
+size_hierarchy <- size_taxonomy(size_types)
+ggsave(
+  file="shiny/mappingmuseums/www/size_types.png",
+  plot=size_hierarchy,
+  width=14,
+  height=4
+)
 
 governance_types_csv <- "data/governance_types.csv"
 governance_types <- read_csv(governance_types_csv)
-
 governance_hierarchy <- governance_taxonomy(governance_types)
 ggsave(
   file="shiny/mappingmuseums/www/governance_types.png",
@@ -75,6 +78,18 @@ ggsave(
   height=6
 )
 
+subject_types_csv <- "data/subject_types.csv"
+subject_types <- read_csv(subject_types_csv)
+subject_hierarchy <- subject_taxonomy(subject_types)
+ggsave(
+  file="shiny/mappingmuseums/www/subject_types.png",
+  plot=subject_hierarchy,
+  width=14,
+  height=18
+)
+
+actor_types_csv <- "data/query_results/actor_types.csv"
+actor_types <- read_csv(actor_types_csv)
 actor_type_hierarchy <- actors_taxonomy()
 ggsave(
   file="shiny/mappingmuseums/www/actor_types.png",
@@ -83,6 +98,8 @@ ggsave(
   height=16
 )
 
+event_types_csv <- "data/query_results/event_types.csv"
+event_types <- read_csv(event_types_csv)
 event_type_hierarchy <- events_taxonomy()
 ggsave(
   file="shiny/mappingmuseums/www/event_types.png",
