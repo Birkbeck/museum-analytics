@@ -36,6 +36,9 @@ calculate_distance <- function(lat1, lon1, lat2, lon2) {
   return(distance)
 }
 
+super_events_csv <- "data/query_results/super_events.csv"
+super_events <- read_csv(super_events_csv)
+
 dispersal_events_csv <- "data/query_results/dispersal_events.csv"
 dispersal_events <- read_csv(dispersal_events_csv) |>
   mutate(
@@ -217,13 +220,7 @@ museums_including_crown_dependencies <- read_csv("data/query_results/museums.csv
     country=factor(country, museum_attribute_ordering)
   )
 
-closure_reasons <- dispersal_events |>
-  select(
-    museum_id=initial_museum_id,
-    reason=super_event_cause_types,
-    super_reasons=super_event_causes
-  ) |>
-  distinct() |>
+closure_reasons <- super_events |>
   separate_rows(reason, sep = "; ") |>
   separate_wider_delim(
     reason,

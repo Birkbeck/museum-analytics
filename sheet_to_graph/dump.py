@@ -94,6 +94,15 @@ RETURN {
 } AS record
 """
 
+super_events_query = """
+MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)
+RETURN {
+    museum_id: initial_museum.mm_id,
+    super_reasons: super_event.super_causes,
+    reason: super_event.super_cause_types
+} AS record
+"""
+
 dispersal_events_query = """
 MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)<-[:SUB_EVENT_OF]-(event:Event)-[event_is_instance_of:INSTANCE_OF]->(event_type:Type)
 WITH initial_museum, super_event, event, event_is_instance_of, event_type
@@ -444,6 +453,7 @@ if __name__ == "__main__":
         "actor_types": actor_types_query,
         "event_types": event_types_query,
         "museums": museums_query,
+        "super_events": super_events_query,
         "dispersal_events": dispersal_events_query,
         "dispersal_length_events": dispersal_lengths_query,
     }

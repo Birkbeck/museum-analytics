@@ -803,7 +803,7 @@ MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
 WITH preceding_event, sent_to_auction, sold_at_auction, sender, auction_house
-MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
     <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
 DELETE has_auction_house_origin
 SET sold_at_auction.stage_in_path = sent_to_auction.stage_in_path
@@ -824,7 +824,7 @@ MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
 WITH sent_to_auction, precedes, was_removed_from, sold_at_auction, sender, auction_house
-MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
     <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
 DELETE has_auction_house_origin
 SET sold_at_auction.stage_in_path = sent_to_auction.stage_in_path
@@ -847,7 +847,7 @@ MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
 WITH sent_to_auction, precedes, was_removed_from, sold_at_auction, sender, auction_house
-MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
     <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
 DELETE has_auction_house_origin
 DELETE precedes 
