@@ -20,7 +20,7 @@ class FileLoader:
     def get_sheet_as_list_of_lists(self, sheet_name: str):
         sheet_file_name = self.values["sheets"][sheet_name]["file"]
         if sheet_file_name == "":
-            sheet_file_name = self.values["dispersal_sheet_file"]
+            sheet_file_name = self.values["dispersal_sheet_anon"]
         sheet_sheet_name = self.values["sheets"][sheet_name]["sheet"]
 
         is_a_csv_file = sheet_sheet_name == ""

@@ -20,7 +20,9 @@ reset-db:
 	@cd sheet_to_graph && pipenv run python reset.py
 
 upload-db:
-	@cd sheet_to_graph && pipenv run python upload.py
+	@cd sheet_to_graph \
+	&& pipenv run python anonymize_dispersal_spreadsheet.py \
+	&& pipenv run python upload.py
 
 dump-db:
 	@cd sheet_to_graph && pipenv run python dump.py
