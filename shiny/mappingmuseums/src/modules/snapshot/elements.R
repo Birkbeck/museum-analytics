@@ -15,8 +15,8 @@ get_museums_in_snapshot <- function(museums,
       subject %in% subject_specific_filter,
       region %in% region_filter,
       accreditation %in% accreditation_filter,
-      year_closed_2 >= start,
-      year_opened_1 < end
+      year_closed_2 > start,
+      year_opened_1 <= end
     )
 }
 
