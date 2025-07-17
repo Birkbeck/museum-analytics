@@ -317,11 +317,6 @@ dispersalUI <- function(id) {
           img(src='actor-sector-key.png', align="left", width="450px")
         ),
         fluidRow(
-          text_box(
-            "DISPERSAL-BOTTOM Click on one of the small charts below to see it enlarged in the main panel above."
-          )
-        ),
-        fluidRow(
           column(
             3,
             style=card_style,

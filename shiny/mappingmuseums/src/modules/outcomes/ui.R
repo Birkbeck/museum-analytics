@@ -185,9 +185,6 @@ outcomesUI <- function(id) {
         ),
         div(uiOutput(NS(id, "mainPlotExplanation")), style = "margin-top: 20px;"),
         fluidRow(
-          text_box("OUTCOMES-BOTTOM Click on one of the small charts below to see it enlarged in the main panel above.")
-        ),
-        fluidRow(
           column(
             3,
             style=card_style,

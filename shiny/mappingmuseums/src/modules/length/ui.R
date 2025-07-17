@@ -154,9 +154,6 @@ lengthUI <- function(id) {
         ),
         uiOutput(NS(id, "mainPlotExplanation")),
         fluidRow(
-          text_box("LENGTH-BOTTOM Click on one of the small charts below to see it enlarged in the main panel above.")
-        ),
-        fluidRow(
           column(
             3,
             style=card_style,
