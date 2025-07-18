@@ -28,8 +28,32 @@ museum_map <- function(museums, dimension, year_or_range, start, end, legend_tit
   }
   padding <- 10000
   map <- ggplot(museums |> filter(.data[[dimension]] %in% main_axis_filter)) +
-    geom_polygon(data=regions, aes(x=x, y=y, group=group), linewidth=0.1, label=NA, colour="black", fill=NA) +
-    geom_point(aes(label=museum_name, x=bng_x, y=bng_y, colour=.data[[dimension]]), size=0.5) +
+    geom_polygon(
+      data=regions,
+      aes(x=x, y=y, group=group),
+      linewidth=0.1,
+      label=NA,
+      colour="black",
+      fill=NA
+    ) +
+    geom_point(
+      # pretend data points for large points in legend
+      # points are plotted out of map's range
+      data=museums |>
+        group_by(.data[[dimension]]) |>
+        summarize(bng_x=-10, bng_y=-10),
+      aes(x=bng_x, y=bng_y, colour=.data[[dimension]]),
+      size=10
+    ) +
+    geom_point(
+      aes(
+        label=museum_name,
+        x=bng_x,
+        y=bng_y,
+        colour=.data[[dimension]]
+      ),
+      size=0.5
+    ) +
     map_x_scale +
     map_y_scale +
     scale_colour_manual(values=museum_attribute_colours) +

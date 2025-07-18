@@ -265,8 +265,32 @@ changes_map <- function(museums, dimension, measure, start, end, legend_title) {
       filter(year_closed_2 > start & year_closed_1 < end)
   }
   map <- ggplot(data) +
-    geom_polygon(data=regions, aes(x=x, y=y, group=group), linewidth=0.1, label=NA, colour="black", fill=NA) +
-    geom_point(aes(label=museum_name, x=bng_x, y=bng_y, colour=.data[[dimension]]), size=0.5) +
+    geom_polygon(
+      data=regions,
+      aes(x=x, y=y, group=group),
+      linewidth=0.1,
+      label=NA,
+      colour="black",
+      fill=NA
+    ) +
+    geom_point(
+      # pretend data points for large points in legend
+      # points are plotted out of map's range
+      data=museums |>
+        group_by(.data[[dimension]]) |>
+        summarize(bng_x=-10, bng_y=-10),
+      aes(x=bng_x, y=bng_y, colour=.data[[dimension]]),
+      size=10
+    ) +
+    geom_point(
+      aes(
+        label=museum_name,
+        x=bng_x,
+        y=bng_y,
+        colour=.data[[dimension]]
+      ),
+      size=0.5
+    ) +
     map_x_scale +
     map_y_scale +
     scale_colour_manual(values=museum_attribute_colours) +
