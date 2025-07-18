@@ -298,7 +298,7 @@ changesServer <- function(id) {
     })
 
     filtered_museums <- reactive({
-      get_museums_in_snapshot(
+      get_museums_in_changes_period(
         museums,
         size_filter=size_filter_choices(),
         governance_filter=governance_filter_choices(),

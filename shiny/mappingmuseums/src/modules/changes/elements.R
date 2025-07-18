@@ -1,3 +1,25 @@
+get_museums_in_changes_period <- function(museums,
+                                    size_filter,
+                                    governance_filter,
+                                    subject_filter,
+                                    subject_specific_filter,
+                                    region_filter,
+                                    accreditation_filter,
+                                    start,
+                                    end) {
+  museums |>
+    filter(
+      size %in% size_filter,
+      governance_broad %in% governance_filter,
+      subject_broad %in% subject_filter,
+      subject %in% subject_specific_filter,
+      region %in% region_filter,
+      accreditation %in% accreditation_filter,
+      year_closed_2 >= start,
+      year_opened_1 <= end
+    )
+}
+
 openings_vs_closures_scatter <- function(data, dimension) {
   data <- data |>
     mutate(`total openings and closures`=turnover)
