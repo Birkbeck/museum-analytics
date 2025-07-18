@@ -497,7 +497,8 @@ changesServer <- function(id) {
           main_axis(),
           "openings",
           period_start(),
-          period_end()
+          period_end(),
+          input$mainAxis
         )
       } else if (current_main_plot() == "closuresMap") {
         changes_map(
@@ -505,7 +506,8 @@ changesServer <- function(id) {
           main_axis(),
           "closures",
           period_start(),
-          period_end()
+          period_end(),
+          input$mainAxis
         )
       } else if (grepl("2Way", current_main_plot(), fixed=TRUE)) {
         measure <- strsplit(current_main_plot(), ".", fixed=TRUE)[[1]][1]

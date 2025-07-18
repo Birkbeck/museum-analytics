@@ -287,6 +287,7 @@ snapshotServer <- function(id) {
           year_or_range(),
           period_start(),
           period_end(),
+          y_label(),
           main_axis_filter()
         )
       } else if(mainPlot() == "museumCounts") {

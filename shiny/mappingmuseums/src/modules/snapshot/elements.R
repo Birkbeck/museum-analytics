@@ -20,7 +20,7 @@ get_museums_in_snapshot <- function(museums,
     )
 }
 
-museum_map <- function(museums, dimension, year_or_range, start, end, main_axis_filter) {
+museum_map <- function(museums, dimension, year_or_range, start, end, legend_title, main_axis_filter) {
   if (year_or_range == "Single year") {
     period <- end 
   } else {
@@ -38,6 +38,7 @@ museum_map <- function(museums, dimension, year_or_range, start, end, main_axis_
       title = paste("Museums in the UK", period),
       x = "",
       y = "",
+      colour = legend_title
     ) +
     standard_bars_theme +
     theme(

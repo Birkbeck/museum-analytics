@@ -256,7 +256,7 @@ two_measure_bar_chart_small <- function(data, dimension, measures, title, fill_l
     )
 }
 
-changes_map <- function(museums, dimension, measure, start, end) {
+changes_map <- function(museums, dimension, measure, start, end, legend_title) {
   if (measure == "openings") {
     data <- museums |>
       filter(year_opened_2 > start & year_opened_1 < end)
@@ -275,6 +275,7 @@ changes_map <- function(museums, dimension, measure, start, end) {
       title=paste("Museum", measure, start, "-", end),
       x = "",
       y = "",
+      colour=legend_title
     ) +
     standard_bars_theme +
     theme(
