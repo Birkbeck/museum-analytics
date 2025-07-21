@@ -61,6 +61,13 @@ snapshotServer <- function(id) {
       }
       return(input$yearRange[2])
     })
+
+    date_range_title <- reactive({
+      if (year_or_range() == "Single year") {
+        return(input$year[1])
+      }
+      return(paste(input$yearRange[1], input$yearRange[2], sep="-"))
+    })
     
     observeEvent(year_or_range(), {
       freezeReactiveValue(input, "yearRange")
@@ -356,6 +363,10 @@ snapshotServer <- function(id) {
         second_axis_filter()
       )
     }, width=small_chart_size, height=small_chart_size)
+
+    output$tableTitle <- renderUI({
+      h3(paste("Open museums", date_range_title()))
+    })
 
     output$downloadSnapshotTable <- downloadHandler(
       filename = function() {

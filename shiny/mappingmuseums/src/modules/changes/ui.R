@@ -357,12 +357,12 @@ changesUI <- function(id) {
       )
     ),
     fluidRow(
-      h3("Museum Closures"),
+      uiOutput(NS(id, "closureTableTitle")),
       downloadButton(NS(id, "downloadClosuresTable"), label="Download table as CSV"),
       DTOutput(NS(id, "closuresTable"))
     ),
     fluidRow(
-      h3("Museum Openings"),
+      uiOutput(NS(id, "openingTableTitle")),
       downloadButton(NS(id, "downloadOpeningsTable"), label="Download table as CSV"),
       DTOutput(NS(id, "openingsTable"))
     )

@@ -17,9 +17,9 @@ tooltip_single_or_range <- "<p><strong>Single year: </strong>Shows museums open 
 <p><strong>Range of years: </strong>Shows museums open in a range of years.</p>
 <p>Use the slider below to choose which year or years.</p>"
 
-tooltip_main_attribute <- "Shows all museums or select a museum attribute"
+tooltip_main_attribute <- "Show all museums or show museums selected by museum attribute"
 
-tooltip_secondary_attribute <- "For use with the heatmap. Choose a second attribute to visualise."
+tooltip_secondary_attribute <- "Choose a second attribute to visualise."
 
 tooltip_main_attribute_outcomes <- "<p>GW: Select how outcomes should be displayed on the diagrams.</p><p><strong>Main event:</strong> Show outcomes of closure in terms of events</p><p><strong>Main actor:</strong> Show outcomes of closure in terms of recipients</p>"
 
@@ -53,7 +53,7 @@ tooltip_museum_size <- "<p>Shows museums of a specific size</p>
 tooltip_museum_subject <- "<p>Shows museums that focus on a specific subject.</p>
 <p>Subject matter relates to the overall theme of the museum. See the taxonomies tab for a breakdown of topics.</p>"
 
-tooltip_museum_subject_specific <- "<p>Shows museums that focus on a specific subject. See the taxonomies tab for a breakdown of topics.</p>"
+tooltip_museum_subject_specific <- "<p>Shows museums that focus on a specific subject at the level of sub-categories. See the taxonomies tab for a breakdown of topics.</p>"
 
 tooltip_museum_country_region <- "<p>Shows museums located in a specific nation or region.</p>"
 

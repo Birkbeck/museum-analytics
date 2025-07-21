@@ -241,7 +241,7 @@ snapshotUI <- function(id) {
       )
     ),
     fluidRow(
-      h3("Museums Open During Period"),
+      uiOutput(NS(id, "tableTitle")),
       downloadButton(NS(id, "downloadSnapshotTable"), label="Download table as CSV"),
       DTOutput(NS(id, "openMuseumsTable"))
     )

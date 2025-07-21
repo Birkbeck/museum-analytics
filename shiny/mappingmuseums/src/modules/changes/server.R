@@ -63,6 +63,11 @@ changesServer <- function(id) {
       input$yearRange[2]
     })
 
+    date_range_title <- reactive({
+      req(input$yearRange)
+      return(paste(input$yearRange[1], input$yearRange[2], sep="-"))
+    })
+
     main_axis <- reactive({
       req(input$mainAxis)
       return(
@@ -738,6 +743,10 @@ changesServer <- function(id) {
       contentType = "text/csv"
     )
 
+    output$closureTableTitle <- renderUI({
+      h3(paste("Museum closures", date_range_title()))
+    })
+
     output$closuresTable <- renderDT({
       closures_in_time_period_table()
     })
@@ -748,6 +757,10 @@ changesServer <- function(id) {
         period_start(),
         period_end()
       )
+    })
+
+    output$openingTableTitle <- renderUI({
+      h3(paste("Museum openings", date_range_title()))
     })
 
     output$downloadOpeningsTable <- downloadHandler(
