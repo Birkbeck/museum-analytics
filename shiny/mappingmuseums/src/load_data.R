@@ -39,6 +39,9 @@ calculate_distance <- function(lat1, lon1, lat2, lon2) {
 super_events_csv <- "data/query_results/super_events.csv"
 super_events <- read_csv(super_events_csv)
 
+event_types_csv <- "data/query_results/event_types.csv"
+event_types <- read_csv(event_types_csv)
+
 dispersal_events_csv <- "data/query_results/dispersal_events.csv"
 dispersal_events <- read_csv(dispersal_events_csv) |>
   mutate(
@@ -244,10 +247,10 @@ closure_reasons <- super_events |>
 
 closure_outcomes <- get_outcomes_by_museum(dispersal_events)
 closure_lengths <- get_closure_lengths_by_museum(
-  dispersal_events, museums_including_crown_dependencies
+  dispersal_events, event_types, museums_including_crown_dependencies
 )
 closure_timeline_events <- get_closure_timeline_events(
-  dispersal_events, museums_including_crown_dependencies
+  dispersal_events, event_types, museums_including_crown_dependencies
 )
 
 museums_including_crown_dependencies <- museums_including_crown_dependencies |>
@@ -492,4 +495,3 @@ sector_type_ordering_table <- actor_types |>
   arrange(ordering, desc=TRUE)
 
 sector_type_ordering <- sector_type_ordering_table$type_name
-

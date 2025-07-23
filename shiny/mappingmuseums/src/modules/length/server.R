@@ -216,7 +216,21 @@ lengthServer <- function(id) {
     )
 
     output$closureLengthsTable <- renderDT({
-      filtered_closure_lengths()
+      filtered_closure_lengths() |>
+            select(
+              museum_id,
+              museum_name,
+              year_closed,
+              earliest_event_date=earliest,
+              latest_event_date=latest,
+              length_of_closure,
+              closure_length_category,
+              size,
+              governance,
+              subject,
+              region,
+              accreditation
+            )
     }, options=list(pageLength=100))
 
   })

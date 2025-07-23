@@ -32,9 +32,11 @@ get_super_events <- function(dispersal_events, museums) {
     )
 }
 
-get_initial_transactions <- function(dispersal_events) {
+get_initial_transactions <- function(dispersal_events, event_types) {
+  considered_event_types <- event_types |>
+    filter(contributes_to_length_calculation)
   dispersal_events |>
-    filter(sender_name == initial_museum_name & event_type != "displayed") |>
+    filter(sender_name == initial_museum_name & event_type %in% considered_event_types$type_name) |>
     mutate(
       event_level="sub",
       event_description=ifelse(
@@ -65,16 +67,16 @@ get_initial_transactions <- function(dispersal_events) {
     )
 }
 
-get_closure_timeline_events <- function(dispersal_events, museums) {
+get_closure_timeline_events <- function(dispersal_events, event_types, museums) {
   rbind(
     get_super_events(dispersal_events, museums),
-    get_initial_transactions(dispersal_events)
+    get_initial_transactions(dispersal_events, event_types)
   )
 }
 
-get_closure_lengths_by_museum <- function(dispersal_events, museums) {
+get_closure_lengths_by_museum <- function(dispersal_events, event_types, museums) {
   closure_super_events <- get_super_events(dispersal_events, museums)
-  closure_sub_events <- get_initial_transactions(dispersal_events)
+  closure_sub_events <- get_initial_transactions(dispersal_events, event_types)
 
   closure_lengths <- closure_sub_events |>
     filter(!is.na(event_year)) |>
@@ -84,9 +86,11 @@ get_closure_lengths_by_museum <- function(dispersal_events, museums) {
       latest = max(event_year)
     ) |>
     ungroup() |>
-    left_join(closure_super_events |> select(museum_id, event_year), by="museum_id") |>
+    full_join(closure_super_events |> select(museum_id, event_year), by="museum_id") |>
     rename(closure_date=event_year) |>
     mutate(
+      earliest = ifelse(is.na(earliest), closure_date, earliest),
+      latest = ifelse(is.na(latest), closure_date, latest),
       earliest = ifelse(earliest < closure_date, closure_date, earliest),
       time_between_closure_and_earliest = earliest - closure_date,
       latest_including_closure_date = ifelse(closure_date > latest, closure_date, latest),
@@ -102,7 +106,7 @@ get_closure_lengths_by_museum <- function(dispersal_events, museums) {
       ),
       closure_length_category = factor(closure_length_category, closure_length_categories)
     ) |>
-    left_join(museums, by="museum_id") #|>
-    #filter(!is.na(length_of_closure)) # remove open museums
+    left_join(museums, by="museum_id")
+  
   closure_lengths
 }

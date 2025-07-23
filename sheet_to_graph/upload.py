@@ -95,6 +95,7 @@ if __name__ == "__main__":
             BooleanColumn("change_of_ownership", property_of="type_id"),
             BooleanColumn("change_of_custody", property_of="type_id"),
             BooleanColumn("end_of_existence", property_of="type_id"),
+            BooleanColumn("contributes_to_length_calculation", property_of="type_id"),
             Column("definition", property_of="type_id"),
             FormulaColumn(
                 "type_id",

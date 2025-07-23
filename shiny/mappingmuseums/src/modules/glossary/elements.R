@@ -295,6 +295,7 @@ actors_taxonomy <- function() {
 
 events_taxonomy <- function() {
   # add dummy types to use as spaces between groups
+  event_types <- event_types |> select(-contributes_to_length_calculation)
   counter <- 1
   types_with_sub_types <- event_types |>
     filter(!is.na(sub_type_of)) |>
