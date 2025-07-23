@@ -1,0 +1,11 @@
+chunk_size,role_description,task_description,chain_of_thought,collator_precision,collator_recall,collator_f1
+4000,data modeller,basic+hierarchy,null,0,0.0,0
+2000,machine,basic+hierarchy+enums,zero-shot,0,0.0,0
+3000,data modeller,basic+hierarchy,null,0,0.0,0
+2000,data modeller,basic+hierarchy+enums,zero-shot,0,0.0,0
+3000,data modeller,basic+hierarchy,zero-shot,0,0.0,0
+3000,data modeller,basic+hierarchy+enums,null,0,0.0,0
+2000,machine,basic+hierarchy+enums,zero-shot,0,0.0,0
+4000,data modeller,basic,null,0,0.0,0
+2000,data modeller,basic+hierarchy+enums,null,0,0.0,0
+4000,data modeller,basic+hierarchy+enums,null,1.0,0.9616632860040568,0.9804570365008789
