@@ -1,0 +1,72 @@
+Suggest appropriate entity and relation types so that this data can be modelled with a graph database.
+
+Bond Museum: Sold entirely to the Dezer Collection in Miami
+
+Heanor Heritage Centre: Items were retained. There is now a display in the Heanor Antiques Centre and occasional temporary displays elsewhere
+
+Laundry & Mangle Museum: Adrian B suggests the collection was of little merit and may not have been very large
+
+London Borough Of Bromley Museum: Some now on display in Bromley Central Library as permanent displays. Remainder in storage. Four human crania and one human mandible within Bromley’s Avebury Collection were due to be repatriated, probably to Canada [no confirmation available on whether latter has actually happened; the council still held the remains in 2018-12: https://www.whatdotheyknow.com/request/repatriation_of_human_remains_78?utm_campaign=alaveteli-experiments-87&utm_content=sidebar_similar_requests&utm_medium=link&utm_source=whatdotheyknow]
+
+Walton Hall Museum: was a collection of rural life but mainly of road rollers. 'It is bursting at the seams with hundreds of old items, ranging from war memorabilia, farming equipment, old bicycles, to vintage prams. There is also a working printing press, blacksmiths, bakery, and scullery. Until recently the museum had the country’s biggest private collection of motor road rollers.' Sold at auction by Cheffins. Some items were loaned or donated and may have been returned to owners, but unclear whether this ever happened.
+
+First of all we can find certain entities and events:
+
+Bond Museum
+Sold
+Dezer Collection
+Miami
+Heanor Heritage Centre
+Items
+Heanor Antiques Centre
+Laundry & Mangle Museum
+London Borough of Bromley Museum
+Bromley Central Library
+Four human crania
+One human mandible
+Avebury Collection
+Canada
+Walton Hall Museum
+a collection of rural life
+road rollers
+war memorabilia
+farming equipment
+bicycles
+prams
+sold at auction
+Cheffins
+loaned
+donated
+returned to owners
+
+We can then group these into types of entity:
+
+Actors (Bond Museum, Dezer Collection, Heanor Heritage Centre, Cheffins, ...)
+Events (sold, sold at auction, loaned, donated, returned)
+Objects (Items, four human crania, bicycles, ...)
+Collections (a collection of rural life)
+Places (Miami, Canada)
+
+We can find properties in common for each entity type:
+
+Actors have a name
+Events have a date or time
+Collections and objects have many similar properties including their number ("one", "four"), a description of their size ("some", "remainder"). They have differing statuses (sometimes they are donations, sometimes loans).
+
+We can identify common relationships between entity types:
+
+Events have recipients who are actors ("sold to the Dezer Collection")
+Events have destinations ("repatriated to Canada")
+Events involve objects or collections ("items were retained")
+Actors have locations ("Dezer Collection in Miami")
+Collections contain objects ("collection of motor road rollers")
+
+We note that not all aspects of the data are certain ("Adrian B suggests the collection may not have been very large", "unclear whether this ever happened"). Relations can therefore have a degree of uncertainty.
+
+We can finally put our collection of entities, relations, and properties into a JSON formatted data model:
+
+```
+{example_model}
+```
+
+Suggest appropriate entity and relation types so that this data can be modelled with a graph database.
