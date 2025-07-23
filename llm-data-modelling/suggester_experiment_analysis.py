@@ -159,10 +159,10 @@ for result in results:
         highest_f1 = result["f1"]
         best_result = result
 
-with open(f"suggester_experiments_analysis.json", "w") as f:
+with open(f"results/suggester_experiments_analysis.json", "w") as f:
     json.dump([r for r in results if "f1" in r], f)
 
-with open(f"suggester_experiments_analysis.csv", "w") as f:
+with open(f"results/suggester_experiments_analysis.csv", "w") as f:
     fields = [
         "chunk_size",
         "role_description",

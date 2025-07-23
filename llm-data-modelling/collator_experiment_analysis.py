@@ -171,10 +171,10 @@ for result in results:
         highest_f1 = result["collator_f1"]
         best_result = result
 
-with open(f"collator_experiments_analysis.json", "w") as f:
+with open(f"results/collator_experiments_analysis.json", "w") as f:
     json.dump([r for r in results if "collator_f1" in r], f)
 
-with open(f"collator_experiments_analysis.csv", "w") as f:
+with open(f"results/collator_experiments_analysis.csv", "w") as f:
     fields = [
         "chunk_size",
         "role_description",
@@ -194,5 +194,5 @@ best_result_json = extract_json_chunk(
 
 print(json.dumps(best_result_json, indent=2))
 
-with open("best_model_output.json", "w") as f:
+with open("results/best_model.json", "w") as f:
     json.dump(f, best_result_json)
