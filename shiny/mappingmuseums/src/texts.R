@@ -21,7 +21,13 @@ tooltip_main_attribute <- "Show all museums or show museums selected by museum a
 
 tooltip_secondary_attribute <- "Choose a second attribute to visualise."
 
-tooltip_main_attribute_outcomes <- "<p>GW: Select how outcomes should be displayed on the diagrams.</p><p><strong>Main event:</strong> Show outcomes of closure in terms of events</p><p><strong>Main actor:</strong> Show outcomes of closure in terms of recipients</p>"
+tooltip_main_attribute_outcomes <- "<p>Select which outcomes to display</p>
+<p><strong>Event:</strong> the main outcome for museum objects</p>
+<p><strong>Recipient:</strong> who/what took possession of the museum objects</p>
+<p><strong>Recipient count:</strong> how many recipients took possession of the museum objects</p>
+<p><strong>Recipient share:</strong> how the museum objects were split</p>
+<p><strong>Destination:</strong> how far the museum objects were moved</p>
+</p>"
 
 tooltip_main_attribute_events <- "<p>GW: Select which part of the event to view on the y-axis</p>"
 

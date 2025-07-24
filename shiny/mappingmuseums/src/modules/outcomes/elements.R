@@ -110,14 +110,14 @@ closure_outcomes_over_time_table <- function(museums_table, outcome_type) {
             ifelse(
               year_closed < 2020,
               "2015-2019",
-              "2020-2024"
+              "2020-2025"
             )
           )
         )
       ),
       period_of_closure = factor(
         period_of_closure, 
-        levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2024"),
+        levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2025"),
         ordered = TRUE
       )
     ) |>
@@ -156,7 +156,7 @@ closure_outcomes_bar_chart <- function(summary_table, count_or_percentage, outco
     geom_col(fill=purple) +
     geom_text(aes(label=.data[[count_or_percentage]]), hjust="left", nudge_x=1, size=6) +
     labs(
-      title="Outcomes of Museum Closure, 2000-2024",
+      title="Outcomes of Museum Closure 2000-2025",
       y=outcome_type_name,
       x=x_title
     ) +
@@ -185,7 +185,7 @@ closure_outcomes_bar_chart_small <- function(summary_table, outcome_type) {
     geom_col(fill=purple) +
     geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
     labs(
-      title="Outcomes of Museum Closure, 2000-2024",
+      title="Outcomes of Museum Closure 2000-2025",
       y="",
       x="Number of museums"
     ) +
@@ -221,7 +221,7 @@ closure_outcomes_heatmap <- function(summary_table,
     scale_x_discrete(labels=short_labels) +
     heatmap_fill_scale +
     labs(
-      title=paste0("Outcomes of Museum Closure by ", museum_grouping_name, " (Number of Closures)"),
+      title=paste0("Outcomes of Museum Closure by ", museum_grouping_name),
       y=outcome_type_name,
       x=museum_grouping_name
     ) +
