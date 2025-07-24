@@ -158,11 +158,11 @@ open_close_line_type_scale <- scale_linetype_manual(
   )
 )
 
-title_size <- 22
-subtitle_size <- 18
-axis_title_size <- 18
-axis_text_size <- 18
-legend_title_size <- 18
+title_size <- 18
+subtitle_size <- 16
+axis_title_size <- 16
+axis_text_size <- 16
+legend_title_size <- 16
 
 standard_bars_theme <- theme_minimal() +
   theme(

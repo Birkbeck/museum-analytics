@@ -68,7 +68,7 @@ tooltip_collection_status <- "<p><strong>Items from a museum's collection: </str
 <p><strong>Items for handling: </strong>Items that belonged to a now closed museum, but that were not part of the official collection and could be handled for educational purposes.</p>
 <p><strong>Other items: </strong>Items that belonged to a now closed museum, but that were not museum objects. For example display cases and other furniture.</p>"
 
-tooltip_reason_type_level <- "<p>GW: Select how reasons for closure should be displayed on the diagrams.</p><p><strong>Top-level:</strong> the most general categories for closure reasons.</p><p><strong>Mid-level:</strong> Categories in between the most general and most specific categories for closure reasons.</p> <p><strong>Low-level:</strong> the most specific categories for closure reasons.</p>"
+tooltip_reason_type_level <- "<p>Select the level of detail. See the taxonomies tab for a breakdown of all reasons for closure.</p>"
 
 tooltip_group_events_level <- "<p>GW: Select which level of the event hierarchy should be used to classify events.</p>"
 

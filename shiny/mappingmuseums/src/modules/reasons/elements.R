@@ -174,7 +174,7 @@ closure_reasons_bar_chart <- function(summary_table,
     geom_col(fill=purple) +
     geom_text(aes(label=.data[[count_or_percentage]]), hjust="left", nudge_x=1, size=5) +
     labs(
-      title="Reasons for Museum Closure, 2000-2024",
+      title="Reasons for Museum Closure 2000-2025",
       y=reason_level_name,
       x=x_title
     ) +
@@ -186,7 +186,7 @@ closure_reasons_bar_chart_small <- function(summary_table, reason_level) {
     geom_col(fill=purple) +
     geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
     labs(
-      title="Reasons for Museum Closure, 2000-2024",
+      title="Reasons for Museum Closure 2000-2025",
       y="",
       x="Number of museums"
     ) +
@@ -233,7 +233,7 @@ closure_reasons_heatmap <- function(summary_table,
     scale_x_discrete(labels=short_labels) +
     heatmap_fill_scale +
     labs(
-      title=paste0("Reasons for Museum Closure by ", museum_grouping_name, " (Number of Closures)"),
+      title=paste0("Reasons for Museum Closure by ", museum_grouping_name),
       y=reason_level_name,
       x=museum_grouping_name
     ) +
