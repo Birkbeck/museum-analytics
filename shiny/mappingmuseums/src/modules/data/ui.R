@@ -1,44 +1,38 @@
 dataUI <- function(id) {
   fluidPage(
-    text_box("DATA-TOP"),
+    text_box(top_data),
 
-    h3("Events and Collections per Museum"),
-    p(
-      "When interpreting the data in these dashboards, it is important to bear in mind that data for each museum is recorded in different amounts and at a different levels of detail. Data for about a quarter of museums records just 1 event and 1 collection, but there is a wide distribution of museums where more than one event/collection are recorded."
-    ),
+    h2("Data collection"),
+
+    h2("Data collection analysis"),
+
+    h3("Groups of objects recorded vs events recorded"),
     plotlyOutput(NS(id, "eventsPerMuseumMatrix"), width="80%", height="1000px"),
 
-    p(
-      "Why are there 91 museums with no events/collections data? 539 museums (including Channel Islands) definitely closed in or after 2000. Our database records 458 super events with at least one event. 3 of these super events are for museums that are no longer considered closed (Baked bean museum of excellence, Charlestown shipwreck and heritage centre, Marshland maritime museum). 7 of these super events are for museums that might not have closed in or after 2000. 539 - (458 - 3 - 7) = 91. Should those 3 and or 7 museums' dispersal events be excluded from analysis?"
-    ),
-
-    p(
-      "Often the movements of vehicles are well documented. There are therefore a number of outlier museums in the transport and war and conflict categories, although the median number of events for museums in these categories are in line with the rest of the dataset."
-    ),
-    p(
-      "Two museums in particular stand out as outliers in terms of the quantity of data recorded for them: Firepower! The Royal Artillery Museum and the Electric Railway Museum."
-    ),
+    h3("Recording events per museum by subject matter"),
+    p("Museums’ governance, size, and location had little impact on the amount of information that we were able to collect on collection disposal. Subject matter made a big difference to the amount of available information. Vehicles and large artillery delivery systems are often especially well documented, other objects less so. Thus, as the visualisation below shows, there tends to be more detailed information about the identity of objects from museums of transport, and of war and conflict, and the events associated with them, than about the objects from museums in most other subject categories."),
+    p("The number of events that we recorded as relating to museums categorised by subject matter is shown in the visualisation below. These events include those after objects left the original museum, with later actors."),
+    p("We have used a ‘box and whiskers’ visualisation that indicates the overall distribution of a set of values. The vertical line in the centre is the median value. The box contains 50% of all the values. The whiskers show values that are not outliers. The dots represent outliers. For a detailed explanation see ‘About the Data’"),
     plotlyOutput(NS(id, "eventsPerMuseumBoxplots"), width="80%", height="1000px"),
 
-    p(
-      "Most collections are involved in one event (the median number of events per collection is 1 for most subject matters). The above outlier museums therefore tend to have a similar number of events and number of collections. Some collections are involved in multiple sequential events. Some museums therefore have multiple events per collection. These are mostly different from the above outliers and are from a wider range of subject matters. When considering multi-step sequences, these outlier museums will dominate the later steps."
-    ),
+    h3("Recording events by groups of objects according to subject matter"),
+    p("In a few cases, the same group of objects may be associated with a sequence of events. Although we may not have detailed information on the constituent objects within the group, we may have recorded information about where that group of objects goes, for instance when it has been repeatedly transferred across institutions."),
+    p("The number of sequential events that we recorded per individual group of objects for each museum categorised by subject matter is shown in the visualisation below. We have used a ‘box and whiskers’ visualisation that indicates the overall distribution of a set of values. The vertical line in the centre is the median value. The box contains 50% of all the values and the whiskers show values that are not outliers. The dots represent outliers. For a detailed explanation see ‘About the Data’."),
     plotlyOutput(NS(id, "eventsPerCollection"), width="80%", height="1000px"),
 
     hr(),
 
-    h3("Collection Sizes"),
-    p(
-      "Collections recorded in the data also have a wide range of sizes. The chart below shows the distribution of these. About 30% of collections have been given a numeric size (number of objects). The rest are only described according to the proportion they took up of their original museum's total collection."
-    ),
+    h3("Recording quantities of objects"),
+    p("In some cases, we were able to establish approximately how many objects were involved in an event. For example, one object had been sold, one hundred objects had been loaned, one thousand objects had been transferred. In other cases, we could only record quantity as it was expressed as a proportion of the total holdings; as all, most, or some of the collection, or a few objects."),
+    p("The table below shows the information recorded about the quantity of objects involved in an event. About 30% of groups of objects were given a numeric size; around 70% were assessed in relative terms."),
     plotlyOutput(NS(id, "collectionGranularity"), width="80%", height="1000px"),
 
-    p(
-      "The distribution of collection sizes varies widely by museum subject matter. Museum types which are more likely to have a large number of collections recorded (e.g. war & conflict, transport) are also more likely to have records of individual collections (though this is partly down to a handful of outliers). Collections from other categories such as arts, buildings, rural industry are almost always recorded as 'all' or 'most' with little or no numerical record of collection sizes."
-    ),
+    h3("Quantities of objects recorded according to subject matter"),
+    p("As with the number of events recorded, the information on the size of groups of objects varied according to subject matter. Numerical values are rarely given to groups of objects from museums of the arts, of building, and rural industry. These types of objects are almost always described in relative terms: all, most, or some of the collection."),
+    p("The numbers in the visualisation below are the number of groups of objects per museum (the mean). For example, on average we had data on 1.9 individual objects and 1.1 groups of between 2-10 objects for war and conflict museums."),
     plotlyOutput(NS(id, "collectionGranularityHeatmap"), width="80%", height="1000px"),
 
-    DTOutput(NS(id, "summaryTable"))
+    h2("Interpreting the data"),
 
   )
 }

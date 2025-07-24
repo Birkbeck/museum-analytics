@@ -9,6 +9,8 @@ top_glossary <- "<p>Information about museums, their closure, and collections di
 <li><a href='#events'>Collection dispersal events</a></li>
 </ul>"
 
+top_data <- "<p>We collected a varied amount of data on each museum. The tables below show how the amount of recorded data differed according to groups of object, events, and subject matter.</p>"
+
 
 tooltip_view <- "Controls the overall parameters of your search."
 tooltip_filter <- "Allows you to refine your searches. E.g. you might choose to view museums according to size, and then further select according to governance."

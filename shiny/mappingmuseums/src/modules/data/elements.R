@@ -99,9 +99,8 @@ events_per_museum_matrix <- function(data_by_museum) {
     geom_text(aes(label=paste0(count, " (", percentage, "%)"))) +
     heatmap_fill_scale +
     labs(
-      title="Granularity of Data Collected for Each Museum",
       x="Number of events recorded",
-      y="Number of collections/objects recorded"
+      y="Number of objects/groups of objects recorded"
     ) +
     standard_bars_theme
 }
@@ -116,7 +115,6 @@ events_per_museum_boxplots <- function(data_by_museum) {
     ) +
     coord_flip() +
     labs(
-      title="Events per Museum by Subject Matter",
       x="Subject matter of museum",
       y="Number of events recorded"
     ) +
@@ -133,7 +131,6 @@ events_per_museum <- function() {
   ggplot(summary, aes(x=number_of_events, y=number_of_collections, label=initial_museum_name)) +
     geom_point(position=position_jitter(width=0.5, height=0.5, seed=1)) +
     labs(
-      title="Granularity of Data Collected for Each Museum",
       x="Number of events recorded",
       y="Number of collections/objects recorded"
     ) +
@@ -164,7 +161,6 @@ events_per_collection <- function() {
     ) +
     coord_flip() +
     labs(
-      title="Events per Collection by Subject Matter",
       x="Subject matter of museum",
       y="Events per collection"
     ) +
@@ -216,7 +212,6 @@ collection_distribution_bars <- function() {
       )
     ) +
     labs(
-      title="Distribution of Collection Sizes",
       y="Collection size quantity/category",
       x="Number of collections in size category"
     ) +
@@ -273,7 +268,6 @@ collection_distribution_heatmap <- function() {
     ) +
     heatmap_fill_scale +
     labs(
-      title="Distribution of Collection Sizes (collections per museum)",
       y="Subject matter of museum",
       x="Collection size quantity/category"
     ) +

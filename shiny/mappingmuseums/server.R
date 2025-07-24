@@ -106,6 +106,10 @@ function(input, output, session) {
               aboutUI("about")
             ),
             tabPanel(
+              tags$span("About the data", title="An introduction to data concerning object dispersal"),
+              dataUI("data")
+            ),
+            tabPanel(
               tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),
               glossaryUI("glossary"),
             ),
@@ -149,10 +153,6 @@ function(input, output, session) {
                 tabPanel(
                   tags$span("Length of disposal", title="How long it takes for museums to close"),
                   lengthUI("length")
-                ),
-                tabPanel(
-                  tags$span("About the data", title="An introduction to data concerning object dispersal"),
-                  dataUI("data")
                 )
               )
             )
@@ -189,6 +189,7 @@ function(input, output, session) {
       
       homeServer("home")
       glossaryServer("glossary")
+      dataServer("data")
 
       # mapping museums
       snapshotServer("snapshot")
@@ -202,7 +203,6 @@ function(input, output, session) {
       eventsServer("events")
       dispersalServer("dispersal")
       lengthServer("length")
-      dataServer("data")
       
     }
   })
