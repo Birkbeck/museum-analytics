@@ -44,9 +44,11 @@ tooltip_secondary_attribute_events <- "<p>Select search for the horizontal axis<
 
 tooltip_steps_or_last <- "<p>GW:<strong>Steps in path:</strong> View intermediate events/actors in the sequences of events</p><p><strong>Last known:</strong> View only the last known event in the sequence.</p>"
 
-tooltip_steps_or_first_last <- "<p>GW: <strong>Steps in path:</strong> View intermediate actors in the sequences of ownership and/or custody changes</p><p><strong>First and last actors:</strong> View only the initial museum and the last known actor in the sequence.</p>"
+tooltip_steps_or_first_last <- "<p>Museum objects sometimes move several times.</p>
+<p><strong>Steps:</strong> View all or intermediate steps in the objects’ paths</p>
+<p><strong>First and last actors:</strong> View the initial museum and last known actor in the objects’ path</p>"
 
-tooltip_steps_in_path <- "<p>GW: Select the start and end point of sequences. Step 1 shows the initial museums where collections originated.</p><p>Use the slider to increase the number of steps away from the museum shown on the diagram.</p>"
+tooltip_steps_in_path <- "<p>View all or intermediate steps in the objects’ paths. Step one shows the initial museum in the sequence. Use the slider to increase the number of steps shown.</p>"
 
 tooltip_count_or_percentage_events <- "<p><strong>Number of events:</strong> a simple count</p>
 <p><strong>Percentage of events:</strong> as a proportion of all events</p>
@@ -118,7 +120,7 @@ tooltip_event_uncertainty <- "<p>GW: Filter for events with certain or uncertain
 
 tooltip_initial_museum <- "<p>GW: The initial closed museums from which the depicted sequences begin.</p><p>This field updates with a list of museums according to the filters below.</p><p>It is possible to search for and select an individual museum so that only collection transfers starting at that museum are shown in the diagram.</p>"
 
-tooltip_final_destination <- "<p>GW: The final actor in the sequence of transfers. The values in this field update according to how actors are grouped on the diagram.</p>"
+tooltip_final_destination <- "<p>The final actor in the sequence of transfers. The values in this field update according to how actors are grouped on the diagram.</p>"
 
 tooltip_passes_through <- "<p>GW: Filter sequences that only pass through specified actors at some point in the sequence of transfers. The values in this field update according to how actors are grouped on the diagram.</p>"
 

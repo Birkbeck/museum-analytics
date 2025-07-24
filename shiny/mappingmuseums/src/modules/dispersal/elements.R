@@ -154,7 +154,7 @@ get_filtered_sequences <- function(events_data,
                                    collection_status_filter,
                                    initial_museum_ids,
                                    show_ending_points,
-                                   show_passes_through,
+                                   #show_passes_through,
                                    steps_or_first_last) {
   sequences <- events_data |>
     mutate(
