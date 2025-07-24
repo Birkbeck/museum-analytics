@@ -206,7 +206,7 @@ lengthUI <- function(id) {
       )
     ),
     fluidRow(
-      h3("Lengths of Closure"),
+      h3("Lengths of Disposal"),
       downloadButton(NS(id, "downloadLengthsTable"), label="Download table as CSV")
     ),
     fluidRow(

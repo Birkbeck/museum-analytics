@@ -24,13 +24,11 @@ lengthServer <- function(id) {
       updatePickerInput(
         session=session, inputId="accreditationFilter", selected=accreditation_labels$label
       )
-      becm <- "mm.domus.SW043"
-      example_museum_name <- filter(initial_museums, museum_id == becm)$name
+      example_museum_name <- initial_museums$name[1]
       updateVirtualSelect(
         session=session,
         inputId="exampleMuseum",
-        choices=initial_museums$name,
-        selected=example_museum_name
+        choices=initial_museums$name
       )
     })
 
@@ -83,12 +81,7 @@ lengthServer <- function(id) {
           region %in% region_filter_choices(),
           accreditation %in% accreditation_filter_choices()
         )
-      becm <- "mm.domus.SW043"
-      if (becm %in% filtered_museums$museum_id) {
-        example_museum_name <- filter(filtered_museums, museum_id == becm)$name
-      } else {
-        example_museum_name <- slice_sample(filtered_museums, n=1)$name
-      }
+      example_museum_name <- filtered_museums$name[1]
       updateVirtualSelect(
         session=session,
         inputId="exampleMuseum",
@@ -188,49 +181,36 @@ lengthServer <- function(id) {
       example_timelines_small(closure_timeline_events, example_museum_id())
     })
 
+    length_of_disposal_table <- reactive({
+      filtered_closure_lengths() |>
+        select(
+          museum_id,
+          museum_name,
+          year_closed,
+          earliest_event_date=earliest,
+          latest_event_date=latest,
+          length_of_disposal=length_of_closure,
+          disposal_length_category=closure_length_category,
+          size,
+          governance,
+          subject,
+          region,
+          accreditation
+        )
+    })
+
     output$downloadLengthsTable <- downloadHandler(
       filename = function() {
-        paste('length-of-closure-data-', Sys.Date(), '.csv', sep='')
+        paste('length-of-disposal-data-', Sys.Date(), '.csv', sep='')
       },
       content = function(con) {
-        write.csv(
-          filtered_closure_lengths() |>
-            select(
-              museum_id,
-              museum_name,
-              year_closed,
-              earliest_event_date=earliest,
-              latest_event_date=latest,
-              length_of_closure,
-              closure_length_category,
-              size,
-              governance,
-              subject,
-              region,
-              accreditation
-            ),
-          con
-        )
+        write.csv(length_of_disposal_table(), con)
       },
       contentType = "text/csv"
     )
 
     output$closureLengthsTable <- renderDT({
-      filtered_closure_lengths() |>
-            select(
-              museum_id,
-              museum_name,
-              year_closed,
-              earliest_event_date=earliest,
-              latest_event_date=latest,
-              length_of_closure,
-              closure_length_category,
-              size,
-              governance,
-              subject,
-              region,
-              accreditation
-            )
+      length_of_disposal_table()
     }, options=list(pageLength=100))
 
   })

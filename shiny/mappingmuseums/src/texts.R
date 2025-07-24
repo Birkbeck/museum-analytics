@@ -124,4 +124,4 @@ tooltip_final_destination <- "<p>The final actor in the sequence of transfers. T
 
 tooltip_passes_through <- "<p>GW: Filter sequences that only pass through specified actors at some point in the sequence of transfers. The values in this field update according to how actors are grouped on the diagram.</p>"
 
-tooltip_example_museum <- "<p>Select a museum to display its closure timeline.</p>"
+tooltip_example_museum <- "<p>Select an individual museum to display its closure timeline.</p>"
