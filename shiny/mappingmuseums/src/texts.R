@@ -26,10 +26,21 @@ tooltip_main_attribute_outcomes <- "<p>Select which outcomes to display</p>
 <p><strong>Recipient:</strong> who/what took possession of the museum objects</p>
 <p><strong>Recipient count:</strong> how many recipients took possession of the museum objects</p>
 <p><strong>Recipient share:</strong> how the museum objects were split</p>
-<p><strong>Destination:</strong> how far the museum objects were moved</p>
-</p>"
+<p><strong>Destination:</strong> how far the museum objects were moved</p>"
 
-tooltip_main_attribute_events <- "<p>GW: Select which part of the event to view on the y-axis</p>"
+tooltip_main_attribute_events <- "<p>Select search for the vertical axis</p>
+<p><strong>Event:</strong> what happened to museum objects</p>
+<p><strong>Sender:</strong> where the objects came from</p>
+<p><strong>Recipient:</strong> who/what took possession of the museum objects</p>
+<p><strong>Object type:</strong> the specific item disposed of</p>
+<p><strong>Initial museum:</strong> where the objects originally came from</p>"
+
+tooltip_secondary_attribute_events <- "<p>Select search for the horizontal axis</p>
+<p><strong>Event:</strong> what happened to museum objects</p>
+<p><strong>Sender:</strong> where the objects came from</p>
+<p><strong>Recipient:</strong> who/what took possession of the museum objects</p>
+<p><strong>Object type:</strong> the specific item disposed of</p>
+<p><strong>Initial museum:</strong> where the objects originally came from</p>"
 
 tooltip_steps_or_last <- "<p>GW:<strong>Steps in path:</strong> View intermediate events/actors in the sequences of events</p><p><strong>Last known:</strong> View only the last known event in the sequence.</p>"
 
@@ -37,13 +48,10 @@ tooltip_steps_or_first_last <- "<p>GW: <strong>Steps in path:</strong> View inte
 
 tooltip_steps_in_path <- "<p>GW: Select the start and end point of sequences. Step 1 shows the initial museums where collections originated.</p><p>Use the slider to increase the number of steps away from the museum shown on the diagram.</p>"
 
-tooltip_secondary_attribute_events <- "<p>GW: Select which part of the event to view on the x-axis</p>"
-
-tooltip_count_or_percentage_events <- "GW: <p><strong>Number of events:</strong> The number of events with the event/participant types</p>
-<p><strong>Percentage of events:</strong> The percentage of all events with the event/participant types.</p>
-<p><strong>Rowwise percentages:</strong> The percentage of all events with each y-axis attribute that have each x-axis attribute</p>
-<p><strong>Columnwise percentages:</strong> The percentage of all events with each x-axis attribute that have each y-axis attribute</p>
-"
+tooltip_count_or_percentage_events <- "<p><strong>Number of events:</strong> a simple count</p>
+<p><strong>Percentage of events:</strong> as a proportion of all events</p>
+<p><strong>Rowwise percentages:</strong> percentage of all the events in that category, as specified on the vertical Y-axis</p>
+<p><strong>Columnwise percentages:</strong> percentage of all the events in that category, as specified on the horizontal X-axis</p>"
 
 tooltip_museum_governance <- "<p>Shows museums of a specific governance type.</p>
 <p>Governance is the framework by which museums are directed and controlled. It identifies who can make decisions, who has the authority to act on behalf of the organisation, and who is accountable for how the museum and its people perform.</p>
@@ -67,28 +75,28 @@ tooltip_museum_accreditation <- "<p>Shows accredited and / or unaccredited museu
 
 tooltip_stepwise_events <- "<p>Show one or all steps in the dispersal process. Step 1 is the first event, step 2 is the second event, and so on.</p>"
 
-tooltip_collection_type <- "<p>Shows specific types of objects</p>"
+tooltip_collection_type <- "<p>Select specific types of objects</p>"
 
-tooltip_collection_status <- "<p><strong>Items from a museum's collection: </strong>Items that originally formed part of a now closed museum's collection</p>
-<p><strong>Items loaned to a museum: </strong>Loaned items that were in the custody of a museum when it closed</p>
-<p><strong>Items for handling: </strong>Items that belonged to a now closed museum, but that were not part of the official collection and could be handled for educational purposes.</p>
-<p><strong>Other items: </strong>Items that belonged to a now closed museum, but that were not museum objects. For example display cases and other furniture.</p>"
+tooltip_collection_status <- "<p><strong>Objects from a museum collection:</strong> Artefacts that have been accessioned and form part of the museum collection</p>
+<p><strong>Object on loan to a museum:</strong> Artefacts on loan and in the custody of the museum when it closed</p>
+<p><strong>Handling objects:</strong> Non-accessioned objects used for educational purpose</p>
+<p><strong>Other objects (e.g. display cases):</strong> Non-accessioned objects belonging to the museum including gallery furniture and set dressing.</p>"
 
 tooltip_reason_type_level <- "<p>Select the level of detail. See the taxonomies tab for a breakdown of all reasons for closure.</p>"
 
-tooltip_group_events_level <- "<p>GW: Select which level of the event hierarchy should be used to classify events.</p>"
+tooltip_group_events_level <- "<p>Select the level of detail. See the taxonomies tab for a breakdown of all events</p>"
 
-tooltip_group_actors_level <- "<p>GW: Select which level of the actor hierarchy should be used to classify actors.</p>"
+tooltip_group_actors_level <- "<p>Select the level of detail. See the taxonomies tab for a breakdown of all actors involved in collection disposal</p>"
 
-tooltip_group_museums_by <- "<p>GW: Select which attribute museums should be grouped by</p>"
+tooltip_group_museums_by <- "<p>Show all museums or show museums selected by museum attribute</p>"
 
 tooltip_reason_filter <- "<p>GW: Show only museums where at least one of their reasons for closure belongs to the selected reason core categories.</p>"
 
 tooltip_event_types <- "Choose events types: See taxonomies tab for more detail"
 
-tooltip_sender_types <- " <p>GW: Show only events with a sender of a specified type. See taxonomies tab for more detail</p>"
+tooltip_sender_types <- " <p>Show all senders or show senders of a particular type.</p>"
 
-tooltip_recipient_types <- " <p>GW: Show only events with a recipient of a specified type. See taxonomies tab for more detail</p>"
+tooltip_recipient_types <- " <p>Show all recipients or show recipients of a particular type.</p>"
 
 tooltip_show_only_outcomes <- "<p>GW: Select which outcomes should appear in the visualizations. Removing some outcomes could improve the readability of charts.</p>"
 

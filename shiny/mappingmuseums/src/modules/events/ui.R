@@ -21,8 +21,8 @@ eventsUI <- function(id) {
           selectInput(
             NS(id, "yAxis"),
             label="",
-            choices=c("Event type", "Sender type", "Recipient type", "Collection type", "Initial museum"),
-            selected="Sender type"
+            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
+            selected="Sender"
           )
         ),
         
@@ -32,8 +32,8 @@ eventsUI <- function(id) {
           selectInput(
             NS(id, "xAxis"),
             label="",
-            choices=c("Event type", "Sender type", "Recipient type", "Collection type", "Initial museum"),
-            selected="Event type"
+            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
+            selected="Event"
           )
         ),
         
@@ -117,7 +117,7 @@ eventsUI <- function(id) {
         form_subtitle("Filter", tooltip_filter),
         
         form_item(
-          "Event type",
+          "Event",
           tooltip_event_types,
           pickerInput(
             NS(id, "eventTypeFilter"), 
@@ -134,7 +134,7 @@ eventsUI <- function(id) {
         ),
         
         form_item(
-          "Sender type",
+          "Sender",
           tooltip_sender_types,
           pickerInput(
             NS(id, "senderTypeFilter"), 
@@ -151,7 +151,7 @@ eventsUI <- function(id) {
         ),
         
         form_item(
-          "Recipient type",
+          "Recipient",
           tooltip_recipient_types,
           pickerInput(
             NS(id, "recipientTypeFilter"), 
@@ -168,7 +168,7 @@ eventsUI <- function(id) {
         ),
         
         form_item(
-          "Collection type",
+          "Object",
           tooltip_collection_type,
           pickerInput(
             NS(id, "collectionTypeFilter"), 
@@ -185,7 +185,7 @@ eventsUI <- function(id) {
         ),
 
         form_item(
-          "Collection status",
+          "Object status",
           tooltip_collection_status,
           pickerInput(
             NS(id, "collectionStatusFilter"), 

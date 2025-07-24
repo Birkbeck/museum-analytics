@@ -4,8 +4,8 @@ eventsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateSelectInput(session=session, inputId="yAxis", selected="Sender type")
-      updateSelectInput(session=session, inputId="xAxis", selected="Event type")
+      updateSelectInput(session=session, inputId="yAxis", selected="Sender")
+      updateSelectInput(session=session, inputId="xAxis", selected="Event")
       updateRadioButtons(session=session, inputId="stepsOrLast", selected="Stepwise events")
       updatePickerInput(
         session=session,
@@ -110,16 +110,16 @@ eventsServer <- function(id) {
       req(input$xAxis)
       switch(
         input$xAxis,
-        "Event type" = {
+        "Event" = {
           event_grouping()
         },
-        "Sender type" = {
+        "Sender" = {
           sender_grouping()
         },
-        "Recipient type" = {
+        "Recipient" = {
           recipient_grouping()
         },
-        "Collection type" = {
+        "Object" = {
           "collection_type"
         },
         "Initial museum" = {
@@ -132,16 +132,16 @@ eventsServer <- function(id) {
       req(input$yAxis)
       switch(
         input$yAxis,
-        "Event type" = {
+        "Event" = {
           event_grouping()
         },
-        "Sender type" = {
+        "Sender" = {
           sender_grouping()
         },
-        "Recipient type" = {
+        "Recipient" = {
           recipient_grouping()
         },
-        "Collection type" = {
+        "Object" = {
           "collection_type"
         },
         "Initial museum" = {
@@ -154,17 +154,17 @@ eventsServer <- function(id) {
       req(input$xAxis)
       switch(
         input$xAxis,
-        "Event type" = {
-          paste0("Event type (", input$eventGrouping, ")")
+        "Event" = {
+          paste0("Event (", input$eventGrouping, ")")
         },
         "Sender type" = {
-          paste0("Sender type (", input$actorGrouping, ")")
+          paste0("Sender (", input$actorGrouping, ")")
         },
         "Recipient type" = {
-          paste0("Recipient type (", input$actorGrouping, ")")
+          paste0("Recipient (", input$actorGrouping, ")")
         },
-        "Collection type" = {
-          "Collection or object type"
+        "Object" = {
+          "Object"
         },
         "Initial museum" = {
           paste0("Initial museum (", input$museumGrouping, ")")
@@ -176,17 +176,17 @@ eventsServer <- function(id) {
       req(input$yAxis)
       switch(
         input$yAxis,
-        "Event type" = {
-          paste0("Event type (", input$eventGrouping, ")")
+        "Event" = {
+          paste0("Event (", input$eventGrouping, ")")
         },
-        "Sender type" = {
-          paste0("Sender type (", input$actorGrouping, ")")
+        "Sender" = {
+          paste0("Sender (", input$actorGrouping, ")")
         },
-        "Recipient type" = {
-          paste0("Recipient type (", input$actorGrouping, ")")
+        "Recipient" = {
+          paste0("Recipient (", input$actorGrouping, ")")
         },
-        "Collection type" = {
-          "Collection or object type"
+        "Object" = {
+          "Object"
         },
         "Initial museum" = {
           paste0("Initial museum (", input$museumGrouping, ")")
