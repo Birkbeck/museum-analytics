@@ -86,10 +86,10 @@ dispersal_events <- read_csv(dispersal_events_csv) |>
       TRUE ~ "unknown"
     ),
     collection_status = case_when(
-      collection_status == "collection" ~ "Items from a museum's collection",
-      collection_status == "loan" ~ "Items loaned to a museum",
-      collection_status == "handling" ~ "Items for handling",
-      collection_status == "museum-stuff" ~ "Other items (e.g. furniture)"
+      collection_status == "collection" ~ "Objects from a museum collection",
+      collection_status == "loan" ~ "Objects on loan to a museum",
+      collection_status == "handling" ~ "Handling objects",
+      collection_status == "museum-stuff" ~ "Other objects (e.g. display cases)"
     ),
     initial_museum_all = "all",
     sender_all = ifelse(!is.na(sender_size), "all", NA),
