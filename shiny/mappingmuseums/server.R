@@ -136,14 +136,14 @@ function(input, output, session) {
               )
             ),
             tabPanel(
-              tags$span("Collection Disposal", title=""),
+              tags$span("Object Disposal", title=""),
               tabsetPanel(
                 tabPanel(
                   tags$span("Events after closure", title="What happens after closure"),
                   eventsUI("events")
                 ),
                 tabPanel(
-                  tags$span("Object destinations", title="The flow of collections away from closed museums"),
+                  tags$span("Object destinations", title="The flow of objects away from closed museums"),
                   dispersalUI("dispersal")
                 ),
                 tabPanel(
@@ -151,7 +151,7 @@ function(input, output, session) {
                   lengthUI("length")
                 ),
                 tabPanel(
-                  tags$span("About the data", title="An introduction to data concerning collection dispersal"),
+                  tags$span("About the data", title="An introduction to data concerning object dispersal"),
                   dataUI("data")
                 )
               )
@@ -198,7 +198,7 @@ function(input, output, session) {
       reasonsServer("reasons")
       outcomesServer("outcomes")
 
-      # collection dispersal
+      # object dispersal
       eventsServer("events")
       dispersalServer("dispersal")
       lengthServer("length")
