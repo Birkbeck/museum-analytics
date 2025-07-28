@@ -2,7 +2,7 @@
     "credentials_file": "credentials.json",
     "dispersal_sheet_file": "../data/dispersal-sheet-2025-07-24.xlsx",
     "dispersal_sheet_anon": "../data/dispersal-sheet-anonymized.xlsx",
-    "mapping_museums_file": "../data/_var_www_museumflask_app_main_editmusfiles_data_2025-07-07_16-51-24.csv",
+    "mapping_museums_file": "../data/mm-data-dump-adjusted-2025-07-28.csv",
     "sheets": {
 	"actor types": {
 	    "file": "",

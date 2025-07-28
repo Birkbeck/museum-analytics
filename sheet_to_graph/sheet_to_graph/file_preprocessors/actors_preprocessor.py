@@ -1,5 +1,8 @@
 from sheet_to_graph import FilePreprocessor
 
+EVENTS_SHEET_RECIPIENT_ID_INDEX = 27
+EVENTS_SHEET_RECIPIENT_QTY_INDEX = 26
+
 
 class ActorsPreprocessor(FilePreprocessor):
     """Performs basic preprocessing:
@@ -23,7 +26,11 @@ class ActorsPreprocessor(FilePreprocessor):
             row["actor_quantity"] = "1"
             try:
                 row["actor_quantity"] = str(
-                    [e for e in self.events if e[26] == row["actor_id"]][0][25]
+                    [
+                        e
+                        for e in self.events
+                        if e[EVENTS_SHEET_RECIPIENT_ID_INDEX] == row["actor_id"]
+                    ][0][EVENTS_SHEET_RECIPIENT_QTY_INDEX]
                 )
             except IndexError:
                 pass
