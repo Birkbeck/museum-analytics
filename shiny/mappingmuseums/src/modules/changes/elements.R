@@ -23,12 +23,13 @@ get_museums_in_changes_period <- function(museums,
 openings_vs_closures_scatter <- function(data, dimension) {
   data <- data |>
     mutate(`total openings and closures`=turnover)
+  limit_max <- max(c(data$closure_rate, data$opening_rate)) * 1.1
   ggplot(data, aes(x=closure_rate, y=opening_rate)) +
     geom_point(aes(colour=.data[[dimension]], size=`total openings and closures`), alpha=0.7) +
     geom_abline(colour="grey") +
     geom_text(aes(label=.data[[dimension]]), size=6, nudge_y=3) +
-    scale_x_continuous(expand=c(0,1), limits=c(0,80)) +
-    scale_y_continuous(expand=c(0,1), limits=c(0,80)) +
+    scale_x_continuous(expand=c(0,1), limits=c(0,limit_max)) +
+    scale_y_continuous(expand=c(0,1), limits=c(0,limit_max)) +
     scale_size_continuous(
       limits=c(1, 2000),
       range=c(2, 40),
@@ -53,12 +54,13 @@ openings_vs_closures_scatter <- function(data, dimension) {
 }
 
 openings_vs_closures_scatter_small <- function(data, dimension) {
+  limit_max <- max(c(data$closure_rate, data$opening_rate)) * 1.1
   ggplot(data, aes(x=closure_rate, y=opening_rate)) +
     geom_point(aes(colour=.data[[dimension]], size=turnover)) +
     geom_text_repel(aes(label=very_short_labels[.data[[dimension]]])) +
     geom_abline(colour="grey") +
-    scale_x_continuous(expand=c(0,1), limits=c(0,80)) +
-    scale_y_continuous(expand=c(0,1), limits=c(0,80)) +
+    scale_x_continuous(expand=c(0,1), limits=c(0,limit_max)) +
+    scale_y_continuous(expand=c(0,1), limits=c(0,limit_max)) +
     scale_colour_manual(values=museum_attribute_colours) +
     labs(
       title = "Opening vs Closure Rates",
