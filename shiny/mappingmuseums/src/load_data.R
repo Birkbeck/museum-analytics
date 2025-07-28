@@ -223,6 +223,8 @@ museums_including_crown_dependencies <- read_csv("data/query_results/museums.csv
     country=factor(country, museum_attribute_ordering)
   )
 
+not_really_museums <- read_csv("data/not-really-museums.csv")
+
 closure_reasons <- super_events |>
   separate_rows(reason, sep = "; ") |>
   separate_wider_delim(
@@ -245,12 +247,12 @@ closure_reasons <- super_events |>
   ) |>
   left_join(museums_including_crown_dependencies, by="museum_id")
 
-closure_outcomes <- get_outcomes_by_museum(dispersal_events)
+closure_outcomes <- get_outcomes_by_museum(super_events, dispersal_events)
 closure_lengths <- get_closure_lengths_by_museum(
-  dispersal_events, event_types, museums_including_crown_dependencies
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
 )
 closure_timeline_events <- get_closure_timeline_events(
-  dispersal_events, event_types, museums_including_crown_dependencies
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
 )
 
 museums_including_crown_dependencies <- museums_including_crown_dependencies |>

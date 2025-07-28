@@ -18,7 +18,7 @@ uk_countries <- c(
   "Isle of Man"
 )
 
-get_outcomes_by_museum <- function(events_table) {
+get_outcomes_by_museum <- function(super_events, events_table) {
   initial_events <- events_table |>
     left_join(
       events_table |> select(previous_event_id=event_id, previous_event_type=event_type),
@@ -30,6 +30,7 @@ get_outcomes_by_museum <- function(events_table) {
     )
   events_with_numeric_collection_size <- initial_events |>
     mutate(
+      collection_size=ifelse(is.na(collection_size), "few", collection_size),
       collection_size=recode(
         collection_size,
         "all"=100,
@@ -76,19 +77,39 @@ get_outcomes_by_museum <- function(events_table) {
     ) |>
     ungroup()
   largest_recipient_shares <- calculate_largest_recipient_shares(initial_events)
-  event_outcomes |>
+  super_events |>
+    select(museum_id, has_collection) |>
+    left_join(event_outcomes, by="museum_id") |>
     left_join(recipient_outcomes, by="museum_id") |>
     left_join(destination_outcomes, by="museum_id") |>
     left_join(recipient_counts, by="museum_id") |>
     left_join(largest_recipient_shares, by="museum_id") |>
     mutate(
+      outcome_event_type=case_when(
+        !has_collection ~ "had no collection",
+        is.na(outcome_event_type) ~ "mostly unknown",
+        TRUE ~ outcome_event_type
+      ),
+      outcome_recipient_type=case_when(
+        !has_collection ~ "had no collection",
+        is.na(outcome_recipient_type) ~ "mostly unknown",
+        TRUE ~ outcome_recipient_type
+      ),
       outcome_recipient_count=case_when(
+        !has_collection ~ "had no collection",
         is.nan(outcome_recipient_count) ~ "many",
         is.na(outcome_recipient_count) ~ "0",
         outcome_recipient_count > 5 ~ "> 5",
         TRUE ~ as.character(outcome_recipient_count)
+      ),
+      outcome_largest_share=ifelse(has_collection, outcome_largest_share, "had no collection"),
+      outcome_destination_type=case_when(
+        !has_collection ~ "had no collection",
+        is.na(outcome_destination_type) ~ "mostly unknown",
+        TRUE ~ outcome_destination_type
       )
-    )
+    ) |>
+    select(-has_collection)
 }
 
 calculate_largest_recipient_shares <- function(events) {

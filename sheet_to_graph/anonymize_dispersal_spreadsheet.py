@@ -14,8 +14,8 @@ def anonymize_dispersal_spreadsheet(file_name, output_file_name):
     actor_address_1_column = "F"
     actor_postcode_column = "J"
 
-    recipient_id_column = "AA"
-    recipient_name_column = "AB"
+    recipient_id_column = "AB"
+    recipient_name_column = "AC"
 
     actors = {}
 

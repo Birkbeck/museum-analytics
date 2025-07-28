@@ -403,6 +403,9 @@ if __name__ == "__main__":
                 "super_date", fill=True, property_of="super_event_id"
             ),
             Column("super_causes", fill=True, property_of="super_event_id"),
+            BooleanColumn(
+                "has_collection", default="Yes", fill=True, property_of="super_event_id"
+            ),
             FormulaColumn(
                 "super_cause_types",
                 formula=lambda table, row_index: formulae.get_super_cause_types(

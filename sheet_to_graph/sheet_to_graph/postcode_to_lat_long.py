@@ -77,6 +77,13 @@ class PostcodeToLatLong:
         return self._get_geo_info(postcode, town_city, county, country)["bng_y"]
 
     def get_region(self, postcode: str, town_city: str, county: str, country: str):
+        try:
+            if postcode[:2] == "IM":
+                return "Isle of Man"
+            if postcode[:2] in ("GY", "JE"):
+                return "Channel Islands"
+        except IndexError:
+            pass
         return self._get_geo_info(postcode, town_city, county, country)["region"]
 
     def get_local_authority_code(

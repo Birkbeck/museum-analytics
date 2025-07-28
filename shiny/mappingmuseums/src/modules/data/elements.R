@@ -10,7 +10,7 @@ item_count_ordering <- c(
   "65+"
 )
 
-get_data_by_museum <- function(events, museums) {
+get_data_by_museum <- function(events, museums, non_museums) {
   event_counts <- events |>
     group_by(initial_museum_id) |>
     summarize(
@@ -52,6 +52,7 @@ get_data_by_museum <- function(events, museums) {
 
   museums |>
     filter(
+      !museum_id %in% non_museums$museum_id,
       year_closed_1 > 1999 & year_closed_1 < 9999
     ) |>
     left_join(event_counts, by="museum_id") |>

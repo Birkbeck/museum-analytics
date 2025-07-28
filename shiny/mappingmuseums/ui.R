@@ -24,4 +24,3 @@ fluidPage(
   
   uiOutput("appContent"),
 )
-

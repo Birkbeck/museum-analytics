@@ -4,9 +4,14 @@ This script queries the neo4j database and converts it into a single large csv f
 
 from collections import Counter
 import csv
+import os
 import json
+import shutil
 
 from sheet_to_graph.connection_managers import QueryToCsv
+
+RESULTS_DIR = "../data/query_results"
+SHINY_RESULTS_DIR = "../shiny/mappingmuseums/data/query_results"
 
 actor_types_query = """
 MATCH (actor_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "actor"})
@@ -100,7 +105,8 @@ MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)
 RETURN {
     museum_id: initial_museum.mm_id,
     super_reasons: super_event.super_causes,
-    reason: super_event.super_cause_types
+    reason: super_event.super_cause_types,
+    has_collection: super_event.has_collection
 } AS record
 """
 
@@ -293,7 +299,15 @@ if __name__ == "__main__":
     query_to_csv = QueryToCsv(
         queries,
         credentials_file_name=credentials_file_name,
-        output_directory_name="../data/query_results",
+        output_directory_name=RESULTS_DIR,
     )
 
     query_to_csv.make_queries_and_save_outputs()
+
+    # copy query results into shiny app
+    os.makedirs(SHINY_RESULTS_DIR, exist_ok=True)
+    for item in os.listdir(RESULTS_DIR):
+        src_path = os.path.join(RESULTS_DIR, item)
+        dest_path = os.path.join(SHINY_RESULTS_DIR, item)
+        if os.path.isfile(src_path):
+            shutil.copy2(src_path, dest_path)

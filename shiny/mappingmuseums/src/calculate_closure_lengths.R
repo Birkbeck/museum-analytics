@@ -9,12 +9,9 @@ closure_length_categories <- c(
   "16+ years"
 )
 
-get_super_events <- function(dispersal_events, museums) {
-  museums |>
-    filter(
-      year_closed_1 != 9999,
-      museum_id %in% dispersal_events$initial_museum_id
-    ) |>
+get_super_events <- function(super_events, museums) {
+  super_events |>
+    left_join(museums, by="museum_id") |>
     mutate(
       event_level="super",
       event_description="closure",
@@ -67,15 +64,15 @@ get_initial_transactions <- function(dispersal_events, event_types) {
     )
 }
 
-get_closure_timeline_events <- function(dispersal_events, event_types, museums) {
+get_closure_timeline_events <- function(super_events, dispersal_events, event_types, museums) {
   rbind(
-    get_super_events(dispersal_events, museums),
+    get_super_events(super_events, museums),
     get_initial_transactions(dispersal_events, event_types)
   )
 }
 
-get_closure_lengths_by_museum <- function(dispersal_events, event_types, museums) {
-  closure_super_events <- get_super_events(dispersal_events, museums)
+get_closure_lengths_by_museum <- function(super_events, dispersal_events, event_types, museums) {
+  closure_super_events <- get_super_events(super_events, museums)
   closure_sub_events <- get_initial_transactions(dispersal_events, event_types)
 
   closure_lengths <- closure_sub_events |>

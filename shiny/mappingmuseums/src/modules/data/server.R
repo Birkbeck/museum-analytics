@@ -3,7 +3,7 @@ source("src/modules/data/elements.R")
 dataServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
-    data_by_museum <- get_data_by_museum(dispersal_events, museums_including_crown_dependencies)
+    data_by_museum <- get_data_by_museum(dispersal_events, museums_including_crown_dependencies, not_really_museums)
 
     output$eventsPerMuseumMatrix <- renderPlotly({
       events_per_museum_matrix(data_by_museum)

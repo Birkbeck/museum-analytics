@@ -2,7 +2,7 @@
 0,mm.New.1,Titanic Belfast,not-for-profit,independent,large,sea & seafaring: boats & ships,sea & seafaring,unaccredited,,Northern Ireland,Northern Ireland,2012,2012,9999,9999,1 Olympic Way,,,Belfast,BT3 9EP
 1,mm.aim.1230,The Woodland Heritage Museum,unknown governance,unknown governance,small,natural world: other,natural world,unaccredited,,South West,England,1971,1971,2007,2017,,Brokerswood,,nr Westbury,BA13 4EH
 2,mm.domus.WM019,Warwickshire Museum Of Rural Life,local authority,local authority,medium,rural industry: farming,rural industry,unaccredited,Warwickshire,West Midlands,England,1984,1984,9999,9999,Warwick College of Agriculture,Horticulture & Equine Studies,Moreton Hall,Moreton Morrell,CV35 9BL
-3,mm.aim.0484,Battle Of Flowers Museum,private,private,small,arts: crafts,arts,unaccredited,,,England,1971,1971,2012,2012,La Robeline,Mont des Corvees,,St Ouen,JE3 2ES
+3,mm.aim.0484,Battle Of Flowers Museum,private,private,small,arts: crafts,arts,unaccredited,,Channel Islands,Channel Islands,1971,1971,2012,2012,La Robeline,Mont des Corvees,,St Ouen,JE3 2ES
 4,mm.aim.0485,Jet Age Museum,not-for-profit,independent,medium,war & conflict: airforce,war & conflict,accredited,Gloucestershire,South West,England,2013,2013,9999,9999,57 Crown Drive,Bishops Cleeve,,Cheltenham,GL52 8TA
 5,mm.aim.0486,Jewish Military Museum,not-for-profit,independent,small,war & conflict: military,war & conflict,unaccredited,,London,England,1996,1996,2015,2015,c/o Jewish Museum,Raymond Burton House,129-131 Albert Street,London,NW1 7NB
 6,mm.domus.SC275,Dell Mill,unknown governance,unknown governance,small,rural industry: watermills,rural industry,unaccredited,,Scotland,Scotland,1986,1986,1987,2011,North Dell,,,"Ness, Isle of Lewis",PA86 0SN
@@ -312,7 +312,7 @@
 310,mm.domus.SE324,Letchworth Museum and Art Gallery,local authority,local authority,medium,mixed: encyclopaedic,mixed,accredited,Hertfordshire,East,England,1914,1914,2012,2012,Broadway,,,Letchworth,SG6 3PF
 311,mm.domus.SE327,Light Infantry Museum,not-for-profit,independent,small,war & conflict: regiment,war & conflict,unaccredited,Hampshire,South East,England,1990,1990,2009,2009,Peninsula Barracks,Romsey Road,,Winchester,SO23 8TS
 312,mm.aim.0014,All Hallows By The Tower (Undercroft Museum),not-for-profit,independent,small,local histories,local histories,unaccredited,,London,England,1956,1956,9999,9999,Byward Street,,,London,EC3R 5BJ
-313,mm.domus.SE321,Jersey Museum,not-for-profit,independent,large,local histories,local histories,unaccredited,,,England,1878,1878,9999,9999,The Weighbridge,,,St Helier,JE2 3NF
+313,mm.domus.SE321,Jersey Museum,not-for-profit,independent,large,local histories,local histories,unaccredited,,Channel Islands,Channel Islands,1878,1878,9999,9999,The Weighbridge,,,St Helier,JE2 3NF
 314,mm.domus.SE320,Kent And Sharpshooters Yeomanry Museum,not-for-profit,independent,large,war & conflict: regiment,war & conflict,accredited,Kent,South East,England,1966,1966,9999,9999,Hever Castle,,,Edenbridge,TN8 7NG
 315,mm.domus.SE323,Leatherhead Museum Of Local History,not-for-profit,independent,small,local histories,local histories,unaccredited,Surrey,South East,England,1980,1980,9999,9999,Hampton Cottage,64 Church Street,,Leatherhead,KT22 8DP
 316,mm.domus.SE322,La Hougue Bie Museum,not-for-profit,independent,medium,archaeology: prehistory,archaeology,unaccredited,,Channel Islands,Channel Islands,1924,1924,9999,9999,La Route de la Hougue Bie,,,Grouville,JE3 9HQ
@@ -428,7 +428,7 @@
 426,mm.domus.YH065,Georgian Theatre Royal Museum,not-for-profit,independent,small,arts: other,arts,accredited,North Yorkshire,Yorks & Humber,England,2003,2003,9999,9999,Victoria Road,,,Richmond,DL10 4DW
 427,mm.domus.YH064,Fairfax House Museum,not-for-profit,independent,medium,buildings: houses (medium),buildings,accredited,,Yorks & Humber,England,1984,1984,9999,9999,Fairfax House,Castlegate,,York,YO1 9RN
 428,mm.wiki.409,Wollaton Village Dovecote Museum,not-for-profit,independent,small,local histories,local histories,unaccredited,,East Midlands,England,1987,1987,9999,9999,Dovecote Drive,,,Wollaton,NG8 2NB
-429,mm.domus.SE132,Sir Francis Cook Gallery,unknown governance,unknown governance,small,arts: fine & decorative arts,arts,unaccredited,,,England,1984,1984,1995,2017,Route de la Trinite,Augres,,Trinity,JE3 5JN
+429,mm.domus.SE132,Sir Francis Cook Gallery,unknown governance,unknown governance,small,arts: fine & decorative arts,arts,unaccredited,,Channel Islands,Channel Islands,1984,1984,1995,2017,Route de la Trinite,Augres,,Trinity,JE3 5JN
 430,mm.wiki.158,Fleming Collection Gallery,not-for-profit,independent,small,arts: fine & decorative arts,arts,unaccredited,,London,England,2002,2002,2015,2015,13 Berkeley Street,,Mayfair,London,W1J 8DU
 431,mm.domus.WM020,Rugby Library Gallery,local authority,local authority,medium,local histories,local histories,unaccredited,Warwickshire,West Midlands,England,2000,2000,9999,9999,St Mathews Street,,,Rugby,CV21 3BZ
 432,mm.wiki.153,Buckingham Palace,not-for-profit,independent,small,buildings: palace,buildings,unaccredited,,London,England,1993,1993,9999,9999,,,,London,SW1A 1AA
@@ -476,7 +476,7 @@
 474,mm.musa.268,Police Museum,not-for-profit,independent,small,services: police,services,unaccredited,,Northern Ireland,Northern Ireland,1984,1984,9999,9999,Brooklyn,,65 Knock Road,Belfast,BT5 6LE
 475,mm.musa.266,Northampton And Lamport Railway,unknown governance,unknown governance,small,transport: trains & railways,transport,unaccredited,Northamptonshire,East Midlands,England,1995,1995,9999,9999,Pitsford and Brampton Station,Pitsford Road,,Castle Brampton,NN6 8BA
 476,mm.musa.265,North Leverton Windmill,not-for-profit,independent,small,rural industry: windmills,rural industry,unaccredited,Nottinghamshire,East Midlands,England,1960,2017,9999,9999,Mill Lane,,,North Leverton,DN22 0BA
-477,mm.musa.264,Noirmont Command Bunker,not-for-profit,independent,small,war & conflict: bunker,war & conflict,unaccredited,,,England,1977,1977,9999,9999,Norimont Point,,St. Brelade,Jersey,JE3 8JA
+477,mm.musa.264,Noirmont Command Bunker,not-for-profit,independent,small,war & conflict: bunker,war & conflict,unaccredited,,Channel Islands,Channel Islands,1977,1977,9999,9999,Norimont Point,,St. Brelade,Jersey,JE3 8JA
 478,mm.musa.263,Newport Pagnell Historical Society Museum,not-for-profit,independent,small,local histories,local histories,unaccredited,,South East,England,1984,1984,9999,9999,Chandos Hall,,Silber Street,Newport Pagnell,MK16 0EW
 479,mm.musa.260,Newcastle Castle,local authority,local authority,small,war & conflict: castles & forts,war & conflict,unaccredited,,North East,England,2015,2015,9999,9999,The Black Gate,Castle Garth,,Newcastle-upon-Tyne,NE1 1RQ
 480,mm.fcm.257,Twinings Museum,private,private,small,food & drink,food & drink,unaccredited,,London,England,1978,1978,9999,9999,216 Strand,,,London,WC2R 1AP
@@ -524,7 +524,7 @@
 522,mm.wiki.399,The Merchants House,not-for-profit,independent,small,buildings: houses (medium),buildings,unaccredited,,South West,England,1991,1991,9999,9999,132 High Street,,,Marlborough,SN8 1HN
 523,mm.New.264,St Winnow Barton Farm Museum,private,private,small,rural industry: farming,rural industry,unaccredited,,South West,England,1976,1976,9999,9999,1 Mohun Cottages,St Winnow,,Lostwithiel,PL22 0LF
 524,mm.misc.072,The Museum Of Electricity,unknown governance,unknown governance,small,utilities: gas & electricity,utilities,unaccredited,Dorset,South West,England,1983,1983,2012,2012,Old Power Station,,,Christchurch,BH23 1QE
-525,mm.misc.070,The Nigel Mansell Museum,private,private,unknown size,personality: other,personality,unaccredited,,,England,2013,2013,2018,2018,La Route de St. Aubin,,,St. Hellier,JE2 3SD
+525,mm.misc.070,The Nigel Mansell Museum,private,private,unknown size,personality: other,personality,unaccredited,,Channel Islands,Channel Islands,2013,2013,2018,2018,La Route de St. Aubin,,,St. Hellier,JE2 3SD
 526,mm.domus.SE470,Queens Own Royal West Kent Regiment Museum,not-for-profit,independent,large,war & conflict: regiment,war & conflict,accredited,Kent,South East,England,1960,1960,9999,9999,St Faiths Street,,,Maidstone,ME14 1LH
 527,mm.aim.0603,Merseyside Fire & Rescue Museum,not-for-profit,independent,small,services: fire,services,unaccredited,,North West,England,1973,1973,9999,9999,Bridle Road,,,Bootle,L30 4YD
 528,mm.domus.SE112,Town House Museum Of Lynn Life,local authority,local authority,medium,local histories,local histories,unaccredited,Norfolk,East,England,1992,1992,2010,2010,46 Queen Street,,,Kings Lynn,PE30 5DQ
@@ -855,8 +855,8 @@
 853,mm.New.52,Trenance Cottages,not-for-profit,independent,unknown size,buildings: houses (small),buildings,unaccredited,,South West,England,1960,1984,9999,9999,Trenance Road,,,Newquay,TR7 2HW
 854,mm.domus.YH124,Otley Museum,not-for-profit,independent,small,local histories,local histories,accredited,,Yorks & Humber,England,1977,1977,9999,9999,Wellcroft House,Crow Lane,Otley,Leeds,LS21 1TZ
 855,mm.domus.SE129,Pitzhanger Manor Museum And Gallery,local authority,local authority,medium,arts: fine & decorative arts,arts,unaccredited,,London,England,1987,1987,9999,9999,Pitshanger Manor Museum & Gallery,Mattock Lane,London Borough of Ealing,London,W5 5EQ
-856,mm.domus.SE128,Mont Orgueil Castle,not-for-profit,independent,large,war & conflict: castles & forts,war & conflict,unaccredited,,,England,1929,1929,9999,9999,,,,Gorey,JE3 6DR
-857,mm.domus.SE127,Hamptonne Country Life Museum,not-for-profit,independent,medium,rural industry: farming,rural industry,unaccredited,,,England,1993,1993,9999,9999,Rue de la Patente,,St Lawrence,Jersey,JE3 1HS
+856,mm.domus.SE128,Mont Orgueil Castle,not-for-profit,independent,large,war & conflict: castles & forts,war & conflict,unaccredited,,Channel Islands,Channel Islands,1929,1929,9999,9999,,,,Gorey,JE3 6DR
+857,mm.domus.SE127,Hamptonne Country Life Museum,not-for-profit,independent,medium,rural industry: farming,rural industry,unaccredited,,Channel Islands,Channel Islands,1993,1993,9999,9999,Rue de la Patente,,St Lawrence,Jersey,JE3 1HS
 858,mm.domus.SE126,Fakenham Museum Of Gas & Local History,not-for-profit,independent,small,utilities: gas & electricity,utilities,accredited,Norfolk,East,England,1987,1987,9999,9999,Hempton Road,,,Fakenham,NR21 7LA
 859,mm.domus.SE125,Faraday Museum,not-for-profit,independent,small,science & technology: other,science & technology,accredited,,London,England,1973,1973,9999,9999,The Royal Institution of Great Britain,21 Albermarle Street,"London, City of Westminster",London,W1X 4BS
 860,mm.domus.YH125,Malton Museum,not-for-profit,independent,small,archaeology: mixed,archaeology,accredited,North Yorkshire,Yorks & Humber,England,1982,1982,9999,9999,The Subscription Rooms,Yorkersgate,,Malton,YO17 7AB
@@ -1072,7 +1072,7 @@
 1070,mm.aim82NM.094,Park Farm Museum,unknown governance,unknown governance,small,rural industry: farming,rural industry,unaccredited,Dorset,South West,England,1983,1983,1993,1996,Blandford Road,,,Milton Abbas,DT11 0AX
 1071,mm.aim82NM.097,Repton School Museum,not-for-profit,independent,small,other,other,unaccredited,Derbyshire,East Midlands,England,1970,1975,1985,1985,Repton School,,,Repton,DE65 6FH
 1072,mm.aim82NM.096,The Robertson Museum,not-for-profit,independent,small,natural world: other,natural world,unaccredited,,Scotland,Scotland,1897,1897,9999,9999,Marine Station,,,Millport,KA28 0EG
-1073,mm.aim82NM.091,St Peters Bunker War Museum,private,private,unknown size,war & conflict: bunker,war & conflict,unaccredited,,,England,1965,1965,2000,2000,St. Peters,,,Jersey,JE3 7AF
+1073,mm.aim82NM.091,St Peters Bunker War Museum,private,private,unknown size,war & conflict: bunker,war & conflict,unaccredited,,Channel Islands,Channel Islands,1965,1965,2000,2000,St. Peters,,,Jersey,JE3 7AF
 1074,mm.aim82NM.090,Pennine Farm Museum,local authority,local authority,medium,rural industry: farming,rural industry,unaccredited,,Yorks & Humber,England,1975,1975,1990,1990,2 Old Bank,,,Ripponden,HX6 4DG
 1075,mm.aim82NM.092,Penrith Steam Museum,private,private,small,industry & manufacture: steam & engines,industry & manufacture,unaccredited,Cumbria,North West,England,1974,1974,1994,1994,Castle Gate Foundry,,Castle Gate,Penrith,CA11 7DH
 1076,mm.domus.WA063,South Wales Miners Museum,not-for-profit,independent,medium,industry & manufacture: mining & quarrying,industry & manufacture,accredited,,Wales,Wales,1976,1976,9999,9999,16 Percy Street,Cynonville,,Port Talbot,SA13 3HG
@@ -1382,7 +1382,7 @@
 1380,mm.domus.NW164,Pump House: Peoples History Museum,not-for-profit,independent,medium,other,other,unaccredited,,North West,England,1994,1994,9999,9999,Left Bank,Bridge Street,,Manchester,M3 3ER
 1381,mm.domus.SE103,Royal Norfolk Regimental Museum,not-for-profit,independent,medium,war & conflict: regiment,war & conflict,accredited,Norfolk,East,England,1990,1990,2012,2012,Norwich Castle Museum and Art Gallery,Castle Meadow,,Norwich,NR1 3JU
 1382,mm.aim.1042,The East England Military Museum,not-for-profit,independent,small,war & conflict: military,war & conflict,unaccredited,Suffolk,East,England,2002,2002,9999,9999,Little Heath,,,Barnham,IP24 2SY
-1383,mm.fcm.145,Leece Museum,not-for-profit,independent,unknown size,local histories,local histories,unaccredited,,,England,1984,1984,9999,9999,The Old Courthouse,,East Quay,Peel,IM5 1AR
+1383,mm.fcm.145,Leece Museum,not-for-profit,independent,unknown size,local histories,local histories,unaccredited,,Isle of Man,Isle of Man,1984,1984,9999,9999,The Old Courthouse,,East Quay,Peel,IM5 1AR
 1384,mm.domus.WA053,Newport Museum And Art Gallery,local authority,local authority,large,local histories,local histories,accredited,,Wales,Wales,1888,1888,9999,9999,John Frost Square,,,Newport,NP20 1PA
 1385,mm.musa.075,Carshalton Water Tower,not-for-profit,independent,small,buildings: other,buildings,unaccredited,,London,England,1990,2010,9999,9999,West Street,,,Carshalton,SM5 3PN
 1386,mm.domus.NW166,Seized! The Border And Customs Uncovered,national,national,large,other,other,accredited,,North West,England,1994,1994,9999,9999,Albert Dock,,,Liverpool,L3 4AQ
@@ -1399,22 +1399,22 @@
 1397,mm.domus.NW163,Stott Park Bobbin Mill,English Heritage,independent,medium,industry & manufacture: textiles,industry & manufacture,unaccredited,Cumbria,North West,England,1984,1984,9999,9999,Finsthwaite,,,Ulverston,LA12 8AX
 1398,mm.musa.258,New Lanark Visitor Centre,not-for-profit,independent,large,industry & manufacture: industrial life,industry & manufacture,unaccredited,,Scotland,Scotland,1989,1989,9999,9999,Mill No. 3,New Lanark World Heritage Site,,Lanark,ML11 9DB
 1399,mm.musa.259,Newburn Hall Motor Museum,private,private,small,transport: cars & motorbikes,transport,unaccredited,,North East,England,1979,1979,9999,9999,35 Townfield Gardens,,Newburn,Newcastle-upon-Tyne,NE15 8PY
-1400,mm.domus.NW158,Laxey Wheel And Lead Mines,not-for-profit,independent,medium,industry & manufacture: mining & quarrying,industry & manufacture,unaccredited,,,England,1989,1989,9999,9999,,,,Laxey,IM4 7NL
+1400,mm.domus.NW158,Laxey Wheel And Lead Mines,not-for-profit,independent,medium,industry & manufacture: mining & quarrying,industry & manufacture,unaccredited,,Isle of Man,Isle of Man,1989,1989,9999,9999,,,,Laxey,IM4 7NL
 1401,mm.domus.NE018,Cleveland Crafts Centre,local authority,local authority,medium,arts: fine & decorative arts,arts,unaccredited,,North East,England,1984,1984,2003,2003,57 Gilkes Street,,,Middlesbrough,TS1 5EL
 1402,mm.domus.SE445,The Museum of Methodism and John Wesley's House,not-for-profit,independent,small,belief & identity: religion,belief & identity,accredited,,London,England,1898,1898,9999,9999,Wesleys Chapel and Leysian Centre,49 City Road,,London,EC1Y 1AU
 1403,mm.domus.SE481,Newhaven Museum,not-for-profit,independent,small,local histories,local histories,unaccredited,East Sussex,South East,England,1971,1971,9999,9999,Avis Road,,,Newhaven,BN9 0DH
 1404,mm.domus.NW150,Englesea Brook Chapel & Museum Of Primitive Methodism,not-for-profit,independent,small,belief & identity: religion,belief & identity,accredited,,North West,England,1986,1986,9999,9999,Englesea Brook Lane,Englesea Brook,Weston,Crewe,CW2 5QW
 1405,mm.domus.NW153,"Railway Museum, Ravenglass",not-for-profit,independent,large,transport: trains & railways,transport,accredited,Cumbria,North West,England,1976,1976,9999,9999,The Ravenglass and Eskdale Railway,,,Ravenglass,CA18 1SW
 1406,mm.domus.NE019,Cleveland Gallery,local authority,local authority,medium,arts: glass,arts,unaccredited,,North East,England,1983,1983,1999,1999,Victoria Road,,,Middlesbrough,TS1 3QS
-1407,mm.domus.NW155,Manx Museum,not-for-profit,independent,large,mixed: encyclopaedic,mixed,unaccredited,,,England,1886,1886,9999,9999,,,,Douglas,IM1 3LY
+1407,mm.domus.NW155,Manx Museum,not-for-profit,independent,large,mixed: encyclopaedic,mixed,unaccredited,,Isle of Man,Isle of Man,1886,1886,9999,9999,,,,Douglas,IM1 3LY
 1408,mm.domus.NW005,Museum Of The Manchester Regiment,not-for-profit,independent,medium,war & conflict: regiment,war & conflict,accredited,,North West,England,1987,1987,9999,9999,Ashton Town Hall,Market Place,,Ashton-under-Lyne,OL6 6DL
 1409,mm.domus.NW157,Castle Rushen,not-for-profit,independent,medium,war & conflict: castles & forts,war & conflict,unaccredited,,Isle of Man,Isle of Man,1989,1989,9999,9999,,,,Castletown,IM9 1LD
-1410,mm.domus.NW156,"St Marys Chapel, The Old Grammar School",unknown governance,unknown governance,medium,buildings: school,buildings,unaccredited,,,England,1951,1951,9999,9999,,,,Castletown,IM9 1RE
+1410,mm.domus.NW156,"St Marys Chapel, The Old Grammar School",unknown governance,unknown governance,medium,buildings: school,buildings,unaccredited,,Isle of Man,Isle of Man,1951,1951,9999,9999,,,,Castletown,IM9 1RE
 1411,mm.domus.SE578,Amersham Museum,not-for-profit,independent,small,local histories,local histories,accredited,Buckinghamshire,South East,England,1991,1991,9999,9999,49 High Street,,,Amersham,HP7 0DP
 1412,mm.domus.SE579,Down House,English Heritage,independent,medium,personality: scientific,personality,accredited,,London,England,1929,1929,9999,9999,Down House,Luxted Road,Downe,Orpington,BR6 7JT
 1413,mm.domus.NW004,Portland Basin Museum,local authority,local authority,large,local histories,local histories,accredited,,North West,England,1988,1988,9999,9999,Portland Place,,,Ashton-under-Lyne,OL7 0QA
 1414,mm.domus.SC138,The People's Story,local authority,local authority,large,local histories,local histories,accredited,,Scotland,Scotland,1957,1957,9999,9999,Canongate Tolbooth,163 Canongate,,Edinburgh,EH8 8BN
-1415,mm.aim82M.029,Jersey Motor Museum,unknown governance,unknown governance,unknown size,transport: cars & motorbikes,transport,unaccredited,,,England,1973,1973,2001,2001,La Rue dEglise,,,St. Peter,JE3 7AG
+1415,mm.aim82M.029,Jersey Motor Museum,unknown governance,unknown governance,unknown size,transport: cars & motorbikes,transport,unaccredited,,Channel Islands,Channel Islands,1973,1973,2001,2001,La Rue dEglise,,,St. Peter,JE3 7AG
 1416,mm.aim82M.028,Murrays Motorcycle Museum,private,private,unknown size,transport: cars & motorbikes,transport,unaccredited,,Isle of Man,Isle of Man,1958,1958,9999,9999,Santon Villa,,,Santon,IM4 1EN
 1417,mm.aim82M.027,Military Heritage Museum,unknown governance,unknown governance,small,war & conflict: military,war & conflict,unaccredited,East Sussex,South East,England,1977,1977,1984,1984,Regency House,1 Albion House,,Lewes,BN7 2ND
 1418,mm.domus.NW003,Astley Cheetham Art Gallery,local authority,local authority,small,arts: fine & decorative arts,arts,accredited,,North West,England,1932,1932,9999,9999,Trinity Street,,,Stalybridge,SK15 2BN
@@ -1434,7 +1434,7 @@
 1432,mm.fcm.190,Norfolk Motorcycle Museum,not-for-profit,independent,small,transport: cars & motorbikes,transport,unaccredited,Norfolk,East,England,1993,1993,9999,9999,Rail Yard,,,North Walsham,NR28 0DS
 1433,mm.fcm.191,Norfolk Tank Museum,private,private,small,war & conflict: military,war & conflict,unaccredited,Norfolk,East,England,2011,2011,9999,9999,Station Road,,Forncett St Peter,Norwich,NR16 1HZ
 1434,mm.aim.0994,The Bellfoundry Museum,not-for-profit,independent,small,industry & manufacture: metals,industry & manufacture,unaccredited,Leicestershire,East Midlands,England,1986,1986,9999,9999,Freehold Street,,,Loughborough,LE11 1AR
-1435,mm.fcm.197,Pallot Steam And Motor Museum,not-for-profit,independent,unknown size,industry & manufacture: steam & engines,industry & manufacture,unaccredited,,,England,1990,1990,9999,9999,Rue de Bechet,,,Trinity,JE3 5BE
+1435,mm.fcm.197,Pallot Steam And Motor Museum,not-for-profit,independent,unknown size,industry & manufacture: steam & engines,industry & manufacture,unaccredited,,Channel Islands,Channel Islands,1990,1990,9999,9999,Rue de Bechet,,,Trinity,JE3 5BE
 1436,mm.domus.SE563,Bressingham Steam Museum,not-for-profit,independent,medium,transport: trains & railways,transport,accredited,Norfolk,East,England,1963,1963,9999,9999,Bressingham,,,Diss,IP22 2AB
 1437,mm.domus.SE562,The Gurkha Museum,not-for-profit,independent,medium,war & conflict: regiment,war & conflict,accredited,Hampshire,South East,England,1990,1990,9999,9999,Peninsula Barracks,Romsey Road,,Winchester,SO23 8TS
 1438,mm.ace.135,Lancaster Maritime Museum,local authority,local authority,medium,sea & seafaring: mixed,sea & seafaring,accredited,Lancashire,North West,England,1985,1985,9999,9999,Custom House,St. Georges Quay,,Lancaster,LA1 1RB
@@ -1790,10 +1790,10 @@
 1788,mm.ace.1125,The Pen Museum,not-for-profit,independent,medium,industry & manufacture: other,industry & manufacture,accredited,,West Midlands,England,2001,2001,9999,9999,Unit 3 The Argent Centre,60 Frederick Street,Hockley,Birmingham,B1 3HS
 1789,mm.domus.NW188,British Commercial Vehicle Museum,not-for-profit,independent,small,transport: mixed,transport,accredited,Lancashire,North West,England,1986,1986,9999,9999,King Street,Leyland,,Preston,PR25 2LE
 1790,mm.domus.NW189,Tameside Central Art Gallery,local authority,local authority,medium,arts: fine & decorative arts,arts,accredited,,North West,England,1998,1998,9999,9999,Tameside Central Library & Art Gallery,Old Street,,Ashton-under-Lyne,OL6 7SG
-1791,mm.domus.NW186,Cregneash Village Folk Museum,not-for-profit,independent,medium,rural industry: rural life,rural industry,unaccredited,,,England,1938,1938,9999,9999,,,,Cregneash,IM9 5PX
+1791,mm.domus.NW186,Cregneash Village Folk Museum,not-for-profit,independent,medium,rural industry: rural life,rural industry,unaccredited,,Isle of Man,Isle of Man,1938,1938,9999,9999,,,,Cregneash,IM9 5PX
 1792,mm.domus.NW187,Quaker Tapestry Museum,not-for-profit,independent,small,belief & identity: religion,belief & identity,accredited,Cumbria,North West,England,1994,1994,9999,9999,Friends Meeting House,Stramongate,,Kendal,LA9 4BH
-1793,mm.domus.NW184,Nautical Museum,not-for-profit,independent,small,sea & seafaring: mixed,sea & seafaring,unaccredited,,,England,1951,1951,9999,9999,Bridge Street,,,Castletown,IM9 1AX
-1794,mm.domus.NW185,Grove Rural Life Museum,not-for-profit,independent,small,buildings: houses (medium),buildings,unaccredited,,,England,1978,1978,9999,9999,Andreas Road,,,Ramsey,IM8 3UA
+1793,mm.domus.NW184,Nautical Museum,not-for-profit,independent,small,sea & seafaring: mixed,sea & seafaring,unaccredited,,Isle of Man,Isle of Man,1951,1951,9999,9999,Bridge Street,,,Castletown,IM9 1AX
+1794,mm.domus.NW185,Grove Rural Life Museum,not-for-profit,independent,small,buildings: houses (medium),buildings,unaccredited,,Isle of Man,Isle of Man,1978,1978,9999,9999,Andreas Road,,,Ramsey,IM8 3UA
 1795,mm.domus.NW182,National Football Museum,not-for-profit,independent,large,leisure & sport: rugby & football,leisure & sport,accredited,,North West,England,2001,2001,9999,9999,Urbis Building,Cathedral Gardens,,Manchester,M4 3BG
 1796,mm.domus.NW183,Helmshore Mills Textile Museum (Higher Mill),local authority,local authority,medium,industry & manufacture: textiles,industry & manufacture,accredited,Lancashire,North West,England,1983,1983,9999,9999,Holcombe Road,,,Rossendale,BB4 4NP
 1797,mm.domus.NW180,Tatton Park,National Trust,independent,large,buildings: houses (large),buildings,accredited,,North West,England,1960,1960,9999,9999,Tatton Park,,,Knutsford,WA16 6QN
@@ -1804,7 +1804,7 @@
 1802,mm.mgs.350,Scottish Vintage Bus Museum,not-for-profit,independent,small,transport: buses & trams,transport,unaccredited,,Scotland,Scotland,1985,1985,9999,9999,M90 Commerce Park,Lathalmond,,Dunfermline,KY12 0SJ
 1803,mm.domus.EM020,"Museum of Costume & Textiles, Nottingham",local authority,local authority,medium,arts: costume & textiles,arts,unaccredited,,East Midlands,England,1976,1976,2003,2003,51 Castle Gate,,,Nottingham,NG1 6AF
 1804,mm.fcm.221,Scalloway Museum,not-for-profit,independent,small,local histories,local histories,unaccredited,,Scotland,Scotland,2006,2006,9999,9999,Scalloway,,,Shetland,ZE1 0UL
-1805,mm.domus.SE571,Jersey Maritime Museum,not-for-profit,independent,unknown size,sea & seafaring: mixed,sea & seafaring,unaccredited,,,England,1960,2017,9999,9999,New North Quay,,,St Helier,JE2 3ND
+1805,mm.domus.SE571,Jersey Maritime Museum,not-for-profit,independent,unknown size,sea & seafaring: mixed,sea & seafaring,unaccredited,,Channel Islands,Channel Islands,1960,2017,9999,9999,New North Quay,,,St Helier,JE2 3ND
 1806,mm.misc.257,Clockworks Museum,not-for-profit,independent,unknown size,industry & manufacture: clocks & watches,industry & manufacture,unaccredited,,London,England,2012,2012,9999,9999,6 Nettlefold Place,,,London,SE27 0JW
 1807,mm.domus.SE243,Crystal Palace Museum,not-for-profit,independent,small,buildings: other,buildings,accredited,,London,England,1990,1990,9999,9999,Anerley Hill,,Crystal Palace,London,SE19 2BA
 1808,mm.domus.NE045,North East Bus Museum,unknown governance,unknown governance,small,transport: buses & trams,transport,unaccredited,,North East,England,1986,1986,1987,2017,Leam Lane,Wardley,,Gateshead,NE10 8YY
@@ -2093,8 +2093,8 @@
 2091,mm.domus.NW147,Garstang Museum Of Archaeology,university,university,small,archaeology: greek & egyptian,archaeology,accredited,,North West,England,1904,1904,9999,9999,3 Abercromby Square,,,Liverpool,L69 7WZ
 2092,mm.domus.YH147,National Cycle Museum,not-for-profit,independent,small,transport: bicycles,transport,unaccredited,Lincolnshire,East Midlands,England,1979,1979,1996,1997,Brayford Wharf,,,Lincoln,LN1 1YW
 2093,mm.domus.NW144,"Whitworth Art Gallery, University Of Manchester",university,university,large,arts: fine & decorative arts,arts,accredited,,North West,England,1889,1889,9999,9999,University of Manchester,Oxford Road,,Manchester,M15 6ER
-2094,mm.domus.NW195,Rushen Abbey,local authority,local authority,unknown size,belief & identity: religious buildings,belief & identity,unaccredited,,,England,2000,2000,9999,9999,Rushen Abbey,,,Ballasalla,IM1 3LY
-2095,mm.domus.NW194,House Of Manannan,not-for-profit,independent,unknown size,local histories,local histories,unaccredited,,,England,1997,1997,9999,9999,Kingwood Grove,,,Douglas,IM1 3LY
+2094,mm.domus.NW195,Rushen Abbey,local authority,local authority,unknown size,belief & identity: religious buildings,belief & identity,unaccredited,,Isle of Man,Isle of Man,2000,2000,9999,9999,Rushen Abbey,,,Ballasalla,IM1 3LY
+2095,mm.domus.NW194,House Of Manannan,not-for-profit,independent,unknown size,local histories,local histories,unaccredited,,Isle of Man,Isle of Man,1997,1997,9999,9999,Kingwood Grove,,,Douglas,IM1 3LY
 2096,mm.domus.NW145,The Manchester Museum,university,university,large,mixed: encyclopaedic,mixed,accredited,,North West,England,1867,1867,9999,9999,University of Manchester,Oxford Road,,Manchester,M13 9PL
 2097,mm.domus.NW191,Hat Works Museum,local authority,local authority,medium,industry & manufacture: textiles,industry & manufacture,accredited,,North West,England,2000,2000,9999,9999,Wellington Mill,Wellington Road South,,Stockport,SK3 0EU
 2098,mm.domus.NW190,Haig Colliery Mining Museum,not-for-profit,independent,small,industry & manufacture: mining & quarrying,industry & manufacture,unaccredited,Cumbria,North West,England,1999,1999,2016,2016,Solway Road,Kells,,Whitehaven,CA28 9BG
@@ -2123,7 +2123,7 @@
 2121,mm.domus.YH149,Royal Armouries (Leeds),national,national,large,war & conflict: other,war & conflict,accredited,,Yorks & Humber,England,1996,1996,9999,9999,Armouries Drive,,,Leeds,LS10 1LT
 2122,mm.mald.072,Llangollen Motor Museum,private,private,small,transport: cars & motorbikes,transport,unaccredited,,Wales,Wales,1986,1986,9999,9999,Pentre Felin,,,Llangollen,LL20 8EE
 2123,mm.mald.071,Llanchaeron,National Trust,independent,medium,buildings: houses (large),buildings,accredited,,Wales,Wales,1960,2017,9999,9999,Ciliau Aeron,,,Aberaeron,SA48 8DG
-2124,mm.fcm.158,Manx Aviation And Military Museum,not-for-profit,independent,unknown size,mixed: other,mixed,unaccredited,,,England,2000,2000,9999,9999,Ronaldsway Airport,,,Malew,IM9 2AT
+2124,mm.fcm.158,Manx Aviation And Military Museum,not-for-profit,independent,unknown size,mixed: other,mixed,unaccredited,,Isle of Man,Isle of Man,2000,2000,9999,9999,Ronaldsway Airport,,,Malew,IM9 2AT
 2125,mm.fcm.154,Lurgan History Museum,private,private,small,war & conflict: other,war & conflict,unaccredited,,Northern Ireland,Northern Ireland,2000,2000,2018,2018,,,,Lurgan,BT66 6AS
 2126,mm.fcm.155,The Mad Museum,private,private,small,leisure & sport: toys & models,leisure & sport,unaccredited,Warwickshire,West Midlands,England,2012,2012,9999,9999,4 Henley Street,,,Stratford-upon-Avon,CV37 6PT
 2127,mm.mald.062,Howell Harris Museum,not-for-profit,independent,small,personality: religious,personality,unaccredited,,Wales,Wales,1972,1972,9999,9999,Coleg Trefeca,College Lane,Trefeca,Brecon,LD3 0PP
@@ -2567,7 +2567,7 @@
 2565,mm.domus.NW115,The Fusilier Museum,not-for-profit,independent,small,war & conflict: regiment,war & conflict,accredited,,North West,England,1934,1934,9999,9999,Moss Street,,,Bury,BL9 0DF
 2566,mm.misc.241,Museum 4 Watton,not-for-profit,independent,unknown size,local histories,local histories,unaccredited,Norfolk,East,England,2018,2018,9999,9999,Wayland Hall,Middle Street,Watton,Thetford,IP25 6AG
 2567,mm.New.305,Ayr Through the Ages - The Heritage Hub,local authority,local authority,small,local histories,local histories,unaccredited,,Scotland,Scotland,2022,2022,9999,9999,1-3 High Street,,,Ayr,KA7 1LU
-2568,mm.aim.1068,The Guernsey Tapestry,not-for-profit,independent,small,arts: costume & textiles,arts,unaccredited,,,England,2002,2002,9999,9999,St James,College Street,,St Peter Port,GY1 2NZ
+2568,mm.aim.1068,The Guernsey Tapestry,not-for-profit,independent,small,arts: costume & textiles,arts,unaccredited,,Channel Islands,Channel Islands,2002,2002,9999,9999,St James,College Street,,St Peter Port,GY1 2NZ
 2569,mm.misc.217,251 Menlove Avenue,National Trust,independent,unknown size,personality: music,personality,unaccredited,,North West,England,2003,2003,9999,9999,,,,Liverpool,L25 7SA
 2570,mm.aim.1063,Golden Hinde Ii,not-for-profit,independent,medium,sea & seafaring: boats & ships,sea & seafaring,unaccredited,,London,England,1996,1996,9999,9999,Units 1 & 2,Pickford Wharf,Clink Street,London,SE1 9DG
 2571,mm.domus.EM100,Museum Of Entertainment,private,private,small,arts: music,arts,unaccredited,Lincolnshire,East Midlands,England,1979,1979,2005,2005,Millgate,Whaplode St Catherines,,Spalding,PE12 6SF
@@ -2614,7 +2614,7 @@
 2612,mm.domus.YH011,Bagshaw Museum,local authority,local authority,medium,mixed: encyclopaedic,mixed,accredited,,Yorks & Humber,England,1911,1911,9999,9999,Wilton Park,,,Batley,WF17 0AS
 2613,mm.musa.186,John King Workshop Museum,unknown governance,unknown governance,small,local histories,local histories,unaccredited,Derbyshire,East Midlands,England,1945,2017,1945,2017,Victoria Road,,,Pinxton,NG16 6LR
 2614,mm.musa.184,John Gray Centre Museum,local authority,local authority,small,local histories,local histories,unaccredited,,Scotland,Scotland,2012,2012,9999,9999,15 Lodge Street,,,Haddington,EH41 3DX
-2615,mm.musa.182,Jersey War Tunnels,private,private,unknown size,war & conflict: other,war & conflict,unaccredited,,,England,1960,2017,9999,9999,Les Charrieres de Malorey,,,St Lawrence,JE3 1FU
+2615,mm.musa.182,Jersey War Tunnels,private,private,unknown size,war & conflict: other,war & conflict,unaccredited,,Channel Islands,Channel Islands,1960,2017,9999,9999,Les Charrieres de Malorey,,,St Lawrence,JE3 1FU
 2616,mm.musa.183,Hastings Contemporary ,local authority,local authority,small,arts: fine & decorative arts,arts,unaccredited,East Sussex,South East,England,2012,2012,9999,9999,Rock-a-Nore,,,Hastings,TN34 3DW
 2617,mm.musa.180,Iona Heritage Centre,not-for-profit,independent,small,local histories,local histories,unaccredited,,Scotland,Scotland,1990,1990,9999,9999,,,,Isle of Iona,PA76 6SJ
 2618,mm.musa.188,Kempton Steam Museum,not-for-profit,independent,small,utilities: water & waste,utilities,unaccredited,,London,England,1995,1995,9999,9999,Kempton Park Waterworks,,Snakey Lane,Hanworth,TW13 6XH
@@ -2692,7 +2692,7 @@
 2690,mm.musa.163,Harwich Lifeboat Museum,not-for-profit,independent,small,services: rnli,services,unaccredited,Essex,East,England,1994,1994,9999,9999,Timberfields,,off Wellington Road,Harwich,CO12 3DT
 2691,mm.musa.164,Harwich Maritime Museum,not-for-profit,independent,small,sea & seafaring: mixed,sea & seafaring,unaccredited,Essex,East,England,1980,1980,9999,9999,Low Lighthouse,,Harbour Crescent,Harwich,CO12 3NL
 2692,mm.musa.165,Harwich Redoubt Fort,not-for-profit,independent,small,war & conflict: castles & forts,war & conflict,unaccredited,Essex,East,England,1969,1969,9999,9999,behind 29 Main Road,,,Harwich,CO12 3LT
-2693,mm.musa.166,Hauteville House - Victor Hugos House Of Exile,local authority,local authority,medium,personality: literary,personality,unaccredited,,,England,1927,1927,9999,9999,38 Hauteville,,St. Peter Port,Guernsey,GY1 1DG
+2693,mm.musa.166,Hauteville House - Victor Hugos House Of Exile,local authority,local authority,medium,personality: literary,personality,unaccredited,,Channel Islands,Channel Islands,1927,1927,9999,9999,38 Hauteville,,St. Peter Port,Guernsey,GY1 1DG
 2694,mm.ace.1211,St Bartholomews Hospital Museum,not-for-profit,independent,small,medicine & health: hospital,medicine & health,accredited,,London,England,1997,1997,9999,9999,North Wing,St. Bartholomews Hospital,,London,EC1A 7BE
 2695,mm.mald.014,Blaenavon Community Museum,not-for-profit,independent,small,local histories,local histories,accredited,,Wales,Wales,2002,2002,9999,9999,Workingmens Hall,High Street,,Blaenavon,NP4 9PT
 2696,mm.mald.015,Blaina Heritage Museum,not-for-profit,independent,small,local histories,local histories,accredited,,Wales,Wales,2007,2007,9999,9999,High Street,,Blaina,Abertillery,NP13 3BN
@@ -2734,7 +2734,7 @@
 2732,mm.domus.WM057,The Firs: Elgars Birthplace,National Trust,independent,small,personality: music,personality,accredited,Worcestershire,West Midlands,England,1934,1934,9999,9999,Crown East Lane,Lower Broadheath,,Worcester,WR2 6RH
 2733,mm.aim.1036,De Morgan Museum,not-for-profit,independent,small,arts: fine & decorative arts,arts,accredited,,Yorks & Humber,England,2002,2002,9999,9999,Cannon Hall Museum,Bark House Lane ,Cawthorne,Barnsley,S75 4AT
 2734,mm.fcm.041,Castle Point Transport Museum,not-for-profit,independent,small,transport: mixed,transport,unaccredited,Essex,East,England,1979,1979,9999,9999,105 Point Road,,,Canvey Island,SS8 7TD
-2735,mm.fcm.045,Channel Islands Military Museum,not-for-profit,independent,medium,war & conflict: military,war & conflict,unaccredited,,,England,1989,1989,9999,9999,La Grande Route des Mielles,,St. Ouen,Jersey,JE3 2FN
+2735,mm.fcm.045,Channel Islands Military Museum,not-for-profit,independent,medium,war & conflict: military,war & conflict,unaccredited,,Channel Islands,Channel Islands,1989,1989,9999,9999,La Grande Route des Mielles,,St. Ouen,Jersey,JE3 2FN
 2736,mm.domus.WA040,Ynysfach Engine House,local authority,local authority,small,industry & manufacture: metals,industry & manufacture,unaccredited,,Wales,Wales,1989,1989,2017,2017,Ynysfach (No i),Ynysfach Road,,Merthyr Tydfil,CF48 1AR
 2737,mm.misc.035,King Richard III House,private,private,small,personality: other,personality,unaccredited,North Yorkshire,Yorks & Humber,England,1919,1919,1964,1964,23-24 Sandside,,,Scarborough,YO11 1PE
 2738,mm.misc.036,Sudbury Museum,unknown governance,unknown governance,small,buildings: houses (large),buildings,unaccredited,Suffolk,East,England,1974,1974,1985,1985,Sudbury Station,,,Sudbury,CO10 2RD
@@ -3176,7 +3176,7 @@
 3174,mm.wiki.079,Colyton Heritage Centre,not-for-profit,independent,small,local histories,local histories,unaccredited,Devon,South West,England,2014,2014,9999,9999,Mechants House,,Market Place,Colyton,EX24 6JR
 3175,mm.domus.NW176,Sizergh Castle,National Trust,independent,large,buildings: houses (large),buildings,unaccredited,Cumbria,North West,England,1950,1950,9999,9999,Sizergh,,,near Kendal,LA8 8AE
 3176,mm.New.307,National Fairground Museum,not-for-profit,independent,medium,leisure & sport: fairgrounds & amusements,leisure & sport,unaccredited,Staffordshire,West Midlands,England,2025,2025,9999,9999,Ashby Road,,,Tamworth,B79 0BU
-3177,mm.aim.0478,Isle Of Man Motor Museum,private,private,small,transport: cars & motorbikes,transport,unaccredited,,,England,2015,2015,9999,9999,Jurby Industrial Estate,,,Jurby,IM7 3BD
+3177,mm.aim.0478,Isle Of Man Motor Museum,private,private,small,transport: cars & motorbikes,transport,unaccredited,,Isle of Man,Isle of Man,2015,2015,9999,9999,Jurby Industrial Estate,,,Jurby,IM7 3BD
 3178,mm.New.306,East Antrim Battalion Heritage Society Boys' Brigade Museum,not-for-profit,independent,small,belief & identity: religion,belief & identity,unaccredited,,Northern Ireland,Northern Ireland,2023,2023,9999,9999,13 North Street,,,Carrickfergus,BT38 7AQ
 3179,mm.domus.NE008,Preston Park Museum And Grounds,local authority,local authority,large,mixed: other,mixed,accredited,,North East,England,1953,1953,9999,9999,Preston Hall Museum,Yarm Road,,Stockton-on-Tees,TS18 3RH
 3180,mm.domus.SE453,Royal Marines Museum,other government,other government,medium,war & conflict: navy,war & conflict,accredited,,South East,England,1958,1958,2017,2017,Royal Marines Museum,,,Southsea,PO4 9PX
@@ -4111,7 +4111,7 @@
 4109,mm.domus.SE455,Ifield Watermill,local authority,local authority,small,rural industry: watermills,rural industry,unaccredited,West Sussex,South East,England,1974,1974,9999,9999,Hyde Drive,Ifield,,Crawley,RH11 0PL
 4110,mm.domus.SE454,Crawley Museum Centre,not-for-profit,independent,small,local histories,local histories,accredited,West Sussex,South East,England,1992,1992,9999,9999,The Tree,103 High St,,Crawley,RH10 1GE
 4111,mm.aim82NM.051,Gloucester Transport Museum,local authority,local authority,medium,transport: mixed,transport,unaccredited,Gloucestershire,South West,England,1977,1977,2004,2004,Bearland,,,Gloucester,GL1 2JD
-4112,mm.aim82NM.050,Fenton Photographic Museum,private,private,unknown size,arts: photography,arts,unaccredited,,,England,1978,1978,1986,1986,The Strand,,,Port Erin,IM9 6HD
+4112,mm.aim82NM.050,Fenton Photographic Museum,private,private,unknown size,arts: photography,arts,unaccredited,,Isle of Man,Isle of Man,1978,1978,1986,1986,The Strand,,,Port Erin,IM9 6HD
 4113,mm.aim82NM.053,Clannaborough Farm Museum,private,private,small,rural industry: farming,rural industry,unaccredited,Devon,South West,England,1966,1966,1981,1981,Throwleigh,,,Okehampton,EX20 2QF
 4114,mm.aim82NM.052,Graemeshall Museum,private,private,small,arts: other,arts,unaccredited,,Scotland,Scotland,1960,1982,2006,2006,Holm,,,Kirkwall,KW17 2RX
 4115,mm.aim82NM.055,Chipping Camden Car Collection,private,private,small,transport: cars & motorbikes,transport,unaccredited,Gloucestershire,South West,England,1960,1964,1980,1984,Bedfont House,,High Street,Chipping Camden,GL55 6HB

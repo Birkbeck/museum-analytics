@@ -58,7 +58,13 @@ def subject_broad_map(subject):
     return subject_map(subject).split(":")[0]
 
 
-def country_map(region):
+def country_map(row):
+    region = row["Region_country"]
+    postcode = row["Postcode"]
+    if postcode[:2] in ("GY", "JE"):
+        return "Channel Islands"
+    if postcode[:2] in ("IM"):
+        return "Isle of Man"
     if region not in (
         "Channel Islands",
         "Isle of Man",
@@ -70,7 +76,13 @@ def country_map(region):
     return region
 
 
-def region_map(region):
+def region_map(row):
+    region = row["Region_country"]
+    postcode = row["Postcode"]
+    if postcode[:2] in ("GY", "JE"):
+        return "Channel Islands"
+    if postcode[:2] in ("IM"):
+        return "Isle of Man"
     if region == "Yorkshire and The Humber":
         return "Yorks & Humber"
     return region
@@ -114,8 +126,8 @@ if __name__ == "__main__":
             "english_county": mapping_museums_data["Admin_area"].map(
                 english_county_map
             ),
-            "region": mapping_museums_data["Region_country"].map(region_map),
-            "country": mapping_museums_data["Region_country"].map(country_map),
+            "region": mapping_museums_data.apply(region_map, axis=1),
+            "country": mapping_museums_data.apply(country_map, axis=1),
             "year_opened_1": mapping_museums_data["Year_opened"].map(
                 lambda x: x.split(":")[0]
             ),
