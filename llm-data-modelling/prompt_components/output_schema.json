@@ -1,0 +1,35 @@
+{
+    "entities": [
+        {
+            "name": "...",
+            "properties": [
+                {"name": "...", "data_type": "..."},
+                ...
+            ]
+        },
+        ...
+    ],
+    "relations": [
+        {
+            "name": "...",
+            "source": entity_type,
+            "target": entity_type,
+            "properties": [
+                {"name": "...", "data_type": "..."},
+                ...
+            ]
+        },
+        ...
+    ],
+    "enumerated_types": [
+        {
+            "name": "...",
+            "values": [
+                "..."
+            ]
+        },
+        ...
+    ]
+}
+
+

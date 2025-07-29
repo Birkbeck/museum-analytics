@@ -1,0 +1,260 @@
+{
+  "entities": [
+    {
+      "name": "Museum",
+      "properties": [
+        {
+          "name": "Name",
+          "data_type": "string"
+        },
+        {
+          "name": "Address",
+          "data_type": "string"
+        },
+        {
+          "name": "Status",
+          "data_type": "enumerated type"
+        },
+        {
+          "name": "Current use",
+          "data_type": "string"
+        },
+        {
+          "name": "Previous use",
+          "data_type": "string"
+        },
+        {
+          "name": "Ownership",
+          "data_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Building",
+      "properties": [
+        {
+          "name": "Name",
+          "data_type": "string"
+        },
+        {
+          "name": "Address",
+          "data_type": "string"
+        },
+        {
+          "name": "Status",
+          "data_type": "enumerated type"
+        },
+        {
+          "name": "Current use",
+          "data_type": "string"
+        },
+        {
+          "name": "Previous use",
+          "data_type": "string"
+        },
+        {
+          "name": "Ownership",
+          "data_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Event",
+      "properties": [
+        {
+          "name": "Date",
+          "data_type": "Extended Date/Time"
+        },
+        {
+          "name": "Description",
+          "data_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Actor",
+      "properties": [
+        {
+          "name": "Name",
+          "data_type": "string"
+        },
+        {
+          "name": "Type",
+          "data_type": "string"
+        }
+      ]
+    },
+    {
+      "name": "CollectionOrObject",
+      "properties": [
+        {
+          "name": "Description",
+          "data_type": "string"
+        },
+        {
+          "name": "Status",
+          "data_type": "enumerated type"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "name": "LOCATED_IN",
+      "source": "Museum",
+      "target": "Building",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "Current_use",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "Previous_use",
+      "properties": []
+    },
+    {
+      "name": "OWNED_BY",
+      "source": "Building",
+      "target": "Ownership",
+      "properties": []
+    },
+    {
+      "name": "INSTANCE_OF",
+      "source": "Event",
+      "target": "EventType",
+      "properties": []
+    },
+    {
+      "name": "SUB_TYPE_OF",
+      "source": "EventType",
+      "target": "EventType",
+      "properties": []
+    },
+    {
+      "name": "SUB_TYPE_OF",
+      "source": "Actor",
+      "target": "ActorType",
+      "properties": []
+    },
+    {
+      "name": "CONCERNS",
+      "source": "Event",
+      "target": "Actor",
+      "properties": []
+    },
+    {
+      "name": "IS_SUB_EVENT_OF",
+      "source": "Event",
+      "target": "Event",
+      "properties": []
+    },
+    {
+      "name": "PRECEDES",
+      "source": "Event",
+      "target": "Event",
+      "properties": []
+    },
+    {
+      "name": "HAS_SENDER",
+      "source": "Event",
+      "target": "Actor",
+      "properties": []
+    },
+    {
+      "name": "HAS_RECIPIENT",
+      "source": "Event",
+      "target": "Actor",
+      "properties": []
+    },
+    {
+      "name": "INVOLVES",
+      "source": "Event",
+      "target": "CollectionOrObject",
+      "properties": []
+    },
+    {
+      "name": "CONTAINS",
+      "source": "CollectionOrObject",
+      "target": "CollectionOrObject",
+      "properties": []
+    },
+    {
+      "name": "WAS_MERGED_INTO",
+      "source": "CollectionOrObject",
+      "target": "CollectionOrObject",
+      "properties": []
+    },
+    {
+      "name": "WAS_REMOVED_FROM",
+      "source": "CollectionOrObject",
+      "target": "CollectionOrObject",
+      "properties": []
+    },
+    {
+      "name": "HAS_BUILDING",
+      "source": "Museum",
+      "target": "Building",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "Museum",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "Event",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "Actor",
+      "properties": []
+    },
+    {
+      "name": "USED_AS",
+      "source": "Building",
+      "target": "CollectionOrObject",
+      "properties": []
+    }
+  ],
+  "enumerated_types": [
+    {
+      "name": "Status",
+      "values": [
+        "open",
+        "closed",
+        "redeveloped",
+        "sold",
+        "converted"
+      ]
+    },
+    {
+      "name": "Type",
+      "values": [
+        "charity",
+        "university",
+        "private",
+        "public",
+        "other"
+      ]
+    },
+    {
+      "name": "Degree_of_uncertainty",
+      "values": [
+        "certain",
+        "?+",
+        "?",
+        "?-"
+      ]
+    }
+  ]
+}

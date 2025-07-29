@@ -1,0 +1,171 @@
+{
+    "entites": [
+	{
+	    "name": "EventType",
+	    "properties": [
+		{"name": "Name", "data_type": "string"}
+	    ]
+	},
+	{
+	    "name": "ActorType",
+	    "properties": [
+		{"name": "Name", "data_type": "string"}
+	    ]
+	},
+	{
+	    "name": "SuperEvent",
+	    "properties": [
+		{"name": "Date", "data_type": "Extended Date/Time"}
+	    ]
+	},
+	{
+	    "name": "Event",
+	    "properties": [
+		{"name": "Date", "data_type": "Extended Date/Time"},
+		{"name": "Date from", "data_type": "Extended Date/Time"},
+		{"name": "Date to", "data_type": "Extended Date/Time"}
+	    ]
+	},
+	{
+	    "name": "Actor",
+	    "properties": [
+		{"name": "Quantity", "data_type": "union(int, 'many')"},
+		{"name": "Sector", "data_type": "enumerated type"}
+	    ]
+	},
+	{
+	    "name": "CollectionOrObject",
+	    "properties": [
+		{"name": "Description", "data_type": "string"},
+		{"name": "Status", "data_type": "enumerated type"}
+	    ]
+	}
+    ],
+
+    "relations": [
+	{
+	    "name": "INSTANCE_OF",
+	    "source": "Event",
+	    "target": "EventType",
+	    "properties": [
+		{"name": "Degree_of_uncertainty", "data_type": "enumerated type"}
+	    ]
+	},
+	{
+	    "name": "INSTANCE_OF",
+	    "source": "Actor",
+	    "target": "ActorType",
+	    "properties": [
+		{"name": "Degree_of_uncertainty", "data_type": "enumerated type"}
+	    ]
+	},
+	{
+	    "name": "SUB_TYPE_OF",
+	    "source": "EventType",
+	    "target": "EventType",
+	    "properties": []
+	},
+	{
+	    "name": "SUB_TYPE_OF",
+	    "source": "ActorType",
+	    "target": "ActorType",
+	    "properties": []
+	},
+	{
+	    "name": "CONCERNS",
+	    "source": "SuperEvent",
+	    "target": "Actor",
+	    "properties": []
+	},
+	{
+	    "name": "IS_SUB_EVENT_OF",
+	    "source": "Event",
+	    "target": "SuperEvent",
+	    "properties": []
+	},
+	{
+	    "name": "PRECEDES",
+	    "source": "Event",
+	    "target": "Event",
+	    "properties": []
+	},
+	{
+	    "name": "HAS_SENDER",
+	    "source": "Event",
+	    "target": "Actor",
+	    "properties": []
+	},
+	{
+	    "name": "HAS_RECIPIENT",
+	    "source": "Event",
+	    "target": "Actor",
+	    "properties": []
+	},
+	{
+	    "name": "INVOLVES",
+	    "source": "Event",
+	    "target": "CollectionOrObject",
+	    "properties": []
+	},
+	{
+	    "name": "CONTAINS",
+	    "source": "CollectionOrObject",
+	    "target": "CollectionOrObject",
+	    "properties": []
+	},
+	{
+	    "name": "WAS_MERGED_INTO",
+	    "source": "CollectionOrObject",
+	    "target": "CollectionOrObject",
+	    "properties": []
+	},
+	{
+	    "name": "WAS_REMOVED_FROM",
+	    "source": "CollectionOrObject",
+	    "target": "CollectionOrObject",
+	    "properties": []
+	}
+    ],
+
+    "enumerated_types": [
+	{
+	    "name": "Sector",
+	    "values": [
+		"public",
+		"private",
+		"third",
+		"university",
+		"hybrid",
+		"other"
+	    ]
+	},
+	{
+	    "name": "Status",
+	    "values": [
+		"collection",
+		"loans",
+		"handling objects",
+		"furniture"
+	    ]
+	},
+	{
+	    "name": "Sector",
+	    "values": [
+		"few",
+		"some",
+		"half",
+		"most",
+		"all"
+	    ]
+	},
+	{
+	    "name": "Degree_of_uncertainty",
+	    "values": [
+		"certain",
+		"?+",
+		"?",
+		"?-"
+	    ]
+	}
+    ]
+}
