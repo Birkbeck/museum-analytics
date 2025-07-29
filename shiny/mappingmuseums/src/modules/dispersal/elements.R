@@ -435,6 +435,7 @@ remove_sequence_middle <- function(events_data, grouping_dimension, museum_group
       sender_type=initial_museum_type,
       sender_core_type=initial_museum_core_type,
       sender_sector=initial_museum_sector,
+      sender_all=initial_museum_all,
       sender_size=initial_museum_size,
       sender_governance=initial_museum_governance,
       sender_governance_broad=initial_museum_governance_broad,
@@ -815,13 +816,6 @@ merge_from_and_to_nodes <- function(from_nodes, to_nodes) {
 }
 
 get_edges <- function(sequences, nodes) {
-  museum_sizes = c(
-    "huge"=3e6,
-    "large"=5e5,
-    "medium"=3e4,
-    "small"=5e3,
-    "unknown"=5e3
-  )
   count_edges <- sequences |>
     mutate(
       size_mid = ifelse(is.na(collection_estimated_size), 1, collection_estimated_size),
@@ -841,12 +835,19 @@ get_edges <- function(sequences, nodes) {
     mutate(label=count)
   edges <- sequences |>
     mutate(
+      initial_museum_size_numerical = case_when(
+        initial_museum_size == "huge" ~ 3e6,
+        initial_museum_size == "large" ~ 5e5,
+        initial_museum_size == "medium" ~ 3e4,
+        TRUE ~ 5e3
+      ),
       size_mid = ifelse(is.na(collection_estimated_size), 1, collection_estimated_size),
       size_max = ifelse(is.na(collection_estimated_size_max), 1, collection_estimated_size_max),
       size_min = ifelse(is.na(collection_estimated_size_min), 1, collection_estimated_size_min)
     ) |>
     group_by(
       sender_id,
+      sender_name,
       from,
       to,
       sender_group,
@@ -857,10 +858,11 @@ get_edges <- function(sequences, nodes) {
     summarize(
       # this initial summing of transaction sizes is from each individual sender to each recipient type
       # the sums must not add up to more than 100% of the initial museum.
-      transaction_total_size_mid = min(sum(size_mid), museum_sizes[initial_museum_size]),
-      transaction_total_size_max = min(sum(size_max), museum_sizes[initial_museum_size]),
-      transaction_total_size_min = min(sum(size_min), museum_sizes[initial_museum_size])
-    ) |>
+      transaction_total_size_mid = min(sum(size_mid), initial_museum_size_numerical),
+      transaction_total_size_max = min(sum(size_max), initial_museum_size_numerical),
+      transaction_total_size_min = min(sum(size_min), initial_museum_size_numerical)
+    )
+  edges <- edges |>
     group_by(
       from,
       to,
@@ -874,16 +876,9 @@ get_edges <- function(sequences, nodes) {
       transaction_total_size_mid = sum(transaction_total_size_mid),
       transaction_total_size_max = sum(transaction_total_size_max),
       transaction_total_size_min = sum(transaction_total_size_min),
-      # extra counts are added in order to give edges a blurry line
-      transaction_total_size_min_1_4 = transaction_total_size_min * 0.25,
-      transaction_total_size_min_1_2 = transaction_total_size_min * 0.5,
-      transaction_total_size_min_3_4 = transaction_total_size_min * 0.75,
-      transaction_total_size_mid_1_4 = transaction_total_size_mid * 0.25,
-      transaction_total_size_mid_1_2 = transaction_total_size_mid * 0.5,
-      transaction_total_size_mid_3_4 = transaction_total_size_mid * 0.75,
-      transaction_total_size_max_1_4 = transaction_total_size_max * 0.25,
-      transaction_total_size_max_1_2 = transaction_total_size_max * 0.5,
-      transaction_total_size_max_3_4 = transaction_total_size_max * 0.75
+      # extra counts are added in order to give edges a softer blur
+      transaction_total_size_min_mid = (transaction_total_size_min + transaction_total_size_mid) / 2,
+      transaction_total_size_mid_max = (transaction_total_size_mid + transaction_total_size_max) / 2,
     ) |>
     ungroup() |>
     pivot_longer(

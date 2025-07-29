@@ -16,6 +16,27 @@ dispersalServer <- function(id) {
         inputId="transactionTypeFilter",
         selected=c("Change of ownership", "Change of custody", "End of existence")
       )
+      core_event_types <- event_types |>
+        filter(
+          is_core_category,
+          change_of_ownership | change_of_custody | end_of_existence
+        ) |>
+        select(type_name)
+      sub_event_types <- event_types |>
+        filter(
+          !is_core_category & type_name != "event",
+          change_of_ownership | change_of_custody | end_of_existence
+        ) |>
+        select(type_name=core_type)
+      event_type_choices <- rbind(core_event_types, sub_event_types) |>
+        distinct() |>
+        arrange(type_name)
+      updatePickerInput(
+        session=session,
+        inputId="eventTypeFilter",
+        choices=event_type_choices$type_name,
+        selected=event_type_choices$type_name
+      )
       updatePickerInput(
         session=session,
         inputId="eventTypeUncertaintyFilter",
@@ -210,7 +231,8 @@ dispersalServer <- function(id) {
           )
       }
       event_type_choices <- event_type_choices |>
-        distinct()
+        distinct() |>
+        arrange(type_name)
       updatePickerInput(
         session=session,
         inputId="eventTypeFilter",
