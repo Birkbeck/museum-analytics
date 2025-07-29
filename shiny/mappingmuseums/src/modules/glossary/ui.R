@@ -30,14 +30,14 @@ glossaryUI <- function(id) {
     ),
     tags$a(href = "#top", "⬆ Back to Top"),
 
-    h3(id="actors", "Actors involved in collection dispersal"),
+    h3(id="actors", "Actors involved in collections disposal"),
     div(
       style="text-align: left;",
       img(src='actor_types.png', width="80%")
     ),
     tags$a(href = "#top", "⬆ Back to Top"),
 
-    h3(id="events", "Collection dispersal events GW: or post-closure events?"),
+    h3(id="events", "Collections disposal events"),
     div(
       style="text-align: left;",
       img(src='event_types.png', width="80%")

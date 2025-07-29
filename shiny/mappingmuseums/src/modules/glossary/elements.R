@@ -101,8 +101,19 @@ size_taxonomy <- function(size_types) {
 }
 
 subject_taxonomy <- function(subject_types) {
+  subject_types <- subject_types |>
+    mutate(
+      label=ifelse(
+        str_detect(type_name, ": "),
+        # get name after ": "
+        str_replace(type_name, ".*?:\\s*", ""),
+        type_name
+      )
+    )
   subject_edges <- subject_types |>
-    mutate(sub_type_of=ifelse(is.na(sub_type_of), "subject", sub_type_of)) |>
+    mutate(
+      sub_type_of=ifelse(is.na(sub_type_of), "subject", sub_type_of)
+    ) |>
     arrange(sub_type_of, type_name) |>
     select(
       from=sub_type_of,
@@ -113,7 +124,7 @@ subject_taxonomy <- function(subject_types) {
   V(graph)$distance_to_root <- distances(graph, v=V(graph), to=which(V(graph)$name == "subject"))
   max_distance <- max(V(graph)$distance_to_root)
   layout <- create_layout(graph, layout="dendrogram", circular=FALSE) |>
-    left_join(subject_types |> select(name=type_name, is_broad), by="name")
+    left_join(subject_types |> select(name=type_name, is_broad, label), by="name")
   layout$y <- layout$distance_to_root - max_distance
   layout$x <- -layout$x
 
@@ -131,7 +142,7 @@ subject_taxonomy <- function(subject_types) {
     ) +
     geom_node_text(
       data = layout |> filter(name != "subject"),
-      aes(label=name),
+      aes(label=label),
       size=4,
       angle=0,
       vjust="center",
