@@ -199,7 +199,6 @@ snapshotUI <- function(id) {
         withSpinner(
           plotlyOutput(NS(id, "mainPlot"), height="800px", width="100%")
         ),
-        uiOutput(NS(id, "mainPlotExplanation")),
         fluidRow(
           column(
             3,

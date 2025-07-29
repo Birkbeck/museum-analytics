@@ -196,10 +196,6 @@ reasonsServer <- function(id) {
           renderPlotly()
       }
     })
-    output$mainPlotExplanation <- renderUI({
-      explanation_text <- filter(explanations, main_plot==mainPlot())$explanation
-      text_box(paste("REASONS-EXPLANATION", explanation_text))
-    })
 
     output$reasonsBarChartSmall <- renderPlot({
       closure_reasons_bar_chart_small(summary_table(), reason_level())

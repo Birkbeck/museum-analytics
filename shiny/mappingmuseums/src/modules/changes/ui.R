@@ -168,7 +168,6 @@ changesUI <- function(id) {
         withSpinner(
           plotlyOutput(NS(id, "mainPlot"), height="720px", width="100%")
         ),
-        uiOutput(NS(id, "mainPlotExplanation")),
         fluidRow(
           column(
             3,

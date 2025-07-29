@@ -169,7 +169,6 @@ reasonsUI <- function(id) {
           withSpinner(uiOutput(NS(id, "mainPlot"))),
           style = "height: 1200px; width: 100%;"
         ),
-        div(uiOutput(NS(id, "mainPlotExplanation")), style = "margin-top: 20px;"),
         fluidRow(
           column(
             3,

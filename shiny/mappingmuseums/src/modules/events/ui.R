@@ -309,8 +309,7 @@ eventsUI <- function(id) {
         uiOutput(NS(id, "errorMessage")),
         withSpinner(
           plotlyOutput(NS(id, "mainPlot"), width="100%", height="1200px")
-        ),
-        div(uiOutput(NS(id, "mainPlotExplanation")), style = "margin-top: 20px;")
+        )
       )
     ),
     

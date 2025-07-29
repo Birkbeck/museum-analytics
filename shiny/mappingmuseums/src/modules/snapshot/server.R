@@ -321,10 +321,6 @@ snapshotServer <- function(id) {
         )
       }
     })
-    output$mainPlotExplanation <- renderUI({
-      explanation_text <- filter(explanations, main_plot==mainPlot())$explanation
-      text_box(paste("SNAPSHOT-EXPLANATION", explanation_text))
-    })
     
     output$museumMapSmall <- renderPlot({
       museum_map_small(

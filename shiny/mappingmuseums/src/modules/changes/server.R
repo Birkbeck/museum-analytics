@@ -544,10 +544,6 @@ changesServer <- function(id) {
         )
       }
     })
-    output$mainPlotExplanation <- renderUI({
-      explanation_text <- filter(explanations, main_plot==current_main_plot())$explanation
-      text_box(paste("CHANGES-EXPLANATION", explanation_text))
-    })
     
     output$openingsVsClosuresScatterSmall <- renderPlot({
       openings_vs_closures_scatter_small(
