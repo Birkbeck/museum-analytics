@@ -508,7 +508,17 @@ cumulative_counts_by_dimension <- function(df, dimension) {
       opening_rate = opening_count / lag(total, default = 1) * 100,
       closure_rate = closure_count / lag(total, default = 1) * 100,
       change = total - lag(total, default = 0),
-      percentage_change = ifelse(lag(total, default = 0) == 0, NA, (change / lag(total, default = 0)) * 100)
+      percentage_change = ifelse(
+        lag(total, default = 0) == 0,
+        NA,
+        round((change / lag(total, default = 0)) * 100, 1)
+      ),
+      opening_count = round(opening_count, 1),
+      closure_count = round(closure_count, 1),
+      total = round(total, 1),
+      opening_rate = round(opening_rate, 1),
+      closure_rate = round(closure_rate, 1),
+      change = round(change, 1),
     )
   return(combined)
 }

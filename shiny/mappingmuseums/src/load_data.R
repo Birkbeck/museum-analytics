@@ -308,8 +308,6 @@ actor_types <- read_csv(actor_types_csv)
 event_types_csv <- "data/query_results/event_types.csv"
 event_types <- read_csv(event_types_csv)
 
-explanations <- read_csv("explanations.csv")
-
 field_names <- data.frame(
   name=c("All", "Size", "Governance", "Accreditation", "Subject Matter", "Country/Region", "Country"),
   value=c("all", "size", "governance_broad", "accreditation", "subject_broad", "region", "country")
