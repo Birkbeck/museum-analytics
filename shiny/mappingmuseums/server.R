@@ -96,6 +96,9 @@ function(input, output, session) {
     if (!PRODUCTION || credentials()$user_auth) {
       output$appContent <- renderUI({
         fluidPage(
+          tags$head(
+            tags$style(HTML("p, li { font-size: 16px;}"))
+          ),
           useShinyjs(),
           actionButton("logout", "Logout"),
           titlePanel(generate_title("Mapping Museums & Museum Closure")),
