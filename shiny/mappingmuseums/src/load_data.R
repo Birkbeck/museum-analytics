@@ -200,7 +200,10 @@ collection_types <- dispersal_events |>
   unique() |>
   filter(collection_type != "")
 
+not_really_museums <- read_csv("data/not-really-museums.csv")
+
 museums_including_crown_dependencies <- read_csv("data/query_results/museums.csv") |>
+  filter(!museum_id %in% not_really_museums$museum_id) |>
   mutate(
     year_opened = ifelse(
       year_opened_1 == year_opened_2,
@@ -222,8 +225,6 @@ museums_including_crown_dependencies <- read_csv("data/query_results/museums.csv
     region=factor(region, museum_attribute_ordering),
     country=factor(country, museum_attribute_ordering)
   )
-
-not_really_museums <- read_csv("data/not-really-museums.csv")
 
 closure_reasons <- super_events |>
   separate_rows(reason, sep = "; ") |>
