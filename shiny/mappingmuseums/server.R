@@ -53,8 +53,14 @@ source("src/modules/events/server.R")
 source("src/modules/dispersal/ui.R")
 source("src/modules/dispersal/server.R")
 
-source("src/modules/data/ui.R")
-source("src/modules/data/server.R")
+source("src/modules/data_collection/ui.R")
+source("src/modules/data_collection/server.R")
+
+source("src/modules/data_collection_analysis/ui.R")
+source("src/modules/data_collection_analysis/server.R")
+
+source("src/modules/interpreting_data/ui.R")
+source("src/modules/interpreting_data/server.R")
 
 PRODUCTION <- FALSE
 
@@ -106,10 +112,6 @@ function(input, output, session) {
               aboutUI("about")
             ),
             tabPanel(
-              tags$span("About the data", title="An introduction to data concerning object dispersal"),
-              dataUI("data")
-            ),
-            tabPanel(
               tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),
               glossaryUI("glossary"),
             ),
@@ -155,6 +157,23 @@ function(input, output, session) {
                   lengthUI("length")
                 )
               )
+            ),
+            tabPanel(
+              tags$span("About the data", title="A description of the data concerning object disposal"),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Data Collection", title=""),
+                  dataCollectionUI("data_collection")
+                ),
+                tabPanel(
+                  tags$span("Data Collection Analysis", title=""),
+                  dataCollectionAnalysisUI("data_collection_analysis")
+                ),
+                tabPanel(
+                  tags$span("Interpreting the Data", title=""),
+                  interpretingDataUI("interpreting_data")
+                )
+              )
             )
           )
         )
@@ -189,7 +208,6 @@ function(input, output, session) {
       
       homeServer("home")
       glossaryServer("glossary")
-      dataServer("data")
 
       # mapping museums
       snapshotServer("snapshot")
@@ -203,6 +221,11 @@ function(input, output, session) {
       eventsServer("events")
       dispersalServer("dispersal")
       lengthServer("length")
+
+      # about the data
+      dataCollectionServer("data_collection")
+      dataCollectionAnalysisServer("data_collection_analysis")
+      interpretingDataServer("interpreting_data")
       
     }
   })

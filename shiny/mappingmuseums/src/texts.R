@@ -1,15 +1,23 @@
 top_glossary <- "<p>Information about museums, their closure, and collections dispersal are organised into taxonomies. These taxonomies underpin all the visualisations and analyses available in the database. In all cases the main categories of analyses are marked by a bold circle, the sub-categories by a grey circle.</p>
 <p>The taxonomies we have used are as follows:</p>
 <ul>
-<li><a href='#size'>Museum size</a></li>
-<li><a href='#governance'>Museum governance</a></li>
-<li><a href='#subject'>Museum subject matter</a></li>
-<li><a href='#reasons'>Reasons for closure</a></li>
-<li><a href='#actors'>Actors involved in collection dispersal</a></li>
-<li><a href='#events'>Collection dispersal events</a></li>
+  <li><a href='#size'>Museum size</a></li>
+  <li><a href='#governance'>Museum governance</a></li>
+  <li><a href='#subject'>Museum subject matter</a></li>
+  <li><a href='#reasons'>Reasons for closure</a></li>
+  <li><a href='#actors'>Actors involved in collection dispersal</a></li>
+  <li><a href='#events'>Collection dispersal events</a></li>
 </ul>"
 
-top_data <- "<p>We collected a varied amount of data on each museum. The tables below show how the amount of recorded data differed according to groups of object, events, and subject matter.</p>"
+top_data <- "<p>We collected a varied amount of data on each museum. The tables below show how the amount of recorded data differed according to groups of object, events, and subject matter.</p>
+<p>The charts include:</p>
+<ul>
+  <li><a href='#eventsPerMuseumMatrixTitle'>Groups of objects recorded vs events recorded</a></li>
+  <li><a href='#eventsPerMuseumBoxplotsTitle'>Recording events per museum by subject matter</a></li>
+  <li><a href='#eventsPerCollectionTitle'>Recording events by groups of objects according to subject matter</a></li>
+  <li><a href='#collectionGranularityTitle'>Recording quantities of objects</a></li>
+  <li><a href='#collectionGranularityHeatmapTitle'>Quantities of objects recorded according to subject matter</a></li>
+</ul>"
 
 
 tooltip_view <- "Controls the overall parameters of your search."

@@ -1,6 +1,6 @@
-source("src/modules/data/elements.R")
+source("src/modules/interpreting_data/elements.R")
 
-dataServer <- function(id) {
+interpretingDataServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     data_by_museum <- get_data_by_museum(dispersal_events, museums_including_crown_dependencies, not_really_museums)
