@@ -19,6 +19,8 @@ interpretingDataUI <- function(id) {
 
     HTML("
 
+<div style='width: 100%; max-width: 800px'>
+
 <h3 id='museum-definitions'>Museum definitions</h3>
 
 <p>There are many ways to define museums. The museums included in this study:</p>
@@ -156,6 +158,8 @@ interpretingDataUI <- function(id) {
 </ul>
 
 <a href='#top'>⬆ Back to Top</a>
+
+</div>
 
     ")
   )

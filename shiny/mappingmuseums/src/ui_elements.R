@@ -1,9 +1,11 @@
 text_box <- function(text) {
   tags$div(
-    style = "background-color: #f0f0f0; padding: 20px; border-radius: 5px; margin-top: 20px;",
+    style = "background-color: #f0f0f0; padding: 20px; border-radius: 5px; margin-top: 20px; width:100%; max-width:800px",
     HTML(text)
   )
 }
+
+explanation_para <- "width: 100%; max-width: 800px;"
 
 sidebar_style <- "height: 95vh; overflow-y: auto;"
  

@@ -162,16 +162,16 @@ function(input, output, session) {
               tags$span("About the data", title="A description of the data concerning object disposal"),
               tabsetPanel(
                 tabPanel(
+                  tags$span("Interpreting the Data", title=""),
+                  interpretingDataUI("interpreting_data")
+                ),
+                tabPanel(
                   tags$span("Data Collection", title=""),
                   dataCollectionUI("data_collection")
                 ),
                 tabPanel(
                   tags$span("Data Collection Analysis", title=""),
                   dataCollectionAnalysisUI("data_collection_analysis")
-                ),
-                tabPanel(
-                  tags$span("Interpreting the Data", title=""),
-                  interpretingDataUI("interpreting_data")
                 )
               )
             )
