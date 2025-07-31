@@ -35,6 +35,9 @@ governance_broad_map = {
     "Unknown": "unknown governance",
 }
 
+with open("postcode_lookup.json", "r") as f:
+    postcode_lookup = json.load(f)
+
 
 def size_map(size):
     if size == "unknown":
@@ -145,6 +148,18 @@ if __name__ == "__main__":
             "address_3": mapping_museums_data["Address_line_3"],
             "village_town_city": mapping_museums_data["Village,_Town_or_City"],
             "postcode": mapping_museums_data["Postcode"],
+            "lad_2023_code": mapping_museums_data.apply(
+                lambda x: postcode_lookup[x["Postcode"]]["lad23cd"]
+                if x["Postcode"] in postcode_lookup
+                else "",
+                axis=1,
+            ),
+            "lad_2023_name": mapping_museums_data.apply(
+                lambda x: postcode_lookup[x["Postcode"]]["lad23nm"]
+                if x["Postcode"] in postcode_lookup
+                else "",
+                axis=1,
+            ),
         }
     )
 
