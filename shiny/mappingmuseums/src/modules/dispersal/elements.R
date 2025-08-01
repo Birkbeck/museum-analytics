@@ -161,20 +161,6 @@ get_filtered_sequences <- function(events_data,
                                    #show_passes_through,
                                    steps_or_first_last) {
   sequences <- events_data |>
-    mutate(
-      sender_group=.data[[paste0("sender_", grouping_dimension)]],
-      sender_museum_group=ifelse(
-        !is.na(sender_all),
-        .data[[paste0("sender_", museum_grouping_dimension)]],
-        NA
-      ),
-      recipient_group=.data[[paste0("recipient_", grouping_dimension)]],
-      recipient_museum_group=ifelse(
-        !is.na(recipient_all),
-        .data[[paste0("recipient_", museum_grouping_dimension)]],
-        NA
-      )
-    ) |>
     filter(initial_museum_id %in% initial_museum_ids) |>
     find_events_to_show(show_transaction_types) |>
     find_previous_events() |>
@@ -279,13 +265,14 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       events_data |>
         select(
           previous_shown_event=event_id,
+          from_id=recipient_id,
           from_name=recipient_name,
           from_quantity=recipient_quantity,
           from_type=recipient_type,
           from_core_type=recipient_core_type,
           from_general_type=recipient_general_type,
           from_sector=recipient_sector,
-          # TODO: all museum attributes need to be updated
+          from_all=recipient_all,
           from_size=recipient_size,
           from_governance=recipient_governance,
           from_governance_broad=recipient_governance_broad,
@@ -298,6 +285,9 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       by=c("previous_shown_event")
     ) |>
     mutate(
+      sender_id=ifelse(
+        event_stage_in_path==1, initial_museum_id, from_id
+      ),
       sender_name=ifelse(
         event_stage_in_path==1, initial_museum_name, from_name
       ),
@@ -315,6 +305,9 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       ),
       sender_sector=ifelse(
         event_stage_in_path==1, initial_museum_sector, from_sector
+      ),
+      sender_all=ifelse(
+        event_stage_in_path==1, initial_museum_all, from_all
       ),
       sender_size=ifelse(
         event_stage_in_path==1, initial_museum_size, from_size
@@ -339,6 +332,18 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       ),
       sender_town=ifelse(
         event_stage_in_path==1, initial_museum_town, from_town
+      ),
+      sender_group=.data[[paste0("sender_", grouping_dimension)]],
+      sender_museum_group=ifelse(
+        !is.na(sender_all),
+        .data[[paste0("sender_", museum_grouping_dimension)]],
+        NA
+      ),
+      recipient_group=.data[[paste0("recipient_", grouping_dimension)]],
+      recipient_museum_group=ifelse(
+        !is.na(recipient_all),
+        .data[[paste0("recipient_", museum_grouping_dimension)]],
+        NA
       ),
       from=ifelse(
         event_stage_in_path==1,
