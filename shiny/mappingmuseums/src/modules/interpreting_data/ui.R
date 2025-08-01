@@ -1,6 +1,8 @@
 interpretingDataUI <- function(id) {
   fluidPage(
-    text_box("
+    div(
+      style="padding: 30px;",
+      text_box("
 <p>The information below is intended to help users understand the scope and organisation of the data. It covers the following topics.</p>
 <ul>
   <li><a href='#museum-definitions'>Museum definitions</a></li>
@@ -17,7 +19,7 @@ interpretingDataUI <- function(id) {
   <li><a href='#box-and-whisker'>Box and whisker visualisations</a></li>
 </ul>"),
 
-    HTML("
+      HTML("
 
 <div style='width: 100%; max-width: 800px'>
 
@@ -162,5 +164,6 @@ interpretingDataUI <- function(id) {
 </div>
 
     ")
+    )
   )
 }
