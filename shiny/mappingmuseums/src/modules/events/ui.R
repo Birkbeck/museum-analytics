@@ -1,7 +1,7 @@
 eventsUI <- function(id) {
   fluidPage(
 
-    text_box("EVENTS-TOP"),
+    text_box(top_events),
     
     sidebarLayout(
       sidebarPanel(

@@ -1,7 +1,7 @@
 snapshotUI <- function(id) {
   fluidPage(
 
-    text_box("SNAPSHOT-TOP"),
+    text_box(top_snapshot),
 
     sidebarLayout(
       sidebarPanel(

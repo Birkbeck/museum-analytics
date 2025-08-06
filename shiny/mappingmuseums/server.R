@@ -26,9 +26,6 @@ source("src/ui_elements.R")
 source("src/modules/home/ui.R")
 source("src/modules/home/server.R")
 
-source("src/modules/about/ui.R")
-source("src/modules/about/server.R")
-
 source("src/modules/glossary/ui.R")
 source("src/modules/glossary/server.R")
 
@@ -97,11 +94,11 @@ function(input, output, session) {
       output$appContent <- renderUI({
         fluidPage(
           tags$head(
-            tags$style(HTML("p, li { font-size: 16px;}"))
+            tags$style(HTML("p, li { font-size: 18px;}"))
           ),
           useShinyjs(),
           actionButton("logout", "Logout"),
-          titlePanel(generate_title("Mapping Museums & Museum Closure")),
+          titlePanel(generate_title("Mapping Museums Database")),
           tags$head(
             tags$style(type="text/css", ".nav-tabs {font-size: 16px}")
           ),
@@ -109,10 +106,6 @@ function(input, output, session) {
             tabPanel(
               tags$span("Home", title="Go back to the home page"),
               homeUI("home")
-            ),
-            tabPanel(
-              tags$span("About", title="About the project"),
-              aboutUI("about")
             ),
             tabPanel(
               tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),

@@ -1,7 +1,7 @@
 reasonsUI <- function(id) {
   fluidPage(
 
-    text_box("REASONS-TOP"),
+    text_box(top_reasons),
 
     sidebarLayout(
       sidebarPanel(

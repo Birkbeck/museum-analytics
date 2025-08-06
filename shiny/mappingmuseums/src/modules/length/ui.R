@@ -1,7 +1,7 @@
 lengthUI <- function(id) {
   fluidPage(
 
-    text_box("LENGTH-TOP"),
+    text_box(top_length),
 
     sidebarLayout(
       sidebarPanel(

@@ -1,7 +1,7 @@
 changesUI <- function(id) {
   fluidPage(
 
-    text_box("CHANGES-TOP"),
+    text_box(top_changes),
 
     sidebarLayout(
       sidebarPanel(

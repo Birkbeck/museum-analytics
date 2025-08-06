@@ -1,7 +1,7 @@
 dispersalUI <- function(id) {
   fluidPage(
 
-    text_box("DISPERSAL-TOP"),
+    text_box(top_dispersal),
 
     sidebarLayout(
       sidebarPanel(

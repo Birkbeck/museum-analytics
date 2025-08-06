@@ -1,6 +1,14 @@
 text_box <- function(text) {
   tags$div(
-    style = "background-color: #f0f0f0; padding: 20px; border-radius: 5px; margin-top: 20px; width:100%; max-width:800px",
+    style = "background-color: #f0f0f0;
+padding: 20px;
+border-style: solid;
+border-radius: 20px;
+border-width: 10px;
+border-color: #ffffff;
+margin-top: 20px;
+width:100%;
+max-width:800px",
     HTML(text)
   )
 }
