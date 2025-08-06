@@ -131,9 +131,9 @@ closure_outcomes_over_time_table <- function(museums_table, outcome_type) {
         
 closure_outcomes_bar_chart <- function(summary_table, count_or_percentage, outcome_type, outcome_type_name) {
   if (count_or_percentage == "frequency") {
-    x_title <- "Number of museum closures with outcome"
+    x_title <- "Number of museum closures"
   } else {
-    x_title <- "Percentage of museum closures with outcome"
+    x_title <- "Percentage of museum closures"
   }
   if (outcome_type %in% c("outcome_event_type", "outcome_recipient_type")) {
     plot <- ggplot(
@@ -269,9 +269,9 @@ closure_outcomes_heatmap_small <- function(summary_table,
 
 closure_outcomes_over_time <- function(outcomes_over_time_table, count_or_percentage, outcome_type) {
   if (count_or_percentage == "frequency") {
-    y_title <- "Number of museum closures with outcome"
+    y_title <- "Number of museum closures"
   } else {
-    y_title <- "Percentage of museum closures with outcome"
+    y_title <- "Percentage of museum closures"
   }
   ggplot(
     outcomes_over_time_table, 
@@ -315,7 +315,7 @@ closure_outcomes_over_time_small <- function(outcomes_over_time_table, outcome_t
     labs(
       title="Changing Outcomes of Museum Closure Over Time",
       x="Year of Closure",
-      y="Number of museum closures with outcome",
+      y="Number of museum closures",
       colour="Outcome of closure"
     ) +
     theme_minimal()
