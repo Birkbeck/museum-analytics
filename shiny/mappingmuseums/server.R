@@ -171,6 +171,18 @@ function(input, output, session) {
                 )
               )
             )
+          ),
+          tags$head(
+            tags$style(HTML("
+/* top-level tabs (first nav-tabs inside .tabbable) — keep default */
+.nav-tabs > li > a { background-color: inherit; }
+/* second-level (nested) tabs: select nav-tabs that are inside a tab-pane */
+.tab-pane .nav-tabs > li > a {
+  background-color: #ddeeff !important;
+}
+.tab-pane .nav-tabs > li.active > a {
+  background-color: #ddeeff !important;
+}"))
           )
         )
       })
