@@ -9,8 +9,8 @@ dispersalServer <- function(id) {
       updateCheckboxInput(session=session, inputId="showTransactionCounts", value=FALSE)
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
       updateSwitchInput(session=session, inputId="firepower", value=FALSE)
-      updateSelectInput(session=session, inputId="grouping", selected="Actor type (core categories)")
-      updateSelectInput(session=session, inputId="groupingMuseums", selected="Governance")
+      updateRadioButtons(session=session, inputId="grouping", selected="Actor type (core categories)")
+      updateRadioButtons(session=session, inputId="groupingMuseums", selected="Governance")
       updatePickerInput(
         session=session,
         inputId="transactionTypeFilter",

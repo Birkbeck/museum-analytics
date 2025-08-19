@@ -5,7 +5,7 @@ changesServer <- function(id) {
 
     observeEvent(input$reset, {
       updateSliderInput(session=session, inputId="yearRange", value=c(2000, 2025))
-      updateSelectInput(session=session, inputId="mainAxis", selected="All")
+      updateRadioButtons(session=session, inputId="mainAxis", selected="All")
       updateSelectInput(session=session, inputId="secondAxis", selected="Country/Region")
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="")
       updatePickerInput(

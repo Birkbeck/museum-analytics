@@ -62,7 +62,7 @@ dispersalUI <- function(id) {
         form_item(
           "Actors - level of detail",
           tooltip_group_actors_by,
-          selectInput(
+          radioButtons(
             NS(id, "grouping"),
             label="",
             choices=c(
@@ -78,7 +78,7 @@ dispersalUI <- function(id) {
         form_item(
           "Museums attribute",
           tooltip_group_actors_by,
-          selectInput(
+          radioButtons(
             NS(id, "groupingMuseums"),
             label="",
             choices=field_names$name,

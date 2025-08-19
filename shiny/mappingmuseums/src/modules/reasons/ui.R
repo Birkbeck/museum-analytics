@@ -16,28 +16,28 @@ reasonsUI <- function(id) {
         form_subtitle("View", tooltip_view),
 
         div(uiOutput(NS(id, "mainPlotOptions"))),
+        
+        form_item(
+          "Reasons - level of detail",
+          tooltip_reason_type_level,
+          radioButtons(
+            NS(id, "reasonLevel"),
+            label="",
+            choices=c("Core categories", "Core categories and their sub-categories", "Most specific"),
+            selected="Core categories"
+          )
+        ),
 
         form_item(
           "Museums attribute (for heatmaps only)",
           tooltip_secondary_attribute,
           disabled(
-            selectInput(
+            radioButtons(
               NS(id, "museumGrouping"),
               label="",
               choices=field_names$name,
               selected="Governance"
             )
-          )
-        ),
-
-        form_item(
-          "Reasons - level of detail",
-          tooltip_reason_type_level,
-          selectInput(
-            NS(id, "reasonLevel"),
-            label="",
-            choices=c("Core categories", "Core categories and their sub-categories", "Most specific"),
-            selected="Core categories"
           )
         ),
 

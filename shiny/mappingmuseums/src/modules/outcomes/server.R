@@ -4,8 +4,8 @@ outcomesServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateSelectInput(session=session, inputId="outcomeType", selected="Event")
-      updateSelectInput(session=session, inputId="museumGrouping", selected="Governance")
+      updateRadioButtons(session=session, inputId="outcomeType", selected="Event")
+      updateRadioButtons(session=session, inputId="museumGrouping", selected="Governance")
       updatePickerInput(
         session=session,
         inputId="outcomeFilter",

@@ -32,7 +32,7 @@ snapshotUI <- function(id) {
         form_item(
           "Main museum attribute",
           tooltip_main_attribute,
-          selectInput(
+          radioButtons(
             NS(id, "mainAxis"),
             label="",
             choices=field_names$name,

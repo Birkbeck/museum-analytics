@@ -4,7 +4,7 @@ lengthServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateSelectInput(session=session, inputId="museumGrouping", selected="All")
+      updateRadioButtons(session=session, inputId="museumGrouping", selected="All")
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
       updatePickerInput(
         session=session, inputId="governanceFilter", selected=governance_broad_labels$label

@@ -18,22 +18,24 @@ eventsUI <- function(id) {
         form_item(
           "Y-axis",
           tooltip_main_attribute_events,
-          selectInput(
+          radioButtons(
             NS(id, "yAxis"),
             label="",
             choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
-            selected="Sender"
+            selected="Sender",
+            inline=TRUE
           )
         ),
         
         form_item(
           "X-axis",
           tooltip_secondary_attribute_events,
-          selectInput(
+          radioButtons(
             NS(id, "xAxis"),
             label="",
             choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
-            selected="Event"
+            selected="Event",
+            inline=TRUE
           )
         ),
         
@@ -84,29 +86,31 @@ eventsUI <- function(id) {
         form_item(
           "Events - level of detail",
           tooltip_group_events_level,
-          selectInput(
+          radioButtons(
             NS(id, "eventGrouping"),
             label="",
             choices=c("Core categories", "Most specific"),
-            selected="Core categories"
+            selected="Core categories",
+            inline=TRUE
           )
         ),
 
         form_item(
           "Actors - level of detail",
           tooltip_group_actors_level,
-          selectInput(
+          radioButtons(
             NS(id, "actorGrouping"),
             label="",
             choices=c("Core categories", "Most specific"),
-            selected="Core categories"
+            selected="Core categories",
+            inline=TRUE
           )
         ),
         
         form_item(
           "Museums attribute",
           tooltip_group_museums_by,
-          selectInput(
+          radioButtons(
             NS(id, "museumGrouping"),
             label="",
             choices=field_names$name,

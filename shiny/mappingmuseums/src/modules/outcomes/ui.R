@@ -15,10 +15,12 @@ outcomesUI <- function(id) {
 
         form_subtitle("View", tooltip_view),
 
+        div(uiOutput(NS(id, "mainPlotOptions"))),
+
         form_item(
           "Main axis",
           tooltip_main_attribute_outcomes,
-          selectInput(
+          radioButtons(
             NS(id, "outcomeType"),
             label="",
             choices=c(
@@ -28,7 +30,7 @@ outcomesUI <- function(id) {
               "Recipient share",
               "Destination"
             ),
-            selected="Outcome event"
+            selected="Event"
           )
         ),
 
@@ -36,7 +38,7 @@ outcomesUI <- function(id) {
           "Museums attribute (for heatmaps only)",
           tooltip_secondary_attribute,
           disabled(
-            selectInput(
+            radioButtons(
               NS(id, "museumGrouping"),
               label="",
               choices=c(
@@ -69,8 +71,6 @@ outcomesUI <- function(id) {
             multiple=TRUE
           ) 
         ),
-
-        div(uiOutput(NS(id, "mainPlotOptions"))),
 
         form_subtitle("Filter", tooltip_filter),
 

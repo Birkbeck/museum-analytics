@@ -20,7 +20,7 @@ lengthUI <- function(id) {
         form_item(
           "Museums attribute",
           tooltip_main_attribute,
-          selectInput(
+          radioButtons(
             NS(id, "museumGrouping"),
             label="",
             choices=c(field_names$name),

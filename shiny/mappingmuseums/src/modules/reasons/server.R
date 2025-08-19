@@ -4,8 +4,8 @@ reasonsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateSelectInput(session=session, inputId="reasonLevel", selected="Core categories")
-      updateSelectInput(session=session, inputId="museumGrouping", selected="Governance")
+      updateRadioButtons(session=session, inputId="reasonLevel", selected="Core categories")
+      updateRadioButtons(session=session, inputId="museumGrouping", selected="Governance")
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="frequency")
       updatePickerInput(
         session=session, inputId="reasonFilter", selected=reason_core_labels$label

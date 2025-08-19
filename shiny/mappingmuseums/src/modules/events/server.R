@@ -4,8 +4,8 @@ eventsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateSelectInput(session=session, inputId="yAxis", selected="Sender")
-      updateSelectInput(session=session, inputId="xAxis", selected="Event")
+      updateRadioButtons(session=session, inputId="yAxis", selected="Sender")
+      updateRadioButtons(session=session, inputId="xAxis", selected="Event")
       updateRadioButtons(session=session, inputId="stepsOrLast", selected="Stepwise events")
       updatePickerInput(
         session=session,
@@ -13,9 +13,9 @@ eventsServer <- function(id) {
         selected=c(1)
       )
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
-      updateSelectInput(session=session, inputId="eventGrouping", selected="Core categories")
-      updateSelectInput(session=session, inputId="actorGrouping", selected="Core categories")
-      updateSelectInput(session=session, inputId="museumGrouping", selected="Governance")
+      updateRadioButtons(session=session, inputId="eventGrouping", selected="Core categories")
+      updateRadioButtons(session=session, inputId="actorGrouping", selected="Core categories")
+      updateRadioButtons(session=session, inputId="museumGrouping", selected="Governance")
       updatePickerInput(
         session=session, inputId="eventTypeFilter", selected=event_core_types$label
       )
