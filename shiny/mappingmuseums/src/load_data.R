@@ -33,6 +33,8 @@ calculate_distance <- function(lat1, lon1, lat2, lon2) {
   c <- 2 * atan2(sqrt(a), sqrt(1 - a))
   # Distance in kilometers
   distance <- earth_radius * c
+  # Distance in miles
+  distance <- distance * 0.621371
   return(distance)
 }
 

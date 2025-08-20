@@ -1507,7 +1507,7 @@ movements_heatmap <- function(jumps, grouping_dimension, grouping_title, count_o
     heatmap_fill_scale +
     labs(
       title = "Distances travelled by collections\n<sup>(Number of collections/objects)</sup>",
-      x = "Distance from initial museum (km)",
+      x = "Distance from initial museum (miles)",
       y = paste0("Origin museum (", grouping_title, ")")
     ) +
     standard_bars_theme +
@@ -1532,7 +1532,7 @@ movements_heatmap_small <- function(jumps, grouping_dimension, grouping_title) {
     heatmap_fill_scale +
     labs(
       title = "Distances travelled by collections",
-      x = "Distance (km)",
+      x = "Distance (miles)",
       y = paste0("Origin museum (", grouping_title, ")")
     ) +
     standard_bars_theme +
