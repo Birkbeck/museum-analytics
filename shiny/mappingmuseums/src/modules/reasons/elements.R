@@ -170,7 +170,13 @@ closure_reasons_bar_chart <- function(summary_table,
   } else {
     use_theme <- theme_minimal()
   }
-  ggplot(summary_table, aes(x=.data[[count_or_percentage]], y=reorder(.data[[reason_level]], .data[[count_or_percentage]]))) +
+  ggplot(
+    summary_table,
+    aes(
+      x=.data[[count_or_percentage]],
+      y=reorder(.data[[reason_level]], .data[[count_or_percentage]])
+    )
+  ) +
     geom_col(fill=purple) +
     geom_text(aes(label=.data[[count_or_percentage]]), hjust="left", nudge_x=1, size=5) +
     labs(

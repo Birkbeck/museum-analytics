@@ -168,6 +168,7 @@ reasonsServer <- function(id) {
             reason_level(),
             reason_level_name()
           ),
+          tooltip=c(count_or_percentage()),
           height=1200
         ) |>
           renderPlotly()

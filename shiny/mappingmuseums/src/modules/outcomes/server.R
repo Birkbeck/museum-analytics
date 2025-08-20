@@ -197,6 +197,7 @@ outcomesServer <- function(id) {
           closure_outcomes_bar_chart(
             summary_table(), count_or_percentage(), outcome_type(), outcome_type_name()
           ),
+          tooltip=c(count_or_percentage()),
           height=1000
         ) |>
           renderPlotly()

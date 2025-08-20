@@ -1496,7 +1496,7 @@ movements_heatmap <- function(jumps, grouping_dimension, grouping_title, count_o
     jumps,
     aes(
       x=distance_from_initial_museum_category,
-      y=factor(.data[[grouping_dimension]], museum_attribute_ordering)
+      y=.data[[grouping_dimension]]
     )
   ) +
     geom_tile(aes(fill=.data[[count_or_percentage]]), show.legend=FALSE) +
