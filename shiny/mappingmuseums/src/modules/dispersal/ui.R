@@ -88,65 +88,172 @@ dispersalUI <- function(id) {
 
         form_subtitle("Filter", tooltip_filter),
 
-        form_item(
-          "Show transfer types",
-          tooltip_transaction_types,
-          pickerInput(
-            NS(id, "transactionTypeFilter"), 
-            label="",
-            choices = c("Change of ownership", "Change of custody", "End of existence"),
-            selected = c("Change of ownership", "Change of custody", "End of existence"),
-            options = pickerOptions(
-              actionsBox = TRUE, 
-              size = 10,
-              selectedTextFormat = "count > 3"
-            ), 
-            multiple = TRUE
+        tags$details(
+          tags$summary("Events"),
+          form_item(
+            "Show transfer types",
+            tooltip_transaction_types,
+            pickerInput(
+              NS(id, "transactionTypeFilter"), 
+              label="",
+              choices = c("Change of ownership", "Change of custody", "End of existence"),
+              selected = c("Change of ownership", "Change of custody", "End of existence"),
+              options = pickerOptions(
+                actionsBox = TRUE, 
+                size = 10,
+                selectedTextFormat = "count > 3"
+              ), 
+              multiple = TRUE
+            )
+          ),
+
+          form_item(
+            "Show event types",
+            tooltip_event_types,
+            pickerInput(
+              NS(id, "eventTypeFilter"), 
+              "", 
+              choices=NULL,
+              selected=NULL,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )  
+          ),
+
+          form_item(
+            "Show events with uncertainty level",
+            tooltip_event_uncertainty,
+            pickerInput(
+              NS(id, "eventTypeUncertaintyFilter"), 
+              "", 
+              choices=c("certain", "?+", "?", "?-"),
+              selected=c("certain", "?+", "?", "?-"),
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )  
           )
         ),
 
-        form_item(
-          "Show event types",
-          tooltip_event_types,
-          pickerInput(
-            NS(id, "eventTypeFilter"), 
-            "", 
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          )  
+        tags$details(
+          tags$summary("Objects"),
+          form_item(
+            "Collection status",
+            tooltip_collection_status,
+            pickerInput(
+              NS(id, "collectionStatusFilter"), 
+              "", 
+              choices=collection_status_labels$label,
+              selected=collection_status_labels$label,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )   
+          )
         ),
+            
+        tags$details(
+          tags$summary("Initial museum"),
+          form_item(
+            "Initial museum",
+            tooltip_initial_museum,
+            virtualSelectInput(
+              NS(id, "initialMuseum"),
+              "",
+              choices=NULL,
+              selected=NULL,
+              multiple=TRUE,
+              disableSelectAll=FALSE,
+              search=TRUE
+            )
+          ),
 
-        form_item(
-          "Show events with uncertainty level",
-          tooltip_event_uncertainty,
-          pickerInput(
-            NS(id, "eventTypeUncertaintyFilter"), 
-            "", 
-            choices=c("certain", "?+", "?", "?-"),
-            selected=c("certain", "?+", "?", "?-"),
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          )  
-        ),
+          form_item(
+             "Initial museum governance",
+             tooltip_museum_governance,
+             pickerInput(
+               NS(id, "startGovernanceFilter"), 
+               "",
+               choices=governance_broad_labels$label,
+               selected=c("local authority"),
+               options=pickerOptions(
+                 actionsBox=TRUE, 
+                 size=10,
+                 selectedTextFormat="count > 3"
+               ), 
+               multiple=TRUE
+             ) 
+          ),
 
-        form_item(
-           "Collection status",
-           tooltip_collection_status,
+          form_item(
+            "Initial museum size",
+            tooltip_museum_size,
+            pickerInput(
+              NS(id, "startSizeFilter"), 
+              "",
+              choices=size_labels$label,
+              selected=size_labels$label,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            ) 
+          ),
+
+          form_item(
+           "Initial museum subject",
+           tooltip_museum_subject,
            pickerInput(
-             NS(id, "collectionStatusFilter"), 
-             "", 
-             choices=collection_status_labels$label,
-             selected=collection_status_labels$label,
+             NS(id, "startSubjectFilter"), 
+             "",
+             choices=subject_broad_labels$label,
+             selected=subject_broad_labels$label,
+             options=pickerOptions(
+               actionsBox=TRUE, 
+               size=10,
+               selectedTextFormat="count > 3"
+             ), 
+             multiple=TRUE
+           )  
+          ),
+              
+          form_item(
+            "Initial museum subject (specific)",
+            tooltip_museum_subject_specific,
+            pickerInput(
+              NS(id, "startSubjectSpecificFilter"), 
+              "",
+              choices=NULL,
+              selected=NULL,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )
+          ),
+
+          form_item(
+           "Initial museum location",
+           tooltip_museum_country_region,
+           pickerInput(
+             NS(id, "startRegionFilter"), 
+             "",
+             choices=region_labels$label,
+             selected=region_labels$label,
              options=pickerOptions(
                actionsBox=TRUE, 
                size=10,
@@ -154,138 +261,43 @@ dispersalUI <- function(id) {
              ), 
              multiple=TRUE
            )   
-        ),
-            
-        form_item(
-          "Initial museum",
-          tooltip_initial_museum,
-          virtualSelectInput(
-            NS(id, "initialMuseum"),
-            "",
-            choices=NULL,
-            selected=NULL,
-            multiple=TRUE,
-            disableSelectAll=FALSE,
-            search=TRUE
+          ),
+
+          form_item(
+            "Initial museum accreditation",
+            tooltip_museum_accreditation,
+            pickerInput(
+              NS(id, "startAccreditationFilter"), 
+              "",
+              choices=accreditation_labels$label,
+              selected=accreditation_labels$label,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )   
           )
         ),
 
-        form_item(
-           "Initial museum governance",
-           tooltip_museum_governance,
-           pickerInput(
-             NS(id, "startGovernanceFilter"), 
-             "",
-             choices=governance_broad_labels$label,
-             selected=c("local authority"),
-             options=pickerOptions(
-               actionsBox=TRUE, 
-               size=10,
-               selectedTextFormat="count > 3"
-             ), 
-             multiple=TRUE
-           ) 
-        ),
-
-        form_item(
-          "Initial museum size",
-          tooltip_museum_size,
-          pickerInput(
-            NS(id, "startSizeFilter"), 
-            "",
-            choices=size_labels$label,
-            selected=size_labels$label,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          ) 
-        ),
-
-        form_item(
-         "Initial museum subject",
-         tooltip_museum_subject,
-         pickerInput(
-           NS(id, "startSubjectFilter"), 
-           "",
-           choices=subject_broad_labels$label,
-           selected=subject_broad_labels$label,
-           options=pickerOptions(
-             actionsBox=TRUE, 
-             size=10,
-             selectedTextFormat="count > 3"
-           ), 
-           multiple=TRUE
-         )  
-        ),
-            
-        form_item(
-          "Initial museum subject (specific)",
-          tooltip_museum_subject_specific,
-          pickerInput(
-            NS(id, "startSubjectSpecificFilter"), 
-            "",
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          )
-        ),
-
-        form_item(
-         "Initial museum location",
-         tooltip_museum_country_region,
-         pickerInput(
-           NS(id, "startRegionFilter"), 
-           "",
-           choices=region_labels$label,
-           selected=region_labels$label,
-           options=pickerOptions(
-             actionsBox=TRUE, 
-             size=10,
-             selectedTextFormat="count > 3"
-           ), 
-           multiple=TRUE
-         )   
-        ),
-
-        form_item(
-          "Initial museum accreditation",
-          tooltip_museum_accreditation,
-          pickerInput(
-            NS(id, "startAccreditationFilter"), 
-            "",
-            choices=accreditation_labels$label,
-            selected=accreditation_labels$label,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          )   
-        ),
-
-        form_item(
-          "Final destination",
-          tooltip_final_destination,
-          pickerInput(
-            NS(id, "sequenceEnd"), 
-            "",
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
+        tags$details(
+          tags$summary("Recipients"),
+          form_item(
+            "Final destination",
+            tooltip_final_destination,
+            pickerInput(
+              NS(id, "sequenceEnd"), 
+              "",
+              choices=NULL,
+              selected=NULL,
+              options=pickerOptions(
+                actionsBox=TRUE, 
+                size=10,
+                selectedTextFormat="count > 3"
+              ), 
+              multiple=TRUE
+            )
           )
         ),
 

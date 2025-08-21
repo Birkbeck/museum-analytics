@@ -94,7 +94,29 @@ function(input, output, session) {
       output$appContent <- renderUI({
         fluidPage(
           tags$head(
-            tags$style(HTML("p, li { font-size: 18px;}"))
+            tags$style(HTML("p, li { font-size: 18px;}")),
+            tags$style(HTML("
+              /* Remove default browser arrow */
+              summary::-webkit-details-marker {
+                display: none;
+              }
+              summary::marker {
+                display: none;
+              }
+
+              /* Add a custom arrow before the text */
+              summary::before {
+                content: '▶ ';   /* closed state */
+                font-size: 14px;
+                display: inline-block;
+                margin-right: 5px;
+              }
+
+              /* Change arrow when details is open */
+              details[open] summary::before {
+                content: '▼ ';   /* open state */
+              }
+            "))
           ),
           useShinyjs(),
           actionButton("logout", "Logout"),
