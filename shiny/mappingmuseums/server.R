@@ -138,7 +138,7 @@ function(input, output, session) {
               )
             ),
             tabPanel(
-              tags$span("Object Disposal", title=""),
+              tags$span("Details of Dispersal", title=""),
               tabsetPanel(
                 tabPanel(
                   tags$span("Events after closure", title="What happens after closure"),

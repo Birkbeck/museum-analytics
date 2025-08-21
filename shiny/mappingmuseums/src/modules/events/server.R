@@ -220,8 +220,11 @@ eventsServer <- function(id) {
     count_or_percentage <- reactive({input$countOrPercentage})
 
     observeEvent(event_grouping(), {
-      event_type_choices <- unique(
-        select(dispersal_events, .data[[event_grouping()]])
+      event_type_choices <- arrange(
+        unique(
+          select(dispersal_events, .data[[event_grouping()]])
+        ),
+        .data[[event_grouping()]]
       )[[event_grouping()]]
       updatePickerInput(
         session=session,
@@ -258,8 +261,11 @@ eventsServer <- function(id) {
       }
 
       sender_type <- paste0("sender", actor_grouping())
-      sender_type_choices <- unique(
-        select(dispersal_events, .data[[sender_type]])
+      sender_type_choices <- arrange(
+        unique(
+          select(dispersal_events, .data[[sender_type]])
+        ),
+        .data[[sender_type]]
       )[[sender_type]]
       sender_choices <- c(sender_museum_type_choices, sender_type_choices)
       updatePickerInput(
@@ -270,8 +276,11 @@ eventsServer <- function(id) {
       )
 
       recipient_type <- paste0("recipient", actor_grouping())
-      recipient_type_choices <- unique(
-        select(dispersal_events, .data[[recipient_type]])
+      recipient_type_choices <- arrange(
+        unique(
+          select(dispersal_events, .data[[recipient_type]])
+        ),
+        .data[[recipient_type]]
       )[[recipient_type]]
       recipient_choices <- c(recipient_museum_type_choices, recipient_type_choices)
       updatePickerInput(

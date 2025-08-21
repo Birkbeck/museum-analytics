@@ -200,6 +200,7 @@ collection_types <- dispersal_events |>
   unnest(collection_type) |>
   select(collection_type) |>
   unique() |>
+  arrange(collection_type) |>
   filter(collection_type != "")
 
 not_really_museums <- read_csv("data/not-really-museums.csv")
@@ -276,31 +277,63 @@ museums_including_crown_dependencies <- museums_including_crown_dependencies |>
 museums <- museums_including_crown_dependencies |>
   filter(!country %in% c("Channel Islands", "Isle of Man"))
 
-size_labels <- unique(select(museums_including_crown_dependencies, label=size))
-governance_broad_labels <- unique(select(museums_including_crown_dependencies, label=governance_broad))
-governance_labels <- unique(select(museums_including_crown_dependencies, label=governance))
-subject_broad_labels <- unique(select(museums_including_crown_dependencies, label=subject_broad))
-subject_labels <- unique(select(museums_including_crown_dependencies, label=subject))
-accreditation_labels <- unique(select(museums_including_crown_dependencies, label=accreditation))
-region_labels <- unique(select(museums_including_crown_dependencies, label=region))
-country_labels <- unique(select(museums_including_crown_dependencies, label=country))
-reason_core_labels <- unique(select(closure_reasons, label=reason_core))
+size_labels <- museums_including_crown_dependencies |>
+  select(label=size) |>
+  unique() |>
+  arrange(desc(label))
+governance_broad_labels <- museums_including_crown_dependencies |>
+  select(label=governance_broad) |>
+  unique() |>
+  arrange(desc(label))
+governance_labels <- museums_including_crown_dependencies |>
+  select(label=governance) |>
+  unique() |>
+  arrange(desc(label))
+subject_broad_labels <- museums_including_crown_dependencies |>
+  select(label=subject_broad) |>
+  unique() |>
+  arrange(desc(label))
+subject_labels <- museums_including_crown_dependencies |>
+  select(label=subject) |>
+  unique() |>
+  arrange(desc(label))
+accreditation_labels <- museums_including_crown_dependencies |>
+  select(label=accreditation) |>
+  unique() |>
+  arrange(desc(label))
+region_labels <- museums_including_crown_dependencies |>
+  select(label=region) |>
+  unique() |>
+  arrange(desc(label))
+country_labels <- museums_including_crown_dependencies |>
+  select(label=country) |>
+  unique() |>
+  arrange(desc(label))
+reason_core_labels <- closure_reasons |>
+  select(label=reason_core) |>
+  unique() |>
+  arrange(label)
 event_core_types <- dispersal_events |>
   select(label=event_core_type) |>
-  unique()
+  unique() |>
+  arrange(label)
 sender_core_types <- dispersal_events |>
   select(label=sender_core_type) |>
-  unique()
+  unique() |>
+  arrange(label)
 recipient_core_types <- dispersal_events |>
   select(label=recipient_core_type) |>
-  unique()
+  unique() |>
+  arrange(label)
 collection_status_labels <- dispersal_events |>
   select(label=collection_status) |>
-  unique()
+  unique() |>
+  arrange(label)
 
 subject_labels_map <- museums_including_crown_dependencies |>
   select(subject_broad, subject) |>
-  unique()
+  unique() |>
+  arrange(desc(subject))
 
 regions <- read_csv("data/regions.csv") |>
   mutate(group=paste(L1, L2, L3))
