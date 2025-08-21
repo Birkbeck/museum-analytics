@@ -94,7 +94,7 @@ function(input, output, session) {
       output$appContent <- renderUI({
         fluidPage(
           tags$head(
-            tags$style(HTML("p, li { font-size: 18px;}")),
+            tags$style(HTML("body, p, li { font-size: 18px;}")),
             tags$style(HTML("
               /* Remove default browser arrow */
               summary::-webkit-details-marker {
