@@ -114,18 +114,28 @@ snapshot_bar_chart <- function(data, dimension, measure, title, y_label, x_label
     geom_bar(position="dodge", stat="identity", show.legend=FALSE, alpha=0.7) +
     fill_scale +
     guides(fill=FALSE) +
-    geom_text(
-      aes(label=.data[[measure]]),
-      position=position_dodge(),
-      size=6,
-    ) +
     labs(
       title = title,
       y = y_label,
       x = x_label
     ) +
     standard_bars_theme
-  bar_chart |> ggplotly(tooltip=c("label", "x"))
+  if (measure %in% c("end_total_pc", "period_total_pc")) {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=paste0(.data[[measure]], "%")),
+        position=position_dodge(),
+        size=6
+      )
+  } else {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=.data[[measure]]),
+        position=position_dodge(),
+        size=6
+      )
+  }
+  bar_chart |> ggplotly(tooltip=c())
 }
 
 snapshot_bar_chart_small <- function(data, dimension, measure, title, x_label, main_axis_filter) {

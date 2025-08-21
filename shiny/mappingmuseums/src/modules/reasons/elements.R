@@ -170,7 +170,7 @@ closure_reasons_bar_chart <- function(summary_table,
   } else {
     use_theme <- theme_minimal()
   }
-  ggplot(
+  bar_chart <- ggplot(
     summary_table,
     aes(
       x=.data[[count_or_percentage]],
@@ -178,13 +178,30 @@ closure_reasons_bar_chart <- function(summary_table,
     )
   ) +
     geom_col(fill=purple) +
-    geom_text(aes(label=.data[[count_or_percentage]]), hjust="left", nudge_x=1, size=5) +
     labs(
       title="Reasons for Museum Closure 2000-2025",
       y=reason_level_name,
       x=x_title
     ) +
     use_theme
+  if (count_or_percentage == "frequency") {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=.data[[count_or_percentage]]),
+        hjust="left",
+        nudge_x=1,
+        size=5
+      )
+  } else {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=paste0(.data[[count_or_percentage]], "%")),
+        hjust="left",
+        nudge_x=1,
+        size=5
+      )
+  }
+  bar_chart
 }
 
 closure_reasons_bar_chart_small <- function(summary_table, reason_level) {

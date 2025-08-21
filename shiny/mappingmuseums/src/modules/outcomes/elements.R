@@ -152,15 +152,32 @@ closure_outcomes_bar_chart <- function(summary_table, count_or_percentage, outco
       )
     )
   }
-  plot +
+  plot <- plot +
     geom_col(fill=purple) +
-    geom_text(aes(label=.data[[count_or_percentage]]), hjust="left", nudge_x=1, size=6) +
     labs(
       title="Outcomes of Museum Closure 2000-2025",
       y=outcome_type_name,
       x=x_title
     ) +
     standard_bars_theme
+  if (count_or_percentage == "frequency") {
+    plot <- plot +
+      geom_text(
+        aes(label=.data[[count_or_percentage]]),
+        hjust="left",
+        nudge_x=1,
+        size=6
+      )
+  } else {
+    plot <- plot +
+      geom_text(
+        aes(label=paste0(.data[[count_or_percentage]], "%")),
+        hjust="left",
+        nudge_x=1,
+        size=6
+      )
+  }
+  plot
 }
 
 closure_outcomes_bar_chart_small <- function(summary_table, outcome_type) {

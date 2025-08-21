@@ -95,17 +95,27 @@ bar_chart <- function(data, dimension, measure, title, y_label, x_label) {
     geom_bar(position="dodge", stat="identity", show.legend=FALSE, alpha=0.7) +
     fill_scale +
     guides(fill=FALSE) +
-    geom_text(
-      aes(label=.data[[measure]]),
-      position=position_dodge(),
-      size=6,
-    ) +
     labs(
       title = title,
       y = y_label,
       x = x_label
     ) +
   standard_bars_theme
+  if (measure %in% c("start_total_pc", "end_total_pc", "change_pc")) {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=paste0(.data[[measure]], "%")),
+        position=position_dodge(),
+        size=6
+      )
+  } else {
+    bar_chart <- bar_chart +
+      geom_text(
+        aes(label=.data[[measure]]),
+        position=position_dodge(),
+        size=6
+      )
+  }
   bar_chart |> ggplotly(tooltip=c("label", "x"))
 }
 
@@ -184,8 +194,8 @@ two_measure_bar_chart <- function(data,
                                   y_label,
                                   x_label,
                                   fill_labels,
-                                  fill_values
-                                  ) {
+                                  fill_values) {
+  print(measures)
   colnames(data) <- ifelse(
     colnames(data) %in% names(fill_labels),
     fill_labels[colnames(data)],
@@ -210,18 +220,6 @@ two_measure_bar_chart <- function(data,
     geom_bar(position="dodge", stat="identity", alpha=0.7) +
     fill_scale +
     guides(fill=guide_legend(reverse=TRUE)) +
-    geom_text(
-      data=data |> filter(label==measures[1]),
-      aes(label=count),
-      nudge_y=0.25,
-      size=6
-    ) +
-    geom_text(
-      data=data |> filter(label==measures[2]),
-      aes(label=count),
-      nudge_y=-0.25,
-      size=6
-    ) +
     labs(
       title = title,
       y = y_label,
@@ -232,6 +230,35 @@ two_measure_bar_chart <- function(data,
     theme(
       legend.position="bottom"
     )
+  if (grepl("percentage", measures[1])) {
+    bar_chart <- bar_chart +
+      geom_text(
+        data=data |> filter(label==measures[1]),
+        aes(label=paste0(count, "%")),
+        nudge_y=0.25,
+        size=6
+      ) +
+      geom_text(
+        data=data |> filter(label==measures[2]),
+        aes(label=paste0(count, "%")),
+        nudge_y=-0.25,
+        size=6
+      )
+  } else {
+    bar_chart <- bar_chart +
+      geom_text(
+        data=data |> filter(label==measures[1]),
+        aes(label=count),
+        nudge_y=0.25,
+        size=6
+      ) +
+      geom_text(
+        data=data |> filter(label==measures[2]),
+        aes(label=count),
+        nudge_y=-0.25,
+        size=6
+      )
+  }
   bar_chart |> ggplotly(tooltip=c("label", "x", "fill"))
 }
 
