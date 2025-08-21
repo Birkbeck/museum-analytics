@@ -116,6 +116,18 @@ function(input, output, session) {
               details[open] summary::before {
                 content: '▼ ';   /* open state */
               }
+            ")),
+            tags$style(HTML("
+              .scroll-hint {
+                text-align: left;
+                font-size: 12px;
+                color: #777;
+                animation: bounce 1.5s infinite;
+              }
+              @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(3px); }
+              }
             "))
           ),
           useShinyjs(),

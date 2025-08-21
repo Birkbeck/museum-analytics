@@ -8,6 +8,8 @@ snapshotUI <- function(id) {
         width=3,
         style = sidebar_style,
 
+        div(class="scroll-hint", "▼ Scroll for more options"),
+
         div(
           style = "text-align: right;",
           actionButton(NS(id, "reset"), "Reset options")
@@ -191,7 +193,8 @@ snapshotUI <- function(id) {
             ), 
             multiple=TRUE
           )   
-        )
+        ),
+
       ),
 
       mainPanel(
