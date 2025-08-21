@@ -178,10 +178,12 @@ function(input, output, session) {
 .nav-tabs > li > a { background-color: inherit; }
 /* second-level (nested) tabs: select nav-tabs that are inside a tab-pane */
 .tab-pane .nav-tabs > li > a {
-  background-color: #ddeeff !important;
+  background-color: #eee9ff !important;
 }
-.tab-pane .nav-tabs > li.active > a {
-  background-color: #ddeeff !important;
+.tab-pane .nav-tabs > li.active > a,
+.tab-pane .nav-tabs > li.active > a:focus,
+.tab-pane .nav-tabs > li.active > a:hover {
+  background-color: #ffffdd !important;
 }"))
           )
         )
