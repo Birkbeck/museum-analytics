@@ -203,6 +203,23 @@ summarize_events <- function(events, dimension_1, dimension_2) {
 }
 
 event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
+  x_name <- sub(" \\(.*", "", x_label)
+  y_name <- sub(" \\(.*", "", y_label)
+  if (count_or_percentage == "count") {
+    title <- paste(
+      "Counts of recorded events,",
+      y_name,
+      "vs",
+      x_name
+    )
+  } else {
+    title <- paste(
+      "Percentage of recorded events,",
+      y_name,
+      "vs",
+      x_name
+    )
+  }
   plot <- ggplot(
     table,
     aes(
@@ -215,7 +232,7 @@ event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
     geom_text(aes(label=.data[[count_or_percentage]]), size=5) +
     heatmap_fill_scale +
     labs(
-      title="",
+      title=title,
       x=x_label,
       y=y_label
     ) +
