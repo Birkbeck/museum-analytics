@@ -30,23 +30,26 @@ snapshotServer <- function(id) {
     })
 
     small_chart_size <- 300
-      x_labels <- reactive({c(
+
+    x_labels <- reactive({
+      c(
         "start_total"=paste("Open Museums at start of", input$year_range[1]),
         "end_total"=paste("Open Museums at end of", input$year_range[2]),
         "openings"=paste0("New Museum Openings ", input$year_range[1], "-", input$year_range[2]),
         "closures"=paste0("Museum Closures ", input$year_range[1], "-", input$year_range[2]),
         "change"=paste0("Change in Museum Numbers ", input$year_range[1], "-", input$year_range[2]),
         "change_pc"=paste0("Percentage Change in Museums ", input$year_range[1], "-", input$year_range[2])
-      )})
-      y_labels <- c(
-        "all"="All Museums",
-        "size"="Museum Size",
-        "governance"="Museum Governance",
-        "accreditation"="Museum Accreditation",
-        "main_subject"="Subject Matter",
-        "region"="Country/Region",
-        "nation"="Country"
       )
+    })
+    y_labels <- c(
+      "all"="All Museums",
+      "size"="Museum Size",
+      "governance"="Museum Governance",
+      "accreditation"="Museum Accreditation",
+      "main_subject"="Subject Matter",
+      "region"="Country/Region",
+      "nation"="Country"
+    )
 
     year_or_range <- reactive({input$yearOrRange})
     period_start <- reactive({
@@ -243,19 +246,22 @@ snapshotServer <- function(id) {
       )
     })
 
-    filtered_museums <- reactive({
-      get_museums_in_snapshot(
-        museums,
-        size_filter=size_filter_choices(),
-        governance_filter=governance_filter_choices(),
-        subject_filter=subject_filter_choices(),
-        subject_specific_filter=subject_specific_filter_choices(),
-        region_filter=region_filter_choices(),
-        accreditation_filter=accreditation_filter_choices(),
-        start=period_start(),
-        end=period_end()
-      )
-    })
+    filtered_museums <- debounce(
+      reactive({
+        get_museums_in_snapshot(
+          museums,
+          size_filter=size_filter_choices(),
+          governance_filter=governance_filter_choices(),
+          subject_filter=subject_filter_choices(),
+          subject_specific_filter=subject_specific_filter_choices(),
+          region_filter=region_filter_choices(),
+          accreditation_filter=accreditation_filter_choices(),
+          start=period_start(),
+          end=period_end()
+        )
+      }),
+      millis=DEBOUNCE_TIME
+    )
 
     museum_type_summary <- reactive({
       get_open_and_close_data(

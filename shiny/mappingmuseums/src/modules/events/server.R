@@ -315,28 +315,31 @@ eventsServer <- function(id) {
       )
     })
 
-    filtered_events_and_participants <- reactive({
-      filter_events(
-        dispersal_events,
-        event_grouping=event_grouping(),
-        sender_grouping=sender_grouping(),
-        museum_grouping=museum_grouping(),
-        recipient_grouping=recipient_grouping(),
-        only_show_last_event=only_show_last_event(),
-        stages_in_path=stages_in_path(),
-        event_filter=event_filter_choices(),
-        sender_filter=sender_filter_choices(),
-        recipient_filter=recipient_filter_choices(),
-        collection_type_filter=collection_type_filter_choices(),
-        collection_status_filter=collection_status_filter_choices(),
-        size_filter=size_filter_choices(),
-        governance_filter=governance_filter_choices(),
-        subject_broad_filter=subject_filter_choices(),
-        subject_specific_filter=specific_subject_filter_choices(),
-        region_filter=region_filter_choices(),
-        accreditation_filter=accreditation_filter_choices()
-      )
-    })
+    filtered_events_and_participants <- debounce(
+      reactive({
+        filter_events(
+          dispersal_events,
+          event_grouping=event_grouping(),
+          sender_grouping=sender_grouping(),
+          museum_grouping=museum_grouping(),
+          recipient_grouping=recipient_grouping(),
+          only_show_last_event=only_show_last_event(),
+          stages_in_path=stages_in_path(),
+          event_filter=event_filter_choices(),
+          sender_filter=sender_filter_choices(),
+          recipient_filter=recipient_filter_choices(),
+          collection_type_filter=collection_type_filter_choices(),
+          collection_status_filter=collection_status_filter_choices(),
+          size_filter=size_filter_choices(),
+          governance_filter=governance_filter_choices(),
+          subject_broad_filter=subject_filter_choices(),
+          subject_specific_filter=specific_subject_filter_choices(),
+          region_filter=region_filter_choices(),
+          accreditation_filter=accreditation_filter_choices()
+        )
+      }),
+      millis=DEBOUNCE_TIME
+    )
 
     events_summary <- reactive({
       summarize_events(

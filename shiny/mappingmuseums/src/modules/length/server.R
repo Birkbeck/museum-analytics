@@ -90,17 +90,20 @@ lengthServer <- function(id) {
       )
     })
 
-    filtered_closure_lengths <- reactive({
-      closure_lengths |>
-        filter(
-          size %in% size_filter_choices(),
-          governance_broad %in% governance_filter_choices(),
-          accreditation %in% accreditation_filter_choices(),
-          subject_broad %in% subject_filter_choices(),
-          subject %in% specific_subject_filter_choices(),
-          region %in% region_filter_choices()
-        )
-    })
+    filtered_closure_lengths <- debounce(
+      reactive({
+        closure_lengths |>
+          filter(
+            size %in% size_filter_choices(),
+            governance_broad %in% governance_filter_choices(),
+            accreditation %in% accreditation_filter_choices(),
+            subject_broad %in% subject_filter_choices(),
+            subject %in% specific_subject_filter_choices(),
+            region %in% region_filter_choices()
+          )
+      }),
+      millis=DEBOUNCE_TIME
+    )
     lengths_two_way_table <- reactive({
       get_lengths_two_way_table(filtered_closure_lengths(), museum_grouping())
     })

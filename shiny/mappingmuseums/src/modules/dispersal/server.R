@@ -294,21 +294,24 @@ dispersalServer <- function(id) {
       #)
     })
 
-    filtered_sequences <- reactive({
-      get_filtered_sequences(
-        dispersal_events,
-        transaction_type_filter(),
-        actor_grouping(),
-        museum_grouping_field(),
-        event_type_filter(),
-        event_type_uncertainty_filter(),
-        collection_status_filter(),
-        initial_museum_ids(),
-        sequence_end(),
-        #sequence_passes_through(),
-        steps_or_first_last()
-      )
-    })
+    filtered_sequences <- debounce(
+      reactive({
+        get_filtered_sequences(
+          dispersal_events,
+          transaction_type_filter(),
+          actor_grouping(),
+          museum_grouping_field(),
+          event_type_filter(),
+          event_type_uncertainty_filter(),
+          collection_status_filter(),
+          initial_museum_ids(),
+          sequence_end(),
+          #sequence_passes_through(),
+          steps_or_first_last()
+        )
+      }),
+      millis=DEBOUNCE_TIME
+    )
 
     steps_or_first_last <- reactive({input$stepsOrFirstLast})
 

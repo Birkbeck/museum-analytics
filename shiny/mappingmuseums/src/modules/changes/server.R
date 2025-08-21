@@ -302,19 +302,22 @@ changesServer <- function(id) {
       )
     })
 
-    filtered_museums <- reactive({
-      get_museums_in_changes_period(
-        museums,
-        size_filter=size_filter_choices(),
-        governance_filter=governance_filter_choices(),
-        subject_filter=subject_filter_choices(),
-        subject_specific_filter=subject_specific_filter_choices(),
-        region_filter=region_filter_choices(),
-        accreditation_filter=accreditation_filter_choices(),
-        start=period_start(),
-        end=period_end()
-      )
-    })
+    filtered_museums <- debounce(
+      reactive({
+        get_museums_in_changes_period(
+          museums,
+          size_filter=size_filter_choices(),
+          governance_filter=governance_filter_choices(),
+          subject_filter=subject_filter_choices(),
+          subject_specific_filter=subject_specific_filter_choices(),
+          region_filter=region_filter_choices(),
+          accreditation_filter=accreditation_filter_choices(),
+          start=period_start(),
+          end=period_end()
+        )
+      }),
+      millis=DEBOUNCE_TIME
+    )
 
     museum_cumulative_counts <- reactive({
       cumulative_counts_by_dimension(

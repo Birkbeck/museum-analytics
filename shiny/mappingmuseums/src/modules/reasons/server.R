@@ -75,19 +75,22 @@ reasonsServer <- function(id) {
       )
     })
 
-    filtered_reasons <- reactive({
-      closure_reasons |>
-        filter(
-          !is.na(reason_core),
-          reason_core %in% reason_filter(),
-          size %in% size_filter_choices(),
-          governance_broad %in% governance_filter_choices(),
-          accreditation %in% accreditation_filter_choices(),
-          subject %in% specific_subject_filter_choices(),
-          subject_broad %in% subject_filter_choices(),
-          region %in% region_filter_choices()
-        )
-    })
+    filtered_reasons <- debounce(
+      reactive({
+        closure_reasons |>
+          filter(
+            !is.na(reason_core),
+            reason_core %in% reason_filter(),
+            size %in% size_filter_choices(),
+            governance_broad %in% governance_filter_choices(),
+            accreditation %in% accreditation_filter_choices(),
+            subject %in% specific_subject_filter_choices(),
+            subject_broad %in% subject_filter_choices(),
+            region %in% region_filter_choices()
+          )
+      }),
+      millis=DEBOUNCE_TIME
+    )
     summary_table <- reactive({
       closure_reasons_summary_table(filtered_reasons(), reason_level())
     })
