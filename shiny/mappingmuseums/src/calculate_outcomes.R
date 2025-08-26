@@ -50,6 +50,7 @@ get_outcomes_by_museum <- function(super_events, events_table) {
         TRUE ~ "abroad"
       )
     )
+  write_csv(events_with_numeric_collection_size |> select(initial_museum_id, initial_museum_name, collection_size, destination_type), "outcome-calc.csv")
   event_outcomes <- get_outcomes_by_museum_for_type(
     events_with_numeric_collection_size, "event_core_type", "unknown"
   ) |>
@@ -86,25 +87,20 @@ get_outcomes_by_museum <- function(super_events, events_table) {
     left_join(largest_recipient_shares, by="museum_id") |>
     mutate(
       outcome_event_type=case_when(
-        !has_collection ~ "had no collection",
         is.na(outcome_event_type) ~ "mostly unknown",
         TRUE ~ outcome_event_type
       ),
       outcome_recipient_type=case_when(
-        !has_collection ~ "had no collection",
         is.na(outcome_recipient_type) ~ "mostly unknown",
         TRUE ~ outcome_recipient_type
       ),
       outcome_recipient_count=case_when(
-        !has_collection ~ "had no collection",
         is.nan(outcome_recipient_count) ~ "many",
         is.na(outcome_recipient_count) ~ "0",
         outcome_recipient_count > 5 ~ "> 5",
         TRUE ~ as.character(outcome_recipient_count)
       ),
-      outcome_largest_share=ifelse(has_collection, outcome_largest_share, "had no collection"),
       outcome_destination_type=case_when(
-        !has_collection ~ "had no collection",
         is.na(outcome_destination_type) ~ "mostly unknown",
         TRUE ~ outcome_destination_type
       )
@@ -189,7 +185,7 @@ get_outcomes_by_museum_for_type <- function(events_with_numeric_collection_size,
           `within the same LAD` >= 50 ~ "mostly within the same LAD",
           `within the same region` >= 50 ~ "mostly within the same region",
           `within the UK` >= 50 ~ "mostly within the UK",
-          #`abroad` >= 50 ~ "mostly abroad",
+          `abroad` >= 50 ~ "mostly abroad",
           .data[[unknown_label]] >= 50 ~ paste("mostly", unknown_label),
           TRUE ~ "mixed destinations"
         )

@@ -931,7 +931,6 @@ short_labels <- c(
   "archaeology: greek & egyptian"="greek&egyptian",
   "archaeology"="archaeology",
   # destination outcome
-  "had no collection"="had no collection",
   "mostly no move"="mostly no move",
   "mostly within the same LAD"="mostly within the same LAD",
   "mostly within the same region"="mostly within the same region",
@@ -1177,7 +1176,6 @@ very_short_labels <- c(
   "archaeology: greek & egyptian"="gr./egpt",
   "archaeology"="arc",
   # destination outcome
-  "had no collection"="had no collection",
   "mostly no move"="mostly no move",
   "mostly within the same LAD"="mostly within the same LAD",
   "mostly within the same region"="mostly within the same region",
@@ -1423,7 +1421,6 @@ museum_attribute_ordering <- c(
   "archaeology: greek & egyptian",
   "archaeology",
   # destination outcome
-  "had no collection",
   "mostly no move",
   "mostly within the same LAD",
   "mostly within the same region",
