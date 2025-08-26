@@ -534,7 +534,7 @@ sector_type_ordering_table <- actor_types |>
 
 sector_type_ordering <- sector_type_ordering_table$type_name
 
-if (TRUE) {
+if (FALSE) {
 # script to do regional stats according to population
 regional_populations <- read_csv("data/regional-populations.csv") |>
   clean_names()
