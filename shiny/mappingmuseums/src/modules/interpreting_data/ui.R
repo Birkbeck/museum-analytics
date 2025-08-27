@@ -16,6 +16,8 @@ interpretingDataUI <- function(id) {
   <li><a href='#date-ranges'>Date ranges</a></li>
   <li><a href='#probable-and-definite-numbers'>Probable and definite numbers</a></li>
   <li><a href='#data-coverage-of-closure'>Data coverage of closure</a></li>
+  <li><a href='#museum-location'>Museum Location</a></li>
+  <li><a href='#unspecified-actor'>Unspecified Actor</a></li>
   <li><a href='#box-and-whisker'>Box and whisker visualisations</a></li>
 </ul>"),
 
@@ -131,6 +133,18 @@ interpretingDataUI <- function(id) {
 <p>482 museums have been given at least one reason for closure, but 10 of these are “unknown”, so 462 excluding those</p>
 
 <p>Where possible we collected information on the location of recipients of objects from closed museums. That information was not always available, particularly when objects had been transferred to individuals or sold. Out of a total of 978 recorded recipients, 71% have some information regarding their location (ranging in granularity from country to street address). 60% have a postcode.</p>
+
+<a href='#top'>⬆ Back to Top</a>
+
+<h3 id='museum-location'>Museum location</h3>
+
+<p>There are significant differences in the sizes and populations of the constituent nations of the UK. As of 2023 when the last population estimates were released by the ONS, England had around 61million residents, Scotland 5.5m, Wales 3.2m, and Northern Ireland 1.9m. There is also considerable variation within the English regions. The largest, the South East of England, had around 9.5million residents, while the smallest, the North East, had 2.7m. For the purposes of comparison, we show data on museums in Northern Ireland, Scotland, and Wales alongside that of the English regions.</p>
+
+<a href='#top'>⬆ Back to Top</a>
+
+<h3 id='unspecified-actor'>Unspecified Actor</h3>
+
+<p>In some cases, we know that an event occurred but do not know the identity of the actors. For instance we know that an object was returned to a lender, but we do not know who the original lenders were, simply that they existed. We refer to these recipients as ‘unspecified actors’.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 
