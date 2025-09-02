@@ -6,7 +6,7 @@ snapshotServer <- function(id) {
     observeEvent(input$reset, {
       updateRadioButtons(session=session, inputId="yearOrRange", selected="Single year")
       updateSliderInput(session=session, inputId="year", value=c(2025))
-      updateRadioButton(session=session, inputId="mainAxis", selected="Governance")
+      updateRadioButtons(session=session, inputId="mainAxis", selected="Governance")
       updateSelectInput(session=session, inputId="secondAxis", selected="Country/Region")
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="")
       updatePickerInput(
