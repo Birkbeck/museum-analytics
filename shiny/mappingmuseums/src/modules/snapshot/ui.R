@@ -1,4 +1,4 @@
-snapshotUI <- function(id) {
+snapshotUI <- function(id, production) {
   fluidPage(
 
     text_box(top_snapshot),
@@ -43,23 +43,6 @@ snapshotUI <- function(id) {
         ),
 
         form_item(
-          "!! Show only",
-          "<p>Add or remove values from the chart</p>",
-          pickerInput(
-            NS(id, "mainAxisShowOnly"),
-            "", 
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          )
-        ),
-
-        form_item(
           "Secondary museum attribute (for heatmaps only)",
           tooltip_secondary_attribute,
           disabled(
@@ -69,23 +52,6 @@ snapshotUI <- function(id) {
               choices=field_names$name,
               selected="Country/Region"
             )
-          )
-        ),
-
-        form_item(
-          "!! Show only",
-          "<p>Add or remove values from the chart</p>",
-          pickerInput(
-            NS(id, "secondAxisShowOnly"),
-            "", 
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
           )
         ),
 

@@ -6,16 +6,6 @@ outcomesServer <- function(id) {
     observeEvent(input$reset, {
       updateRadioButtons(session=session, inputId="outcomeType", selected="Event")
       updateRadioButtons(session=session, inputId="museumGrouping", selected="Governance")
-      updatePickerInput(
-        session=session,
-        inputId="outcomeFilter",
-        selected=distinct(
-          filter(
-            select(closure_outcomes, .data[[outcome_type()]]),
-            !is.na(.data[[outcome_type()]])
-          )
-        )[[outcome_type()]]
-      )
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="frequency")
       updatePickerInput(
         session=session, inputId="governanceFilter", selected=governance_broad_labels$label
@@ -52,7 +42,6 @@ outcomesServer <- function(id) {
         return("outcome_destination_type")
       }
     })
-    outcome_filter <- reactive({input$outcomeFilter})
     museum_grouping <- reactive({
       req(input$museumGrouping)
       if (input$museumGrouping == "Event") {
@@ -165,7 +154,6 @@ outcomesServer <- function(id) {
         museums_including_crown_dependencies |>
           filter(
             !is.na(outcome_event_type),
-            .data[[outcome_type()]] %in% outcome_filter(),
             size %in% size_filter_choices(),
             governance_broad %in% governance_filter_choices(),
             accreditation %in% accreditation_filter_choices(),

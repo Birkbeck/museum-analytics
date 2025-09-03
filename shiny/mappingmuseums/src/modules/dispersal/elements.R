@@ -77,7 +77,6 @@ grouping_dimension_map <- list(
 ) 
 
 get_dispersal_initial_museums <- function(dispersal_events,
-                                         include_firepower,
                                          size_filter,
                                          governance_filter,
                                          subject_filter,
@@ -86,7 +85,6 @@ get_dispersal_initial_museums <- function(dispersal_events,
                                          accreditation_filter) {
   dispersal_events |>
     filter(
-      include_firepower | initial_museum_id != "mm.domus.SE513",
       initial_museum_size %in% size_filter,
       initial_museum_governance_broad %in% governance_filter,
       initial_museum_subject_broad %in% subject_filter,

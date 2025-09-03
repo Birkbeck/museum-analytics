@@ -8,7 +8,6 @@ dispersalServer <- function(id) {
       updateSliderInput(session=session, inputId="stagesInOwnershipPath", value=2)
       updateCheckboxInput(session=session, inputId="showTransactionCounts", value=FALSE)
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
-      updateSwitchInput(session=session, inputId="firepower", value=FALSE)
       updateRadioButtons(session=session, inputId="grouping", selected="Actor type (core categories)")
       updateRadioButtons(session=session, inputId="groupingMuseums", selected="Governance")
       updatePickerInput(
@@ -65,7 +64,6 @@ dispersalServer <- function(id) {
       )
       filtered_museums <- get_dispersal_initial_museums(
         dispersal_events,
-        include_firepower(),
         size_filter_choices(),
         governance_filter_choices(),
         subject_filter_choices(),
@@ -146,16 +144,8 @@ dispersalServer <- function(id) {
     specific_subject_filter_choices <- reactive({ input$startSubjectSpecificFilter })
     region_filter_choices <- reactive({ input$startRegionFilter })
     accreditation_filter_choices <- reactive({ input$startAccreditationFilter })
-    include_firepower <- reactive({
-      if (is.null(input$firepower)) {
-        FALSE
-      } else {
-        input$firepower
-      }
-    })
     initial_museum_filters <- reactive({
       list(
-        input$firepower,
         input$startSizeFilter,
         input$startGovernanceFilter,
         input$startSubjectFilter,
@@ -261,7 +251,6 @@ dispersalServer <- function(id) {
       freezeReactiveValue(input, "initialMuseum")
       filtered_museums <- get_dispersal_initial_museums(
         dispersal_events,
-        include_firepower(),
         size_filter_choices(),
         governance_filter_choices(),
         subject_filter_choices(),

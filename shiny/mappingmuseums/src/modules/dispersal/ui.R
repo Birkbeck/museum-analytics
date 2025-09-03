@@ -53,15 +53,6 @@ dispersalUI <- function(id) {
         uiOutput(NS(id, "mainPlotOptions")),
 
         form_item(
-          "!! Firepower",
-          tooltip_include_firepower,
-          switchInput(
-            NS(id, "firepower"),
-            value=FALSE
-          )
-        ),
-
-        form_item(
           "Actors - level of detail",
           tooltip_group_actors_by,
           radioButtons(

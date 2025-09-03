@@ -118,41 +118,6 @@ snapshotServer <- function(id) {
       )
     })
 
-    observeEvent(main_axis(), {
-      choices <- filter_field_choices |> filter(field==main_axis())
-      selected_choices <- choices |> filter(!label %in% by_default_ignore)
-      updatePickerInput(
-        inputId="mainAxisShowOnly",
-        choices=choices$label,
-        selected=selected_choices$label
-      ) 
-    })
-
-    observeEvent(second_axis(), {
-      choices <- filter_field_choices |> filter(field==second_axis())
-      selected_choices <- choices |> filter(!label %in% by_default_ignore)
-      updatePickerInput(
-        inputId="secondAxisShowOnly",
-        choices=choices$label,
-        selected=selected_choices$label
-      ) 
-    })
-
-    main_axis_filter <- reactive({
-      filter(
-        filter_field_choices,
-        label %in% input$mainAxisShowOnly
-        & main_axis() %in% field
-      )$label
-    })
-    second_axis_filter <- reactive({
-      filter(
-        filter_field_choices,
-        label %in% input$secondAxisShowOnly
-        & second_axis() %in% field
-      )$label
-    })
-
     mainPlot <- reactiveVal("museumMap")
     # Update the current plot based on user clicks
     observeEvent(input$museumMap, {
@@ -300,8 +265,7 @@ snapshotServer <- function(id) {
           year_or_range(),
           period_start(),
           period_end(),
-          y_label(),
-          main_axis_filter()
+          y_label()
         )
       } else if(mainPlot() == "museumCounts") {
         snapshot_bar_chart(
@@ -310,8 +274,7 @@ snapshotServer <- function(id) {
           metric(),
           title(),
           y_label(),
-          x_label(),
-          main_axis_filter()
+          x_label()
         )
       } else if(mainPlot() == "museumHeatmap") {
         snapshot_heatmap(
@@ -321,9 +284,7 @@ snapshotServer <- function(id) {
           period_start(),
           period_end(),
           input$xAxis,
-          input$yAxis,
-          main_axis_filter(),
-          second_axis_filter()
+          input$yAxis
         )
       }
     })
@@ -334,8 +295,7 @@ snapshotServer <- function(id) {
         main_axis(),
         year_or_range(),
         period_start(),
-        period_end(),
-        main_axis_filter()
+        period_end()
       )
     }, width=small_chart_size, height=small_chart_size)
     output$museumCountsSmall <- renderPlot({
@@ -348,8 +308,7 @@ snapshotServer <- function(id) {
           paste("Museums in the UK", period_start()),
           paste0("Museums in the UK ", period_start(), "-", period_end())
         ),
-        "Number of Museums",
-        main_axis_filter()
+        "Number of Museums"
       )
     }, width=small_chart_size, height=small_chart_size)
     output$museumHeatmapSmall <- renderPlot({
@@ -360,9 +319,7 @@ snapshotServer <- function(id) {
         period_start(),
         period_end(),
         input$mainAxis,
-        input$secondAxis,
-        main_axis_filter(),
-        second_axis_filter()
+        input$secondAxis
       )
     }, width=small_chart_size, height=small_chart_size)
 

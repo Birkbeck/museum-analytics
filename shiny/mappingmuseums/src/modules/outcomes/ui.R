@@ -57,23 +57,6 @@ outcomesUI <- function(id) {
           )
         ),
 
-        form_item(
-          "!! Show only outcomes",
-          tooltip_show_only_outcomes,
-          pickerInput(
-            NS(id, "outcomeFilter"),
-            label="",
-            choices=NULL,
-            selected=NULL,
-            options=pickerOptions(
-              actionsBox=TRUE, 
-              size=10,
-              selectedTextFormat="count > 3"
-            ), 
-            multiple=TRUE
-          ) 
-        ),
-
         form_subtitle("Filter", tooltip_filter),
 
         form_item(

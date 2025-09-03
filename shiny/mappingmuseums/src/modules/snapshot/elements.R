@@ -20,14 +20,14 @@ get_museums_in_snapshot <- function(museums,
     )
 }
 
-museum_map <- function(museums, dimension, year_or_range, start, end, legend_title, main_axis_filter) {
+museum_map <- function(museums, dimension, year_or_range, start, end, legend_title) {
   if (year_or_range == "Single year") {
     period <- end 
   } else {
     period <- paste0(start, "-", end)
   }
   padding <- 10000
-  map <- ggplot(museums |> filter(.data[[dimension]] %in% main_axis_filter)) +
+  map <- ggplot(museums) +
     geom_polygon(
       data=regions,
       aes(x=x, y=y, group=group),
@@ -73,13 +73,13 @@ museum_map <- function(museums, dimension, year_or_range, start, end, legend_tit
   map |> ggplotly(tooltip=c("label", "colour"))
 }
 
-museum_map_small <- function(museums, dimension, year_or_range, start, end, main_axis_filter) {
+museum_map_small <- function(museums, dimension, year_or_range, start, end) {
   if (year_or_range == "Single year") {
     period <- end 
   } else {
     period <- paste0(start, "-", end)
   }
-  ggplot(museums |> filter(.data[[dimension]] %in% main_axis_filter)) +
+  ggplot(museums) +
     geom_polygon(data=regions, aes(x=x, y=y, group=group), linewidth=0.1, label=NA, colour="black", fill=NA) +
     geom_point(aes(label=museum_name, x=bng_x, y=bng_y, colour=.data[[dimension]]), size=0.5) +
     map_x_scale +
@@ -100,10 +100,10 @@ museum_map_small <- function(museums, dimension, year_or_range, start, end, main
     )
 }
 
-snapshot_bar_chart <- function(data, dimension, measure, title, y_label, x_label, main_axis_filter) {
+snapshot_bar_chart <- function(data, dimension, measure, title, y_label, x_label) {
   fill_scale <- scale_fill_manual(values=c("TRUE"=blue, "FALSE"=red))
   bar_chart <- ggplot(
-    data |> filter(.data[[dimension]] %in% main_axis_filter),
+    data,
     aes(
       x=.data[[measure]],
       y=.data[[dimension]],
@@ -138,7 +138,7 @@ snapshot_bar_chart <- function(data, dimension, measure, title, y_label, x_label
   bar_chart |> ggplotly(tooltip=c())
 }
 
-snapshot_bar_chart_small <- function(data, dimension, measure, title, x_label, main_axis_filter) {
+snapshot_bar_chart_small <- function(data, dimension, measure, title, x_label) {
   fill_scale <- scale_fill_manual(values=c("TRUE"=blue, "FALSE"=red))
   if (measure == "end_total") {
     axis_max <- max(c(max(data$start_total), max(data$end_total)))
@@ -169,7 +169,7 @@ snapshot_bar_chart_small <- function(data, dimension, measure, title, x_label, m
     breaks <- c(0, axis_max)
   }
   ggplot(
-    data |> filter(.data[[dimension]] %in% main_axis_filter),
+    data,
     aes(
       x=.data[[measure]],
       y=.data[[dimension]],
@@ -205,9 +205,7 @@ snapshot_heatmap <- function(data,
                              start,
                              end,
                              x_label,
-                             y_label,
-                             main_axis_filter,
-                             second_axis_filter) {
+                             y_label) {
   if (year_or_range == "Single year") {
     period <- end 
   } else {
@@ -226,11 +224,7 @@ snapshot_heatmap <- function(data,
   ) |>
     mutate(y=y+0.5)
   heatmap <- ggplot(
-    data |>
-      filter(
-        dimension_1 == "all" | dimension_1 %in% main_axis_filter,
-        dimension_2 == "all" | dimension_2 %in% second_axis_filter
-      ),
+    data,
     aes(
       x=dimension_2,
       y=dimension_1,
@@ -271,20 +265,14 @@ snapshot_heatmap_small <- function(data,
                                    start,
                                    end,
                                    x_label,
-                                   y_label,
-                                   main_axis_filter,
-                                   second_axis_filter) {
+                                   y_label) {
   if (year_or_range == "Single year") {
     period <- end 
   } else {
     period <- paste0(start, "-", end)
   }
   ggplot(
-    data |>
-      filter(
-        dimension_1 == "all" | dimension_1 %in% main_axis_filter,
-        dimension_2 == "all" | dimension_2 %in% second_axis_filter
-      ),
+    data,
     aes(
       x=dimension_2,
       y=dimension_1,
