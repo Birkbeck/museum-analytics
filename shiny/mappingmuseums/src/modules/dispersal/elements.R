@@ -118,7 +118,7 @@ get_actor_choices <- function(grouping_dimension, museum_grouping_dimension) {
   choices_table <- grouped_events |>
     mutate(
       recipient_museum_group=ifelse(
-        !is.na(recipient_all),
+        !is.na(recipient_all) | museum_grouping_dimension == "all",
         .data[[paste0("recipient_", museum_grouping_dimension)]],
         NA
       )
@@ -333,23 +333,32 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       ),
       sender_group=.data[[paste0("sender_", grouping_dimension)]],
       sender_museum_group=ifelse(
-        !is.na(sender_all),
+        !is.na(sender_all) & museum_grouping_dimension != "all",
         .data[[paste0("sender_", museum_grouping_dimension)]],
         NA
       ),
       recipient_group=.data[[paste0("recipient_", grouping_dimension)]],
       recipient_museum_group=ifelse(
-        !is.na(recipient_all),
+        !is.na(recipient_all) & museum_grouping_dimension != "all",
         .data[[paste0("recipient_", museum_grouping_dimension)]],
         NA
       ),
       from=ifelse(
         event_stage_in_path==1,
-        paste(
-          .data[[paste0("initial_museum_", museum_grouping_dimension)]],
-          .data[[paste0("initial_museum_", grouping_dimension)]],
-          1,
-          sep="@"
+        ifelse(
+          rep(museum_grouping_dimension != "all", n()),
+          paste(
+            .data[[paste0("initial_museum_", museum_grouping_dimension)]],
+            .data[[paste0("initial_museum_", grouping_dimension)]],
+            1,
+            sep="@"
+          ),
+          paste(
+            "NA",
+            .data[[paste0("initial_museum_", grouping_dimension)]],
+            1,
+            sep="@"
+          )
         ),
         paste(
           sender_museum_group,
@@ -454,7 +463,11 @@ remove_sequence_middle <- function(events_data, grouping_dimension, museum_group
       sender_quantity="1",
       recipient_position=2,
       sender_group=.data[[paste0("initial_museum_", grouping_dimension)]],
-      sender_museum_group=.data[[paste0("initial_museum_", museum_grouping_dimension)]],
+      sender_museum_group=ifelse(
+        museum_grouping_dimension != "all",
+        .data[[paste0("initial_museum_", museum_grouping_dimension)]],
+        NA
+      ),
       from=paste(
         .data[[paste0("initial_museum_", museum_grouping_dimension)]],
         .data[[paste0("initial_museum_", grouping_dimension)]],
@@ -530,6 +543,12 @@ get_pathways_layout <- function(sequences,
           paste(actor_group, "other")
         )
       )
+  } else if (museum_grouping_dimension == "all") {
+    nodes <- nodes |>
+      mutate(
+        name=paste(museum_group, actor_group, sep="@"),
+        label = actor_group
+      )
   } else {
     nodes <- nodes |>
       mutate(
@@ -581,7 +600,7 @@ get_sequences_layout <- function(sequences,
   nodes <- merge_from_and_to_nodes(from_nodes, to_nodes) |>
     mutate(
       name=ifelse(
-        is_museum,
+        is_museum | museum_grouping_dimension != "all",
         paste(museum_group, actor_group, sep="@"),
         paste("NA", actor_group, sep="@")
       )
@@ -595,7 +614,7 @@ get_sequences_layout <- function(sequences,
     mutate(
       name_numeric = row_number()
     )
-  
+
   if (grouping_dimension == "sector") {
     name_mapping <- name_mapping |> 
       mutate(
@@ -756,10 +775,18 @@ get_nodes <- function(sequences, endpoint, actor_role, grouping_dimension, museu
       quantity=.data[[paste0(actor_role, "_quantity")]],
       count=ifelse(quantity=="many", 2, as.numeric(quantity)),
       sector=.data[[paste0(actor_role, "_sector")]],
-      museum_group=.data[[museum_grouping_dimension]],
+      museum_group=ifelse(
+        .data[[museum_grouping_dimension]] != "all",
+        .data[[museum_grouping_dimension]],
+        NA
+      ),
       actor_group=.data[[grouping_dimension]],
       position=.data[[paste0(actor_role, "_position")]],
-      is_museum=!is.na(.data[[paste0(actor_role, "_all")]])
+      is_museum=ifelse(
+        .data[[museum_grouping_dimension]] != "all",
+        !is.na(.data[[paste0(actor_role, "_all")]]),
+        FALSE
+      )
     ) |>
     select(id, actor_id, quantity, count, sector, museum_group, actor_group, position, is_museum) |>
     distinct() |>

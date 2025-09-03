@@ -75,7 +75,7 @@ dispersalUI <- function(id) {
             NS(id, "groupingMuseums"),
             label="",
             choices=field_names$name,
-            selected="Governance"
+            selected="All"
           )
         ),
 
@@ -178,7 +178,7 @@ dispersalUI <- function(id) {
                NS(id, "startGovernanceFilter"), 
                "",
                choices=governance_broad_labels$label,
-               selected=c("local authority"),
+               selected=governance_broad_labels$label,
                options=pickerOptions(
                  actionsBox=TRUE, 
                  size=10,

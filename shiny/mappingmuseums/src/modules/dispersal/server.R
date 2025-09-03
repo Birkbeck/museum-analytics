@@ -9,7 +9,7 @@ dispersalServer <- function(id) {
       updateCheckboxInput(session=session, inputId="showTransactionCounts", value=FALSE)
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
       updateRadioButtons(session=session, inputId="grouping", selected="Actor type (core categories)")
-      updateRadioButtons(session=session, inputId="groupingMuseums", selected="Governance")
+      updateRadioButtons(session=session, inputId="groupingMuseums", selected="All")
       updatePickerInput(
         session=session,
         inputId="transactionTypeFilter",
@@ -45,7 +45,7 @@ dispersalServer <- function(id) {
         session=session, inputId="collectionStatusFilter", selected=collection_status_labels$label,
       )
       updatePickerInput(
-        session=session, inputId="startGovernanceFilter", selected="local authority"
+        session=session, inputId="startGovernanceFilter", selected=governance_broad_labels$label,
       )
       updatePickerInput(
         session=session, inputId="startSizeFilter", selected=size_labels$label
