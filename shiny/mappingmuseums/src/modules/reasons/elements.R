@@ -23,12 +23,12 @@ closure_reasons_two_way_summary_table <- function(closure_reasons_table,
     select(museum_id, .data[[museum_grouping]]) |>
     distinct() |>
     group_by(.data[[museum_grouping]]) |>
-    summarize(number_of_closures=n())
+    summarize(number_of_closures=n_distinct(museum_id))
   data_2_way <- closure_reasons_table |>
     filter(!is.na(reason_core)) |>
     group_by(.data[[museum_grouping]], .data[[reason_level]]) |>
     summarize(
-      frequency=n(),
+      frequency=n_distinct(museum_id),
       percentage=round(frequency / number_of_closed_museums * 100, 1)
     ) |>
     ungroup() |>
@@ -49,7 +49,7 @@ closure_reasons_two_way_summary_table <- function(closure_reasons_table,
     group_by(.data[[reason_level]]) |>
     summarize(
       !!sym(museum_grouping) := "all",
-      frequency=n(),
+      frequency=n_distinct(museum_id),
       percentage=round(frequency / number_of_closed_museums * 100, 1),
       percentage_x=percentage,
       percentage_y=100
