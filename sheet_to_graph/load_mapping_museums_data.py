@@ -68,6 +68,8 @@ def country_map(row):
         return "Channel Islands"
     if postcode[:2] in ("IM"):
         return "Isle of Man"
+    if postcode[:2] in ("BT"):
+        return "Northern Ireland"
     if region not in (
         "Channel Islands",
         "Isle of Man",
@@ -82,6 +84,8 @@ def country_map(row):
 def region_map(row):
     region = row["Region_country"]
     postcode = row["Postcode"]
+    if str(region).lower() == "nan":
+        region = postcode_lookup[postcode]["region"]
     if postcode[:2] in ("GY", "JE"):
         return "Channel Islands"
     if postcode[:2] in ("IM"):
