@@ -68,17 +68,17 @@ interpretingDataUI <- function(id) {
 
 <p>The subject matter and size classifications were developed as part of the Mapping Museum research project conducted between 2016-2020. In the first instance, we grouped the museums in our database into recognisable categories such as ‘arts’ and ‘transport’. We devised new classes where required, and we introduced sub-categories when a single group was large and unwieldy (the exception was local history). We used more inclusive terminology than was previously the case and renamed categories that privileged particular groups or approaches (e.g. we replaced ‘military’ with ‘war and conflict’).</p>
 
-<p>The size categories of small, medium, and large were the same as those used by the Association of Independent Museums and Arts Council England. We created the additional category of huge to distinguish museums that attract millions rather than hundreds of thousands of visitors. Each museum’s size is calculated according to the most recent number of visits that are recorded in the Mapping Museums database. When numbers were not available we used predictive testing.</p>
+<p>The size categories of small, medium, and large were the same as those used by the Association of Independent Museums and Arts Council England. We created the additional category of huge to distinguish museums that attract millions rather than hundreds of thousands of visitors. Each museum’s size is calculated according to the most recent number of visits that are recorded in the Mapping Museums database. When numbers were not available we used predictive modelling based on the museum's other attributes.</p>
 
-<p>Long-time users of Mapping Museums Lab data may notice that we have slightly altered our categories for governance. The original Mapping Museums research included privately-owned museums under the category of independent. This application treats privately-owned museums as a separate category.</p>
+<p>Long-time users of Mapping Museums Lab data may notice that we have slightly altered our categories for governance. The original Mapping Museums research included privately-owned museums under the category of independent. This new application treats privately-owned museums as a separate category.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 
 <h3 id='reasons-for-closure'>Reasons for closure</h3>
 
-<p>It is usual for managing trusts or the local authority to gloss museum closure in neutral terms and to avoid controversial or damming assessments of the organisation. Similarly, they often provide a single overarching narrative, even if the actual circumstances are complex. For example, a museum may have suffered from poor transport links; non-existent marketing; high ticket prices; lack of stakeholder buy-in; problems with governance, and with staff management, the closure is presented as failure to meet visitor numbers. The information recorded in the dataset reflects the reported reasons for closure and should be taken as indicative rather than complete.</p>
+<p>It is usual for managing trusts or the local authority to gloss museum closure in neutral terms and to avoid controversial or damming assessments of the organisation. Similarly, they often provide a single overarching narrative, even if the actual circumstances are complex. For example, a museum may have suffered from poor transport links; non-existent marketing; high ticket prices; lack of stakeholder buy-in; problems with governance, and with staff management; but the closure is presented as failure to meet visitor numbers. The information recorded in the dataset reflects the reported reasons for closure and should be taken as indicative rather than complete.</p>
 
-<p>Where applicable and when the information is available, we have entered more than one reasons for closure per museum.</p>
+<p>Where applicable and when the information is available, we have entered more than one reason for closure for a museum.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 
@@ -90,11 +90,11 @@ interpretingDataUI <- function(id) {
   <li>Some objects are more thoroughly documented than others. There is more information about vehicles, especially military vehicles, than domestic objects such as vintage washing machines or blankets.</li>
   <li>Staff and volunteers made broad brush-stroke comments such as ‘most of the collection went to A, and a couple of things went to B’ or ‘Some things went to X, but the vintage tractor went to Y’.</li>
   <li>Collections substantially differ in size. ‘Some’ of the collection from a large local authority museum will probably be substantially bigger than ‘most’ of that of a small independent museum. We are not comparing like with like.</li>
-  <li>Solid information on the size of a collection is rarely available</li>
+  <li>Reliable information on the size of a collection is rarely available</li>
   <li>In some cases, a museum’s entire collection was transferred to another institution, in others the collection was split and went in different directions. We wanted to capture all the information we possibly could, so each itemised transaction is included in our spreadsheet. The number of transactions does not equate to the number of objects or the size of the collection being moved.</li>
 </ul>
 
-<p>We have used a formula that combines the terms few, some, half, most, all with the size of the museum (according to number of visits per year) to provide an estimation of quantity. The flow lines in the figures are thicker or thinner, depending on these calculations. (the size of circles is proportional to the number of senders/recipients – when there are actors recorded as “many”, the label includes a plus sign)</p>
+<p>We have used a formula that combines the terms \"few\", \"some\", \"half\", \"most\", and \"all\" with the size of the museum (according to number of visits per year) to provide an estimation of quantity. The flow lines in the figures are thicker or thinner, depending on these calculations. (the size of circles is proportional to the number of senders/recipients – when there are actors recorded as “many”, the label includes a plus sign)</p>
 
 <p>Note: in the visualisations there are some cases of ‘all’ the collection going to one recipient and ‘some’ or a ‘few’ objects going to another.</p>
 
@@ -112,15 +112,15 @@ interpretingDataUI <- function(id) {
 
 <p>Sometimes it was impossible to establish an exact opening or closing date for a museum, but we often had partial information: that a museum was opened in ‘the late 1980s’ or closed ‘around the millennium’. In these instances, we have used a date range, for instance a museum can be logged as having opened between 1985 and 1989, or as having closed between 2005 and 2007.</p>
 
-<p>When calculating length of dispersal period, dates are treated as years. So the length is calculated as the distance between the year of the last event and the closure year. Where events took place within a range of years, the mid-point of that range is used. E.g an event that took place in either 2003 or 2004 is treated as taking place in 2003.5.</p>
+<p>When calculating length of dispersal period, dates are treated as years. So the length is calculated as the difference between the year of the last event and the closure year. Where events took place within a range of years, the mid-point of that range is used. E.g an event that took place in either 2003 or 2004 is treated as taking place in 2003.5.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 
 <h3 id='probable-and-definite-numbers'>Probable and definite numbers</h3>
 
-<p>The visualisations of museum openings and closures // in the mapping museums tabs take date ranges into account. Uncertain opening and closure dates are ‘spread’ across the range of relevant years in which they might have closed. For example, a museum which closed at some time between 2000 and 2009 contributes 0.1 closures to each of those years. The visualisations add together the number of museums that definitely opened or closed in a specified year or period together and the probable numbers of those that might have been open or closed. Numbers are rounded to the nearest whole museum.</p>
+<p>The visualisations of museum openings and closures in the tabs under Mapping Museums tabs take date ranges into account. Uncertain opening and closure dates are ‘spread’ across the range of relevant years in which they might have closed. For example, a museum which closed at some time between 2000 and 2009 contributes 0.1 closures to each of those years. The visualisations add together the number of museums that definitely opened or closed in a specified year or period and the probable numbers of those that might have been open or closed. Numbers are rounded to the nearest whole museum.</p>
 
-<p>There will be more museums listed in the tables than the numbers in the visualisations show because the visualisation take account of probability, while the tables list all possible museums for that category or time period.</p>
+<p>There may be more museums listed in the tables than the numbers in the visualisations show because the visualisations take account of probability, while the tables list all possible museums for that category or time period.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 

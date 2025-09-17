@@ -133,7 +133,7 @@ events_per_museum <- function() {
     geom_point(position=position_jitter(width=0.5, height=0.5, seed=1)) +
     labs(
       x="Number of events recorded",
-      y="Number of collections/objects recorded"
+      y="Number of objects/groups of objects recorded"
     ) +
     standard_bars_theme
 }
@@ -163,7 +163,7 @@ events_per_collection <- function() {
     coord_flip() +
     labs(
       x="Subject matter of museum",
-      y="Events per collection"
+      y="Events per group of objects"
     ) +
     standard_bars_theme
 }
@@ -213,8 +213,8 @@ collection_distribution_bars <- function() {
       )
     ) +
     labs(
-      y="Collection size quantity/category",
-      x="Number of collections in size category"
+      y="Group size quantity/category",
+      x="Number of groups of objects in size category"
     ) +
     standard_bars_theme
 }
@@ -270,7 +270,7 @@ collection_distribution_heatmap <- function() {
     heatmap_fill_scale +
     labs(
       y="Subject matter of museum",
-      x="Collection size quantity/category"
+      x="Group size quantity/category"
     ) +
     standard_bars_theme +
     theme(
