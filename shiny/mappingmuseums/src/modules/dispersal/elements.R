@@ -600,7 +600,7 @@ get_sequences_layout <- function(sequences,
   nodes <- merge_from_and_to_nodes(from_nodes, to_nodes) |>
     mutate(
       name=ifelse(
-        is_museum | museum_grouping_dimension != "all",
+        !is.na(is_museum) & (is_museum | museum_grouping_dimension != "all"),
         paste(museum_group, actor_group, sep="@"),
         paste("NA", actor_group, sep="@")
       )
