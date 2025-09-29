@@ -75,19 +75,32 @@ snapshotServer <- function(id) {
     observeEvent(year_or_range(), {
       freezeReactiveValue(input, "yearRange")
       if (year_or_range() == "Single year") {
-        output$yearSlider <- renderUI(
-          sliderInput(
-            NS(id, "year"),
-            label="Year:",
-            value=c(2025),
-            min=1960,
-            max=2025,
-            step=1,
-            sep="",
-            ticks=TRUE,
-            width="100%"
+        output$yearSlider <- renderUI({
+          tagList(
+            tags$style(
+              HTML(
+                ".irs-no-bar .irs-bar, .irs-no-bar .irs-bar-edge {
+                   background: transparent !important;
+                   border-color: transparent !important;
+                 }"
+              )
+            ),
+            div(
+              class="irs-no-bar",
+              sliderInput(
+                NS(id, "year"),
+                label="Year:",
+                value=2025,
+                min=1960,
+                max=2025,
+                step=1,
+                sep="",
+                ticks=TRUE,
+                width="100%"
+              )
+            )
           )
-        )
+        })
       } else {
         output$yearSlider <- renderUI(
           sliderInput(
