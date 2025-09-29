@@ -301,6 +301,10 @@ actors_taxonomy <- function() {
     scale_edge_colour_manual(
       values=c("dummy"="white", "normal"="lightgrey")
     ) +
+    guides(
+      fill=guide_legend(order=1, override.aes=list(colour=NA, stroke=0)),
+      colour=guide_legend(order=2, override.aes=list(fill=NA))
+    ) +
     taxonomy_theme
 }
 
@@ -457,6 +461,10 @@ events_taxonomy <- function() {
     ) +
     scale_edge_colour_manual(
       values=c("dummy"="white", "normal"="lightgrey")
+    ) +
+    guides(
+      fill=guide_legend(order=1, override.aes=list(colour=NA, stroke=0)),
+      colour=guide_legend(order=2, override.aes=list(fill=NA))
     ) +
     taxonomy_theme
 }

@@ -195,7 +195,6 @@ two_measure_bar_chart <- function(data,
                                   x_label,
                                   fill_labels,
                                   fill_values) {
-  print(measures)
   colnames(data) <- ifelse(
     colnames(data) %in% names(fill_labels),
     fill_labels[colnames(data)],
