@@ -47,12 +47,19 @@ museums_in_time_period_raw_figures <- function(museums, start_year, end_year) {
       openings = sum(prob_opened_in_period),
       change = openings - closures,
       change_pc = change / start_total * 100,
-      closure_rate = closures / average_total * 100,
-      opening_rate = openings / average_total * 100,
+      closure_rate = closures / start_total * 100,
+      opening_rate = openings / start_total * 100,
       yearly_closures = closures / years_in_period,
       yearly_openings = openings / years_in_period,
       turnover = openings + closures,
       turnover_pc = turnover / average_total * 100
+    ) |>
+    ungroup() |>
+    mutate(
+      period_total_pc = period_total / sum(period_total) * 100,
+      start_total_pc = start_total / sum(start_total) * 100,
+      end_total_pc = end_total / sum(end_total) * 100,
+      closures_pc = closures / sum(closures) * 100
     )
 }
 
@@ -64,14 +71,20 @@ museums_in_time_period <- function(museums, start_year, end_year) {
     museums_in_time_period_raw_figures(start_year, end_year) |>
     mutate(
       period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
       start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
       end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
       closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
       openings = round(openings, 0),
       change = round(change, 0),
       change_pc = round(change_pc, 1),
       closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
       opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
       yearly_closures = round(yearly_closures, 1),
       yearly_openings = round(yearly_openings, 1),
       turnover = round(turnover, 0),
@@ -83,12 +96,173 @@ museums_in_time_period <- function(museums, start_year, end_year) {
 get_open_and_close_data <- function(data, dimension, start_year, end_year) {
   data |>
     group_by(.data[[dimension]]) |>
-    museums_in_time_period(start_year, end_year)
+    museums_in_time_period(start_year, end_year) |>
+    mutate(
+      !!sym(dimension) := factor(.data[[dimension]], museum_attribute_ordering)
+    )
+
 }
 get_2_way_open_and_close_data <- function(data, dimension1, dimension2, start_year, end_year) {
-  data |>
+  data_2_way <- data |>
     group_by(.data[[dimension1]], .data[[dimension2]]) |>
-    museums_in_time_period(start_year, end_year)
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    group_by(.data[[dimension1]]) |>
+    mutate(
+      period_total_pc_x = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_x = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_x = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_x = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    group_by(.data[[dimension2]]) |>
+    mutate(
+      period_total_pc_y = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_y = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_y = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_y = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    mutate(
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_dimension_1_totals <- data |>
+    group_by(.data[[dimension1]]) |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = 100,
+      start_total_pc_x = 100,
+      end_total_pc_x = 100,
+      closures_pc_x = 100,
+      period_total_pc_y = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_y = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_y = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_y = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension2) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_dimension_2_totals <- data |>
+    group_by(.data[[dimension2]]) |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_x = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_x = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_x = round(closures / sum(closures) * 100, 1),
+      period_total_pc_y = 100,
+      start_total_pc_y = 100,
+      end_total_pc_y = 100,
+      closures_pc_y = 100
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension1) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_all_totals <- data |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = 100,
+      start_total_pc_x = 100,
+      end_total_pc_x = 100,
+      closures_pc_x = 100,
+      period_total_pc_y = 100,
+      start_total_pc_y = 100,
+      end_total_pc_y = 100,
+      closures_pc_y = 100,
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension1) := "all",
+      !!sym(dimension2) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_2_way |>
+    rbind(data_dimension_1_totals) |>
+    rbind(data_dimension_2_totals) |>
+    rbind(data_all_totals) |>
+    mutate(
+      !!sym(dimension1) := factor(.data[[dimension1]], museum_attribute_ordering),
+      !!sym(dimension2) := factor(.data[[dimension2]], museum_attribute_ordering)
+    )
 }
 
 get_museums_in_time_period <- function(museums, start_year, end_year) {
@@ -102,7 +276,22 @@ get_museums_in_time_period <- function(museums, start_year, end_year) {
       prob_open_at_end = prob_opened_before_end * (1 - prob_closed_before_end),
       prob_closed_in_period = prob_closed_before_end - prob_closed_before_start,
       prob_opened_in_period = prob_opened_before_end - prob_opened_before_start,
-      prob_open_for_some_of_period = prob_opened_before_end * (1 - prob_closed_before_start)
+      prob_open_for_some_of_period = prob_opened_before_end * (1 - prob_closed_before_start),
+      year_opened = ifelse(
+        year_opened_1 == year_opened_2,
+        year_opened_1,
+        paste(year_opened_1, year_opened_2, sep=":")
+      ),
+      year_closed = ifelse(
+        year_closed_1 == year_closed_2,
+        year_closed_1,
+        paste(year_closed_1, year_closed_2, sep=":")
+      ),
+      year_closed = ifelse(
+        year_closed == "9999",
+        "N/A",
+        year_closed
+      )
     )
 }
 
@@ -110,64 +299,54 @@ get_open_in_time_period <- function(museums, start_year, end_year, measure) {
   museums |>
     get_museums_in_time_period(start_year, end_year) |>
     filter(.data[[measure]] > 0) |>
-    mutate(
-      year_opened = paste(year_opened_1, year_opened_2, sep=":"),
-      year_closed = paste(year_closed_1, year_closed_2, sep=":")
-    ) |>
-      select(
-          museum_id,
-          name_of_museum,
-          size,
-          governance,
-          accreditation,
-          subject_matter,
-          region,
-          year_opened,
-          year_closed,
-          .data[[measure]]
-      )
+    mutate(!!sym(measure) := round(.data[[measure]], 2)) |>
+    select(
+      museum_id,
+      museum_name,
+      size,
+      governance,
+      accreditation,
+      subject,
+      region,
+      year_opened,
+      .data[[measure]]
+    )
 }
 
 get_closures_in_time_period <- function(museums, start_year, end_year) {
   museums |>
     get_museums_in_time_period(start_year, end_year) |>
     filter(prob_closed_in_period > 0) |>
-    mutate(
-      year_opened = paste(year_opened_1, year_opened_2, sep=":"),
-      year_closed = paste(year_closed_1, year_closed_2, sep=":")
-    ) |>
-      select(
-          museum_id,
-          name_of_museum,
-          size,
-          governance,
-          accreditation,
-          subject_matter,
-          region,
-          year_opened,
-          year_closed,
-          prob_closed_in_period
-      )
+    mutate(prob_closed_in_period = round(prob_closed_in_period, 2)) |>
+    select(
+      museum_id,
+      museum_name,
+      size,
+      governance,
+      accreditation,
+      subject,
+      region,
+      year_opened,
+      year_closed,
+      prob_closed_in_period
+    )
 }
 
 get_openings_in_time_period <- function(museums, start_year, end_year) {
   museums |>
     get_museums_in_time_period(start_year, end_year) |>
     filter(prob_opened_in_period > 0) |>
-    mutate(
-      year_opened = paste(year_opened_1, year_opened_2, sep=":"),
-      year_closed = paste(year_closed_1, year_closed_2, sep=":")
-    ) |>
-      select(
-          museum_id,
-          name_of_museum,
-          size,
-          governance,
-          accreditation,
-          subject_matter,
-          region,
-          year_opened,
-          year_closed,
-          prob_opened_in_period
-      )
+    mutate(prob_opened_in_period = round(prob_opened_in_period, 2)) |>
+    select(
+      museum_id,
+      museum_name,
+      size,
+      governance,
+      accreditation,
+      subject,
+      region,
+      year_opened,
+      year_closed,
+      prob_opened_in_period
+    )
 }

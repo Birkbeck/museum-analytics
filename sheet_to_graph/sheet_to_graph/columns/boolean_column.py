@@ -10,9 +10,21 @@ class BooleanColumn(Column):
     def _validate(self, value) -> str:
         if value == "" and self.optional:
             return None
-        if value.upper() in {"TRUE", "FALSE"}:
+        if value.upper() in {
+            "TRUE",
+            "FALSE",
+            "YES",
+            "NO",
+            "T",
+            "F",
+            "Y",
+            "N",
+            "=TRUE()",
+            "=FALSE()",
+        }:
             return None
         return f"The value '{value}' is not allowed"
 
     def _format(self, value) -> str:
-        return value.upper() == "TRUE"
+        value = self.default if value == "" else value
+        return value.upper() in ("TRUE", "T", "YES", "Y", "=TRUE()")

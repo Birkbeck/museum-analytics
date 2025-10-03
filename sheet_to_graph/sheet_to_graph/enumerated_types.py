@@ -34,8 +34,20 @@ uk_constituents = {
     "",
 }
 
+english_regions = {
+    "South West",
+    "South East",
+    "London",
+    "East of England",
+    "East Midlands",
+    "West Midlands",
+    "Yorks & Humber",
+    "North West",
+    "North East",
+}
+
 collection_statuses = {
-    "": "collection",
+    "": "",
     "C": "collection",
     "L": "loan",
     "H": "handling",
@@ -71,7 +83,7 @@ museum_sizes = {
     "large": 5e5,
     "medium": 3e4,
     "small": 5e3,
-    "unknown": 3e4,
+    "unknown size": 5e3,
 }
 
 museum_max_sizes = {
@@ -79,7 +91,7 @@ museum_max_sizes = {
     "large": 1e6,
     "medium": 5e4,
     "small": 1e4,
-    "unknown": 5e4,
+    "unknown size": 1e4,
 }
 
 museum_min_sizes = {
@@ -87,5 +99,5 @@ museum_min_sizes = {
     "large": 5e4,
     "medium": 1e4,
     "small": 1e3,
-    "unknown": 1e4,
+    "unknown size": 1e3,
 }

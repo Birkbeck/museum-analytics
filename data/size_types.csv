@@ -1,0 +1,6 @@
+type_name,sub_type_of,definition
+small,,0-10k annual visitors
+medium,,10k-50k annual visitors
+large,,50k-1 million annual visitors
+huge,,more than 1 million annual visitors
+unknown size,,unknown annual visitors

@@ -1,5 +1,8 @@
 from sheet_to_graph import FilePreprocessor
 
+EVENTS_SHEET_RECIPIENT_ID_INDEX = 27
+EVENTS_SHEET_RECIPIENT_QTY_INDEX = 26
+
 
 class ActorsPreprocessor(FilePreprocessor):
     """Performs basic preprocessing:
@@ -9,8 +12,9 @@ class ActorsPreprocessor(FilePreprocessor):
     - but invalid mm_ids cause an exception
     """
 
-    def __init__(self, museums: list):
+    def __init__(self, museums: list, events: list):
         self.museums = museums
+        self.events = events
 
     def preprocess(
         self, rows: list, header_row: int = 0, header_mapping: dict = None
@@ -19,6 +23,19 @@ class ActorsPreprocessor(FilePreprocessor):
             rows, header_row=header_row, header_mapping=header_mapping
         )
         for row in preprocessed_actor_rows:
+            row["actor_quantity"] = "1"
+            try:
+                row["actor_quantity"] = str(
+                    [
+                        e
+                        for e in self.events
+                        if e[EVENTS_SHEET_RECIPIENT_ID_INDEX] == row["actor_id"]
+                    ][0][EVENTS_SHEET_RECIPIENT_QTY_INDEX]
+                )
+            except IndexError:
+                pass
+            if row["actor_quantity"].strip() == "":
+                row["actor_quantity"] = "1"
             row["size"] = ""
             row["governance"] = ""
             row["accreditation"] = ""
@@ -29,23 +46,30 @@ class ActorsPreprocessor(FilePreprocessor):
         preprocessed_museum_rows = [
             {
                 "actor_id": "museum" + museum["museum_id"],
-                "actor_name": museum["name_of_museum"],
+                "actor_name": museum["museum_name"],
                 "actor_type": "museum",
-                "actor_sector": self._governance_to_sector(museum["governance"]),
+                "actor_sector": self._governance_to_sector(museum["governance_broad"]),
+                "actor_quantity": "1",
                 "mm_id": museum["museum_id"],
-                "actor_address1": museum["address_line_1"],
-                "actor_address2": museum["address_line_2"],
-                "actor_address3": museum["address_line_3"],
-                "actor_town_city": museum["village_town_or_city"],
+                "actor_address1": museum["address_1"],
+                "actor_address2": museum["address_2"],
+                "actor_address3": museum["address_3"],
+                "actor_town_city": museum["village_town_city"],
                 "actor_postcode": museum["postcode"],
                 "actor_county": museum["english_county"],
-                "actor_country": museum["nation"],
+                "actor_country": museum["country"],
                 "size": museum["size"],
                 "governance": museum["governance"],
+                "governance_broad": museum["governance_broad"],
                 "accreditation": museum["accreditation"],
-                "subject_matter": museum["subject_matter"],
+                "subject": museum["subject"],
+                "subject_broad": museum["subject_broad"],
                 "region": museum["region"],
-                "country": museum["nation"],
+                "country": museum["country"],
+                "year_opened_1": museum["year_opened_1"],
+                "year_opened_2": museum["year_opened_2"],
+                "year_closed_1": museum["year_closed_1"],
+                "year_closed_2": museum["year_closed_2"],
             }
             for museum in super().preprocess(self.museums, header_row=0)
         ]
@@ -86,12 +110,12 @@ class ActorsPreprocessor(FilePreprocessor):
         return museums_and_actors
 
     def _governance_to_sector(self, gov):
-        if gov in ("National", "Local_Authority", "Other_Government"):
+        if gov in ("national", "local authority", "other government"):
             return "public"
-        if gov == "Private":
+        if gov == "private":
             return "private"
-        if "Independent" in gov:
+        if "independent" in gov:
             return "third"
-        if gov == "University":
+        if gov == "university":
             return "university"
         return "unknown"

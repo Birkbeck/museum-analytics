@@ -1,17 +1,23 @@
 small_chart_size_px <- "300px"
 hr_style <- "border-top: 1px solid #000000;"
+card_style <- "border: 4px double lightgrey;"
 
 public_private_colours <- c(
   "private"="#E69F00",
+  "mostly private"="#FFE099",
   "third"="#0072B2",
+  "mostly third"="#80D1FF",
   "public"="#D81B60",
+  "mostly public"="#F4A4C1",
   "university"="#009E73",
+  "mostly university"="#66FFD5",
   "hybrid"="#CC79A7",
+  "mostly hybrid"="#EAC8DB",
   "unknown"="darkgrey"
 )
-public_private_colours_js <- JS(
-  'd3.scaleOrdinal().domain(["private", "third", "public", "university", "hybrid", "unknown"]).range(["#E69F00", "#0072B2", "#D81B60", "#009E73", "#CC79A7", "darkgrey"])'
-)
+#public_private_colours_js <- JS(
+#  'd3.scaleOrdinal().domain(["private", "third", "public", "university", "hybrid", "unknown"]).range(["#E69F00", "#0072B2", "#D81B60", "#009E73", "#CC79A7", "darkgrey"])'
+#)
 
 public_private_fill_scale <- scale_fill_manual(
   values=public_private_colours,
@@ -60,85 +66,103 @@ public_private_edge_scale <- scale_edge_colour_manual(
 )
 
 size_colours <- c(
-  "unknown"="#E84A84",
+  "unknown size"="#E84A84",
   "small"="#00FFD4",
   "medium"="#00B394",
   "large"="#006655",
   "huge"="#001A15"
 )
 governance_colours <- c(
-  "Unknown"="lightgrey",
-  "Private"="#E69F00",
-  "Independent"="#0D4373",
-  "Independent-Not_for_profit"="#0D4373",
-  "Independent-National_Trust_for_Scotland"="#1878CE",
-  "Independent-National_Trust"="#1878CE",
-  "Independent-English_Heritage"="#60ABEC",
-  "Independent-Historic_Environment_Scotland"="#BBDBF7",
-  "University"="#009E73",
-  "National"="#720E32",
-  "Local_Authority"="#CD185A",
-  "Other Government"="#ED5F93"
+  "unknown size"="lightgrey",
+  "private"="#E69F00",
+  "independent"="#0D4373",
+  "not-for-profit"="#0D4373",
+  "National Trust for Scotland"="#1878CE",
+  "National Trust"="#1878CE",
+  "English Heritage"="#60ABEC",
+  "Historic Environment Scotland"="#BBDBF7",
+  "university"="#009E73",
+  "national"="#720E32",
+  "local authority"="#CD185A",
+  "other government"="#ED5F93"
 )
 subject_colours <- c(
-  "War_and_conflict" = "#A44600",
-  "Utilities" = "#F8E97C",
-  "Transport" = "#4C99D1",
-  "Services" = "#66C2A2",
-  "Sea_and_seafaring" = "#9ED2F3",
-  "Science_and_technology" = "#007652",
-  "Rural_Industry" = "#BFB82E",
-  "Personality" = "#E0AFC7",
-  "Other" = "#666666",
-  "Natural_world" = "#009E73",
-  "Mixed" = "#F5C85C",
-  "Medicine_and_health" = "#3E88B2",
-  "Local_Histories" = "#00578A",
-  "Leisure_and_sport" = "#F0E442",
-  "Industry_and_manufacture" = "#D55E00",
-  "Food_and_drink" = "#B37800",
-  "Communications" = "#56B4E9",
-  "Buildings" = "#0072B2",
-  "Belief_and_identity" = "#9A5C7D",
-  "Arts" = "#CC79A7",
-  "Archaeology" = "#E5955C"
+  "war & conflict" = "#A44600",
+  "utilities" = "#F8E97C",
+  "transport" = "#4C99D1",
+  "services" = "#66C2A2",
+  "sea & seafaring" = "#9ED2F3",
+  "science & technology" = "#007652",
+  "rural industry" = "#BFB82E",
+  "personality" = "#E0AFC7",
+  "other" = "#666666",
+  "natural world" = "#009E73",
+  "mixed" = "#F5C85C",
+  "medicine & health" = "#3E88B2",
+  "local histories" = "#00578A",
+  "leisure & sport" = "#F0E442",
+  "industry & manufacture" = "#D55E00",
+  "food & drink" = "#B37800",
+  "communications" = "#56B4E9",
+  "buildings" = "#0072B2",
+  "belief & identity" = "#9A5C7D",
+  "arts" = "#CC79A7",
+  "archaeology" = "#E5955C"
 )
 country_region_colours <- c(
-    "Scotland"="#0072B2",
-    "Wales"="#009E73",
-    "Northern Ireland"="#CC79A7",
-    "England"="#D55E00",
-    "North East (English Region)"="#56B4E9",
-    "North West (English Region)"="#56B4E9",
-    "Yorkshire and The Humber (English Region)"="#56B4E9",
-    "East Midlands (English Region)"="#E69F00",
-    "West Midlands (English Region)"="#E69F00",
-    "South East (English Region)"="#F0E442",
-    "South West (English Region)"="#F0E442",
-    "East of England (English Region)"="#F0E442",
-    "London (English Region)"="#F0E442"
+  "Scotland"="#0072B2",
+  "Wales"="#009E73",
+  "Northern Ireland"="#CC79A7",
+  "England"="#D55E00",
+  "North East"="#56B4E9",
+  "North West"="#56B4E9",
+  "Yorks & Humber"="#56B4E9",
+  "East Midlands"="#E69F00",
+  "West Midlands"="#E69F00",
+  "South East"="#F0E442",
+  "South West"="#F0E442",
+  "East of England"="#F0E442",
+  "London"="#F0E442"
 )
 accreditation_colours <- c(
-    "Accredited"="#E66100",
-    "Unaccredited"="#5D3A9B"
+  "accredited"="#E66100",
+  "unaccredited"="#5D3A9B"
 )
 museum_attribute_colours <- c(
-    size_colours,
-    governance_colours,
-    subject_colours,
-    country_region_colours,
-    accreditation_colours
+  size_colours,
+  governance_colours,
+  subject_colours,
+  country_region_colours,
+  accreditation_colours
 )
 
-map_fill_green = "#CAECD4"
-map_line_green = "#7ED298"
-map_points_red = "#8A0A39"
+white = "#FFFFFF"
+red = "#FF99A1"
+green = "#99FFEE"
+blue = "#99E0FF"
+dark_blue = "#008ECC"
+purple = "#E4A8F0"
 
-title_size <- 22
-subtitle_size <- 18
-axis_title_size <- 18
-axis_text_size <- 18
-legend_title_size <- 18
+#heatmap_fill_scale <- scale_fill_continuous(transform="pseudo_log", low=white, high=purple)
+heatmap_fill_scale <- scale_fill_continuous(low=white, high=purple)
+
+open_close_line_type_scale <- scale_linetype_manual(
+  values=c(
+    "total"="solid",
+    "change"="solid",
+    "percentage_change"="solid",
+    "opening_count"="dotted",
+    "opening_rate"="dotted",
+    "closure_count"="longdash",
+    "closure_rate"="longdash"
+  )
+)
+
+title_size <- 18
+subtitle_size <- 16
+axis_title_size <- 16
+axis_text_size <- 16
+legend_title_size <- 16
 
 standard_bars_theme <- theme_minimal() +
   theme(
@@ -170,7 +194,7 @@ network_theme <- theme(
   axis.text = element_text(size=axis_text_size)
 )
 
-type_hierarchy_theme <- theme(
+taxonomy_theme <- theme(
   panel.background = element_rect(fill="white"),
   plot.margin = unit(c(1, 1, 1, 1), "cm"),
   plot.title = element_text(size="18"),
@@ -190,3 +214,11 @@ generate_title <- function(title_text) {
     return(title_text)
   }
 }
+
+# restrict maps to britain and ireland
+BNG_MIN_X <- -5e4
+BNG_MAX_X <- 7e5
+BNG_MIN_Y <- 0
+BNG_MAX_Y <- 1.3e6
+map_x_scale <- scale_x_continuous(limits=c(BNG_MIN_X, BNG_MAX_X))
+map_y_scale <- scale_y_continuous(limits=c(BNG_MIN_Y, BNG_MAX_Y))

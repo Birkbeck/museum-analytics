@@ -10,6 +10,7 @@ from .enumerated_types import (
     museum_max_sizes,
     museum_min_sizes,
     uk_constituents,
+    english_regions,
 )
 
 
@@ -25,6 +26,7 @@ def get_sub_type_of_id(table, row_index, id_prefix):
 
 def get_super_cause_types(table, row_index, super_causes_hierarchy):
     def _tidy_individual_cause(individual_cause) -> str:
+        # find cause description in hierarchy
         if individual_cause in super_causes_hierarchy.columns["cause"]:
             row = super_causes_hierarchy.filter(cause=individual_cause)[0]
             return (
@@ -37,10 +39,11 @@ def get_super_cause_types(table, row_index, super_causes_hierarchy):
             return individual_cause
         if individual_cause in super_causes_hierarchy.columns["cause_type"]:
             row = super_causes_hierarchy.filter(cause_type=individual_cause)[0]
-            return row["cause_super_type"] + " - " + row["cause_type"] + " - other"
+            return row["cause_super_type"] + " - " + row["cause_type"]
         if individual_cause in super_causes_hierarchy.columns["cause_super_type"]:
             row = super_causes_hierarchy.filter(cause_super_type=individual_cause)[0]
-            return row["cause_super_type"] + " - other - other"
+            return row["cause_super_type"]
+        # find how cause description maps onto hierarchy
         row = super_causes_hierarchy.filter(super_cause_text=individual_cause)[0]
         if row["cause"] != "":
             return (
@@ -51,9 +54,9 @@ def get_super_cause_types(table, row_index, super_causes_hierarchy):
                 + row["cause"]
             )
         if row["cause_type"] != "":
-            return row["cause_super_type"] + " - " + row["cause_type"] + " - other"
+            return row["cause_super_type"] + " - " + row["cause_type"]
         if row["cause_super_type"] != "":
-            return row["cause_super_type"] + " - other - other"
+            return row["cause_super_type"]
 
     super_causes = table[row_index]["super_causes"]
     if super_causes is None:
@@ -64,8 +67,11 @@ def get_super_cause_types(table, row_index, super_causes_hierarchy):
         cause_name = cause.strip().split("?")[0]
         if cause_name == "":
             continue
-        tidy_cause_name = _tidy_individual_cause(cause_name)
-        tidy_causes.append(tidy_cause_name)
+        try:
+            tidy_cause_name = _tidy_individual_cause(cause_name)
+            tidy_causes.append(tidy_cause_name)
+        except Exception:
+            print(row_index, cause_name)
     return "; ".join(tidy_causes)
 
 
@@ -73,29 +79,138 @@ def get_place_id(table, row_index):
     return f"place{row_index}"
 
 
-def get_longitude(table, row_index, postcode_to_lat_long):
-    postcode = table[row_index]["postcode"]
-    return postcode_to_lat_long.get_longitude(postcode)
+def get_longitude(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_longitude(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
 
 
-def get_latitude(table, row_index, postcode_to_lat_long):
-    postcode = table[row_index]["postcode"]
-    return postcode_to_lat_long.get_latitude(postcode)
+def get_latitude(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_latitude(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
 
 
-def get_region(table, row_index, postcode_to_lat_long):
-    postcode = table[row_index]["postcode"]
-    return postcode_to_lat_long.get_region(postcode)
+def get_bng_x(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_bng_x(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
 
 
-def get_local_authority_code(table, row_index, postcode_to_lat_long):
-    postcode = table[row_index]["postcode"]
-    return postcode_to_lat_long.get_local_authority_code(postcode)
+def get_bng_y(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_bng_y(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
 
 
-def get_local_authority_name(table, row_index, postcode_to_lat_long):
-    postcode = table[row_index]["postcode"]
-    return postcode_to_lat_long.get_local_authority_name(postcode)
+def get_region(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_region(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
+
+
+def get_country(table, row_index):
+    region = table[row_index]["region"]
+    if region in english_regions:
+        return "England"
+    if region in {
+        "Wales",
+        "Scotland",
+        "Northern Ireland",
+        "Channel Islands",
+        "Isle of Man",
+    }:
+        return region
+    return table[row_index]["actor_country"]
+
+
+def get_local_authority_code(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_local_authority_code(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
+
+
+def get_local_authority_name(
+    postcode_to_lat_long,
+    table,
+    row_index,
+    postcode_column,
+    town_city_column,
+    county_column,
+    country_column,
+):
+    return postcode_to_lat_long.get_local_authority_name(
+        postcode=table[row_index][postcode_column],
+        town_city=table[row_index][town_city_column],
+        county=table[row_index][county_column],
+        country=table[row_index][country_column],
+    )
 
 
 def get_subject_matter_broad(table, row_index):
@@ -129,7 +244,7 @@ def get_actor_location(table, row_index, places):
         village_town_city=actor["actor_town_city"],
         county=actor["actor_county"],
         postcode=actor["actor_postcode"],
-        country=actor["actor_country"],
+        actor_country=actor["actor_country"],
     )[0]["place_id"]
 
 
@@ -200,6 +315,8 @@ def get_collection_status(table, row_index):
     if was_removed_from is not None:
         parent_collection = table.filter(collection_or_object_id=was_removed_from)[0]
         return parent_collection["collection_status"]
+    if row["coll_status"] == "":
+        return "collection"
     return row["coll_status"]
 
 
@@ -242,32 +359,27 @@ def get_event_name(table, row_index):
 
 def get_stage_in_path(table, row_index):
     row = table[row_index]
-    if row["collection_id"] == "":
-        return None
-    return len(
-        [
-            r
-            for r in table.rows[:row_index]
-            if r["super_event_id"] == row["super_event_id"]
-            and r["collection_id"] != ""
-            and (
-                r["collection_id"] == row["collection_id"]
-                or r["collection_id"] == row["coll_subset_of"]
-            )
-        ]
-    )
+    previous_event_id = row["previous_event_id"]
+    if previous_event_id is None:
+        return 0
+    previous_event = [
+        r for r in table[:row_index] if r["event_id"] == row["previous_event_id"]
+    ][0]
+    return previous_event["stage_in_path"] + 1
 
 
 def get_previous_event_id(table, row_index):
     # the event_id of the last row referring to the same collection or super collection
     row = table[row_index]
+    super_event_id = row["super_event_id"]
     if row["collection_id"] == "":
         return None
     try:
         return [
             r
             for r in table.rows[:row_index]
-            if r["collection_id"] != ""
+            if r["super_event_id"] == super_event_id
+            and r["collection_id"] != ""
             and (
                 r["collection_id"] == row["collection_id"]
                 or r["collection_id"] == row["coll_subset_of"]
@@ -310,6 +422,14 @@ def get_recipient_id(table, row_index, actors, event_types):
 
 
 def get_sender_id(table, row_index, actors, event_types):
+    def row_is_transfer_event(row):
+        event_type = event_types.filter(type_name=row["event_type_name"])[0]
+        return (
+            event_type["change_of_ownership"]
+            or event_type["change_of_custody"]
+            or event_type["end_of_existence"]
+        )
+
     event = table[row_index]
     # if event has no type, then it has no sender
     if event["event_type_name"] == "":
@@ -325,7 +445,8 @@ def get_sender_id(table, row_index, actors, event_types):
             and (
                 r["collection_id"] == event["collection_id"]
                 or r["collection_id"] == event["coll_subset_of"]
-            )
+            )  # TODO: you need to check for all collection ancestors, not just immediate parent collection
+            and row_is_transfer_event(r)
             and r["actor_recipient_id"] != ""
         ][-1]["actor_recipient_id"]
     # no previous event had a recipient, the sender is the museum

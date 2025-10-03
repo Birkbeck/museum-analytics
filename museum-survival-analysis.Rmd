@@ -1,0 +1,732 @@
+---
+title: "Museum survival analysis"
+output: html_notebook
+---
+
+```{r}
+library(scales)
+library(tidyverse)
+library(survival)
+library(muhaz)
+```
+
+# Museums Ages at closure
+
+```{r}
+source("shiny/mappingmuseums/src/labels.R")
+source("shiny/mappingmuseums/src/mapping_museums_tables.R")
+
+size_ordering <- c(
+  "unknown size",
+  "small",
+  "medium",
+  "large",
+  "huge"
+)
+governance_broad_ordering <- c(
+  "unknown governance",
+  "private",
+  "independent",
+  "university",
+  "other government",
+  "local authority",
+  "national"
+)
+
+subject_broad_ordering <- c(
+  "other",
+  "mixed",
+  "war & conflict",
+  "utilities",
+  "transport",
+  "services",
+  "sea & seafaring",
+  "science & technology",
+  "rural industry",
+  "personality",
+  "natural world",
+  "medicine & health",
+  "local histories",
+  "leisure & sport",
+  "industry & manufacture",
+  "food & drink",
+  "communications",
+  "buildings",
+  "belief & identity",
+  "arts",
+  "archaeology"
+)
+
+region_ordering <- c(
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "North East",
+  "North West",
+  "Yorks & Humber",
+  "East Midlands",
+  "West Midlands",
+  "East of England",
+  "London",
+  "South East",
+  "South West"
+)
+
+country_ordering <- c(
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "England"
+)
+
+white = "#FFFFFF"
+red = "#FF99A1"
+green = "#99FFEE"
+blue = "#99E0FF"
+dark_blue = "#008ECC"
+purple = "#E4A8F0"
+title_size <- 18
+subtitle_size <- 16
+axis_title_size <- 16
+axis_text_size <- 16
+legend_title_size <- 16
+
+standard_bars_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size=title_size),
+    plot.subtitle = element_text(size=subtitle_size),
+    legend.text = element_text(size=18),
+    axis.title.x = element_text(size=axis_title_size),
+    axis.title.y = element_text(size=axis_title_size),
+    axis.text.x = element_text(size=axis_text_size),
+    axis.text.y = element_text(size=axis_text_size)
+  )
+
+not_really_museums <- read_csv("shiny/mappingmuseums/data/not-really-museums.csv")
+museums_including_crown_dependencies <- read_csv("shiny/mappingmuseums/data/query_results/museums.csv") |>
+  filter(!museum_id %in% not_really_museums$museum_id) |>
+  mutate(
+    year_opened = ifelse(
+      year_opened_1 == year_opened_2,
+      year_opened_1,
+      paste(year_opened_1, year_opened_2, sep=":")
+    ),
+    year_closed = case_when(
+      year_closed_1 == 9999 ~ "N/A",
+      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
+      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
+    ),
+    all=factor(all, museum_attribute_ordering),
+    size=factor(size, size_ordering),
+    governance=factor(governance, museum_attribute_ordering),
+    governance_broad=factor(governance_broad, governance_broad_ordering),
+    subject=factor(subject, museum_attribute_ordering),
+    subject_broad=factor(subject_broad, subject_broad_ordering),
+    accreditation=factor(accreditation, museum_attribute_ordering),
+    region=factor(region, region_ordering),
+    country=factor(country, country_ordering)
+  )
+
+print(colnames(museums_including_crown_dependencies))
+
+
+museums_with_ages <- museums_including_crown_dependencies |>
+  filter(!region %in% c("Channel Islands", "Isle of Man")) |>
+  mutate(
+    year_of_birth = (year_opened_1 + year_opened_2) / 2,
+    year_of_death = (year_closed_1 + year_closed_2) / 2,
+    age_at_time_of_closure = ifelse(
+      year_of_death == 9999,
+      round(2025 - year_of_birth, 0),
+      round(year_of_death - year_of_birth, 0)
+    ),
+    age_at_time_of_closure_category = case_when(
+      is.na(age_at_time_of_closure) ~ NA,
+      age_at_time_of_closure < 10 ~ "0-9",
+      age_at_time_of_closure < 20 ~ "10-19",
+      age_at_time_of_closure < 30 ~ "20-29",
+      age_at_time_of_closure < 40 ~ "30-39",
+      age_at_time_of_closure < 50 ~ "40-49",
+      age_at_time_of_closure < 60 ~ "50-59",
+      age_at_time_of_closure < 70 ~ "60-69",
+      age_at_time_of_closure < 80 ~ "70-79",
+      age_at_time_of_closure < 90 ~ "80-89",
+      age_at_time_of_closure < 100 ~ "90-99",
+      TRUE ~ "100+"
+    )
+  )
+ages <- c(
+  "0-9",
+  "10-19",
+  "20-29",
+  "30-39",
+  "40-49",
+  "50-59",
+  "60-69",
+  "70-79",
+  "80-89",
+  "90-99",
+  "100+"
+)
+museum_attribute_ordering <- c(museum_attribute_ordering, ages)
+```
+
+```{r}
+size_vs_age_museums_summary <- museums_with_ages |>
+  get_2_way_open_and_close_data("size", "age_at_time_of_closure_category", 2000, 2025)
+age_size_closures_heatmap <- ggplot(
+  size_vs_age_museums_summary |> filter(!is.na(age_at_time_of_closure_category)),
+  aes(
+    x=age_at_time_of_closure_category,
+    y=size,
+    fill=closures
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=closures), size=6) +
+  scale_y_discrete(labels=short_labels) +
+  #scale_fill_gradient2(low=white, high=red, transform="pseudo_log") +
+  scale_fill_gradient(low=white, high=red) +
+  labs(
+    title="Rowwise percentage of museum closures 2000-2025",
+    x="Age at time of closure (years)",
+    y="Size"
+  ) +
+  standard_bars_theme
+age_size_closures_heatmap
+```
+
+```{r}
+age_size_2025_heatmap <- ggplot(
+  size_vs_age_museums_summary |> filter(!is.na(age_at_time_of_closure_category)),
+  aes(
+    x=age_at_time_of_closure_category,
+    y=size,
+    fill=end_total
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=end_total), size=6) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient(low=white, high=blue) +
+  labs(
+    title="Rowwise percentage of open museums 2025",
+    x="Age of museum (years)",
+    y="Size"
+  ) +
+  standard_bars_theme
+age_size_2025_heatmap
+```
+
+```{r}
+governance_vs_age_museums_summary <- museums_with_ages |>
+  get_2_way_open_and_close_data("governance_broad", "age_at_time_of_closure_category", 2000, 2025)
+age_governance_closures_heatmap <- ggplot(
+  governance_vs_age_museums_summary,
+  aes(
+    x=age_at_time_of_closure_category,
+    y=governance_broad,
+    fill=closures
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=closures), size=6) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient(low=white, high=red) +
+  labs(
+    title="Rowwise percentage of museum closures 2000-2025",
+    x="Age at time of closure (years)",
+    y="Governance"
+  ) +
+  standard_bars_theme
+age_governance_closures_heatmap
+```
+
+```{r}
+age_governance_2025_heatmap <- ggplot(
+  governance_vs_age_museums_summary,
+  aes(
+    x=age_at_time_of_closure_category,
+    y=governance_broad,
+    fill=end_total
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=end_total), size=6) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient(low=white, high=blue) +
+  labs(
+    title="Rowwise percentage of open museums 2025",
+    x="Age of museum (years)",
+    y="Governance"
+  ) +
+  standard_bars_theme
+age_governance_2025_heatmap
+```
+
+# Survival analysis based on closures per museum-year
+
+Below are charted closures per museum-year for different age categories. These are the number of closures that occurred (2000-2025) in each age category divided by museum-years (the number of museums multiplied by the number of years each of those museums had been open for). This gives us a measure of hazard for museums in each age category. It answers the question: "given that a museum had already survived to age X, what was its chance of closing within the next year?"
+
+Closures were much more frequent for museums in the 0-9 year old category, an example of the liability of newness: for museums there is initially a high risk of closure, but this declines significantly after the first few years.
+
+Since museums close more rarely once they are older and because openings of new museums has slowed significantly in the last 10 years, this helps to explain why in recent years the closure rate has been so low.
+
+It is worth noting that in the above figures, the figures showing ages of currently open museums show that museums in the 30-39 age range are most common, but that between 2000 and 2025, closures were most common in the 20-29 age range (about 10 years younger). This is because the majority of closures took place in the 2010s decade when many of the museums currently in the 30-39 age range were still in their 20s.
+
+Relatively few closures were in the 0-9 age range, but this is because this age range contains fewer museums overall - a large proportion of them close.
+
+There is relatively high uncertainty of the hazard estimate for the youngest and oldest museums because fewer museums and fewer closure events generate wider confidence intervals.
+
+```{r}
+df <- museums_with_ages |>
+  mutate(
+    # Treat unknown/ongoing closures as censored at 2025
+    year_of_death = ifelse(is.na(year_of_death), 9999, year_of_death),
+    event = as.integer(year_of_death != 9999),          # 1 = closed, 0 = still open (censored)
+    time  = as.numeric(age_at_time_of_closure),         # age in years at closure/censor
+  ) |>
+  filter(
+    !is.na(time),
+    year_closed_1 >= 2000
+  )
+
+```
+
+```{r}
+breaks <- seq(0, 200, by = 10)
+labels <- paste0(head(breaks, -1), "-", ifelse(tail(breaks, -1)==Inf, "∞", tail(breaks, -1)-1))
+
+df_split <- survSplit(
+  Surv(time, event) ~ ., data = df,
+  cut = breaks[-c(1, length(breaks))],
+  start = "tstart", end = "tstop", event = "event_band",
+  zero = -1e-8   # <--- key line
+)
+
+df_split$age_band <- cut(df_split$tstop, breaks = breaks, labels = labels, right = FALSE)
+df_split$py <- df_split$tstop - df_split$tstart
+
+alpha <- 0.05
+
+pois_ci <- function(k, exp){ pt <- poisson.test(k, T = exp); c(pt$conf.int[1], pt$conf.int[2]) }
+haz_by_band_ci <- haz_by_band %>%
+  rowwise() %>%
+  mutate(ci = list(pois_ci(closures, exposure)),
+         rate_lo = ci[1], rate_hi = ci[2]) %>%
+  ungroup() %>%
+  select(-ci)
+
+scale_factor <- 100
+haz_by_band_ci <- haz_by_band_ci %>%
+  mutate(
+    hazard_rate_k = hazard_rate * scale_factor,
+    rate_lo_k     = rate_lo     * scale_factor,
+    rate_hi_k     = rate_hi     * scale_factor
+  )
+
+# Plot with error bars
+ggplot(haz_by_band_ci, aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+breaks <- c(seq(0, 200, by = 10), Inf)
+labels <- paste0(head(breaks, -1), "-",
+                 ifelse(tail(breaks, -1) == Inf, "∞", tail(breaks, -1) - 1))
+
+# ---- Split dataset into age intervals, keep governance ----
+df_split <- survSplit(
+  Surv(time, event) ~ governance_broad + ., data = df,
+  cut = breaks[-c(1, length(breaks))],
+  start = "tstart", end = "tstop", event = "event_band",
+  zero = -1e-8
+) %>%
+  mutate(
+    age_band = cut(tstop, breaks = breaks, labels = labels, right = FALSE),
+    py = tstop - tstart
+  )
+
+# ---- Summarise hazard rates with Poisson CIs by governance ----
+pois_ci <- function(k, exp){
+  pt <- poisson.test(k, T = exp)
+  c(pt$conf.int[1], pt$conf.int[2])
+}
+
+haz_by_band_gov <- df_split %>%
+  group_by(governance_broad, age_band) %>%
+  summarise(
+    closures = sum(event_band),
+    exposure = sum(py),
+    hazard_rate = closures / exposure,
+    .groups = "drop"
+  ) %>%
+  rowwise() %>%
+  mutate(ci = list(pois_ci(closures, exposure)),
+         rate_lo = ci[1], rate_hi = ci[2]) %>%
+  ungroup() %>%
+  select(-ci)
+
+# ---- Add midpoints for line plotting ----
+haz_by_band_gov <- haz_by_band_gov %>%
+  mutate(
+    lower = as.numeric(sub("-.*", "", age_band)),
+    upper = suppressWarnings(as.numeric(sub(".*-", "", age_band))),
+    upper = ifelse(is.na(upper), 200, upper),
+    mid_age = (lower + upper)/2
+  )
+
+# ---- Scale to per 100 museum-years (or 1000 if you prefer) ----
+scale_factor <- 100
+haz_by_band_gov <- haz_by_band_gov %>%
+  mutate(
+    hazard_rate_k = hazard_rate * scale_factor,
+    rate_lo_k     = rate_lo * scale_factor,
+    rate_hi_k     = rate_hi * scale_factor
+  )
+
+# ---- Plot: coloured lines per governance ----
+ggplot(haz_by_band_gov |> filter(governance_broad %in% c("independent", "local authority", "private")),
+       aes(x = mid_age, y = hazard_rate_k,
+           colour = governance_broad, group = governance_broad)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(limits=c(0, 100)) +
+  #geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 2) +
+  labs(
+    x = "Age (years, midpoint of bands)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band for selected governance types (2000–2025)",
+    colour = "Governance"
+  ) +
+  theme_minimal()
+
+# Plot with error bars
+ggplot(haz_by_band_gov |> filter(governance_broad == "local authority"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (local authority)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(haz_by_band_gov |> filter(governance_broad == "independent"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (independent)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(haz_by_band_gov |> filter(governance_broad == "private"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (private)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+
+breaks <- c(seq(0, 200, by = 10), Inf)
+labels <- paste0(head(breaks, -1), "-",
+                 ifelse(tail(breaks, -1) == Inf, "∞", tail(breaks, -1) - 1))
+
+# ---- Split dataset into age intervals, keep governance ----
+df_split <- survSplit(
+  Surv(time, event) ~ size + ., data = df,
+  cut = breaks[-c(1, length(breaks))],
+  start = "tstart", end = "tstop", event = "event_band",
+  zero = -1e-8
+) %>%
+  mutate(
+    age_band = cut(tstop, breaks = breaks, labels = labels, right = FALSE),
+    py = tstop - tstart
+  )
+
+# ---- Summarise hazard rates with Poisson CIs by governance ----
+pois_ci <- function(k, exp){
+  pt <- poisson.test(k, T = exp)
+  c(pt$conf.int[1], pt$conf.int[2])
+}
+
+haz_by_band_gov <- df_split %>%
+  group_by(size, age_band) %>%
+  summarise(
+    closures = sum(event_band),
+    exposure = sum(py),
+    hazard_rate = closures / exposure,
+    .groups = "drop"
+  ) %>%
+  rowwise() %>%
+  mutate(ci = list(pois_ci(closures, exposure)),
+         rate_lo = ci[1], rate_hi = ci[2]) %>%
+  ungroup() %>%
+  select(-ci)
+
+# ---- Add midpoints for line plotting ----
+haz_by_band_gov <- haz_by_band_gov %>%
+  mutate(
+    lower = as.numeric(sub("-.*", "", age_band)),
+    upper = suppressWarnings(as.numeric(sub(".*-", "", age_band))),
+    upper = ifelse(is.na(upper), 200, upper),
+    mid_age = (lower + upper)/2
+  )
+
+# ---- Scale to per 100 museum-years (or 1000 if you prefer) ----
+scale_factor <- 100
+haz_by_band_gov <- haz_by_band_gov %>%
+  mutate(
+    hazard_rate_k = hazard_rate * scale_factor,
+    rate_lo_k     = rate_lo * scale_factor,
+    rate_hi_k     = rate_hi * scale_factor
+  )
+
+# ---- Plot: coloured lines per governance ----
+ggplot(haz_by_band_gov |> filter(size %in% c("small", "medium", "large")),
+       aes(x = mid_age, y = hazard_rate_k,
+           colour = size, group = size)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(limits=c(0, 100)) +
+  #geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 2) +
+  labs(
+    x = "Age (years, midpoint of bands)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band for different sizes of museum (2000–2025)",
+    colour = "Size"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+surv_obj <- Surv(time = df$time, event = df$event)
+cox_gov <- coxph(surv_obj ~ governance_broad, data = df, ties = "efron")
+summary(cox_gov)
+```
+
+Governance is a statistically significant predictor of closure risk
+
+```{r}
+cox_size <- coxph(surv_obj ~ size, data = df, ties = "efron")
+summary(cox_size)
+```
+Size is a statistically significant predictor of closure risk
+
+```{r}
+anova(cox_gov, cox_size, test = "LRT")
+
+cox_both <- coxph(surv_obj ~ governance_broad + size + subject_broad + region, data = df)
+drop1(cox_both, test = "Chisq")
+```
+
+Overall, governance is a stronger predictor of closure risk than museum size.
+In a Cox model including both predictors, the likelihood ratio test for governance (chi-squared = 192.6, df = 6, p < 2e-16) was more than twice as large as that for size (chi-squared = 88.7, df = 4, p < 2e-16), indicating that governance explains substantially more variation in closure risk.
+
+# Pairwise comparison of governance type risks
+```{r}
+library(survival)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+
+# --- 1) Fit Cox model (pick a sensible baseline first, e.g. "national")
+df$governance_broad <- relevel(factor(df$governance_broad), ref = "national")
+
+surv_obj <- Surv(time = df$time, event = df$event)
+fit <- coxph(surv_obj ~ governance_broad, data = df, ties = "efron")
+
+b  <- coef(fit)           # named vector of log-HR vs baseline (excludes baseline)
+V  <- vcov(fit)           # covariance matrix for those coefficients
+lv <- levels(df$governance_broad)
+base <- lv[1]            # should be "national" after relevel()
+
+# helpers to get beta / var / cov for any level (baseline has 0,0,0)
+nm <- function(lvl) paste0("governance_broad", lvl)
+beta <- function(lvl) if (lvl == base) 0 else unname(b[nm(lvl)])
+vbet <- function(lvl) if (lvl == base) 0 else unname(V[nm(lvl), nm(lvl)])
+cbet <- function(i,j)   if (i == base || j == base) 0 else unname(V[nm(i), nm(j)])
+
+# --- 2) Compute all pairwise log-HR (row minus column), SE, p, CI
+pairs <- expand.grid(row = lv, col = lv, stringsAsFactors = FALSE) %>%
+  mutate(
+    est = mapply(function(r,c) beta(r) - beta(c), row, col),
+    se  = mapply(function(r,c) sqrt(vbet(r) + vbet(c) - 2*cbet(r,c)), row, col),
+    z   = ifelse(se > 0, est / se, NA_real_),
+    p   = ifelse(is.na(z), NA_real_, 2*pnorm(-abs(z))),
+    HR  = exp(est),
+    lo  = exp(est - 1.96*se),
+    hi  = exp(est + 1.96*se),
+    logHR = log(HR),
+    label = sprintf("%.2f", HR),
+    sig = case_when(
+      is.na(p)      ~ "",
+      p < 0.001     ~ "***",
+      p < 0.01      ~ "**",
+      p < 0.05      ~ "*",
+      TRUE          ~ ""
+    )
+  )
+
+# (Optional) keep only your “big 3”
+# keep <- c("local authority","independent","private")
+# pairs <- pairs %>% filter(row %in% keep, col %in% keep)
+
+# (Optional) order levels by estimated hazard (vs baseline) to make the heatmap more monotone
+ord <- c(base, names(sort(setNames(b, sub("^governance_broad", "", names(b))))))
+pairs <- pairs %>%
+  mutate(row = factor(row, levels = ord),
+         col = factor(col, levels = ord))
+
+# --- 3) Plot heatmap: log(HR) fill, HR label, stars for significance
+ggplot(pairs, aes(x = col, y = row, fill = logHR)) +
+  geom_tile() +
+  geom_text(aes(label = label), size = 3.2) +
+  geom_text(aes(label = sig), nudge_y = 0.33, size = 3.2) +
+  scale_fill_gradient2(
+    name = "log(HR)", midpoint = 0,
+    oob = scales::squish
+  ) +
+  labs(
+    x = "Reference governance (denominator)",
+    y = "Focal governance (numerator)",
+    title = "Pairwise hazard ratios for governance types (Cox PH)",
+    subtitle = "Cell = HR (row vs column); *, **, *** indicate p < .05, .01, .001"
+  ) +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# Pairwise comparison of size type risks
+```{r}
+library(survival)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+
+# --- 1) Fit Cox model (pick a sensible baseline first, e.g. "huge")
+df$size <- relevel(factor(df$size), ref = "huge")
+
+surv_obj <- Surv(time = df$time, event = df$event)
+fit <- coxph(surv_obj ~ size, data = df, ties = "efron")
+
+b  <- coef(fit)           # named vector of log-HR vs baseline (excludes baseline)
+V  <- vcov(fit)           # covariance matrix for those coefficients
+lv <- levels(df$size)
+base <- lv[1]            # should be "national" after relevel()
+
+# helpers to get beta / var / cov for any level (baseline has 0,0,0)
+nm <- function(lvl) paste0("size", lvl)
+beta <- function(lvl) if (lvl == base) 0 else unname(b[nm(lvl)])
+vbet <- function(lvl) if (lvl == base) 0 else unname(V[nm(lvl), nm(lvl)])
+cbet <- function(i,j)   if (i == base || j == base) 0 else unname(V[nm(i), nm(j)])
+
+# --- 2) Compute all pairwise log-HR (row minus column), SE, p, CI
+pairs <- expand.grid(row = lv, col = lv, stringsAsFactors = FALSE) %>%
+  mutate(
+    est = mapply(function(r,c) beta(r) - beta(c), row, col),
+    se  = mapply(function(r,c) sqrt(vbet(r) + vbet(c) - 2*cbet(r,c)), row, col),
+    z   = ifelse(se > 0, est / se, NA_real_),
+    p   = ifelse(is.na(z), NA_real_, 2*pnorm(-abs(z))),
+    HR  = exp(est),
+    lo  = exp(est - 1.96*se),
+    hi  = exp(est + 1.96*se),
+    logHR = log(HR),
+    label = sprintf("%.2f", HR),
+    sig = case_when(
+      is.na(p)      ~ "",
+      p < 0.001     ~ "***",
+      p < 0.01      ~ "**",
+      p < 0.05      ~ "*",
+      TRUE          ~ ""
+    )
+  )
+
+# (Optional) keep only your “big 3”
+# keep <- c("local authority","independent","private")
+# pairs <- pairs %>% filter(row %in% keep, col %in% keep)
+
+# (Optional) order levels by estimated hazard (vs baseline) to make the heatmap more monotone
+ord <- c(base, names(sort(setNames(b, sub("^size", "", names(b))))))
+pairs <- pairs %>%
+  mutate(row = factor(row, levels = ord),
+         col = factor(col, levels = ord))
+
+# --- 3) Plot heatmap: log(HR) fill, HR label, stars for significance
+ggplot(pairs, aes(x = col, y = row, fill = logHR)) +
+  geom_tile() +
+  geom_text(aes(label = label), size = 3.2) +
+  geom_text(aes(label = sig), nudge_y = 0.33, size = 3.2) +
+  scale_fill_gradient2(
+    name = "log(HR)", midpoint = 0,
+    oob = scales::squish
+  ) +
+  labs(
+    x = "Reference size (denominator)",
+    y = "Focal size (numerator)",
+    title = "Pairwise hazard ratios between sizes (Cox PH)",
+    subtitle = "Cell = HR (row vs column); *, **, *** indicate p < .05, .01, .001"
+  ) +
+  coord_equal() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+super_events <- read_csv("shiny/mappingmuseums/data/query_results/super_events.csv")
+museums_table <- museums_including_crown_dependencies |>
+  left_join(super_events |> select(museum_id, reasons_for_closure=reason), by="museum_id") |>
+  filter(
+    year_closed_1 > 1999,
+    year_closed_2 < 2026
+  ) |>
+  mutate(
+    year_of_birth = (year_opened_1 + year_opened_2) / 2,
+    year_of_death = (year_closed_1 + year_closed_2) / 2,
+    age_at_time_of_closure = ifelse(
+      year_of_death == 9999,
+      round(2025 - year_of_birth, 0),
+      round(year_of_death - year_of_birth, 0)
+    )
+  ) |>
+  select(
+    museum_id,
+    museum_name,
+    year_opened,
+    year_closed,
+    age_at_time_of_closure,
+    reasons_for_closure,
+    size,
+    governance,
+    subject,
+    region,
+    village_town_city
+  )
+museums_table
+write_csv(museums_table, "ages-at-closure.csv")
+```

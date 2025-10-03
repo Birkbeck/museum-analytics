@@ -9,7 +9,13 @@ The script does the following:
 
 import json
 
-from sheet_to_graph import Column, FileLoader, PostcodeToLatLong, Table
+from sheet_to_graph import (
+    Column,
+    FileLoader,
+    PostcodeToLatLong,
+    Table,
+    WikidataConnection,
+)
 from sheet_to_graph.columns import (
     BooleanColumn,
     ExtendedDateTimeColumn,
@@ -45,8 +51,7 @@ if __name__ == "__main__":
         file_loader = FileLoader(config)
 
     postcode_to_lat_long = PostcodeToLatLong(
-        "postcode_directory.json",
-        "../data/sources/ONSPD_FEB_2024_UK",
+        "../data/ONSPD_FEB_2024_UK", WikidataConnection()
     )
 
     print("Defining Tables")
@@ -90,6 +95,7 @@ if __name__ == "__main__":
             BooleanColumn("change_of_ownership", property_of="type_id"),
             BooleanColumn("change_of_custody", property_of="type_id"),
             BooleanColumn("end_of_existence", property_of="type_id"),
+            BooleanColumn("contributes_to_length_calculation", property_of="type_id"),
             Column("definition", property_of="type_id"),
             FormulaColumn(
                 "type_id",
@@ -153,40 +159,101 @@ if __name__ == "__main__":
             OptionalColumn("address_3", property_of="place_id"),
             Column("village_town_city", property_of="place_id"),
             Column("county", property_of="place_id"),
-            OptionalColumn("country", property_of="place_id"),
+            OptionalColumn("actor_country", property_of="place_id"),
             Column("postcode", property_of="place_id"),
             FormulaColumn(
                 "longitude",
                 formula=lambda table, row_index: formulae.get_longitude(
-                    table, row_index, postcode_to_lat_long
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
                 ),
                 property_of="place_id",
             ),
             FormulaColumn(
                 "latitude",
                 formula=lambda table, row_index: formulae.get_latitude(
-                    table, row_index, postcode_to_lat_long
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
+                ),
+                property_of="place_id",
+            ),
+            FormulaColumn(
+                "bng_x",
+                formula=lambda table, row_index: formulae.get_bng_x(
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
+                ),
+                property_of="place_id",
+            ),
+            FormulaColumn(
+                "bng_y",
+                formula=lambda table, row_index: formulae.get_bng_y(
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
                 ),
                 property_of="place_id",
             ),
             FormulaColumn(
                 "region",
                 formula=lambda table, row_index: formulae.get_region(
-                    table, row_index, postcode_to_lat_long
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
                 ),
+                property_of="place_id",
+            ),
+            FormulaColumn(
+                "country",
+                formula=lambda table, row_index: formulae.get_country(table, row_index),
                 property_of="place_id",
             ),
             FormulaColumn(
                 "local_authority_code",
                 formula=lambda table, row_index: formulae.get_local_authority_code(
-                    table, row_index, postcode_to_lat_long
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
                 ),
                 property_of="place_id",
             ),
             FormulaColumn(
                 "local_authority_name",
                 formula=lambda table, row_index: formulae.get_local_authority_name(
-                    table, row_index, postcode_to_lat_long
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="postcode",
+                    town_city_column="village_town_city",
+                    county_column="county",
+                    country_column="actor_country",
                 ),
                 property_of="place_id",
             ),
@@ -248,6 +315,7 @@ if __name__ == "__main__":
                 ],
                 split_before="?",
             ),
+            OptionalColumn("actor_quantity", property_of="actor_id"),
             Column("mm_id", unique=True, optional=True, property_of="actor_id"),
             Column("actor_address1", ignore=True),
             Column("actor_address2", ignore=True),
@@ -258,20 +326,28 @@ if __name__ == "__main__":
             Column("actor_country", ignore=True),
             OptionalColumn("size", property_of="actor_id"),
             OptionalColumn("governance", property_of="actor_id"),
+            OptionalColumn("governance_broad", property_of="actor_id"),
             OptionalColumn("accreditation", property_of="actor_id"),
-            OptionalColumn("subject_matter", property_of="actor_id"),
-            OptionalColumn("region", property_of="actor_id"),
+            OptionalColumn("subject", property_of="actor_id"),
+            OptionalColumn("subject_broad", property_of="actor_id"),
+            OptionalColumn("year_opened_1", property_of="actor_id"),
+            OptionalColumn("year_opened_2", property_of="actor_id"),
+            OptionalColumn("year_closed_1", property_of="actor_id"),
+            OptionalColumn("year_closed_2", property_of="actor_id"),
+            FormulaColumn(
+                "region",
+                formula=lambda table, row_index: formulae.get_region(
+                    postcode_to_lat_long,
+                    table,
+                    row_index,
+                    postcode_column="actor_postcode",
+                    town_city_column="actor_town_city",
+                    county_column="actor_county",
+                    country_column="actor_country",
+                ),
+                property_of="actor_id",
+            ),
             OptionalColumn("country", property_of="actor_id"),
-            FormulaColumn(
-                "subject_matter_broad",
-                formula=formulae.get_subject_matter_broad,
-                property_of="actor_id",
-            ),
-            FormulaColumn(
-                "governance_broad",
-                formula=formulae.get_governance_broad,
-                property_of="actor_id",
-            ),
             FormulaColumn(
                 "has_location",
                 formula=lambda table, row_index: formulae.get_actor_location(
@@ -327,6 +403,9 @@ if __name__ == "__main__":
                 "super_date", fill=True, property_of="super_event_id"
             ),
             Column("super_causes", fill=True, property_of="super_event_id"),
+            BooleanColumn(
+                "has_collection", default="Yes", fill=True, property_of="super_event_id"
+            ),
             FormulaColumn(
                 "super_cause_types",
                 formula=lambda table, row_index: formulae.get_super_cause_types(
@@ -511,7 +590,7 @@ if __name__ == "__main__":
                     EnumColumn(
                         "event_type_uncertainty",
                         enums.uncertainty_values,
-                        property_of="event_type_name",
+                        property_of="event_type_id",
                     ),
                 ],
                 split_before="?",
@@ -551,16 +630,16 @@ if __name__ == "__main__":
                 "event_name", formula=formulae.get_event_name, property_of="event_id"
             ),
             FormulaColumn(
-                "stage_in_path",
-                formula=formulae.get_stage_in_path,
-                property_of="event_id",
-            ),
-            FormulaColumn(
                 "previous_event_id",
                 formula=formulae.get_previous_event_id,
                 relation_to="event_id",
                 type_label="PRECEDES",
                 reference_column="event_id",
+            ),
+            FormulaColumn(
+                "stage_in_path",
+                formula=formulae.get_stage_in_path,
+                property_of="event_id",
             ),
             FormulaColumn(
                 "recipient_id",
@@ -649,19 +728,19 @@ if __name__ == "__main__":
             "actor_town_city": "village_town_city",
             "actor_county": "county",
             "actor_postcode": "postcode",
-            "actor_country": "country",
+            "actor_country": "actor_country",
         },
     )
     places.import_from_list_of_lists(
         file_loader.get_sheet_as_list_of_lists("museums"),
         header_mapping={
-            "address_line_1": "address_1",
-            "address_line_2": "address_2",
-            "address_line_3": "address_3",
-            "village_town_or_city": "village_town_city",
+            "address_1": "address_1",
+            "address_2": "address_2",
+            "address_3": "address_3",
+            "village_town_city": "village_town_city",
             "english_county": "county",
             "postcode": "postcode",
-            "nation": "country",
+            "country": "actor_country",
         },
     )
     places.import_from_list_of_lists(
@@ -679,7 +758,8 @@ if __name__ == "__main__":
     actors.import_from_list_of_lists(
         file_loader.get_sheet_as_list_of_lists("actors"),
         preprocessor=ActorsPreprocessor(
-            file_loader.get_sheet_as_list_of_lists("museums")
+            file_loader.get_sheet_as_list_of_lists("museums"),
+            file_loader.get_sheet_as_list_of_lists("events"),
         ),
     )
 
@@ -726,9 +806,14 @@ OPTIONAL MATCH (preceding_event:Event)-[:PRECEDES]->(sent_to_auction)
 MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction_house:Actor)
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
+WITH preceding_event, sent_to_auction, sold_at_auction, sender, auction_house
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+    <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
+DELETE has_auction_house_origin
 SET sold_at_auction.stage_in_path = sent_to_auction.stage_in_path
 CREATE (preceding_event)-[:PRECEDES]->(sold_at_auction)
 CREATE (sender)<-[:HAS_SENDER]-(sold_at_auction)-[:HAS_ENABLER]->(auction_house)
+CREATE (origin)<-[:HAS_ORIGIN]-(sold_at_auction)
 DETACH DELETE sent_to_auction
     """  # this will orphan events involving a sub-collection that are not sold after being sent to auction house
 
@@ -736,29 +821,44 @@ DETACH DELETE sent_to_auction
 MATCH (:Type {type_name: "sent-to-auction"})<-[:INSTANCE_OF]-(sent_to_auction:Event {stage_in_path: 0})
     -[:INVOLVES]->(:CollectionOrObject)<-[was_removed_from:WAS_REMOVED_FROM]-(:CollectionOrObject)<-[:INVOLVES]-
     (sold_at_auction:Event)-[:INSTANCE_OF]->(:Type {type_name: "sold-at-auction"})
-WHERE (sent_to_auction)-[:PRECEDES]->(sold_at_auction)
 WITH sent_to_auction, was_removed_from, sold_at_auction
+MATCH (sent_to_auction)-[precedes:PRECEDES]->(sold_at_auction)
+WITH sent_to_auction, precedes, was_removed_from, sold_at_auction
 MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction_house:Actor)
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
+WITH sent_to_auction, precedes, was_removed_from, sold_at_auction, sender, auction_house
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+    <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
+DELETE has_auction_house_origin
 SET sold_at_auction.stage_in_path = sent_to_auction.stage_in_path
 CREATE (sender)<-[:HAS_SENDER]-(sold_at_auction)-[:HAS_ENABLER]->(auction_house)
+CREATE (origin)<-[:HAS_ORIGIN]-(sold_at_auction)
 DELETE was_removed_from
+DELETE precedes 
     """
 
     separate_sent_and_sold_auction_events_where_sub_collection_is_sold = """
 MATCH (:Type {type_name: "sent-to-auction"})<-[:INSTANCE_OF]-(sent_to_auction:Event)
     -[:INVOLVES]->(:CollectionOrObject)<-[was_removed_from:WAS_REMOVED_FROM]-(:CollectionOrObject)<-[:INVOLVES]-
     (sold_at_auction:Event)-[:INSTANCE_OF]->(:Type {type_name: "sold-at-auction"})
-WHERE (sent_to_auction)-[:PRECEDES]->(sold_at_auction) AND sent_to_auction.stage_in_path > 0
+WHERE sent_to_auction.stage_in_path > 0
 WITH sent_to_auction, was_removed_from, sold_at_auction
+MATCH (sent_to_auction)-[precedes:PRECEDES]->(sold_at_auction)
+WITH sent_to_auction, precedes, was_removed_from, sold_at_auction
 OPTIONAL MATCH (preceding_event:Event)-[:PRECEDES]->(sent_to_auction)
 MATCH (sender:Actor)<-[:HAS_SENDER]-(sent_to_auction)-[:HAS_RECIPIENT]->(auction_house:Actor)
     <-[has_auction_house_sender:HAS_SENDER]-(sold_at_auction)
 DELETE has_auction_house_sender
+WITH sent_to_auction, precedes, was_removed_from, sold_at_auction, sender, auction_house
+OPTIONAL MATCH (origin:Place)<-[:HAS_ORIGIN]-(sent_to_auction)-[:HAS_DESTINATION]->(destination:Place)
+    <-[has_auction_house_origin:HAS_ORIGIN]-(sold_at_auction)
+DELETE has_auction_house_origin
+DELETE precedes 
 SET sold_at_auction.stage_in_path = sent_to_auction.stage_in_path
 CREATE (preceding_event)-[:PRECEDES]->(sold_at_auction)
 CREATE (sender)<-[:HAS_SENDER]-(sold_at_auction)-[:HAS_ENABLER]->(auction_house)
+CREATE (origin)<-[:HAS_ORIGIN]-(sold_at_auction)
     """
 
     sheet_to_graph = TablesToGraph(
@@ -781,4 +881,6 @@ CREATE (sender)<-[:HAS_SENDER]-(sold_at_auction)-[:HAS_ENABLER]->(auction_house)
         ],
         credentials_file_name=credentials_file_name,
     )
-    sheet_to_graph.translate_and_upload(output_spreadsheet_name="output.xlsx")
+    sheet_to_graph.translate_and_upload(
+        output_spreadsheet_name="output.xlsx", stop_if_validation_fails=True
+    )

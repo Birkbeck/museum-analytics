@@ -1,19 +1,31 @@
 R_CMD = /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/bin/R
 PATH_TO_APP = shiny/mappingmuseums
 
-.PHONY: deploy-app-local deploy-app reset-db upload-db dump-db
+.PHONY: deploy-app-local deploy-app load-mm-data reset-db upload-db dump-db
 
-deploy-app-local:
+deploy-app-local: generate-taxonomies
+	export PRODUCTION=FALSE
 	Rscript -e "library(methods); shiny::runApp('$(PATH_TO_APP)', launch.browser = TRUE)"
 
-deploy-app:
-	@$(R_CMD) --no-save --no-restore --quiet -e "library(rsconnect); rsconnect::deployApp('$(PATH_TO_APP)')"
+deploy-app-broken:
+	@$(R_CMD) --no-save --no-restore --quiet -e "library(rsconnect); rsconnect::deployApp('$(PATH_TO_APP)', envVars=c(PRODUCTION=\"TRUE\"))"
+
+deploy-app: generate-taxonomies
+	@$(R_CMD) --no-save --no-restore --quiet -e "library(rsconnect); rsconnect::deployApp('$(PATH_TO_APP)', forceUpdate=TRUE)"
+
+load-mm-data:
+	@cd sheet_to_graph && pipenv run python load_mapping_museums_data.py
 
 reset-db:
 	@cd sheet_to_graph && pipenv run python reset.py
 
 upload-db:
-	@cd sheet_to_graph && pipenv run python upload.py
+	@cd sheet_to_graph \
+	&& pipenv run python anonymize_dispersal_spreadsheet.py \
+	&& pipenv run python upload.py
 
 dump-db:
 	@cd sheet_to_graph && pipenv run python dump.py
+
+generate-taxonomies:
+	Rscript generate-taxonomies.R

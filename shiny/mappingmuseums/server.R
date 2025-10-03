@@ -1,35 +1,66 @@
 library(DT)
+library(ggplot2)
+library(ggraph)
+library(ggrepel)
+library(htmlwidgets)
+library(igraph)
+library(janitor)
 library(plotly)
+library(readr)
 library(shiny)
 library(shinyBS)
-library(shinyjs)
 library(shinyWidgets)
-library(htmlwidgets)
-library(janitor)
-library(ggplot2)
-library(igraph)
-library(ggraph)
+library(shinycssloaders)
+library(shinyjs)
 library(tidyverse)
-library(readr)
 
 source("src/labels.R")
+source("src/texts.R")
 source("src/mapping_museums_tables.R")
 source("src/themes.R")
+source("src/calculate_outcomes.R")
+source("src/calculate_closure_lengths.R")
 source("src/load_data.R")
+source("src/ui_elements.R")
 
-source("src/modules/dispersal_filters.R")
-source("src/modules/home.R")
-source("src/modules/snapshot.R")
-source("src/modules/changes.R")
-source("src/modules/causes.R")
-source("src/modules/length.R")
-source("src/modules/actors.R")
-source("src/modules/events.R")
-source("src/modules/pathways.R")
-source("src/modules/sequences.R")
-source("src/modules/movements.R")
+source("src/modules/home/ui.R")
+source("src/modules/home/server.R")
+
+source("src/modules/glossary/ui.R")
+source("src/modules/glossary/server.R")
+
+source("src/modules/snapshot/ui.R")
+source("src/modules/snapshot/server.R")
+
+source("src/modules/changes/ui.R")
+source("src/modules/changes/server.R")
+
+source("src/modules/reasons/ui.R")
+source("src/modules/reasons/server.R")
+
+source("src/modules/length/ui.R")
+source("src/modules/length/server.R")
+
+source("src/modules/outcomes/ui.R")
+source("src/modules/outcomes/server.R")
+
+source("src/modules/events/ui.R")
+source("src/modules/events/server.R")
+
+source("src/modules/dispersal/ui.R")
+source("src/modules/dispersal/server.R")
+
+source("src/modules/data_collection/ui.R")
+source("src/modules/data_collection/server.R")
+
+source("src/modules/data_collection_analysis/ui.R")
+source("src/modules/data_collection_analysis/server.R")
+
+source("src/modules/interpreting_data/ui.R")
+source("src/modules/interpreting_data/server.R")
 
 PRODUCTION <- FALSE
+
 user_base <- readRDS("users.rds")
 
 function(input, output, session) {
@@ -57,54 +88,137 @@ function(input, output, session) {
     req(credentials()$user_auth)
     credentials()$info
   })
-  
+
   observeEvent(credentials()$user_auth, {
     if (!PRODUCTION || credentials()$user_auth) {
       output$appContent <- renderUI({
         fluidPage(
+          tags$head(
+            tags$style(HTML("body, p, li { font-size: 18px;}")),
+            tags$style(HTML("
+              /* Remove default browser arrow */
+              summary::-webkit-details-marker {
+                display: none;
+              }
+              summary::marker {
+                display: none;
+              }
+
+              /* Add a custom arrow before the text */
+              summary::before {
+                content: '▶ ';   /* closed state */
+                font-size: 14px;
+                display: inline-block;
+                margin-right: 5px;
+              }
+
+              /* Change arrow when details is open */
+              details[open] summary::before {
+                content: '▼ ';   /* open state */
+              }
+            ")),
+            tags$style(HTML("
+              .scroll-hint {
+                text-align: left;
+                font-size: 12px;
+                color: #777;
+                animation: bounce 1.5s infinite;
+              }
+              @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(3px); }
+              }
+            "))
+          ),
+          useShinyjs(),
           actionButton("logout", "Logout"),
-          titlePanel(generate_title("Mapping Museums & Museum Closure")),
+          titlePanel(generate_title("Mapping Museums Database")),
+          tags$head(
+            tags$style(type="text/css", ".nav-tabs {font-size: 16px}")
+          ),
           tabsetPanel(
             tabPanel(
-              "Home",
-              homeUI("home"),
+              tags$span("Home", title="Go back to the home page"),
+              homeUI("home")
             ),
             tabPanel(
-              "Sector Snapshot",
-              snapshotUI("snapshot"),
+              tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),
+              glossaryUI("glossary"),
             ),
             tabPanel(
-              "Sector Changes",
-              changesUI("changes"),
+              tags$span("Mapping Museums", title=""),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Sector Snapshot", title="Data on museums open in a chosen time period"),
+                  snapshotUI("snapshot")
+                ),
+                tabPanel(
+                  tags$span("Sector Changes", title="Changes in museum numbers over a chosen time period"),
+                  changesUI("changes")
+                )
+              )
             ),
             tabPanel(
-              "Reasons for Closure",
-              causesUI("causes"),
+              tags$span("Museum Closure", title=""),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Reasons for Closure", title="Reasons why museums have closed"),
+                  reasonsUI("reasons")
+                ),
+                tabPanel(
+                  tags$span("Collections after Closure", title="What happens to collections after closure"),
+                  outcomesUI("outcomes")
+                )
+              )
             ),
             tabPanel(
-              "Length of Closure",
-              lengthUI("length"),
+              tags$span("Details of Dispersal", title=""),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Events after closure", title="What happens after closure"),
+                  eventsUI("events")
+                ),
+                tabPanel(
+                  tags$span("Object destinations", title="The flow of objects away from closed museums"),
+                  dispersalUI("dispersal")
+                ),
+                tabPanel(
+                  tags$span("Length of disposal", title="How long it takes for museums to close"),
+                  lengthUI("length")
+                )
+              )
             ),
             tabPanel(
-              "Dispersal: Actors",
-              actorsUI("actors"),
-            ),
-            tabPanel(
-              "Dispersal: Events",
-              eventsUI("events"),
-            ),
-            tabPanel(
-              "Dispersal: Pathways",
-              pathwaysUI("pathways"),
-            ),
-            tabPanel(
-              "Dispersal: Sequences",
-              sequencesUI("sequences")
-            ),
-            tabPanel(
-              "Dispersal: Movements",
-              movementsUI("movements")
-            ),
+              tags$span("About the data", title="A description of the data concerning object disposal"),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Interpreting the Data", title=""),
+                  interpretingDataUI("interpreting_data")
+                ),
+                tabPanel(
+                  tags$span("Data Collection", title=""),
+                  dataCollectionUI("data_collection")
+                ),
+                tabPanel(
+                  tags$span("Data Collection Analysis", title=""),
+                  dataCollectionAnalysisUI("data_collection_analysis")
+                )
+              )
+            )
+          ),
+          tags$head(
+            tags$style(HTML("
+/* top-level tabs (first nav-tabs inside .tabbable) — keep default */
+.nav-tabs > li > a { background-color: inherit; }
+/* second-level (nested) tabs: select nav-tabs that are inside a tab-pane */
+.tab-pane .nav-tabs > li > a {
+  background-color: #eee9ff !important;
+}
+.tab-pane .nav-tabs > li.active > a,
+.tab-pane .nav-tabs > li.active > a:focus,
+.tab-pane .nav-tabs > li.active > a:hover {
+  background-color: #ffffdd !important;
+}"))
           )
         )
       })
@@ -137,15 +251,25 @@ function(input, output, session) {
       )
       
       homeServer("home")
+      glossaryServer("glossary")
+
+      # mapping museums
       snapshotServer("snapshot")
       changesServer("changes")
-      causesServer("causes")
-      lengthServer("length")
-      actorsServer("actors")
+
+      # museum closure
+      reasonsServer("reasons")
+      outcomesServer("outcomes")
+
+      # object dispersal
       eventsServer("events")
-      pathwaysServer("pathways")
-      sequencesServer("sequences")
-      movementsServer("movements")
+      dispersalServer("dispersal")
+      lengthServer("length")
+
+      # about the data
+      dataCollectionServer("data_collection")
+      dataCollectionAnalysisServer("data_collection_analysis")
+      interpretingDataServer("interpreting_data")
       
     }
   })

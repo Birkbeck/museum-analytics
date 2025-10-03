@@ -6,7 +6,7 @@ library(shinyWidgets)
 
 source("src/labels.R")
 
-PRODUCTION = FALSE
+PRODUCTION <- FALSE
 
 if (PRODUCTION) {
   error_style <- ".shiny-output-error{color: white;}"
@@ -16,9 +16,11 @@ if (PRODUCTION) {
 
 fluidPage(
   tags$head(tags$style(error_style)),
-  # add login panel UI function
-  shinyauthr::loginUI(id = "login"),
+
+  if (PRODUCTION) {
+    # add login panel UI function
+    shinyauthr::loginUI(id = "login")
+  },
   
   uiOutput("appContent"),
 )
-

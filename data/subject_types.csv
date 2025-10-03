@@ -1,0 +1,130 @@
+"","type_name","sub_type_of","is_broad"
+"1","transport: trains & railways","transport",FALSE
+"2","buildings: houses (large)","buildings",FALSE
+"3","industry & manufacture: mining & quarrying","industry & manufacture",FALSE
+"4","sea & seafaring: mixed","sea & seafaring",FALSE
+"5","transport: aviation","transport",FALSE
+"6","archaeology: prehistory","archaeology",FALSE
+"7","industry & manufacture: mixed","industry & manufacture",FALSE
+"8","mixed: other","mixed",FALSE
+"9","war & conflict: regiment","war & conflict",FALSE
+"10","arts: fine & decorative arts","arts",FALSE
+"11","mixed: encyclopaedic","mixed",FALSE
+"12","industry & manufacture: industrial life","industry & manufacture",FALSE
+"13","buildings: houses (medium)","buildings",FALSE
+"14","war & conflict: other","war & conflict",FALSE
+"15","services: police","services",FALSE
+"16","industry & manufacture: metals","industry & manufacture",FALSE
+"17","leisure & sport: toys & models","leisure & sport",FALSE
+"18","belief & identity: ethnic group","belief & identity",FALSE
+"19","services: other","services",FALSE
+"20","sea & seafaring: fishing","sea & seafaring",FALSE
+"21","mixed: bygones","mixed",FALSE
+"22","rural industry: watermills","rural industry",FALSE
+"23","archaeology: roman","archaeology",FALSE
+"24","arts: ceramics","arts",FALSE
+"25","war & conflict: airforce","war & conflict",FALSE
+"26","sea & seafaring: boats & ships","sea & seafaring",FALSE
+"27","utilities: water & waste","utilities",FALSE
+"28","industry & manufacture: textiles","industry & manufacture",FALSE
+"29","war & conflict: event or site","war & conflict",FALSE
+"30","natural world: dinosaurs","natural world",FALSE
+"31","rural industry: farming","rural industry",FALSE
+"32","belief & identity: religion","belief & identity",FALSE
+"33","war & conflict: castles & forts","war & conflict",FALSE
+"34","natural world: mixed","natural world",FALSE
+"35","war & conflict: military","war & conflict",FALSE
+"36","industry & manufacture: steam & engines","industry & manufacture",FALSE
+"37","buildings: other","buildings",FALSE
+"38","transport: buses & trams","transport",FALSE
+"39","services: fire","services",FALSE
+"40","sea & seafaring: lighthouses","sea & seafaring",FALSE
+"41","transport: cars & motorbikes","transport",FALSE
+"42","transport: mixed","transport",FALSE
+"43","science & technology: other","science & technology",FALSE
+"44","rural industry: rural life","rural industry",FALSE
+"45","belief & identity: freemasons","belief & identity",FALSE
+"46","natural world: herbaria & gardening","natural world",FALSE
+"47","leisure & sport: other","leisure & sport",FALSE
+"48","buildings: penal","buildings",FALSE
+"49","war & conflict: navy","war & conflict",FALSE
+"50","communications: other","communications",FALSE
+"51","rural industry: textiles","rural industry",FALSE
+"52","personality: literary","personality",FALSE
+"53","industry & manufacture: print","industry & manufacture",FALSE
+"54","natural world: geology","natural world",FALSE
+"55","industry & manufacture: other","industry & manufacture",FALSE
+"56","rural industry: other","rural industry",FALSE
+"57","archaeology: medieval","archaeology",FALSE
+"58","medicine & health: other","medicine & health",FALSE
+"59","leisure & sport: film cinema & tv","leisure & sport",FALSE
+"60","buildings: civic","buildings",FALSE
+"61","leisure & sport: fairgrounds & amusements","leisure & sport",FALSE
+"62","communications: post","communications",FALSE
+"63","natural world: other","natural world",FALSE
+"64","arts: crafts","arts",FALSE
+"65","natural world: fossils","natural world",FALSE
+"66","utilities: gas & electricity","utilities",FALSE
+"67","personality: explorer","personality",FALSE
+"68","personality: other","personality",FALSE
+"69","buildings: palace","buildings",FALSE
+"70","belief & identity: religious buildings","belief & identity",FALSE
+"71","buildings: houses (small)","buildings",FALSE
+"72","natural world: zoology","natural world",FALSE
+"73","transport: other","transport",FALSE
+"74","leisure & sport: rugby & football","leisure & sport",FALSE
+"75","medicine & health: hospital","medicine & health",FALSE
+"76","rural industry: windmills","rural industry",FALSE
+"77","transport: canals","transport",FALSE
+"78","archaeology: mixed","archaeology",FALSE
+"79","industry & manufacture: potteries","industry & manufacture",FALSE
+"80","personality: religious","personality",FALSE
+"81","leisure & sport: cricket","leisure & sport",FALSE
+"82","arts: literature","arts",FALSE
+"83","belief & identity: church treasuries","belief & identity",FALSE
+"84","arts: music","arts",FALSE
+"85","personality: scientific","personality",FALSE
+"86","arts: other","arts",FALSE
+"87","war & conflict: bunker","war & conflict",FALSE
+"88","transport: bicycles","transport",FALSE
+"89","science & technology: computing & gaming","science & technology",FALSE
+"90","personality: art","personality",FALSE
+"91","sea & seafaring: other","sea & seafaring",FALSE
+"92","industry & manufacture: clocks & watches","industry & manufacture",FALSE
+"93","medicine & health: professional association","medicine & health",FALSE
+"94","buildings: school","buildings",FALSE
+"95","arts: costume & textiles","arts",FALSE
+"96","rural industry: forges","rural industry",FALSE
+"97","belief & identity: other","belief & identity",FALSE
+"98","buildings: shops","buildings",FALSE
+"99","archaeology: greek & egyptian","archaeology",FALSE
+"100","personality: political","personality",FALSE
+"101","arts: design","arts",FALSE
+"102","arts: glass","arts",FALSE
+"103","services: rnli","services",FALSE
+"104","arts: photography","arts",FALSE
+"105","communications: radio","communications",FALSE
+"106","archaeology: other","archaeology",FALSE
+"107","personality: music","personality",FALSE
+"108","transport","subject",TRUE
+"109","buildings","subject",TRUE
+"110","industry & manufacture","subject",TRUE
+"111","sea & seafaring","subject",TRUE
+"112","archaeology","subject",TRUE
+"113","local histories","subject",TRUE
+"114","mixed","subject",TRUE
+"115","war & conflict","subject",TRUE
+"116","arts","subject",TRUE
+"117","services","subject",TRUE
+"118","leisure & sport","subject",TRUE
+"119","belief & identity","subject",TRUE
+"120","rural industry","subject",TRUE
+"121","utilities","subject",TRUE
+"122","natural world","subject",TRUE
+"123","other","subject",TRUE
+"124","science & technology","subject",TRUE
+"125","communications","subject",TRUE
+"126","personality","subject",TRUE
+"127","food & drink","subject",TRUE
+"128","medicine & health","subject",TRUE
+"129","subject","",NA

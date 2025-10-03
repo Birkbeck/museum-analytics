@@ -1,0 +1,101 @@
+---
+title: "museums vs population"
+author: "George Alexander Wright"
+date: "2025-08-27"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+
+regional_populations <- read_csv("shiny/mappingmuseums/data/regional-populations.csv") |>
+  clean_names()
+print(regional_populations)
+region_vs_governance_museums_summary <- museums_including_crown_dependencies |>
+  get_2_way_open_and_close_data("region", "governance_broad", 2000, 2025) |>
+  left_join(regional_populations, by="region") |>
+  mutate(
+    region=factor(region, museum_attribute_ordering),
+    pop_change=pop_2023-pop_2000,
+    pop_change_pc=pop_change / pop_2000 * 100,
+    museums_per_capita_2000=start_total / pop_2000,
+    museums_per_capita_2025=end_total / pop_2023,
+    museums_per_capita_change=museums_per_capita_2025-museums_per_capita_2000,
+    museums_per_capita_change_pc=round(museums_per_capita_change / museums_per_capita_2000 * 100, 1),
+    museums_per_capita_2000=round(museums_per_capita_2000 * 10e5, 1),
+    museums_per_capita_2025=round(museums_per_capita_2025 * 10e5, 1)
+  )
+regional_heatmap_2000 <- ggplot(
+  region_vs_governance_museums_summary |> filter(!is.na(region), !region %in% c("all", "Channel Islands", "Isle of Man")),
+  aes(
+    x=region,
+    y=governance_broad,
+    fill=museums_per_capita_2000
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=museums_per_capita_2000), size=6) +
+  scale_x_discrete(labels=short_labels) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient(low=white, high=blue) +
+  labs(
+    title="Museums per capita 2000",
+    x="Country/Region",
+    y="Governance"
+  ) +
+  standard_bars_theme +
+  theme(
+    axis.text.x=element_text(angle=45, vjust=0.5, hjust=1)
+  )
+ggsave("regional-heatmap-2000.png", regional_heatmap_2000, width=20, height=10, bg="white")
+regional_heatmap_2025 <- ggplot(
+  region_vs_governance_museums_summary |> filter(!is.na(region), !region %in% c("all", "Channel Islands", "Isle of Man")),
+  aes(
+    x=region,
+    y=governance_broad,
+    fill=museums_per_capita_2025
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=museums_per_capita_2025), size=6) +
+  scale_x_discrete(labels=short_labels) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient2(low=white, high=blue) +
+  labs(
+    title="Museums per capita 2025",
+    x="Country/Region",
+    y="Governance"
+  ) +
+  standard_bars_theme +
+  theme(
+    axis.text.x=element_text(angle=45, vjust=0.5, hjust=1)
+  )
+ggsave("regional-heatmap-2025.png", regional_heatmap_2025, width=20, height=10, bg="white")
+regional_heatmap_change <- ggplot(
+  region_vs_governance_museums_summary |> filter(!is.na(region), !region %in% c("all", "Channel Islands", "Isle of Man")),
+  aes(
+    x=region,
+    y=governance_broad,
+    fill=museums_per_capita_change_pc
+    )
+) +
+  geom_tile(alpha=0.7, show.legend=FALSE) +
+  geom_text(aes(label=museums_per_capita_change_pc), size=6) +
+  scale_x_discrete(labels=short_labels) +
+  scale_y_discrete(labels=short_labels) +
+  scale_fill_gradient2(low=red, mid=white, high=blue, midpoint=0) +
+  labs(
+    title="Percentage change in museums per capita 2000-2025",
+    x="Country/Region",
+    y="Governance"
+  ) +
+  standard_bars_theme +
+  theme(
+    axis.text.x=element_text(angle=45, vjust=0.5, hjust=1)
+  )
+ggsave("regional-heatmap-change.png", regional_heatmap_change, width=20, height=10, bg="white"
+print(region_vs_governance_museums_summary)
+
+
+```
