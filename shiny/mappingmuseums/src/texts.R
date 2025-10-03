@@ -39,7 +39,7 @@ top_reasons <- "<p>Why do museums close? These visualisations show reasons why m
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
 <p>The table below lists details of museums returned by the search</p>"
 
-top_outcomes <- "<p>What happens to the collections when museums close? These visualisations show the main outcomes of museum closures. The numbers relate to individual museums.</p>
+top_outcomes <- "<p>What happens to the collections when museums close? These visualisations provide an overview of the outcomes. Here collections are understood to be the entirety of a museum’s holdings. The numbers relate to individual museums.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
 <p>The table below lists details of museums returned by the search</p>"
 
@@ -47,7 +47,7 @@ top_events <- "<p>What happens to museum collections after museums close? These 
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
 <p>The table below lists details of events returned by the search</p>"
 
-top_dispersal <- "<p>Who are the recipients of collections from closed museums? These visualisations show where objects go after closure. The numbers relate to actors, not to the number of events or of museums.</p>
+top_dispersal <- "<p>Who are the recipients of collections from closed museums? These visualisations show where objects go after closure. The numbers relate to actors, that is, to the people, groups, and organisations involved in object dispersal. A plus sign next to a number means 'at least'.  For instance, a circle marked 81+trader means that objects went to at least 81 traders.</p>
 <p>Click the thumbnail image to select your preferred visualisation. The pathways visualisation shows where objects from a single museum type go; the sequences visualisation enables the comparison of different museum types.</p>
 <p>You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
 <p>The table below lists details of events returned by the search</p>"

@@ -6,7 +6,7 @@ interpretingDataUI <- function(id) {
 <p>The information below is intended to help users understand the scope and organisation of the data. It covers the following topics.</p>
 <ul>
   <li><a href='#museum-definitions'>Museum definitions</a></li>
-  <li><a href='#categorising-asset-transfers'>Categorising asset transfers and devolved museums</a></li>
+  <li><a href='#categorising-asset-transfers'>Categorising museums that have transferred their assets</a></li>
   <li><a href='#categorising-relaunched-museums'>Categorising relaunched and redeveloped museums</a></li>
   <li><a href='#museum-amalgamations'>Museum amalgamations</a></li>
   <li><a href='#classifying-data'>Classifying the data</a></li>
@@ -42,9 +42,9 @@ interpretingDataUI <- function(id) {
 
 <a href='#top'>⬆ Back to Top</a>
 
-<h3 id='categorising-asset-transfers'>Categorising asset transfers and devolved museums</h3>
+<h3 id='categorising-asset-transfers'>Categorising museums that have transferred their assets</h3>
 
-<p>Many local authorities have devolved managerial responsibility for their museums to community groups or leisure management companies. The process is often referred to as asset transfer, but it rarely involves the permanent legal transfer of buildings or collections. Unless collections have been permanently transferred to another group, this study treats devolved or asset transfer museums as local authority museums.</p>
+<p>Some local authorities have contracted out the managerial responsibility for their museums to community groups or leisure management companies while retaining ownership of the collection. Other local authorities have transferred assets to community organisations, either outright or under the terms of a lease, or a lease providing for an ultimate transfer of ownership. Unless the collection has been permanently transferred to another group, this study treats museums with contracted-out management or leased collections and buildings as local authority museums.</p>
 
 <a href='#top'>⬆ Back to Top</a>
 

@@ -166,7 +166,7 @@ function(input, output, session) {
                   reasonsUI("reasons")
                 ),
                 tabPanel(
-                  tags$span("Outcomes of Closure", title="What museums do after closure"),
+                  tags$span("Collections after Closure", title="What happens to collections after closure"),
                   outcomesUI("outcomes")
                 )
               )

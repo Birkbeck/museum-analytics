@@ -4,7 +4,7 @@ outcomesServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateRadioButtons(session=session, inputId="outcomeType", selected="Event")
+      updateRadioButtons(session=session, inputId="outcomeType", selected="Collection outcome")
       updateRadioButtons(session=session, inputId="museumGrouping", selected="Governance")
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="frequency")
       updatePickerInput(
@@ -30,13 +30,13 @@ outcomesServer <- function(id) {
     outcome_type_name <- reactive({input$outcomeType})
     outcome_type <- reactive({
       req(input$outcomeType)
-      if (input$outcomeType == "Event") {
+      if (input$outcomeType == "Collection outcome") {
         return("outcome_event_type")
-      } else if (input$outcomeType == "Recipient") {
+      } else if (input$outcomeType == "Collection recipient") {
         return("outcome_recipient_type")
-      } else if (input$outcomeType == "Recipient count") {
+      } else if (input$outcomeType == "Collection recipient count") {
         return("outcome_recipient_count")
-      } else if (input$outcomeType == "Recipient share") {
+      } else if (input$outcomeType == "Collection recipient share") {
         return("outcome_largest_share")
       } else {
         return("outcome_destination_type")
@@ -44,15 +44,15 @@ outcomesServer <- function(id) {
     })
     museum_grouping <- reactive({
       req(input$museumGrouping)
-      if (input$museumGrouping == "Event") {
+      if (input$museumGrouping == "Collection outcome") {
         return("outcome_event_type")
-      } else if (input$museumGrouping == "Recipient") {
+      } else if (input$museumGrouping == "Collection recipient") {
         return("outcome_recipient_type")
-      } else if (input$museumGrouping == "Recipient count") {
+      } else if (input$museumGrouping == "Collection recipient count") {
         return("outcome_recipient_count")
-      } else if (input$museumGrouping == "Destination") {
+      } else if (input$museumGrouping == "Collection destination") {
         return("outcome_destination_type")
-      } else if (input$museumGrouping == "Recipient share") {
+      } else if (input$museumGrouping == "Collection recipient share") {
         return("outcome_largest_share")
       } else if (input$museumGrouping == "Core reason for closure") {
         return("reason_core")

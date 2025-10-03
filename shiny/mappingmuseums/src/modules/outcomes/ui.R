@@ -26,13 +26,13 @@ outcomesUI <- function(id) {
             NS(id, "outcomeType"),
             label="",
             choices=c(
-              "Event",
-              "Recipient",
-              "Recipient count",
-              "Recipient share",
-              "Destination"
+              "Collection outcome",
+              "Collection recipient",
+              "Collection recipient count",
+              "Collection recipient share",
+              "Collection destination"
             ),
-            selected="Event"
+            selected="Collection outcome"
           )
         ),
 
@@ -46,11 +46,11 @@ outcomesUI <- function(id) {
               choices=c(
                 field_names$name,
                 "Core reason for closure",
-                "Event",
-                "Recipient",
-                "Recipient count",
-                "Recipient share",
-                "Destination"
+                "Collection outcome",
+                "Collection recipient",
+                "Collection recipient count",
+                "Collection recipient share",
+                "Collection destination"
               ),
               selected="Governance"
             )

@@ -27,13 +27,13 @@ low visitor numbers,low visitor numbers,mm.aim.0774,True
 unknown,unknown,mm.domus.SC237,True
 financial - costs - low revenue,insufficient revenue,mm.domus.SE471,True
 financial - costs - unsustainable,financially unsustainable,mm.domus.SW043,True
-building - building destroyed - fire,fire destroyed building,mm.domus.SE091,True
+destruction - building destroyed - fire,fire destroyed building,mm.domus.SE091,True
 financial - costs - low revenue,insufficient revenue,mm.aim82NM.072,True
 financial - insolvency,liquidation,mm.fcm.279,True
 financial - costs - low revenue; financial - costs - low revenue; life events - illness,insufficient revenue; failed funding bid; illness,mm.wiki.109,True
 strategic closure - replacement museum,replacement,mm.domus.NE065,True
 loss of premises; loss of premises - sold,loss of premises; site sold,mm.misc.106,True
-building - building destroyed - fire,fire,mm.fcm.207,True
+destruction - building destroyed - fire,fire,mm.fcm.207,True
 other - unwanted by heritage organisations; loss of premises - sold,unwanted by heritage organisations; building sold,mm.wiki.291,True
 financial - costs; life events - illness,increased costs; illness,mm.mald.159,True
 loss of premises,loss of premises,mm.wiki.243,True
@@ -131,7 +131,7 @@ low visitor numbers; financial - costs,falling visitor numbers; rising costs,mm.
 financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE299,True
 low visitor numbers,too few visitors,mm.wiki.139,True
 loss of premises - change of use,premises repurposed,mm.domus.SW092,True
-building - building destroyed - fire,fire destroyed building,mm.domus.SE078,True
+destruction - building destroyed - fire,fire destroyed building,mm.domus.SE078,True
 financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM012,True
 financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE014,True
 loss of premises - sold,building sold,mm.aim82NM.051,True
@@ -155,7 +155,7 @@ life events - death - death of owner,death of owner?,mm.aim.1166,True
 restructure of host organisation - local authority reorganisation,local authority reorganisation,mm.domus.EM065,True
 building - unsuitable - too small,seeking larger premises,mm.wiki.400,True
 building - condition of building - deterioration; financial - costs - building costs,roof collapsed; museum went into administration due to repair costs,mm.domus.YH163,True
-building - change of use,site repurposed,mm.New.202,True
+loss of premises - change of use,site repurposed,mm.New.202,True
 loss of premises - sold,site sold,mm.aim82NM.122,True
 strategic closure - amalgamation,amalgamation,mm.domus.WA067,True
 life events - illness; low visitor numbers,illness; falling visitor numbers,mm.wiki.092,True
@@ -208,7 +208,7 @@ building - unsuitable; staff - insufficient staff,unsuitable building; lack of s
 life events - retirement - retirement of owner,owner(s) retired from museum work,mm.misc.211,True
 loss of premises,loss of premises,mm.aim.0127,True
 loss of premises - change of use,refurbishment of museum,mm.domus.SE216,True
-building - building destroyed - fire; destruction - building destroyed - arson,fire destroyed building; arson,mm.domus.SE467,True
+destruction - building destroyed - fire; destruction - building destroyed - arson,fire destroyed building; arson,mm.domus.SE467,True
 life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim.1194,True
 life events - retirement - retirement of owner,owner(s) retired from museum work?,mm.wiki.049,True
 financial - costs - low revenue; loss of premises - change of use,insufficient revenue; premises repurposed,mm.New.203,True
@@ -235,7 +235,7 @@ financial - funding cut - local authority funding cut; low visitor numbers,local
 staff - insufficient staff - no succession,lack of succession from owner,mm.aim82M.029,True
 loss of premises - change of use,premises repurposed,mm.misc.055,True
 strategic closure - replacement museum,strategic relaunch,mm.New.104,True
-building - building destroyed,building demolished,mm.aim82NM.101,True
+destruction - building destroyed,building demolished,mm.aim82NM.101,True
 strategic closure - amalgamation,amalgamation,mm.domus.SE189,True
 strategic closure - replacement museum,strategic relaunch,mm.domus.YH165,True
 life events - death - death of owner,owner died?,mm.domus.SE149,True
@@ -326,7 +326,7 @@ strategic closure - amalgamation,amalgamation,mm.domus.SE414,True
 loss of premises - redevelopment,redevelopment,mm.domus.SW009,True
 financial - costs - low revenue,insufficient revenue,mm.domus.NW179,True
 financial - costs - low revenue,insufficient revenue,mm.ace.1193,True
-building - condition of building - deterioration; staff - area unsafe for staff; financial - costs - unsustainable,deterioration of building; area unsafe for staff; building unsafe; financially unsustainable,mm.Mus70Cal.011,True
+building - condition of building - deterioration; staff - area unsafe for staff; building - health and safety; financial - costs - unsustainable,deterioration of building; area unsafe for staff; building unsafe; financially unsustainable,mm.Mus70Cal.011,True
 loss of premises - legal,lease terminated,mm.aim.1281,True
 financial - funding cut - local authority funding cut,local authority budget cuts,mm.domus.YH166,True
 restructure of host organisation - regimental reorganisation,regimental reorganisation,mm.domus.SE327,True
@@ -411,7 +411,7 @@ other; building - unsuitable,conservation issues; premises unsuitable,mm.domus.N
 low visitor numbers,too few visitors,mm.domus.NE009,True
 financial - managing trust disposing of liabilities,managing trust disposing of liabilities?,mm.mgs.413,True
 life events - illness,illness,mm.wiki.292,True
-life events - owners fell out,owners fell out,mm.mald.148,True
+life events - owners in dispute,owners fell out,mm.mald.148,True
 life events - illness,illness,mm.fcm.154,True
 life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.071,True
 financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.NE036,True
@@ -425,10 +425,10 @@ life events - death - death of owner,death of owner,mm.wiki.309,True
 life events - retirement - retirement of owner,owner(s) retired from museum work,mm.misc.165,True
 financial - costs,rent increase,mm.mald.027,True
 restructure of host organisation - change in corporate priorities; loss of premises - legal - lease expired,change in corporate priorities; lease expired,mm.musa.116,True
-building - change of use,site repurposed?,mm.wiki.481,True
+loss of premises - change of use,site repurposed?,mm.wiki.481,True
 life events - death - death of owner,death of owner?,mm.aim.1217,True
-life events - retirement - retirement of owner; building - change of use,owner(s) retired from museum work; repurposing of site,mm.wiki.315,True
-building - building destroyed,building demolished,mm.domus.YH056,True
+life events - retirement - retirement of owner; loss of premises - change of use,owner(s) retired from museum work; repurposing of site,mm.wiki.315,True
+destruction - building destroyed,building demolished,mm.domus.YH056,True
 staff - insufficient staff - no volunteers; building - condition of building,too few volunteers; leaking roof,mm.wiki.464,True
 other,changed offer,mm.domus.WA010,True
 building - condition of building,condition of building,mm.domus.NI026,True
@@ -436,9 +436,9 @@ restructure of host organisation - merger of fire services; loss of premises - s
 building - condition of building; low visitor numbers; loss of premises - legal - lease expired,condition of building; too few visitors; lease expired,mm.wiki.354,True
 building - condition of building,condition of building?,mm.misc.075,True
 loss of premises,loss of premises,mm.domus.WA051,True
-building - change of use,site repurposed,mm.New.254,True
+loss of premises - change of use,site repurposed,mm.New.254,True
 financial - costs - low revenue,insufficient revenue,mm.wiki.027,True
-building - building ownership changed; loss of premises,building ownership changed; loss of premises,mm.wiki.391,True
+loss of premises - sold; loss of premises,building ownership changed; loss of premises,mm.wiki.391,True
 life events - death - death of owner,death of owner?,mm.musa.057,True
 building - condition of building,condition of building,mm.domus.WA028,True
 staff - insufficient staff; building - unsuitable,insufficient staff; premises unsuitable,mm.ace.1167,True
