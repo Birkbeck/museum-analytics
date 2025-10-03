@@ -343,7 +343,6 @@ ggplot(haz_by_band_ci, aes(age_band, hazard_rate_k, group=1)) +
 ```
 
 ```{r}
-
 breaks <- c(seq(0, 200, by = 10), Inf)
 labels <- paste0(head(breaks, -1), "-",
                  ifelse(tail(breaks, -1) == Inf, "∞", tail(breaks, -1) - 1))
@@ -413,6 +412,40 @@ ggplot(haz_by_band_gov |> filter(governance_broad %in% c("independent", "local a
     colour = "Governance"
   ) +
   theme_minimal()
+
+# Plot with error bars
+ggplot(haz_by_band_gov |> filter(governance_broad == "local authority"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (local authority)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(haz_by_band_gov |> filter(governance_broad == "independent"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (independent)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(haz_by_band_gov |> filter(governance_broad == "private"), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age band (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals (private)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
