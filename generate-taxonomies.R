@@ -58,7 +58,7 @@ closure_reasons <- dispersal_events |>
       )
     )
 
-size_types_csv <- "data/size_types.csv"
+size_types_csv <- "data-model/size_types.csv"
 size_types <- read_csv(size_types_csv)
 size_hierarchy <- size_taxonomy(size_types)
 ggsave(
@@ -68,7 +68,7 @@ ggsave(
   height=4
 )
 
-governance_types_csv <- "data/governance_types.csv"
+governance_types_csv <- "data-model/governance_types.csv"
 governance_types <- read_csv(governance_types_csv)
 governance_hierarchy <- governance_taxonomy(governance_types)
 ggsave(
@@ -78,7 +78,7 @@ ggsave(
   height=6
 )
 
-subject_types_csv <- "data/subject_types.csv"
+subject_types_csv <- "data-model/subject_types.csv"
 subject_types <- read_csv(subject_types_csv)
 subject_hierarchy <- subject_taxonomy(subject_types)
 ggsave(
