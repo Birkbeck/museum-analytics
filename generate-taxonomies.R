@@ -58,6 +58,25 @@ closure_reasons <- dispersal_events |>
       )
     )
 
+core_reasons <- closure_reasons |>
+  select(type_name=closure_reason_top_level) |>
+  distinct() |>
+  mutate(sub_type_of="", is_core=TRUE)
+sub_core_reasons <- closure_reasons |>
+  select(type_name=closure_reason_mid_level, sub_type_of=closure_reason_top_level) |>
+  distinct() |>
+  mutate(is_core=FALSE) |>
+  filter(!is.na(type_name))
+specific_reasons <- closure_reasons |>
+  select(type_name=closure_reason_low_level, sub_type_of=closure_reason_mid_level) |>
+  distinct() |>
+  mutate(is_core=FALSE) |>
+  filter(!is.na(type_name), !is.na(sub_type_of))
+core_reasons |>
+  rbind(sub_core_reasons) |>
+  rbind(specific_reasons) |>
+  write_csv("data-model/reason_types.csv")
+
 size_types_csv <- "data-model/size_types.csv"
 size_types <- read_csv(size_types_csv)
 size_hierarchy <- size_taxonomy(size_types)
