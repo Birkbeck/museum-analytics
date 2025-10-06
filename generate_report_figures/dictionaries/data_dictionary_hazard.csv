@@ -1,0 +1,7 @@
+Column,Definition
+age_band,Age band in years (e.g. 0-9 10-19)
+closures,Number of closures in the age band between 2000-2025
+museum_years,Total museum-years of exposure in the age band (sum over museums of years at risk)
+closures_per_hundred_museum_years,Closures per 100 museum-years
+closures_per_hundred_museum_years_lo,Lower bound of the 95% confidence interval for closures_per_hundred_museum_years
+closures_per_hundred_museum_years_hi,Upper bound of the 95% confidence interval for closures_per_hundred_museum_years

@@ -1,0 +1,1132 @@
+---
+title: "Report Data and Figures"
+output: html_notebook
+---
+
+```{r libraries}
+library(tidyverse)
+library(janitor)
+library(survival)
+library(muhaz)
+library(writexl)
+
+museum_attribute_ordering <- c(
+  "all",
+  # size
+  "unknown size",
+  "small",
+  "medium",
+  "large",
+  "huge",
+  # governance
+  "unknown governance",
+  "private",
+  "independent",
+  "Historic Environment Scotland",
+  "National Trust for Scotland",
+  "National Trust",
+  "English Heritage",
+  "not-for-profit",
+  "university",
+  "other government",
+  "local authority",
+  "national",
+  # region/country
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "England",
+  "North East",
+  "North West",
+  "Yorks & Humber",
+  "East Midlands",
+  "West Midlands",
+  "East of England",
+  "London",
+  "South East",
+  "South West",
+  # accreditation
+  "unaccredited",
+  "accredited",
+  # subject
+  "other",
+  "mixed: other",
+  "mixed: encyclopaedic",
+  "mixed: bygones",
+  "mixed",
+  "war & conflict: other",
+  "war & conflict: regiment",
+  "war & conflict: navy",
+  "war & conflict: military",
+  "war & conflict: event or site",
+  "war & conflict: castles & forts",
+  "war & conflict: bunker",
+  "war & conflict: airforce",
+  "war & conflict",
+  "utilities: water & waste",
+  "utilities: gas & electricity",
+  "utilities",
+  "transport: other",
+  "transport: mixed",
+  "transport: trains & railways",
+  "transport: cars & motorbikes",
+  "transport: canals",
+  "transport: buses & trams",
+  "transport: bicycles",
+  "transport: aviation",
+  "transport",
+  "services: other",
+  "services: rnli",
+  "services: police",
+  "services: fire",
+  "services",
+  "sea & seafaring: other",
+  "sea & seafaring: mixed",
+  "sea & seafaring: lighthouses",
+  "sea & seafaring: fishing",
+  "sea & seafaring: boats & ships",
+  "sea & seafaring",
+  "science & technology: other",
+  "science & technology: computing & gaming",
+  "science & technology",
+  "rural industry: other",
+  "rural industry: windmills",
+  "rural industry: watermills",
+  "rural industry: textiles",
+  "rural industry: rural life",
+  "rural industry: forges",
+  "rural industry: farming",
+  "rural industry",
+  "personality: other",
+  "personality: scientific",
+  "personality: religious",
+  "personality: political",
+  "personality: music",
+  "personality: literary",
+  "personality: explorer",
+  "personality: art",
+  "personality",
+  "natural world: other",
+  "natural world: mixed",
+  "natural world: zoology",
+  "natural world: herbaria & gardening",
+  "natural world: geology",
+  "natural world: fossils",
+  "natural world: dinosaurs",
+  "natural world",
+  "medicine & health: other",
+  "medicine & health: professional association",
+  "medicine & health: hospital",
+  "medicine & health",
+  "local histories",
+  "leisure & sport: other",
+  "leisure & sport: toys & models",
+  "leisure & sport: rugby & football",
+  "leisure & sport: film cinema & tv",
+  "leisure & sport: fairgrounds & amusements",
+  "leisure & sport: cricket",
+  "leisure & sport",
+  "industry & manufacture: other",
+  "industry & manufacture: mixed",
+  "industry & manufacture: textiles",
+  "industry & manufacture: steam & engines",
+  "industry & manufacture: print",
+  "industry & manufacture: potteries",
+  "industry & manufacture: mining & quarrying",
+  "industry & manufacture: metals",
+  "industry & manufacture: industrial life",
+  "industry & manufacture: clocks & watches",
+  "industry & manufacture",
+  "food & drink",
+  "communications: other",
+  "communications: radio",
+  "communications: post",
+  "communications",
+  "buildings: other",
+  "buildings: shops",
+  "buildings: school",
+  "buildings: penal",
+  "buildings: palace",
+  "buildings: houses (small)",
+  "buildings: houses (medium)",
+  "buildings: houses (large)",
+  "buildings: civic",
+  "buildings",
+  "belief & identity: other",
+  "belief & identity: religious buildings",
+  "belief & identity: religion",
+  "belief & identity: freemasons",
+  "belief & identity: ethnic group",
+  "belief & identity: church treasuries",
+  "belief & identity",
+  "arts: other",
+  "arts: photography",
+  "arts: music",
+  "arts: literature",
+  "arts: glass",
+  "arts: fine & decorative arts",
+  "arts: design",
+  "arts: crafts",
+  "arts: costume & textiles",
+  "arts: ceramics",
+  "arts",
+  "archaeology: other",
+  "archaeology: mixed",
+  "archaeology: roman",
+  "archaeology: prehistory",
+  "archaeology: medieval",
+  "archaeology: greek & egyptian",
+  "archaeology",
+  # destination outcome
+  "mostly no move",
+  "mostly within the same LAD",
+  "mostly within the same region",
+  "mostly within the UK",
+  "mostly abroad",
+  "mixed destinations",
+  # collection share
+  "'few'",
+  "'some'",
+  "'half'",
+  "'most'",
+  "'all'",
+  # recipient count outcome
+  "many",
+  "> 5",
+  "5",
+  "4",
+  "3",
+  "2",
+  "1",
+  "0",
+  # recipient outcome
+  "mostly N/A",
+  "mostly storage",
+  "mostly museum service",
+  "mostly museum",
+  "mostly library/archive",
+  "mostly temporary museum",
+  "mostly heritage",
+  "mostly education/research",
+  "mostly society",
+  "mostly civic organisation",
+  "mostly service",
+  "mostly armed forces",
+  "mostly leisure",
+  "mostly transport provider",
+  "mostly other organisation",
+  "mostly company",
+  "mostly trader",
+  "mostly individual",
+  "mostly unspecified actor",
+  "mostly end of existence",
+  # event outcome
+  "mostly kept",
+  "mostly left-in-situ",
+  "mostly rescued",
+  "mostly recorded",
+  "mostly modified",
+  "mostly used",
+  "mostly displayed",
+  "mostly stored",
+  "mostly loaned",
+  "mostly moved",
+  "mostly returned",
+  "mostly transferred",
+  "mostly sold",
+  "mostly lost/stolen",
+  "mostly damaged/destroyed",
+  "mostly unknown",
+  # reason for closure
+  "financial",
+  "low visitor numbers",
+  "loss of premises",
+  "destruction",
+  "collections",
+  "building",
+  "strategic closure",
+  "restructure of host organisation",
+  "dispute",
+  "life events",
+  "staff"
+)
+
+governance_colours <- c(
+  "unknown size"="lightgrey",
+  "private"="#E69F00",
+  "independent"="#0D4373",
+  "not-for-profit"="#0D4373",
+  "National Trust for Scotland"="#1878CE",
+  "National Trust"="#1878CE",
+  "English Heritage"="#60ABEC",
+  "Historic Environment Scotland"="#BBDBF7",
+  "university"="#009E73",
+  "national"="#720E32",
+  "local authority"="#CD185A",
+  "other government"="#ED5F93"
+)
+
+title_size <- 18
+subtitle_size <- 16
+axis_title_size <- 16
+axis_text_size <- 16
+legend_title_size <- 16
+
+standard_bars_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size=title_size),
+    plot.subtitle = element_text(size=subtitle_size),
+    legend.text = element_text(size=18),
+    axis.title.x = element_text(size=axis_title_size),
+    axis.title.y = element_text(size=axis_title_size),
+    axis.text.x = element_text(size=axis_text_size),
+    axis.text.y = element_text(size=axis_text_size)
+  )
+
+output_width <- 175
+output_height <- 90
+output_units <- "mm"
+```
+
+## data files
+```{r data-files}
+data_directory <- "../data/closure_data_01_08_2025"
+museums_file <- paste(data_directory, "museums.csv", sep="/")
+```
+
+## helper functions
+```{r helper-functions}
+time_series_by_dimension <- function(df, dimension) {
+  min_year <- min(df$year_opened_1, df$year_closed_1[df$year_closed_1 != 9999])
+  max_year <- max(df$year_opened_2, df$year_closed_2[df$year_closed_2 != 9999])
+  all_years <- expand.grid(year = seq(min_year, max_year), dimension_value = unique(df[[dimension]]))
+  colnames(all_years)[2] <- dimension
+  openings <- df |>
+    rowwise() |>
+    mutate(
+      year = list(seq(year_opened_1, year_opened_2)),
+      opening_fraction = 1 / length(year)
+    ) |>
+    unnest(cols = c(year, opening_fraction)) |>
+    group_by(year, .data[[dimension]]) |>
+    summarize(opening_count = sum(opening_fraction)) |>
+    ungroup()
+  closures <- df |>
+    rowwise() |>
+    mutate(
+      year = list(seq(year_closed_1, year_closed_2)),
+      closure_fraction = 1 / length(year)
+    ) |>
+    filter(year_closed_1 != 9999) |>
+    unnest(cols = c(year, closure_fraction)) |>
+    group_by(year, .data[[dimension]]) |>
+    summarize(closure_count = sum(closure_fraction)) |>
+    ungroup()
+  combined <- full_join(all_years, openings, by = c("year", dimension)) |>
+    full_join(closures, by = c("year", dimension)) |>
+    replace_na(list(opening_count = 0, closure_count = 0)) |>
+    arrange(year) |>
+    group_by(.data[[dimension]]) |>
+    mutate(
+      cumulative_opening = cumsum(opening_count),
+      cumulative_closure = cumsum(closure_count),
+      total = cumulative_opening - cumulative_closure,
+      opening_rate = opening_count / lag(total, default = 1) * 100,
+      closure_rate = closure_count / lag(total, default = 1) * 100,
+      change = total - lag(total, default = 0),
+      percentage_change = ifelse(
+        lag(total, default = 0) == 0,
+        NA,
+        round((change / lag(total, default = 0)) * 100, 1)
+      ),
+      opening_count = round(opening_count, 1),
+      closure_count = round(closure_count, 1),
+      total = round(total, 1),
+      opening_rate = round(opening_rate, 1),
+      closure_rate = round(closure_rate, 1),
+      change = round(change, 1),
+    ) |>
+    ungroup()
+  return(combined)
+}
+```
+
+```{r}
+simulate_museum_timeseries <- function(df, n_sims = 5000,
+                                       start_year = 1960, end_year = 2025,
+                                       q_lo = 0.05, q_hi = 0.95, per = 100,
+                                       dimension = NULL) {
+  years <- start_year:end_year
+  Y <- length(years)
+  
+  .simulate_core <- function(dfx) {
+    if (!nrow(dfx)) {
+      empty_stats <- tibble::tibble(
+        year = years,
+        stock_med = 0, stock_lo = 0, stock_hi = 0,
+        openings_med = 0, openings_lo = 0, openings_hi = 0,
+        closures_med = 0, closures_lo = 0, closures_hi = 0,
+        opening_rate_med = NA_real_, opening_rate_lo = NA_real_, opening_rate_hi = NA_real_,
+        closure_rate_med = NA_real_, closure_rate_lo = NA_real_, closure_rate_hi = NA_real_,
+        change_med = NA_real_, change_lo = NA_real_, change_hi = NA_real_,
+        pct_change_med = NA_real_, pct_change_lo = NA_real_, pct_change_hi = NA_real_
+      )
+      return(empty_stats)
+    }
+    
+    dfx$.i <- seq_len(nrow(dfx))
+    
+    df_open_exact  <- dplyr::filter(dfx, !is.na(year_opened_1), !is.na(year_opened_2),
+                                    year_opened_1 == year_opened_2)
+    df_close_exact <- dplyr::filter(dfx, year_closed_1 == year_closed_2,
+                                    year_closed_1 != 9999)
+    
+    df_open_int  <- dplyr::filter(dfx, !is.na(year_opened_1), !is.na(year_opened_2),
+                                  year_opened_1 < year_opened_2)
+    df_close_int <- dplyr::filter(dfx, year_closed_1 < year_closed_2,
+                                  year_closed_1 != 9999)
+    
+    open_exact_by_year  <- table(factor(df_open_exact$year_opened_1, levels = years))
+    close_exact_by_year <- table(factor(df_close_exact$year_closed_1, levels = years))
+    
+    sim_stock  <- sim_open <- sim_close <- matrix(0, nrow = Y, ncol = n_sims,
+                                                  dimnames = list(years, NULL))
+    sim_rate_o <- sim_rate_c <- sim_change <- sim_pctchg <- matrix(NA_real_, Y, n_sims,
+                                                                   dimnames = list(years, NULL))
+    
+    years_vec <- years
+    
+    for (s in 1:n_sims) {
+      open_sim_int <- with(df_open_int, mapply(function(a, b) sample(seq(a, b), 1),
+                                               year_opened_1, year_opened_2))
+      
+      open_counts <- as.numeric(open_exact_by_year) +
+        as.numeric(table(factor(open_sim_int, levels = years_vec)))
+
+      open_year_lookup <- rep(NA_integer_, nrow(dfx))
+
+      if (nrow(df_open_exact)) {
+        open_year_lookup[df_open_exact$.i] <- df_open_exact$year_opened_1
+      }
+
+      if (nrow(df_open_int)) {
+        open_year_lookup[df_open_int$.i] <- open_sim_int
+      }
+
+      na_idx <- which(is.na(open_year_lookup))
+      if (length(na_idx)) {
+        open_year_lookup[na_idx] <- round(rowMeans(dfx[na_idx, c("year_opened_1", "year_opened_2")], na.rm = TRUE))
+      }
+      
+      close_sim_int <- with(df_close_int, mapply(function(c1, c2, idx) {
+        o <- open_year_lookup[idx]
+        lo <- if (is.na(o)) c1 else max(c1, o)
+        if (lo > c2) lo <- c2
+        sample(seq(lo, c2), 1)
+      }, df_close_int$year_closed_1, df_close_int$year_closed_2, df_close_int$.i))
+      
+      close_counts <- as.numeric(close_exact_by_year) +
+        as.numeric(table(factor(close_sim_int, levels = years_vec)))
+      
+      open_year_per_row <- open_year_lookup
+      close_year_per_row <- rep(NA_integer_, nrow(dfx))
+      if (nrow(df_close_exact)) {
+        close_year_per_row[df_close_exact$.i] <- df_close_exact$year_closed_1
+      }
+      if (nrow(df_close_int)) {
+        close_year_per_row[df_close_int$.i] <- close_sim_int
+      }
+      
+      stock <- sapply(years_vec, function(y) {
+        sum(!is.na(open_year_per_row) &
+              open_year_per_row <= (y - 1) &
+              (is.na(close_year_per_row) | close_year_per_row >= y))
+      })
+      
+      change <- c(NA, diff(stock))
+      prev   <- dplyr::lag(stock, default = NA)
+      pctchg <- ifelse(prev > 0, change / prev * 100, NA_real_)
+      
+      rate_open  <- ifelse(stock > 0, open_counts  / stock * per, NA_real_)
+      rate_close <- ifelse(stock > 0, close_counts / stock * per, NA_real_)
+      
+      sim_open[,   s] <- open_counts
+      sim_close[,  s] <- close_counts
+      sim_stock[,  s] <- stock
+      sim_change[, s] <- change
+      sim_pctchg[, s] <- pctchg
+      sim_rate_o[, s] <- rate_open
+      sim_rate_c[, s] <- rate_close
+    }
+    
+    sfun <- function(M) data.frame(
+      med = apply(M, 1, median,   na.rm = TRUE),
+      lo  = apply(M, 1, quantile, probs = q_lo, na.rm = TRUE),
+      hi  = apply(M, 1, quantile, probs = q_hi, na.rm = TRUE)
+    )
+    
+    stock_s   <- sfun(sim_stock)
+    open_s    <- sfun(sim_open)
+    close_s   <- sfun(sim_close)
+    rate_o_s  <- sfun(sim_rate_o)
+    rate_c_s  <- sfun(sim_rate_c)
+    change_s  <- sfun(sim_change)
+    pctchg_s  <- sfun(sim_pctchg)
+    
+    dplyr::tibble(
+      year = years_vec,
+      total = stock_s$med, total_lo = stock_s$lo, total_hi = stock_s$hi,
+      openings = open_s$med, openings_lo = open_s$lo, openings_hi = open_s$hi,
+      closures = close_s$med, closures_lo = close_s$lo, closures_hi = close_s$hi,
+      opening_rate = rate_o_s$med, opening_rate_lo = rate_o_s$lo, opening_rate_hi = rate_o_s$hi,
+      closure_rate = rate_c_s$med, closure_rate_lo = rate_c_s$lo, closure_rate_hi = rate_c_s$hi
+    )
+  }
+  
+  if (is.null(dimension)) {
+    return(.simulate_core(df))
+  }
+  
+  dim_vals <- unique(df[[dimension]])
+  out_list <- lapply(dim_vals, function(g) {
+    dsub <- if (is.na(g)) {
+      dplyr::filter(df, is.na(.data[[dimension]]))
+    } else {
+      dplyr::filter(df, .data[[dimension]] == g)
+    }
+    res <- .simulate_core(dsub)
+    res <- dplyr::mutate(res, !! rlang::sym(dimension) := g)
+    res
+  })
+  
+  dplyr::bind_rows(out_list) %>%
+    dplyr::relocate(!! rlang::sym(dimension))
+}
+
+```
+
+## load data
+```{r load-data}
+ages <- c(
+  "0-9",
+  "10-19",
+  "20-29",
+  "30-39",
+  "40-49",
+  "50-59",
+  "60-69",
+  "70-79",
+  "80-89",
+  "90-99",
+  "100+"
+)
+museum_attribute_ordering <- c(museum_attribute_ordering, ages)
+
+museums <- read_csv(museums_file) |>
+  mutate(
+    year_opened = ifelse(
+      year_opened_1 == year_opened_2,
+      year_opened_1,
+      paste(year_opened_1, year_opened_2, sep=":")
+    ),
+    year_closed = case_when(
+      year_closed_1 == 9999 ~ "N/A",
+      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
+      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
+    ),
+    open_lo = pmin(year_opened_1, year_opened_2, na.rm = TRUE),
+    open_hi = pmax(year_opened_1, year_opened_2, na.rm = TRUE),
+    close_lo = pmin(year_closed_1, year_closed_2, na.rm = TRUE),
+    close_hi = pmax(year_closed_1, year_closed_2, na.rm = TRUE)
+  ) |>
+  rowwise() |>
+  mutate(
+    year_opened_sampled = case_when(
+      is.na(open_lo) | is.na(open_hi) ~ NA_integer_,
+      open_lo == open_hi              ~ as.integer(open_lo),
+      TRUE                            ~ sample(open_lo:open_hi, 1L)
+    ),
+    year_closed_sampled = case_when(
+      year_closed_1 == 9999 ~ NA_integer_,                 # still open/censored
+      is.na(close_lo) | is.na(close_hi) ~ NA_integer_,
+      close_lo == close_hi              ~ as.integer(close_lo),
+      TRUE                              ~ sample(close_lo:close_hi, 1L)
+    ),
+    age_at_time_of_closure=ifelse(
+      year_closed_sampled == 9999,
+      round(2025 - year_opened_sampled, 0),
+      round(year_closed_sampled - year_opened_sampled, 0)
+    ),
+    age_at_time_of_closure_category = case_when(
+      is.na(age_at_time_of_closure) ~ NA,
+      age_at_time_of_closure < 10 ~ "0-9",
+      age_at_time_of_closure < 20 ~ "10-19",
+      age_at_time_of_closure < 30 ~ "20-29",
+      age_at_time_of_closure < 40 ~ "30-39",
+      age_at_time_of_closure < 50 ~ "40-49",
+      age_at_time_of_closure < 60 ~ "50-59",
+      age_at_time_of_closure < 70 ~ "60-69",
+      age_at_time_of_closure < 80 ~ "70-79",
+      age_at_time_of_closure < 90 ~ "80-89",
+      age_at_time_of_closure < 100 ~ "90-99",
+      TRUE ~ "100+"
+    ),
+    age_at_time_of_closure_category=factor(age_at_time_of_closure_category, museum_attribute_ordering),
+    all=factor(all, museum_attribute_ordering),
+    size=factor(size, museum_attribute_ordering),
+    governance=factor(governance, museum_attribute_ordering),
+    governance_broad=factor(governance_broad, museum_attribute_ordering),
+    subject=factor(subject, museum_attribute_ordering),
+    subject_broad=factor(subject_broad, museum_attribute_ordering),
+    accreditation=factor(accreditation, museum_attribute_ordering),
+    region=factor(region, museum_attribute_ordering),
+    country=factor(country, museum_attribute_ordering)
+  ) |>
+  ungroup() |>
+  select(-open_lo, -open_hi, -close_lo, -close_hi)
+```
+
+```{r generate-time-series-data}
+governance_over_time <- simulate_museum_timeseries(
+  museums, dimension="governance_broad"
+) 
+governance_over_time_wider <- governance_over_time |>
+  pivot_wider(
+    id_cols=year,
+    names_from=governance_broad,
+    values_from=c(
+      total, total_lo, total_hi,
+      openings, openings_lo, openings_hi,
+      closures, closures_lo, closures_hi,
+      opening_rate, opening_rate_lo, opening_rate_hi,
+      closure_rate, closure_rate_lo, closure_rate_hi
+    ),
+    names_glue="{.value}_{governance_broad}"
+  ) |>
+  clean_names()
+
+all_museums_over_time <- simulate_museum_timeseries(museums, dimension="all") |>
+  pivot_wider(
+    id_cols=year,
+    names_from=all,
+    values_from=c(
+      total, total_lo, total_hi,
+      openings, openings_lo, openings_hi,
+      closures, closures_lo, closures_hi,
+      opening_rate, opening_rate_lo, opening_rate_hi,
+      closure_rate, closure_rate_lo, closure_rate_hi
+    ),
+    names_glue="{.value}_{all}"
+  ) |>
+  clean_names() |>
+  left_join(governance_over_time_wider, by="year") |>
+  mutate(across(where(is.numeric), ~ coalesce(.x, 0)))
+```
+
+## Figures
+
+### Figure 1
+Number of museum openings and closures in the UK 1960-2025
+```{r openings-vs-closures}
+figure_1_v_1 <- ggplot(all_museums_over_time, aes(x=year)) +
+  geom_ribbon(
+    aes(ymin=openings_lo_all, ymax=openings_hi_all),
+    fill="blue",alpha=0.3
+  ) +
+  geom_ribbon(
+    aes(ymin=closures_lo_all, ymax=closures_hi_all),
+    fill="red", alpha=0.3
+  ) +
+  geom_line(
+    aes(y=openings_all, colour="Openings"), size=1, alpha=0.7
+  ) +
+  geom_line(
+    aes(y=closures_all, colour="Closures"), size=1, alpha=0.7
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1960, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    breaks=seq(0, 120, by=20),
+    minor_breaks=seq(0, 120, by=10)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=c("Openings"="blue", "Closures"="red")
+  ) +
+  guides(colour=guide_legend(reverse=TRUE)) +
+  labs(
+    title = "Museum openings and closures (1960-2025)",
+    subtitle = "with 95% confidence intervals",
+    y = "Number of openings/closures",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.85, 0.9))
+#ggsave("figures/fig01v1.svg", figure_1_v_1, width=output_width, height=output_height, units=output_units, bg="white")
+figure_1_v_1
+```
+
+```{r openings-vs-closures-smooth}
+figure_1_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
+  geom_smooth(
+    aes(y=openings_all, color="Openings"),
+    method="loess",
+    span=0.15,
+    se=FALSE
+  ) +
+  geom_smooth(
+    aes(y=closures_all, color="Closures"),
+    method="loess",
+    span=0.15,
+    se=FALSE
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1960, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    limits=c(0,100),
+    breaks=seq(0, 120, by=20),
+    minor_breaks=seq(0, 120, by=10)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=c("Openings"="blue", "Closures"="red")
+  ) +
+  guides(colour=guide_legend(reverse=TRUE)) +
+  labs(
+    title = "Museum openings and closures (LOESS-smoothed), 1960-2025",
+    y = "Number of openings/closures",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.85, 0.9))
+ggsave("figures/fig01.svg", figure_1_v_2, width=output_width, height=output_height, units=output_units, bg="white")
+figure_1_v_2
+```
+
+### Figure 2
+Rate of museum openings and closures in the UK 1960-2025
+```{r opening-vs-closure-rate}
+figure_2_v_1 <- ggplot(all_museums_over_time, aes(x=year)) +
+  geom_ribbon(
+    aes(ymin=opening_rate_lo_all, ymax=opening_rate_hi_all),
+    fill="blue",alpha=0.3
+  ) +
+  geom_ribbon(
+    aes(ymin=closure_rate_lo_all, ymax=closure_rate_hi_all),
+    fill="red", alpha=0.3
+  ) +
+  geom_line(
+    aes(y=opening_rate_all, colour="Opening rate"), size=1, alpha=0.7
+  ) +
+  geom_line(
+    aes(y=closure_rate_all, colour="Closure rate"), size=1, alpha=0.7
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1960, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    breaks=seq(0, 7, by=1),
+    minor_breaks=seq(0, 7, by=0.5)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=c("Opening rate"="blue", "Closure rate"="red")
+  ) +
+  guides(colour=guide_legend(reverse=TRUE)) +
+  labs(
+    title = "Museum opening and closure rates (1960-2025)",
+    subtitle = "with 95% confidence intervals",
+    y = "Openings/Closures per 100 existing museums",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.85, 0.9))
+#ggsave("figures/fig02v1.svg", figure_2_v_1, width=output_width, height=output_height, units=output_units, bg="white")
+figure_2_v_1
+```
+
+```{r openings-vs-closures-rate-smooth}
+figure_2_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
+  geom_smooth(
+    aes(y=opening_rate_all, color="Opening rate"),
+    method="loess",
+    span=0.15,
+    se=FALSE
+  ) +
+  geom_smooth(
+    aes(y=closure_rate_all, color="Closure rate"),
+    method="loess",
+    span=0.15,
+    se=FALSE
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1960, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    limits=c(0,7),
+    breaks=seq(0, 7, by=1),
+    minor_breaks=seq(0, 7, by=0.5)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=c("Opening rate"="blue", "Closure rate"="red")
+  ) +
+  guides(colour=guide_legend(reverse=TRUE)) +
+  labs(
+    title = "Museum opening and closure rates (LOESS-smoothed), 1960-2025",
+    y = "Openings/Closures per 100 existing museums",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.85, 0.9))
+ggsave("figures/fig02.svg", figure_2_v_2, width=output_width, height=output_height, units=output_units, bg="white")
+figure_2_v_2
+```
+
+### Figure 5
+Rates of closure for independent, local authority, and private museums in the UK 2000-25
+```{r closure-rates-governance}
+figure_5_v_1 <- ggplot(
+  governance_over_time |>
+    filter(
+      governance_broad %in% c("local authority", "independent", "private")
+    ),
+  aes(x=year, group=governance_broad)
+) +
+  geom_ribbon(
+    aes(
+      ymin=closure_rate_lo,
+      ymax=closure_rate_hi,
+      fill=governance_broad
+    ),
+    alpha=0.3
+  ) +
+  geom_line(
+    aes(y=closure_rate, colour=governance_broad), size=1, alpha=0.7
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1999, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    breaks=seq(0, 7, by=1),
+    minor_breaks=seq(0, 7, by=0.5)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=governance_colours
+  ) +
+  scale_fill_manual(
+    name="",
+    values=governance_colours
+  ) +
+  guides(colour=guide_legend(reverse=TRUE), fill=FALSE) +
+  labs(
+    title = "Museum opening and closure rates (2000-2025), selected governance types",
+    subtitle = "with 95% confidence intervals",
+    y = "Closures per 100 existing museums",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.8, 0.9))
+#ggsave("figures/fig05v1.svg", width=output_width, height=output_height, units=output_units, bg="white")
+figure_5_v_1
+```
+
+```{r closure-rates-governance-smooth}
+figure_5_v_2 <- ggplot(
+  governance_over_time |>
+    filter(
+      governance_broad %in% c("local authority", "independent", "private")
+    ),
+  aes(x=year, group=governance_broad)
+) +
+  geom_smooth(
+    aes(y=closure_rate, colour=governance_broad),
+    method="loess",
+    span=0.3,
+    se=FALSE
+  ) +
+  scale_x_continuous(
+    expand=c(0,0),
+    limits=c(1999, 2026),
+    breaks=seq(1965, 2025, by=5),
+    minor_breaks=seq(1960, 2025, by=1)
+  ) +
+  scale_y_continuous(
+    expand=c(0,0),
+    limits=c(0, 3),
+    breaks=seq(0, 7, by=1),
+    minor_breaks=seq(0, 7, by=0.5)
+  ) +
+  scale_colour_manual(
+    name="",
+    values=governance_colours
+  ) +
+  scale_fill_manual(
+    name="",
+    values=governance_colours
+  ) +
+  guides(colour=guide_legend(reverse=TRUE), fill=FALSE) +
+  labs(
+    title = "Museum closure rates (LOESS-smoothed), 2000-2025, selected governance types",
+    subtitle = "with 95% confidence intervals",
+    y = "Closures per 100 existing museums",
+    x = "Year"
+  ) +
+  theme_minimal() +
+  theme(legend.position=c(0.8, 0.9))
+ggsave("figures/fig05.svg", figure_5_v_2, width=output_width, height=output_height, units=output_units, bg="white")
+figure_5_v_2
+```
+
+### Figure 16
+The year of foundation of museums open in the UK in 2000, the colour blocks indicate five-year intervals
+```{r founding-year-histogram-2000}
+figure_16_v_1 <- ggplot(
+  museums |>
+    filter(is.na(year_closed_sampled) | year_closed_sampled > 2000, year_opened_2 < 2000),
+  aes(
+    x=year_opened_sampled
+  )
+) +
+  geom_histogram(binwidth=5, boundary=2000, closed="left", fill="#004D40", alpha=0.7) +
+  scale_x_continuous(
+    breaks=seq(1600, 2000, 50),
+    minor_breaks=seq(1600, 2000, 10),
+    limits=c(1600, 2000)
+  ) +
+  labs(
+    title="Founding year of museums open in 2000",
+    y="Number of museums",
+    x="Founding year"
+  ) +
+  standard_bars_theme
+ggsave("figures/fig16.svg", figure_16_v_1, width=output_width, height=output_height, units=output_units, bg="white")
+figure_16_v_1
+```
+
+```{r founding-year-histogram-2000-shortened}
+figure_16_v_2 <- ggplot(
+  museums |>
+    filter(is.na(year_closed_sampled) | year_closed_sampled > 2000, year_opened_2 < 2000),
+  aes(
+    x=year_opened_sampled
+  )
+) +
+  geom_histogram(binwidth=5, boundary=2000, closed="left", fill="#004D40", alpha=0.7) +
+  scale_x_continuous(
+    breaks=seq(1600, 2000, 50),
+    minor_breaks=seq(1600, 2000, 10),
+    limits=c(1800, 2000)
+  ) +
+  labs(
+    title="Founding year of museums open in 2000",
+    y="Number of museums",
+    x="Founding year"
+  ) +
+  standard_bars_theme
+#ggsave("figures/fig16v2.svg", width=output_width, height=output_height, units=output_units, bg="white")
+figure_16_v_2
+```
+
+### Figure 17
+The year of foundation of museums open in the UK in 2025 grouped by five-year intervals
+```{r founding-year-histogram-2025}
+figure_17_v_1 <- ggplot(
+  museums |>
+    filter(is.na(year_closed_sampled)),
+  aes(
+    x=year_opened_sampled
+  )
+) +
+  geom_histogram(binwidth=5, boundary=2025, closed="left", fill="#004D40", alpha=0.7) +
+  scale_x_continuous(
+    breaks=seq(1600, 2025, 50),
+    minor_breaks=seq(1600, 2025, 10),
+    limits=c(1600, 2025)
+  ) +
+  labs(
+    title="Founding year of museums open in 2025",
+    y="Number of museums",
+    x="Founding year"
+  ) +
+  standard_bars_theme
+ggsave("figures/fig17.svg", figure_17_v_1, width=output_width, height=output_height, units=output_units, bg="white")
+figure_17_v_1
+```
+
+```{r founding-year-histogram-2025-shortened}
+figure_17_v_2 <- ggplot(
+  museums |>
+    filter(is.na(year_closed_sampled)),
+  aes(
+    x=year_opened_sampled
+  )
+) +
+  geom_histogram(binwidth=5, boundary=2025, closed="left", fill="#004D40", alpha=0.7) +
+  scale_x_continuous(
+    breaks=seq(1600, 2025, 50),
+    minor_breaks=seq(1600, 2025, 10),
+    limits=c(1800, 2025)
+  ) +
+  labs(
+    title="Founding year of museums open in 2025",
+    y="Number of museums",
+    x="Founding year"
+  ) +
+  standard_bars_theme
+#ggsave("figures/fig17v2.svg", width=output_width, height=output_height, units=output_units, bg="white")
+figure_17_v_2
+```
+### Figure 18
+```{r hazard-by-age-group}
+museums_with_ages <- museums |>
+  filter(!region %in% c("Channel Islands", "Isle of Man")) |>
+  mutate(
+    year_of_birth = (year_opened_1 + year_opened_2) / 2,
+    year_of_death = (year_closed_1 + year_closed_2) / 2,
+    age_at_time_of_closure = ifelse(
+      year_of_death == 9999,
+      round(2025 - year_of_birth, 0),
+      round(year_of_death - year_of_birth, 0)
+    ),
+    age_at_time_of_closure_category = case_when(
+      is.na(age_at_time_of_closure) ~ NA,
+      age_at_time_of_closure < 10 ~ "0-9",
+      age_at_time_of_closure < 20 ~ "10-19",
+      age_at_time_of_closure < 30 ~ "20-29",
+      age_at_time_of_closure < 40 ~ "30-39",
+      age_at_time_of_closure < 50 ~ "40-49",
+      age_at_time_of_closure < 60 ~ "50-59",
+      age_at_time_of_closure < 70 ~ "60-69",
+      age_at_time_of_closure < 80 ~ "70-79",
+      age_at_time_of_closure < 90 ~ "80-89",
+      age_at_time_of_closure < 100 ~ "90-99",
+      TRUE ~ "100+"
+    )
+  )
+ages <- c(
+  "0-9",
+  "10-19",
+  "20-29",
+  "30-39",
+  "40-49",
+  "50-59",
+  "60-69",
+  "70-79",
+  "80-89",
+  "90-99",
+  "100+"
+)
+museum_attribute_ordering <- c(museum_attribute_ordering, ages)
+df <- museums_with_ages |>
+  mutate(
+    # Treat unknown/ongoing closures as censored at 2025
+    year_of_death = ifelse(is.na(year_closed_sampled), 9999, year_closed_sampled),
+    event = as.integer(year_of_death != 9999),          # 1 = closed, 0 = still open (censored)
+    time  = as.numeric(age_at_time_of_closure),         # age in years at closure/censor
+  ) |>
+  filter(
+    !is.na(time),
+    year_closed_1 >= 2000
+  )
+
+breaks <- seq(0, 200, by = 10)
+labels <- paste0(head(breaks, -1), "-", ifelse(tail(breaks, -1)==Inf, "∞", tail(breaks, -1)-1))
+
+df_split <- survSplit(
+  Surv(time, event) ~ ., data = df,
+  cut = breaks[-c(1, length(breaks))],
+  start = "tstart", end = "tstop", event = "event_band",
+  zero = -1e-8   # <--- key line
+)
+
+df_split$age_band <- cut(df_split$tstop, breaks = breaks, labels = labels, right = FALSE)
+df_split$py <- df_split$tstop - df_split$tstart
+
+alpha <- 0.05
+
+haz_by_band <- df_split %>%
+  group_by(age_band) %>%
+  summarise(
+    closures = sum(event_band),
+    exposure = sum(py),
+    hazard_rate = closures / exposure,
+    .groups = "drop"
+  )
+
+pois_ci <- function(k, exp){ pt <- poisson.test(k, T = exp); c(pt$conf.int[1], pt$conf.int[2]) }
+haz_by_band_ci <- haz_by_band %>%
+  rowwise() %>%
+  mutate(ci = list(pois_ci(closures, exposure)),
+         rate_lo = ci[1], rate_hi = ci[2]) %>%
+  ungroup() %>%
+  select(-ci)
+
+scale_factor <- 100
+haz_by_band_ci <- haz_by_band_ci %>%
+  mutate(
+    hazard_rate_k = hazard_rate * scale_factor,
+    rate_lo_k     = rate_lo     * scale_factor,
+    rate_hi_k     = rate_hi     * scale_factor
+  )
+
+# Plot with error bars
+figure_18 <- ggplot(haz_by_band_ci |> filter(!is.na(age_band)), aes(age_band, hazard_rate_k, group=1)) +
+  geom_col(fill="#004D40", alpha=0.7) +
+  geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
+  labs(
+    x = "Age (years)",
+    y = paste0("Closures per ", scale_factor, " museum-years"),
+    title = "Closure hazard by age band with 95% Poisson Confidence Intervals"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave("figures/fig18.svg", figure_18, width=output_width, height=output_height, units=output_units, bg="white")
+figure_18
+```
+
+```{r output-tables}
+hazard_table <- haz_by_band_ci |>
+  select(
+    age_band,
+    closures,
+    museum_years=exposure,
+    closures_per_hundred_museum_years=hazard_rate_k,
+    closures_per_hundred_museum_years_lo=rate_lo_k,
+    closures_per_hundred_museum_years_hi=rate_hi_k
+  )
+write_xlsx(
+  list(
+    "Museums over time data dictionary"=read_csv("dictionaries/data_dictionary_museums_over_time.csv"),
+    "Hazard data dictionary"=read_csv("dictionaries/data_dictionary_hazard.csv"),
+    "Museums over time 1960-2025"=all_museums_over_time,
+    "hazard by age 2000-2025"=hazard_table
+  ),
+  "tables/museums-over-time.xlsx"
+)
+```

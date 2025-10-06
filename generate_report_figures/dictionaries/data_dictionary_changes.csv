@@ -1,0 +1,14 @@
+Column,Definition
+governance,Broad governance type of museums
+size,Size category of museums
+subject,Broad subject-matter category of museums
+accreditation,Accreditation status (accredited or unaccredited)
+region,The 12 ONS regions of the UK in which museums are located
+museums_count_2000,Predicted number of museums in the category at the start of 2000
+museums_count_2025,Predicted number of museums in the category at the end of 2025
+closures,Predicted number of museum closures in 2000–2025 (inclusive)
+openings,Predicted number of museum openings in 2000–2025 (inclusive)
+change,Predicted net change in museum numbers (openings minus closures) over 2000–2025
+change_pc,Predicted percentage change in museum numbers over 2000–2025
+closure_rate,Closures as a rate of museums open at the start of 2000
+opening_rate,Openings as a rate of museums open at the start of 2000)

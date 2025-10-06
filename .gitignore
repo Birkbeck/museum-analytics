@@ -3,6 +3,7 @@
 *~*
 *__pycache__*
 *.Rproj*
+*.nb.html
 
 data/ONSPD*
 data/dispersal-sheet-2*

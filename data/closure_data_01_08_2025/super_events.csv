@@ -1,0 +1,483 @@
+reason,super_reasons,museum_id,has_collection
+low visitor numbers,falling visitor numbers,mm.misc.060,True
+financial - funding cut - external funding cut,Funding cut external,mm.domus.SE387,True
+low visitor numbers; loss of premises - change of use - space repurposed,too few visitors; repurposing of space,mm.aim82NM.133,True
+loss of premises - redevelopment - redevelopment of site,redevelopment of site,mm.wiki.278,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.SC236,True
+financial - costs,costs,mm.wiki.044,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.101,True
+strategic closure - replacement museum,collection acquired for new museum,mm.aim.0881,True
+loss of premises - change of use,premises repurposed,mm.wiki.240,True
+life events - owner moved house,owner relocated?,mm.New.213,True
+life events - death - death of owner,death of owner,mm.hha.066,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WA012,True
+loss of premises - change of use,premises repurposed,mm.ace.1270,True
+building; building - condition of building - deterioration; collections - collection damaged - infestation,building problems; deterioration; moths,mm.domus.NW009,True
+building - health and safety; financial - costs,health and safety; managing charity unable to pay bills,mm.domus.WA040,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.432,True
+life events - retirement - retirement of owner,retirement of owner,mm.misc.095,True
+building - unsuitable; low visitor numbers,unsuitable premises; too few visitors?,mm.domus.NE027,True
+financial - costs - low revenue; financial - costs - unsustainable,insufficient revenue; unsustainable costs,mm.aim.1001,True
+restructure of host organisation - relocation,relocation,mm.domus.SE453,True
+loss of premises,loss of premises,mm.domus.SE457,True
+strategic closure - amalgamation,amalgamation,mm.domus.SE222,True
+restructure of host organisation - relocation,relocation,mm.New.87,True
+loss of premises,loss of premises,mm.domus.NW036,True
+low visitor numbers,low visitor numbers,mm.aim.0774,True
+unknown,unknown,mm.domus.SC237,True
+financial - costs - low revenue,insufficient revenue,mm.domus.SE471,True
+financial - costs - unsustainable,financially unsustainable,mm.domus.SW043,True
+building - building destroyed - fire,fire destroyed building,mm.domus.SE091,True
+financial - costs - low revenue,insufficient revenue,mm.aim82NM.072,True
+financial - insolvency,liquidation,mm.fcm.279,True
+financial - costs - low revenue; financial - costs - low revenue; life events - illness,insufficient revenue; failed funding bid; illness,mm.wiki.109,True
+strategic closure - replacement museum,replacement,mm.domus.NE065,True
+loss of premises; loss of premises - sold,loss of premises; site sold,mm.misc.106,True
+building - building destroyed - fire,fire,mm.fcm.207,True
+other - unwanted by heritage organisations; loss of premises - sold,unwanted by heritage organisations; building sold,mm.wiki.291,True
+financial - costs; life events - illness,increased costs; illness,mm.mald.159,True
+loss of premises,loss of premises,mm.wiki.243,True
+strategic closure - amalgamation,amalgamation,mm.domus.NE055,True
+financial - funding cut - local authority funding cut,local authority funding cuts?,mm.domus.SE276,True
+low visitor numbers; financial - funding cut - local authority funding cut,too few visitors; unsustainble for local authority,mm.wiki.461,True
+other,change of offer,mm.misc.263,True
+low visitor numbers; other,falling visitor numbers; new competitor museum,mm.domus.SC041,True
+staff - disagreement; other,owner and trustees in dispute; preventing sale of objects,mm.aim.0754,True
+loss of premises,loss of premises,mm.musa.136,True
+life events - retirement - retirement of owner,owner(s) wanted to retire from museum work,mm.New.165,True
+building - unsuitable; financial - costs,premises unsuitable; increased costs,mm.domus.SE561,True
+loss of premises; loss of premises - sold,loss of premises; building sold,mm.fcm.062,True
+loss of premises,loss of premises,mm.fcm.137,True
+loss of premises - change of use,premises repurposed,mm.misc.070,True
+staff - insufficient staff; staff - insufficient staff - no volunteers,insufficient staff; no volunteers,mm.domus.WA083,True
+loss of premises - change of use; low visitor numbers,building repurposed; too few visitors,mm.domus.SE251,True
+strategic closure - amalgamation,amalgamation,mm.New.83,True
+loss of premises,loss of premises,mm.misc.215,True
+unknown,unknown,mm.New.27,True
+building; building - unsuitable - access; collections - collection damaged - infestation,building problems; access issues; infestation,mm.domus.SC024,True
+financial - funding cut - local authority funding cut,local authority budget cuts,mm.domus.YH015,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.089,True
+loss of premises - change of use; strategic closure - amalgamation,premises repurposed; amalgamation,mm.mgs.316,True
+loss of premises - sold,building sold,mm.domus.SC231,True
+financial - costs - low revenue; staff - insufficient staff - no volunteers,insufficient revenue; too few volunteers,mm.mgs.353,True
+loss of premises,loss of premises,mm.wiki.038,True
+loss of premises; loss of premises - sold,loss of premises; building sold,mm.MDN.032,True
+life events - death - death of founder,founder's death,mm.domus.SE354,True
+loss of premises - change of use - space repurposed,space repurposed,mm.aim82NM.100,True
+financial - costs; strategic closure - seeking new premises,costs; seeking new premises,mm.domus.SE040,True
+strategic closure - amalgamation,amalgamation,mm.domus.SE332,True
+strategic closure - amalgamation; building - unsuitable - access,amalgamation; wanted improved access to collection,mm.aim.0486,True
+loss of premises - legal - lease expired,lease expired,mm.aim.0528,True
+loss of premises - legal - lease expired,lease expired,mm.misc.047,True
+financial,financial constraints,mm.domus.NI035,True
+building - unsuitable,unsuitable premises;,mm.domus.SE363,True
+loss of premises - change of use,building repurposed,mm.aim.1136,True
+life events - retirement - retirement of owner; loss of premises - change of use,retirement of owner; premises repurposed,mm.aim.0062,True
+financial - costs; financial - costs - low revenue; building - unsuitable - facilities,increasing costs; insufficient revenue; lack of parking,mm.New.233,True
+life events - retirement - retirement of owner,owner(s) wanted to retire from museum work?,mm.aim.0651,True
+financial - costs - low revenue; loss of premises - legal - lease expired; financial - mismanagement,insufficient revenue; lease expiry; financial mismanagement?,mm.MDN.005,True
+financial - costs,rent increase,mm.musa.204,True
+financial - insolvency,deficit and liquidation,mm.domus.YH082,True
+strategic closure - premises not required,premises not required,mm.domus.NI034,True
+financial - costs - low revenue,insufficient revenue?,mm.musa.115,True
+loss of premises - change of use,premises repurposed,mm.domus.SW066,True
+low visitor numbers; financial - funding cut - local authority funding cut,too few visitors; local authority funding cuts,mm.domus.SE605,True
+financial - costs - low revenue,insufficient revenue?,mm.New.58,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.386,True
+loss of premises - change of use,premises repurposed,mm.ace.399,True
+building - unsuitable; building - condition of building - deterioration,premises unsuitable; deterioration,mm.domus.SE456,True
+life events - retirement - retirement of staff,staff retired from museum work,mm.musa.043,True
+financial - funding cut - mod funding cut; strategic closure - amalgamation,mod funding cut; amalgamation,mm.domus.YH001,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.224,True
+strategic closure - amalgamation,amalgamation,mm.domus.SC009,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.WM047,True
+building - condition of building - damp; other - collection not insured,damp; collection not insured,mm.misc.004,True
+low visitor numbers; financial - costs,too few visitors; excessive costs,mm.wiki.158,True
+financial - funding cut - local authority funding cut; low visitor numbers,local authority funding cuts? ; too few visitors,mm.domus.SE009,True
+strategic closure - amalgamation,amalgamation,mm.domus.SC012,True
+financial - costs,unaffordable,mm.aim.0150,True
+strategic closure - amalgamation,amalgamation,mm.domus.SC010,True
+loss of premises; financial - costs; dispute - unable to agree lease terms,loss of premises; rent increase; unable to agree lease terms,mm.aim.0456,True
+dispute - disagreement,trustee disagreement,mm.domus.SW078,True
+building,building problems,mm.musa.008,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.wiki.279,True
+strategic closure - replacement museum,replacement museum,mm.domus.SC105,True
+financial - insolvency,insolvency,mm.domus.NW190,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SC229,True
+low visitor numbers; building - unsuitable; other,too few visitors; unsuitable premises; conservation issues,mm.wiki.434,True
+building - unsuitable; building - condition of building - deterioration,unsuitable premises; building unstable,mm.wiki.293,True
+loss of premises,loss of premises,mm.domus.SW108,True
+strategic closure - replacement museum,replacement museum,mm.domus.EM054,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.047,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE489,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.NW122,True
+low visitor numbers,too few visitors,mm.domus.NE007,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.misc.214,True
+staff - insufficient staff - museum service stretched,museum services stretched,mm.domus.SC026,True
+low visitor numbers; loss of premises - change of use,too few visitors; premises repurposed,mm.wiki.499,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WA013,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM044,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM109,True
+building - unsuitable - access; other - location no longer suitable; financial - funding cut - local authority funding cut,accessibility issues; location no longer suitable; local authority funding cut,mm.domus.SE311,True
+strategic closure - replacement museum,replacement museum,mm.domus.YH117,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM018,True
+building - unsuitable - facilities,inadequate facilities,mm.domus.SC110,True
+financial - costs - lease cost,increased cost of lease,mm.domus.SC319,True
+building; building - condition of building - asbestos,building problems; asbestos concerns,mm.mgs.293,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.aim.1169,True
+low visitor numbers,reduced visitors,mm.mgs.380,True
+strategic closure - amalgamation,amalgamation,mm.domus.NW015,True
+low visitor numbers; financial - costs,falling visitor numbers; rising costs,mm.domus.SE190,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE299,True
+low visitor numbers,too few visitors,mm.wiki.139,True
+loss of premises - change of use,premises repurposed,mm.domus.SW092,True
+building - building destroyed - fire,fire destroyed building,mm.domus.SE078,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM012,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE014,True
+loss of premises - sold,building sold,mm.aim82NM.051,True
+restructure of host organisation - relocation; financial - funding cut - local authority funding cut,relocation; local authority funding cut,mm.domus.SE112,True
+loss of premises - redevelopment - redevelopment of building,redevelopment of building,mm.domus.YH086,True
+loss of premises - change of use,premises repurposed,mm.Mus70Cal.005,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.WM048,True
+strategic closure - replacement museum,replacement museum,mm.domus.SE107,True
+strategic closure - replacement museum,replacement museum,mm.misc.086,True
+strategic closure - replacement museum; strategic closure - amalgamation,replacement museum; amalgamation,mm.domus.NE015,True
+strategic closure - replacement museum; strategic closure - amalgamation,replacement museum; amalgamation,mm.domus.NE018,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.NW137,True
+financial - funding cut - local authority funding cut,local authority funding cuts?,mm.domus.NE063,True
+loss of premises - redevelopment,site redevelopment,mm.musa.224,True
+financial - insolvency,insolvency,mm.fcm.172,True
+restructure of host organisation - change in corporate priorities,change in corporate priorities,mm.fcm.114,True
+loss of premises - redevelopment - redevelopment of building,redevelopment of building,mm.aim.0158,True
+building - building maintenance issues,building maintenance issues,mm.wiki.273,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.wiki.420,True
+life events - death - death of owner,death of owner?,mm.aim.1166,True
+restructure of host organisation - local authority reorganisation,local authority reorganisation,mm.domus.EM065,True
+building - unsuitable - too small,seeking larger premises,mm.wiki.400,True
+building - condition of building - deterioration; financial - costs - building costs,roof collapsed; museum went into administration due to repair costs,mm.domus.YH163,True
+building - change of use,site repurposed,mm.New.202,True
+loss of premises - sold,site sold,mm.aim82NM.122,True
+strategic closure - amalgamation,amalgamation,mm.domus.WA067,True
+life events - illness; low visitor numbers,illness; falling visitor numbers,mm.wiki.092,True
+other - reverted to private use,reverted to private use,mm.aim82M.051,True
+strategic closure - replacement museum,replacement museum,mm.domus.NI004,True
+life events - too much work; life events - death - death of owner,too much work for owners; unwanted by owner's descendants,mm.aim82NM.066,True
+unknown,unknown,mm.domus.SC202,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.021,True
+financial - costs - deficit; financial - funding cut - local authority funding cut,running a deficit; local authority council funding cut,mm.domus.SC299,True
+financial - costs - unsustainable,unsustainable,mm.domus.WA088,True
+restructure of host organisation - change in corporate priorities,change in corporate priorities,mm.aim82NM.104,True
+restructure of host organisation - co-occupant leaves; financial - costs - low revenue,co-occupant leaves; low revenue,mm.domus.SE264,True
+building - unsuitable; strategic closure,building unsuitable; closed pending relocation,mm.domus.SC007,True
+financial - funding cut - host organisation funding cut,host organisation funding cut,mm.musa.021,True
+life events - too much work,too much work for owners,mm.wiki.480,True
+other,change of offer,mm.domus.WM131,True
+financial - costs - insurance,rising insurance costs,mm.misc.051,True
+low visitor numbers,falling visitor numbers,mm.aim.0484,True
+low visitor numbers; financial - costs,falling visitor numbers; rising costs,mm.misc.213,True
+collections - theft; life events - retirement - retirement of owner,thefts prompted closure; return of use as solely private home,mm.wiki.198,True
+loss of premises - redevelopment - redevelopment of site,redevelopment of site,mm.MDN.034,True
+building - unsuitable; financial - costs - building costs; strategic closure - amalgamation,unsuitable building; costly building;  amalgamation,mm.domus.SE193,True
+life events - death - death of staff; financial - costs - unsustainable,death of taxidermist; reduced financial viability,mm.wiki.035,True
+strategic closure - amalgamation,amalgamation,mm.domus.SE100,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.017,True
+strategic closure - amalgamation,amalgamation,mm.domus.SW028,True
+building - condition of building - deterioration,deterioration,mm.domus.NE044,True
+life events - death - death of owner,death of owner?,mm.wiki.303,True
+life events - retirement - retirement of owner; loss of premises - sold,owner(s) retiring from museum work; sale of premises,mm.aim.0936,True
+life events - imprisonment of owner,owner jailed?,mm.New.172,True
+financial - funding cut - ace funding cut,withdrawal of arts council funding,mm.wiki.167,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.102,True
+life events - death - death of owner; life events - retirement - retirement of owner,death of owner; owner(s) retired from museum work,mm.aim82NM.027,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.misc.155,True
+financial - costs - low revenue; loss of premises - change of use - space repurposed; low visitor numbers,low revenue; space repurposed; low visitors,mm.wiki.185,True
+strategic closure - seeking new premises,seeking new premises,mm.domus.SW142,True
+low visitor numbers; financial - costs,too few visitors; increasing costs,mm.aim82NM.079,True
+life events - death - death of owner,death of owner,mm.aim82NM.077,True
+loss of premises - change of use - space repurposed,repurposing of space,mm.domus.NW149,True
+loss of premises - change of use,premises repurposed,mm.wiki.222,True
+life events - too much work,too much work for owners,mm.aim82NM.045,True
+loss of premises,loss of premises,mm.aim82NM.119,True
+loss of premises,loss of premises?,mm.domus.SW192,True
+strategic closure - replacement museum,replacement,mm.domus.SE185,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.wiki.337,True
+loss of premises - change of use - space repurposed; financial - funding cut,repurposed space; reallocation of financial resources,mm.Mus70Cal.010,True
+life events - too much work,too much work for owners,mm.misc.030,True
+loss of premises - sold,sale of premises,mm.aim.0129,True
+building - unsuitable; staff - insufficient staff,unsuitable building; lack of staff,mm.aim82NM.028,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.misc.211,True
+loss of premises,loss of premises,mm.aim.0127,True
+loss of premises - change of use,refurbishment of museum,mm.domus.SE216,True
+building - building destroyed - fire; destruction - building destroyed - arson,fire destroyed building; arson,mm.domus.SE467,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim.1194,True
+life events - retirement - retirement of owner,owner(s) retired from museum work?,mm.wiki.049,True
+financial - costs - low revenue; loss of premises - change of use,insufficient revenue; premises repurposed,mm.New.203,True
+low visitor numbers,falling visitor numbers;,mm.domus.SW147,True
+financial - recession,recession?,mm.aim82M.066,True
+life events - illness; loss of premises - sold,illness; sale of premises,mm.wiki.090,True
+life events - illness; life events - owner moved house,illness; owners moved,mm.wiki.149,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.091,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE268,True
+restructure of host organisation - relocation; strategic closure - replacement museum,relocation; replacement museum,mm.aim.0126,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.336,True
+restructure of host organisation - relocation; strategic closure - replacement museum,relocation; replacement museum,mm.domus.SE279,True
+restructure of host organisation - change in corporate priorities,corporate priorities changed,mm.misc.072,True
+low visitor numbers; restructure of host organisation - relocation,too few visitors; relocation of host institution,mm.domus.SE109,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.119,True
+life events - illness; life events - retirement - retirement of owner,illness; retirement from museum work,mm.musa.001,True
+loss of premises - change of use - space repurposed,repurposed space,mm.aim82M.068,True
+financial - recession; life events - too much work; other,recession; too much work; other problems,mm.wiki.394,True
+loss of premises,loss of premises,mm.hud.007,True
+loss of premises,loss of premises,mm.domus.NE022,True
+strategic closure - amalgamation,amalgamation,mm.domus.SC297,True
+loss of premises - legal - lease expired,lease expired,mm.misc.046,True
+financial - funding cut - local authority funding cut; low visitor numbers,local authority funding cut; too few visitors,mm.domus.YH095,True
+staff - insufficient staff - no succession,lack of succession from owner,mm.aim82M.029,True
+loss of premises - change of use,premises repurposed,mm.misc.055,True
+strategic closure - replacement museum,strategic relaunch,mm.New.104,True
+building - building destroyed,building demolished,mm.aim82NM.101,True
+strategic closure - amalgamation,amalgamation,mm.domus.SE189,True
+strategic closure - replacement museum,strategic relaunch,mm.domus.YH165,True
+life events - death - death of owner,owner died?,mm.domus.SE149,True
+financial - costs - deficit,financial difficulties,mm.domus.SC193,True
+financial - costs - unsustainable,financially unsustainable,mm.domus.SC305,True
+life events - death - death of owner,death of owner,mm.aim82M.052,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE075,True
+strategic closure - replacement museum,replacement,mm.domus.SE275,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim.0663,True
+financial - costs,costs too high,mm.wiki.367,True
+life events - death - death of owner; life events - retirement - retirement of owner,death of owner; owner(s) retired from museum work,mm.domus.EM100,True
+financial - costs - deficit; financial - funding cut - local authority funding cut,ran a deficit; local authority funding cuts,mm.New.168,True
+strategic closure - amalgamation,amalgamation,mm.domus.EM046,True
+life events - death - death of owner,death of owner,mm.aim82NM.052,True
+building - unsuitable - too small; building - unsuitable - access,too small; access issues,mm.domus.WM076,True
+loss of premises,loss of premises,mm.wiki.075,True
+life events - retirement - retirement of owner,owner(s) retired from museum work?,mm.New.147,True
+life events - retirement - retirement of owner,retirement from museum work?,mm.wiki.455,True
+loss of premises,loss of premises?,mm.mgs.357,True
+financial - costs - building costs,costs of building too high,mm.domus.SE509,True
+low visitor numbers; financial - costs - low revenue; staff - insufficient staff - no volunteers,too few visitors; insufficient revenue; too few volunteers,mm.wiki.271,True
+other - change of management within local authority,change of management within local authority,mm.domus.YH018,True
+strategic closure - replacement museum,replacement museum,mm.domus.NW105,True
+life events - death - death of owner; loss of premises - change of use - space repurposed,death of owner; space repurposed,mm.mald.013,True
+financial - costs - building costs; financial - costs - low revenue,building costs; failed funding bid,mm.Mus70Cal.015,True
+loss of premises - legal - lease expired,lease expired,mm.misc.198,True
+building - unsuitable - access; financial - funding cut - local authority funding cut; building - condition of building - deterioration,lack of access; withdrawal of local authority funding;  deterioration of building,mm.domus.WM051,True
+strategic closure - amalgamation,amalgamation,mm.domus.NE058,True
+life events - death - death of owner,death of owner,mm.wiki.179,True
+life events - death - death of owner,death of owner,mm.wiki.374,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.061,True
+loss of premises - redevelopment - redevelopment of building,redevelopment of building,mm.domus.SC215,True
+other,changed offer,mm.wiki.316,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE263,True
+financial - costs - unsustainable,financially unviable,mm.aim.0956,True
+financial - costs - unsustainable,financially unviable,mm.New.96,True
+low visitor numbers; loss of premises - redevelopment - redevelopment of site,falling visitor numbers; redevelopment of site,mm.domus.NW089,True
+loss of premises - legal - lease expired; collections - lender requested return of loans,lease expired; lender requested return of loans,mm.New.211,True
+low visitor numbers; financial - costs - unsustainable,falling visitor numbers; financially unviable,mm.New.140,True
+loss of premises - sold,premises sold,mm.MDN.031,True
+financial - costs - unsustainable,financially unviable,mm.domus.YH109,True
+life events - illness,illness,mm.musa.369,True
+financial - costs; other - already running another museum,excessive costs; already running another museum,mm.wiki.105,True
+financial - costs - low revenue; financial - costs,insufficient revenue; unaffordable costs,mm.domus.WA017,True
+financial - funding cut - shopping centre withdrew subsidy,shopping centre withdrew subsidy,mm.mgs.302,True
+other,changed offer,mm.domus.SE286,True
+financial - costs - deficit; loss of premises,financial difficulties; loss of site,mm.aim.0779,True
+financial - funding cut - local authority funding cut; low visitor numbers,local authority funding cut; too few visitors,mm.domus.EM030,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SC029,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.mgs.298,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.353,True
+financial - funding cut,funding cuts?,mm.domus.SC224,True
+low visitor numbers; financial - costs - deficit,too few visitors; running a deficit,mm.misc.053,True
+life events - divorce,divorce?,mm.wiki.062,True
+life events - divorce,divorce?,mm.wiki.060,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.063,True
+loss of premises - change of use,repurposing of premises?,mm.aim82NM.103,True
+loss of premises - legal - eviction,evicted from premises,mm.wiki.361,True
+low visitor numbers; financial - insolvency; other - nearby businesses closed; financial - funding cut - local authority funding cut,too few visitors;insolvency; nearby businesses closed; withdrawal of council funding,mm.wiki.344,True
+other,associated business closed,mm.aim82NM.075,True
+life events - death - death of owner,death of owner,mm.fcm.175,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.wiki.411,True
+financial - costs - lease cost,renewal of lease too expensive,mm.misc.019,True
+loss of premises,loss of premises,mm.wiki.389,True
+life events - death - death of owner; financial - costs - unsustainable,death of owner; financially unsustainable,mm.wiki.015,True
+loss of premises; loss of premises - sold,loss of premises; site sold,mm.New.154,True
+loss of premises; loss of premises - redevelopment,loss of premises; site redeveloped,mm.misc.080,True
+life events - too far away for owners,too far away for owners,mm.wiki.294,True
+financial - costs - unsustainable,unsustainable,mm.domus.SC001,True
+building - unsuitable - access; life events - owner's age,access issues; owner's age,mm.musa.225,True
+loss of premises,loss of premises,mm.domus.NI007,True
+loss of premises; loss of premises - redevelopment,loss of premises; site redeveloped,mm.wiki.254,True
+financial - costs - unsustainable,financially unviable,mm.wiki.383,True
+loss of premises - legal; other - return of management to local authority,lease terminated; return of management to local authority,mm.domus.YH033,True
+life events - retirement - retirement of owner,owner(s) wanted to retire from museum work,mm.misc.014,True
+life events - retirement - retirement of owner,owner(s) wanted to retire from museum work,mm.wiki.200,True
+financial - costs - unsustainable,financially unviable,mm.aim.0431,True
+loss of premises - legal,lease terminated,mm.wiki.107,True
+restructure of host organisation - relocation; collections - collection repurposed,relocation; collection repurposed,mm.wiki.282,True
+life events - retirement - retirement of owner,owner(s) retired,mm.New.28,True
+other - theft; financial - costs - unsustainable,burglary; financially unviable,mm.wiki.073,True
+life events - retirement - retirement of owner,owner(s) retired,mm.wiki.387,True
+financial - costs,rent increase,mm.aim.0557,True
+unknown,unknown,mm.New.69,True
+low visitor numbers,too few visitors,mm.aim82NM.064,True
+loss of premises,loss of premises,mm.New.81,True
+strategic closure - amalgamation,amalgamation,mm.domus.SE414,True
+loss of premises - redevelopment,redevelopment,mm.domus.SW009,True
+financial - costs - low revenue,insufficient revenue,mm.domus.NW179,True
+financial - costs - low revenue,insufficient revenue,mm.ace.1193,True
+building - condition of building - deterioration; staff - area unsafe for staff; financial - costs - unsustainable,deterioration of building; area unsafe for staff; building unsafe; financially unsustainable,mm.Mus70Cal.011,True
+loss of premises - legal,lease terminated,mm.aim.1281,True
+financial - funding cut - local authority funding cut,local authority budget cuts,mm.domus.YH166,True
+restructure of host organisation - regimental reorganisation,regimental reorganisation,mm.domus.SE327,True
+loss of premises - legal - lease expired; life events - retirement - retirement of owner,lease expired; retirement of owner,mm.wiki.114,True
+loss of premises - redevelopment - redevelopment of site,redevelopment of site,mm.wiki.355,True
+strategic closure - amalgamation,amalgamation,mm.domus.WA059,True
+loss of premises - change of use,premises repurposed,mm.domus.YH059,True
+financial - funding cut - local authority funding cut,local authority budget cuts?,mm.domus.NW091,True
+loss of premises,loss of premises?,mm.domus.NW135,True
+low visitor numbers; loss of premises - change of use - space repurposed,low visitor numbers; space repurposed,mm.aim82M.004,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.454,True
+financial - costs,costs,mm.domus.YH051,True
+loss of premises - redevelopment,site redeveloped,mm.domus.SC242,True
+loss of premises,loss of premises,mm.aim.0658,True
+financial - funding cut - charity lost funding,charity lost funding,mm.domus.SW113,True
+loss of premises; loss of premises - legal - lease expired,loss of premises; lease expired,mm.aim.0215,True
+loss of premises,loss of premises,mm.wiki.082,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.SE104,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.wiki.117,True
+loss of premises,loss of premises?,mm.ace.1240,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.ace.1103,True
+financial - funding cut - local authority funding cut,local authority cuts?,mm.domus.SC141,True
+low visitor numbers; financial - costs,too few visitors; costs?,mm.aim.1031,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.SE066,True
+unknown,unknown,mm.misc.239,True
+financial - costs - low revenue,insufficient revenue,mm.misc.094,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.YH012,True
+financial - funding cut,funding cut,mm.domus.SC123,True
+building - unsuitable - access; other - location no longer suitable,accessibility issues; location no longer suitable,mm.domus.SE324,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim82NM.061,True
+low visitor numbers; financial - costs - unsustainable,too few visitors; financially unsustainable,mm.domus.SE446,True
+low visitor numbers,too few visitors?,mm.domus.SC053,True
+financial - costs - building costs; building - unsuitable; building - unsuitable - access,costs of building too high; premises unsuitable; accessibility,mm.domus.EM020,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.NW035,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.SW077,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.domus.SW067,True
+life events - illness,illness,mm.wiki.447,True
+strategic closure - replacement museum,replacement museum,mm.domus.WM021,True
+restructure of host organisation - relocation,relocation?,mm.domus.SE103,True
+financial - funding cut - museums scotland funding cut,museums scotland funding cut,mm.domus.SC282,True
+financial - funding cut - local authority funding cut; low visitor numbers,local authority cuts; too few visitors,mm.domus.EM075,True
+low visitor numbers; financial - costs,too few visitors; rising costs,mm.wiki.006,True
+loss of premises - redevelopment; strategic closure - amalgamation,redevelopment; amalgamation,mm.domus.SE421,True
+loss of premises,loss of premises,mm.aim.1082,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE074,True
+financial - costs; life events - illness,excessive costs; illness,mm.wiki.096,True
+financial - funding cut - dfe funding cut,dfe funding cut,mm.wiki.178,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.domus.SW168,True
+financial - costs - low revenue,insufficient revenue,mm.aim82M.049,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.NW012,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.wiki.423,True
+unknown,unknown,mm.misc.012,True
+low visitor numbers,too few visitors?,mm.misc.163,True
+loss of premises - change of use - space repurposed,space repurposed,mm.misc.200,False
+dispute - dispute with local authority; financial - costs,dispute with local authority; costs,mm.hha.091,True
+other - reverted to private use,reverted to private use,mm.wiki.218,True
+financial - costs - low revenue,insufficient revenue?,mm.wiki.148,True
+other - reverted to private use,reverted to private use,mm.wiki.466,True
+financial; other - reverted to private use,managing trust liquidated; reverted to private use,mm.aim.0407,True
+low visitor numbers; financial - costs - low revenue,too few visitors; insufficient revenue,mm.wiki.340,False
+loss of premises - change of use,removal of adjoining library,mm.wiki.186,True
+financial - funding cut - local authority funding cut,local authority cuts,mm.domus.SE044,False
+strategic closure - amalgamation,amalgamation,mm.domus.SE458,True
+building - unsuitable - poor environmental conditions,poor environmental conditions,mm.ace.1260,True
+other,change of use to family home,mm.hha.107,True
+other - loss of perceived value; financial - funding cut - university cost cutting,loss of perceived value; university cost cutting,mm.domus.SE059,True
+other,associated business closed,mm.MDN.029,True
+dispute - access refused by host organisation,access refused by host organisation,mm.wiki.358,True
+other - never fully established as a museum,never fully established as a museum with collections,mm.domus.WA074,True
+life events - owner moved house,owner moved house,mm.aim.1121,True
+life events - owner moved house,owner moved house,mm.aim82M.002,True
+life events - owner moved house,owner moved house,mm.mgs.311,True
+life events - owner moved house,owner moved house,mm.mgs.341,True
+life events - owner moved house,owner moved house,mm.domus.SE513,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.fcm.160,True
+financial - costs - unsustainable; financial - funding cut - external funding cut,financially unsustainable; external funding cut,mm.domus.EM047,True
+loss of premises - sold,building sold,mm.wiki.173,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim82NM.005,True
+other - associated business sold,associated business sold,mm.aim82NM.029,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.wiki.155,True
+other; building - unsuitable,conservation issues; premises unsuitable,mm.domus.NW032,True
+low visitor numbers,too few visitors,mm.domus.NE009,True
+financial - managing trust disposing of liabilities,managing trust disposing of liabilities?,mm.mgs.413,True
+life events - illness,illness,mm.wiki.292,True
+life events - owners fell out,owners fell out,mm.mald.148,True
+life events - illness,illness,mm.fcm.154,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.071,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.domus.NE036,True
+life events - retirement - retirement of owner; life events - death - death of owner,owner(s) retired from museum work; death of owner,mm.aim82M.033,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.wiki.043,True
+restructure of host organisation - regimental reorganisation,regimental reorganisation,mm.domus.EM060,True
+financial - costs - building costs; building - unsuitable - access; low visitor numbers,building costs; accessibility issues; too few visitors,mm.domus.EM053,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.aim.0052,True
+life events - death - death of owner,death of owner,mm.aim82NM.091,True
+life events - death - death of owner,death of owner,mm.wiki.309,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.misc.165,True
+financial - costs,rent increase,mm.mald.027,True
+restructure of host organisation - change in corporate priorities; loss of premises - legal - lease expired,change in corporate priorities; lease expired,mm.musa.116,True
+building - change of use,site repurposed?,mm.wiki.481,True
+life events - death - death of owner,death of owner?,mm.aim.1217,True
+life events - retirement - retirement of owner; building - change of use,owner(s) retired from museum work; repurposing of site,mm.wiki.315,True
+building - building destroyed,building demolished,mm.domus.YH056,True
+staff - insufficient staff - no volunteers; building - condition of building,too few volunteers; leaking roof,mm.wiki.464,True
+other,changed offer,mm.domus.WA010,True
+building - condition of building,condition of building,mm.domus.NI026,True
+restructure of host organisation - merger of fire services; loss of premises - sold,merger of fire services; building sold,mm.domus.SW153,True
+building - condition of building; low visitor numbers; loss of premises - legal - lease expired,condition of building; too few visitors; lease expired,mm.wiki.354,True
+building - condition of building,condition of building?,mm.misc.075,True
+loss of premises,loss of premises,mm.domus.WA051,True
+building - change of use,site repurposed,mm.New.254,True
+financial - costs - low revenue,insufficient revenue,mm.wiki.027,True
+building - building ownership changed; loss of premises,building ownership changed; loss of premises,mm.wiki.391,True
+life events - death - death of owner,death of owner?,mm.musa.057,True
+building - condition of building,condition of building,mm.domus.WA028,True
+staff - insufficient staff; building - unsuitable,insufficient staff; premises unsuitable,mm.ace.1167,True
+building,building problems,mm.wiki.210,True
+loss of premises - change of use - space repurposed,repurposing of space,mm.domus.NW054,True
+financial - funding cut - local authority funding cut; low visitor numbers,local authority funding cut; low visitor numbers,mm.domus.WA011,True
+strategic closure - amalgamation; loss of premises - change of use,amalgamation; premises repurposed,mm.domus.SC263,True
+life events - death - death of owner,death of owner,mm.musa.220,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SC016,True
+financial - costs - unsustainable,financially unviable,mm.aim82NM.038,True
+restructure of host organisation - local authority reorganisation,local authority reorganisation,mm.domus.SC161,True
+financial - funding cut - local authority funding cut,local authority funding cuts,mm.mald.069,True
+loss of premises - legal - lease expired; financial - costs - building costs,lease expired; costs of building too high,mm.domus.SC150,True
+life events - death - death of owner,death of owner,mm.musa.214,True
+life events - death - death of owner; financial - costs - unsustainable; low visitor numbers,death of owner; financially unviable; too few visitors,mm.wiki.270,True
+life events - death - death of owner,death of owner,mm.New.298,True
+loss of premises,loss of premises,mm.fcm.013,True
+loss of premises - legal - lease expired; loss of premises,lease expired; loss of premises,mm.domus.SW005,True
+unknown,unknown,mm.misc.065,True
+financial - costs - unsustainable; financial - costs - deficit; financial - funding cut - local authority funding cut,financially unviable; ran a deficit; local authority funding cut,mm.domus.SE404,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.ace.1179,True
+financial - costs - unsustainable; low visitor numbers,unsustainable costs; too few visitors,mm.musa.138,True
+loss of premises - change of use,premises repurposed,mm.domus.SE429,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.New.302,True
+loss of premises - change of use,premises repurposed,mm.domus.SE062,True
+financial - costs - unsustainable,unsustainable costs,mm.aim.1047,True
+life events - retirement - retirement of owner,owner(s) retired from museum work,mm.misc.020,True
+building - condition of building - deterioration,deterioration of building,mm.wiki.286,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.mald.160,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.SE296,True
+loss of premises - redevelopment - redevelopment of site,redevelopment of site,mm.aim.0559,True
+loss of premises - sold,site sold,mm.ace.1292,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.domus.WM100,True
+financial - funding cut - local authority funding cut,local authority funding cut,mm.wiki.276,True
+unknown,unknown,mm.wiki.011,True
+loss of premises,loss of premises,mm.domus.NW038,True
+strategic closure - replacement museum,replacement museum,mm.New.272,True
+unknown,unknown,mm.domus.NW087,True
+financial - costs,rent increase,mm.New.287,True
+financial - costs,rent increase,mm.New.297,True
+life events - retirement - retirement of owner,retirement of owner,mm.wiki.203,True
+unknown,unknown,mm.musa.363,True

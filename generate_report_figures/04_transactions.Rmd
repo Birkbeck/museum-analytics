@@ -1,0 +1,556 @@
+---
+title: "Report Data and Figures"
+output: html_notebook
+---
+
+```{r libraries}
+library(tidyverse)
+library(writexl)
+source("../shiny/mappingmuseums/src/calculate_outcomes.R")
+source("../shiny/mappingmuseums/src/calculate_closure_lengths.R")
+
+core_actor_types_with_children <- c(
+  "armed forces",
+  "civic organisation",
+  "company",
+  "education/research",
+  "heritage",
+  "leisure",
+  "library/archive",
+  "other organisation",
+  "service",
+  "society",
+  "storage",
+  "temporary museum",
+  "trader",
+  "transport provider"
+)
+
+museum_attribute_ordering <- c(
+  "all",
+  # size
+  "unknown size",
+  "small",
+  "medium",
+  "large",
+  "huge",
+  # governance
+  "unknown governance",
+  "private",
+  "independent",
+  "Historic Environment Scotland",
+  "National Trust for Scotland",
+  "National Trust",
+  "English Heritage",
+  "not-for-profit",
+  "university",
+  "other government",
+  "local authority",
+  "national",
+  # region/country
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "England",
+  "North East",
+  "North West",
+  "Yorks & Humber",
+  "East Midlands",
+  "West Midlands",
+  "East of England",
+  "London",
+  "South East",
+  "South West",
+  # accreditation
+  "unaccredited",
+  "accredited",
+  # subject
+  "other",
+  "mixed: other",
+  "mixed: encyclopaedic",
+  "mixed: bygones",
+  "mixed",
+  "war & conflict: other",
+  "war & conflict: regiment",
+  "war & conflict: navy",
+  "war & conflict: military",
+  "war & conflict: event or site",
+  "war & conflict: castles & forts",
+  "war & conflict: bunker",
+  "war & conflict: airforce",
+  "war & conflict",
+  "utilities: water & waste",
+  "utilities: gas & electricity",
+  "utilities",
+  "transport: other",
+  "transport: mixed",
+  "transport: trains & railways",
+  "transport: cars & motorbikes",
+  "transport: canals",
+  "transport: buses & trams",
+  "transport: bicycles",
+  "transport: aviation",
+  "transport",
+  "services: other",
+  "services: rnli",
+  "services: police",
+  "services: fire",
+  "services",
+  "sea & seafaring: other",
+  "sea & seafaring: mixed",
+  "sea & seafaring: lighthouses",
+  "sea & seafaring: fishing",
+  "sea & seafaring: boats & ships",
+  "sea & seafaring",
+  "science & technology: other",
+  "science & technology: computing & gaming",
+  "science & technology",
+  "rural industry: other",
+  "rural industry: windmills",
+  "rural industry: watermills",
+  "rural industry: textiles",
+  "rural industry: rural life",
+  "rural industry: forges",
+  "rural industry: farming",
+  "rural industry",
+  "personality: other",
+  "personality: scientific",
+  "personality: religious",
+  "personality: political",
+  "personality: music",
+  "personality: literary",
+  "personality: explorer",
+  "personality: art",
+  "personality",
+  "natural world: other",
+  "natural world: mixed",
+  "natural world: zoology",
+  "natural world: herbaria & gardening",
+  "natural world: geology",
+  "natural world: fossils",
+  "natural world: dinosaurs",
+  "natural world",
+  "medicine & health: other",
+  "medicine & health: professional association",
+  "medicine & health: hospital",
+  "medicine & health",
+  "local histories",
+  "leisure & sport: other",
+  "leisure & sport: toys & models",
+  "leisure & sport: rugby & football",
+  "leisure & sport: film cinema & tv",
+  "leisure & sport: fairgrounds & amusements",
+  "leisure & sport: cricket",
+  "leisure & sport",
+  "industry & manufacture: other",
+  "industry & manufacture: mixed",
+  "industry & manufacture: textiles",
+  "industry & manufacture: steam & engines",
+  "industry & manufacture: print",
+  "industry & manufacture: potteries",
+  "industry & manufacture: mining & quarrying",
+  "industry & manufacture: metals",
+  "industry & manufacture: industrial life",
+  "industry & manufacture: clocks & watches",
+  "industry & manufacture",
+  "food & drink",
+  "communications: other",
+  "communications: radio",
+  "communications: post",
+  "communications",
+  "buildings: other",
+  "buildings: shops",
+  "buildings: school",
+  "buildings: penal",
+  "buildings: palace",
+  "buildings: houses (small)",
+  "buildings: houses (medium)",
+  "buildings: houses (large)",
+  "buildings: civic",
+  "buildings",
+  "belief & identity: other",
+  "belief & identity: religious buildings",
+  "belief & identity: religion",
+  "belief & identity: freemasons",
+  "belief & identity: ethnic group",
+  "belief & identity: church treasuries",
+  "belief & identity",
+  "arts: other",
+  "arts: photography",
+  "arts: music",
+  "arts: literature",
+  "arts: glass",
+  "arts: fine & decorative arts",
+  "arts: design",
+  "arts: crafts",
+  "arts: costume & textiles",
+  "arts: ceramics",
+  "arts",
+  "archaeology: other",
+  "archaeology: mixed",
+  "archaeology: roman",
+  "archaeology: prehistory",
+  "archaeology: medieval",
+  "archaeology: greek & egyptian",
+  "archaeology",
+  # destination outcome
+  "mostly no move",
+  "mostly within the same LAD",
+  "mostly within the same region",
+  "mostly within the UK",
+  "mostly abroad",
+  "mixed destinations",
+  # collection share
+  "'few'",
+  "'some'",
+  "'half'",
+  "'most'",
+  "'all'",
+  # recipient count outcome
+  "many",
+  "> 5",
+  "5",
+  "4",
+  "3",
+  "2",
+  "1",
+  "0",
+  # recipient outcome
+  "mostly N/A",
+  "mostly storage",
+  "mostly museum service",
+  "mostly museum",
+  "mostly library/archive",
+  "mostly temporary museum",
+  "mostly heritage",
+  "mostly education/research",
+  "mostly society",
+  "mostly civic organisation",
+  "mostly service",
+  "mostly armed forces",
+  "mostly leisure",
+  "mostly transport provider",
+  "mostly other organisation",
+  "mostly company",
+  "mostly trader",
+  "mostly individual",
+  "mostly unspecified actor",
+  "mostly end of existence",
+  # event outcome
+  "mostly kept",
+  "mostly left-in-situ",
+  "mostly rescued",
+  "mostly recorded",
+  "mostly modified",
+  "mostly used",
+  "mostly displayed",
+  "mostly stored",
+  "mostly loaned",
+  "mostly moved",
+  "mostly returned",
+  "mostly transferred",
+  "mostly sold",
+  "mostly lost/stolen",
+  "mostly damaged/destroyed",
+  "mostly unknown",
+  # reason for closure
+  "financial",
+  "low visitor numbers",
+  "loss of premises",
+  "destruction",
+  "collections",
+  "building",
+  "strategic closure",
+  "restructure of host organisation",
+  "dispute",
+  "life events",
+  "staff"
+)
+
+purple = "#E4A8F0"
+
+standard_bars_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size=title_size),
+    plot.subtitle = element_text(size=subtitle_size),
+    legend.position = "Non",
+    axis.title.x = element_text(size=axis_title_size),
+    axis.title.y = element_text(size=axis_title_size),
+    axis.text.x = element_text(size=axis_text_size),
+    axis.text.y = element_text(size=axis_text_size)
+  )
+
+output_width <- 175
+output_height <- 90
+output_units <- "mm"
+```
+
+## data files
+```{r data-files}
+data_directory <- "../data/closure_data_01_08_2025"
+museums_file <- paste(data_directory, "museums.csv", sep="/")
+event_types_file <- paste(data_directory, "event_types.csv", sep="/")
+super_events_file <- paste(data_directory, "super_events.csv", sep="/")
+dispersal_events_file <- paste(data_directory, "dispersal_events.csv", sep="/")
+```
+
+## Load data
+```{r}
+event_types <- read_csv(event_types_file)
+super_events <- read_csv(super_events_file)
+
+dispersal_events <- read_csv(dispersal_events_file) |>
+  mutate(
+    event_stage_in_path = event_stage_in_path + 1,
+    recipient_type = case_when(
+      is.na(recipient_type) ~ "N/A",
+      recipient_type %in% core_actor_types_with_children ~ paste("unspecified", recipient_core_type),
+      recipient_type == "actor" ~ "unspecified actor",
+      TRUE ~ recipient_type
+    ),
+    recipient_core_type = case_when(
+      recipient_type == "N/A" ~ "N/A",
+      recipient_type == "unspecified actor" ~ "unspecified actor",
+      TRUE ~ recipient_core_type
+    ),
+    sender_type = case_when(
+      is.na(sender_type) ~ "N/A",
+      sender_type %in% core_actor_types_with_children ~ paste("unspecified", sender_core_type),
+      sender_type == "actor" ~ "unspecified actor",
+      TRUE ~ sender_type
+    ),
+    sender_core_type = case_when(
+      is.na(sender_type) ~ "N/A",
+      sender_type == "unspecified actor" ~ "unspecified actor",
+      TRUE ~ sender_core_type
+    ),
+    recipient_region = case_when(
+      recipient_type == "end of existence" ~ "end of existence",
+      recipient_type == "N/A" ~ "N/A",
+      !is.na(recipient_region) ~ recipient_region,
+      !is.na(recipient_country) ~ recipient_country,
+      !is.na(destination_region) ~ destination_region,
+      !is.na(destination_country) ~ destination_country,
+      TRUE ~ "unknown"
+    ),
+    sender_region = case_when(
+      sender_type == "end of existence" ~ "end of existence",
+      !is.na(sender_region) ~ sender_region,
+      !is.na(sender_country) ~ sender_country,
+      !is.na(sender_region) ~ sender_region,
+      !is.na(sender_country) ~ sender_country,
+      TRUE ~ "unknown"
+    ),
+    collection_status = case_when(
+      collection_status == "collection" ~ "Objects from a museum collection",
+      collection_status == "loan" ~ "Objects on loan to a museum",
+      collection_status == "handling" ~ "Handling objects",
+      collection_status == "museum-stuff" ~ "Other objects (e.g. display cases)"
+    ),
+    initial_museum_all = "all",
+    sender_all = ifelse(!is.na(sender_size), "all", NA),
+    recipient_all = ifelse(!is.na(recipient_size), "all", NA)
+  )
+
+senders <- dispersal_events |>
+  select(
+    actor_id=sender_id,
+    name=sender_name,
+    quantity=sender_quantity,
+    sector=sender_sector,
+    type=sender_type,
+    size=sender_size,
+    governance=sender_governance,
+    accreditation=sender_accreditation,
+    town=sender_town,
+    county=sender_county,
+    postcode=sender_postcode,
+    region=sender_region,
+    country=sender_country
+  )
+recipients <- dispersal_events |>
+  select(
+    actor_id=recipient_id,
+    name=recipient_name,
+    quantity=recipient_quantity,
+    sector=recipient_sector,
+    type=recipient_type,
+    size=recipient_size,
+    governance=recipient_governance,
+    accreditation=recipient_accreditation,
+    town=recipient_town,
+    county=recipient_county,
+    postcode=recipient_postcode,
+    region=recipient_region,
+    country=recipient_country
+  )
+actors <- rbind(senders, recipients) |>
+  unique()
+
+initial_museums <- dispersal_events |>
+  select(
+    museum_id=initial_museum_id,
+    museum_name=initial_museum_name,
+    size=initial_museum_size,
+    governance=initial_museum_governance,
+    governance_broad=initial_museum_governance_broad,
+    subject_broad=initial_museum_subject_broad,
+    subject=initial_museum_subject,
+    region=initial_museum_region,
+    country=initial_museum_country,
+    accreditation=initial_museum_accreditation
+  ) |>
+  distinct() |>
+  mutate(
+    name=paste0(museum_name, " (", museum_id, ")")
+  ) |>
+  arrange(name)
+
+collection_types <- dispersal_events |>
+  mutate(
+    collection_type = str_remove_all(collection_types, "\\[|\\]|'") |>
+      str_split(",\\s*")
+  ) |>
+  unnest(collection_type) |>
+  select(collection_type) |>
+  unique() |>
+  arrange(collection_type) |>
+  filter(collection_type != "")
+
+museums_including_crown_dependencies <- read_csv(museums_file) |>
+  mutate(
+    year_opened = ifelse(
+      year_opened_1 == year_opened_2,
+      year_opened_1,
+      paste(year_opened_1, year_opened_2, sep=":")
+    ),
+    year_closed = case_when(
+      year_closed_1 == 9999 ~ "N/A",
+      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
+      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
+    ),
+    all=factor(all, museum_attribute_ordering),
+    size=factor(size, museum_attribute_ordering),
+    governance=factor(governance, museum_attribute_ordering),
+    governance_broad=factor(governance_broad, museum_attribute_ordering),
+    subject=factor(subject, museum_attribute_ordering),
+    subject_broad=factor(subject_broad, museum_attribute_ordering),
+    accreditation=factor(accreditation, museum_attribute_ordering),
+    region=factor(region, museum_attribute_ordering),
+    country=factor(country, museum_attribute_ordering)
+  )
+
+closure_reasons <- super_events |>
+  separate_rows(reason, sep = "; ") |>
+  separate_wider_delim(
+    reason,
+    " - ",
+    names=c("reason_core", "reason_core_or_child", "reason_specific"),
+    too_few="align_start"
+  ) |>
+  mutate(
+    reason_core_or_child=ifelse(
+      is.na(reason_core_or_child),
+      reason_core,
+      paste(reason_core, "-", reason_core_or_child)
+    ),
+    reason_specific=ifelse(
+      is.na(reason_specific),
+      reason_core_or_child,
+      paste(reason_core_or_child, "-", reason_specific)
+    )
+  ) |>
+  left_join(museums_including_crown_dependencies, by="museum_id")
+
+closure_outcomes <- get_outcomes_by_museum(super_events, dispersal_events)
+closure_lengths <- get_closure_lengths_by_museum(
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
+)
+closure_timeline_events <- get_closure_timeline_events(
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
+)
+
+museums_including_crown_dependencies <- museums_including_crown_dependencies |>
+  left_join(closure_outcomes, by="museum_id") |>
+  left_join(
+    closure_reasons |>
+      select(museum_id, reasons_for_closure=super_reasons) |>
+      unique(),
+    by="museum_id"
+  ) |>
+  mutate(
+    outcome_event_type=factor(outcome_event_type, museum_attribute_ordering),
+    outcome_recipient_type=factor(outcome_recipient_type, museum_attribute_ordering),
+    outcome_recipient_count=factor(outcome_recipient_count, museum_attribute_ordering),
+    outcome_largest_share=factor(outcome_largest_share, museum_attribute_ordering),
+    outcome_destination_type=factor(outcome_destination_type, museum_attribute_ordering)
+  )
+museums <- museums_including_crown_dependencies |>
+  filter(!country %in% c("Channel Islands", "Isle of Man"))
+```
+
+## Tables
+```{r}
+transactions <- dispersal_events |>
+  filter(
+    event_stage_in_path == 1,
+    event_is_change_of_custody
+    | event_is_change_of_ownership
+    | event_is_end_of_existence
+  ) |>
+  select(
+    initial_museum_id,
+    initial_museum_name,
+    initial_museum_governance=initial_museum_governance_broad,
+    initial_museum_size,
+    initial_museum_subject=initial_museum_subject_broad,
+    event_id,
+    event_core_type,
+    event_type,
+    recipient_sector,
+    recipient_core_type,
+    recipient_type,
+    recipient_governance,
+    collection_status,
+    collection_types,
+    collection_size
+  )
+
+write_xlsx(
+  list(
+    "Data Dictionary"=read_csv("dictionaries/data_dictionary_transactions.csv"),
+    "initial transactions"=transactions |> select(-recipient_core_type, -collection_status, -event_id, -event_core_type)
+  ),
+  "tables/transactions.xlsx"
+)
+```
+
+### Figure 25
+```{r}
+transactions_summary <- transactions |>
+  filter(
+    collection_status == "Objects from a museum collection",
+    event_core_type %in% c("transferred", "sold", "loaned")
+  ) |>
+  group_by(recipient_core_type) |>
+  summarize(count=n_distinct(event_id)) |>
+  ungroup() |>
+  mutate(percentage=round(count / sum(count) * 100, 1))
+figure_25 <- ggplot(
+  transactions_summary,
+  aes(x=percentage, y=reorder(recipient_core_type, percentage))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=paste0(percentage, "%")), hjust="left", nudge_x=1, size=3) +
+  scale_x_continuous(limits=c(0, 45)) +
+  labs(
+    title="Transfers, sales, and loans from closed museums by recipient type 2000-2025",
+    y="Recipient type",
+    x="Percentage of recorded transactions"
+  ) +
+  standard_bars_theme
+ggsave("figures/fig25.svg", figure_25, width=output_width, height=output_height, units=output_units, bg="white")
+figure_25
+```

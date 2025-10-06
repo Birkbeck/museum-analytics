@@ -1,0 +1,12 @@
+reason_core,Primary reason for closure (core category)
+governance,Broad governance type of museums
+size,Size category of museums
+subject,Broad subject-matter category of museums
+outcome_event_type,Main event describing what happened to a closed museum's collection
+outcome_recipient_type,Main type of recipient who received a closed museum's collection
+outcome_recipient_count,Number of initial recipients of a closed museum's collection
+outcome_destination_type,Main type of destination where a closed museum's collection moved
+period_of_closure,Period when a museum closed (e.g. 2000-2004; 2005-2009; 2010-2014; 2015-2019; 2020-2025)
+closure_length_category,Time taken to carry out collection dispersal (categorical)
+frequency,Number of closures belonging to the category (count)
+percentage,Percentage of closures belonging to the category (0–100; within the relevant grouping)

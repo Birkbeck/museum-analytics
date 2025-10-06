@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='496.06pt' height='255.12pt' viewBox='0 0 496.06 255.12'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw0OTYuMDZ8MC4wMHwyNTUuMTI='>
+    <rect x='0.00' y='0.00' width='496.06' height='255.12' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw0OTYuMDZ8MC4wMHwyNTUuMTI=)'>
+</g>
+<defs>
+  <clipPath id='cpNzMuNzV8NDIyLjMxfDAuMDB8MjU1LjEy'>
+    <rect x='73.75' y='0.000000000000028' width='348.57' height='255.12' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNzMuNzV8NDIyLjMxfDAuMDB8MjU1LjEy)'>
+</g>
+<g clip-path='url(#cpMC4wMHw0OTYuMDZ8MC4wMHwyNTUuMTI=)'>
+</g>
+<defs>
+  <clipPath id='cpMjMyLjc0fDQxNi44NHwyNy44NXwyMTEuOTQ='>
+    <rect x='232.74' y='27.85' width='184.09' height='184.09' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMjMyLjc0fDQxNi44NHwyNy44NXwyMTEuOTQ=)'>
+<polyline points='232.74,175.68 416.84,175.68 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,119.90 416.84,119.90 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,64.11 416.84,64.11 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='269.00,211.94 269.00,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='324.79,211.94 324.79,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='380.57,211.94 380.57,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,203.58 416.84,203.58 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,147.79 416.84,147.79 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,92.00 416.84,92.00 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='232.74,36.22 416.84,36.22 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='241.11,211.94 241.11,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='296.90,211.94 296.90,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='352.68,211.94 352.68,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<polyline points='408.47,211.94 408.47,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
+<circle cx='344.59' cy='52.95' r='20.33' style='stroke-width: 0.71; stroke: #E69F00; stroke-opacity: 0.70; fill: #E69F00; fill-opacity: 0.70;' />
+<circle cx='266.77' cy='119.06' r='24.90' style='stroke-width: 0.71; stroke: #0D4373; stroke-opacity: 0.70; fill: #0D4373; fill-opacity: 0.70;' />
+<circle cx='286.58' cy='145.84' r='7.62' style='stroke-width: 0.71; stroke: #009E73; stroke-opacity: 0.70; fill: #009E73; fill-opacity: 0.70;' />
+<circle cx='290.48' cy='175.68' r='15.82' style='stroke-width: 0.71; stroke: #CD185A; stroke-opacity: 0.70; fill: #CD185A; fill-opacity: 0.70;' />
+<circle cx='254.50' cy='149.46' r='5.88' style='stroke-width: 0.71; stroke: #720E32; stroke-opacity: 0.70; fill: #720E32; fill-opacity: 0.70;' />
+<line x1='48.65' y1='396.04' x2='600.93' y2='-156.24' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;' />
+<text x='344.59' y='57.04' text-anchor='middle' style='font-size: 11.38px; font-family: "Arial";' textLength='34.15px' lengthAdjust='spacingAndGlyphs'>private</text>
+<text x='266.77' y='123.14' text-anchor='middle' style='font-size: 11.38px; font-family: "Arial";' textLength='62.65px' lengthAdjust='spacingAndGlyphs'>independent</text>
+<text x='286.58' y='149.92' text-anchor='middle' style='font-size: 11.38px; font-family: "Arial";' textLength='48.05px' lengthAdjust='spacingAndGlyphs'>university</text>
+<text x='290.48' y='179.77' text-anchor='middle' style='font-size: 11.38px; font-family: "Arial";' textLength='70.20px' lengthAdjust='spacingAndGlyphs'>local authority</text>
+<text x='254.50' y='153.55' text-anchor='middle' style='font-size: 11.38px; font-family: "Arial";' textLength='39.86px' lengthAdjust='spacingAndGlyphs'>national</text>
+</g>
+<g clip-path='url(#cpMC4wMHw0OTYuMDZ8MC4wMHwyNTUuMTI=)'>
+<text x='227.81' y='209.31' text-anchor='end' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='227.81' y='153.53' text-anchor='end' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='227.81' y='97.74' text-anchor='end' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='227.81' y='41.96' text-anchor='end' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>60</text>
+<text x='241.11' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='8.90px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='296.90' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>20</text>
+<text x='352.68' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>40</text>
+<text x='408.47' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>60</text>
+<text x='324.79' y='246.10' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='254.33px' lengthAdjust='spacingAndGlyphs'>Closures per 100 existing museums</text>
+<text x='143.25' y='108.36' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='68.50px' lengthAdjust='spacingAndGlyphs'>Openings</text>
+<text x='143.25' y='125.64' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='54.27px' lengthAdjust='spacingAndGlyphs'>per 100</text>
+<text x='143.25' y='142.92' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='128.04px' lengthAdjust='spacingAndGlyphs'>existing museums</text>
+<text x='232.74' y='18.39' style='font-size: 18.00px; font-family: "Arial";' textLength='413.22px' lengthAdjust='spacingAndGlyphs'>Opening vs closure rates 2000-2025 by governance</text>
+</g>
+</svg>
