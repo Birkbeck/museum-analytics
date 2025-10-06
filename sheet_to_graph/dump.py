@@ -292,9 +292,9 @@ if __name__ == "__main__":
         # for top-level data directories:
         "data-model/actor_types": actor_types_query,
         "data-model/event_types": event_types_query,
-        "data/query_results/museums": museums_query,
-        "data/query_results/super_events": super_events_query,
-        "data/query_results/dispersal_events": dispersal_events_query,
+        "data/closure_data/museums": museums_query,
+        "data/closure_data/super_events": super_events_query,
+        "data/closure_data/dispersal_events": dispersal_events_query,
         # for shiny app inputs:
         "shiny/mappingmuseums/data/query_results/actor_types": actor_types_query,
         "shiny/mappingmuseums/data/query_results/event_types": event_types_query,
