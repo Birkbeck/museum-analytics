@@ -88,7 +88,7 @@ ggsave(
   height=18
 )
 
-actor_types_csv <- "data/query_results/actor_types.csv"
+actor_types_csv <- "data-model/actor_types.csv"
 actor_types <- read_csv(actor_types_csv)
 actor_type_hierarchy <- actors_taxonomy()
 ggsave(
@@ -98,7 +98,7 @@ ggsave(
   height=16
 )
 
-event_types_csv <- "data/query_results/event_types.csv"
+event_types_csv <- "data-model/event_types.csv"
 event_types <- read_csv(event_types_csv)
 event_type_hierarchy <- events_taxonomy()
 ggsave(
