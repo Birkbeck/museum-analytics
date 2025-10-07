@@ -42,5 +42,5 @@ The source code in `llm-data-modelling` describes experiments used for the autom
 
 ## See Also
 
-- [Mapping Museums](https://github.com/Birkbeck/mapping-museums)
-- [Museums in the Pandemic](https://github.com/Birkbeck/museums-in-the-pandemic)
+- [Mapping Museums](https://github.com/Birkbeck/mapping-museums) - A repository containing code and data relevant to the creation of the Mapping Museums database.
+- [Museums in the Pandemic](https://github.com/Birkbeck/museums-in-the-pandemic) - A repository containing code and data for the project Museums in the Pandemic (MIP): Risk, Closure, and Resilience.
