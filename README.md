@@ -40,6 +40,18 @@ The source code in `llm-data-modelling` describes experiments used for the autom
   - `make deploy-app-local` - Deploys the Shiny app and opens it in your default web browser.
   - `make deploy-app` - Deploys the Shiny app to a remote server.
 
+
+## Research Team
+
+- Fiona Candlin
+- Andrea Ballatore
+- Mark Liebenrood
+- Alexandra Poulovassilis
+- Peter T Wood
+- George A Wright
+- Maria Golovteeva
+- Helena Bonett
+
 ## See Also
 
 - [Mapping Museums](https://github.com/Birkbeck/mapping-museums) - A repository containing code and data relevant to the creation of the Mapping Museums database.
