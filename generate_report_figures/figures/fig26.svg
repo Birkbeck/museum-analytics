@@ -31,13 +31,6 @@
 <polyline points='273.50,211.94 273.50,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='355.42,211.94 355.42,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='437.34,211.94 437.34,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,196.60 490.58,196.60 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,171.03 490.58,171.03 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,145.47 490.58,145.47 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,119.90 490.58,119.90 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,94.33 490.58,94.33 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,68.76 490.58,68.76 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='220.26,43.19 490.58,43.19 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='232.55,211.94 232.55,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='314.46,211.94 314.46,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='396.38,211.94 396.38,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
@@ -71,6 +64,6 @@
 <text x='478.30' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='17.80px' lengthAdjust='spacingAndGlyphs'>60</text>
 <text x='355.42' y='246.10' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='276.57px' lengthAdjust='spacingAndGlyphs'>Percentage of local authority museums</text>
 <text transform='translate(16.96,119.90) rotate(-90)' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='136.07px' lengthAdjust='spacingAndGlyphs'>Collection outcome</text>
-<text x='220.26' y='18.39' style='font-size: 18.00px; font-family: "Arial";' textLength='436.24px' lengthAdjust='spacingAndGlyphs'>What happened to collections after closure, 2000-2025</text>
+<text x='220.26' y='18.39' style='font-size: 18.00px; font-family: "Arial";' textLength='406.17px' lengthAdjust='spacingAndGlyphs'>Post-Closure Outcomes for Collections, 2000-2025</text>
 </g>
 </svg>

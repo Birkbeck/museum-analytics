@@ -695,28 +695,8 @@ write_xlsx(
 
 ### Figure 3
 Change in museums numbers in the UK 2000-25, according to form of governance (excluding museums of unknown and other governance)
-```{r change-governance}
-figure_3_v_1 <- ggplot(
-  changes_by_governance |> filter(
-    !governance_broad %in% c("unknown governance")
-  ),
-  aes(x=change, y=governance_broad, fill=change > 0)
-) +
-  geom_col() +
-  geom_text(aes(label=change)) +
-  is_positive_fill_scale +
-  labs(
-    title="Change in museum numbers 2000-2025 by governance",
-    x="Change in museum numbers 2000-2025",
-    y="Governance"
-  ) +
-  standard_bars_theme
-#ggsave("figures/fig03v1.svg", figure_3_v_1, width=output_width, height=output_height, units=output_units, bg="white")
-figure_3_v_1
-```
-
 ```{r change-governance-percentage}
-figure_3_v_2 <- ggplot(
+figure_3 <- ggplot(
   changes_by_governance |> filter(
     !governance_broad %in% c("unknown governance")
   ),
@@ -724,23 +704,30 @@ figure_3_v_2 <- ggplot(
 ) +
   geom_col() +
   geom_text(
-    aes(
-      label=ifelse(
-        change > 0,
-        paste0(change_pc, "%\n(+", change, ")"),
-        paste0(change_pc, "%\n(", change, ")")
-      )
-    )
+    data=changes_by_governance |> filter(change > 0, governance_broad != "unknown governance"),
+    aes(label=paste0(change_pc, "%\n(+", change, ")")),
+    hjust=1
+  ) +
+  geom_text(
+    data=changes_by_governance |> filter(change < 0, governance_broad != "unknown governance"),
+    aes(label=paste0(change_pc, "%\n(", change, ")")),
+    hjust=0
+  ) +
+  scale_x_continuous(
+    limits=c(-10, 25),
+    breaks=seq(-10, 25, by=5),
+    minor_breaks=NULL
   ) +
   is_positive_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025 by governance",
+    title="Change in Museum Numbers 2000-2025 by Governance",
     x="Percentage change",
     y="Governance"
   ) +
-  standard_bars_theme
-ggsave("figures/fig03.svg", figure_3_v_2, width=output_width, height=output_height, units=output_units, bg="white")
-figure_3_v_2
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
+ggsave("figures/fig03.svg", figure_3, width=output_width, height=output_height, units=output_units, bg="white")
+figure_3
 ```
 
 ```{r change-size-percentage}
@@ -752,21 +739,28 @@ figure_7 <- ggplot(
 ) +
   geom_col() +
   geom_text(
-    aes(
-      label=ifelse(
-        change > 0,
-        paste0(change_pc, "%\n(+", change, ")"),
-        paste0(change_pc, "%\n(", change, ")")
-      )
-    )
+    data=changes_by_size |> filter(change > 0, size != "unknown size"),
+    aes(label=paste0(change_pc, "%\n(+", change, ")")),
+    hjust=1
+  ) +
+  geom_text(
+    data=changes_by_size |> filter(change < 0, size != "unknown size"),
+    aes(label=paste0(change_pc, "%\n(", change, ")")),
+    hjust=0
+  ) +
+  scale_x_continuous(
+    limits=c(-5, 15),
+    breaks=seq(-5, 15, by=5),
+    minor_breaks=NULL
   ) +
   is_positive_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025 by size",
+    title="Change in Museum Numbers 2000-2025 by Size",
     x="Percentage change",
     y="Size"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
 ggsave("figures/fig07.svg", figure_7, width=output_width, height=output_height, units=output_units, bg="white")
 figure_7
 ```
@@ -778,17 +772,25 @@ figure_11 <- ggplot(
 ) +
   geom_col() +
   geom_text(
-    aes(
-      label=ifelse(
-        change > 0,
-        paste0(change_pc, "% (+", change, ")"),
-        paste0(change_pc, "% (", change, ")")
-      )
-    )
+    data=changes_by_subject |> filter(change_pc >= 0),
+    aes(label=paste0(change_pc, "% (+", change, ")")),
+    size=3,
+    hjust=0
+  ) +
+  geom_text(
+    data=changes_by_subject |> filter(change_pc < 0),
+    aes(label=paste0(change_pc, "% (", change, ")")),
+    size=3,
+    hjust=1
+  ) +
+  scale_x_continuous(
+    limits=c(-30, 130),
+    breaks=seq(-25, 100, by=25),
+    minor_breaks=NULL
   ) +
   is_positive_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025 by subject",
+    title="Change in Museum Numbers 2000-2025 by Subject",
     x="Percentage change",
     y="Subject"
   ) +
@@ -806,21 +808,24 @@ figure_13 <- ggplot(
 ) +
   geom_col() +
   geom_text(
-    aes(
-      label=ifelse(
-        change > 0,
-        paste0(change_pc, "% (+", change, ")"),
-        paste0(change_pc, "% (", change, ")")
-      )
-    )
+    aes(label=paste0(change_pc, "% (+", change, ")")),
+    size=3,
+    hjust=0
+  ) +
+  geom_hline(aes(yintercept=3.5)) +
+  scale_x_continuous(
+    limits=c(0, 59),
+    breaks=seq(0, 50, by=10),
+    minor_breaks=NULL
   ) +
   is_positive_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025 by country/region",
+    title="Change in Museum Numbers 2000-2025 by Country/Region",
     x="Percentage change",
     y="Country / Region"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
 ggsave("figures/fig13.svg", figure_13, width=output_width, height=output_height, units=output_units, bg="white")
 figure_13
 ```
@@ -846,14 +851,20 @@ figure_4 <- ggplot(
   geom_text(
     data=fig_4_data |> filter(label=="openings"),
     aes(label=count),
+    hjust=0,
     nudge_y=0.25,
-    size=6
+    size=4
   ) +
   geom_text(
     data=fig_4_data |> filter(label=="closures"),
     aes(label=count),
+    hjust=0,
     nudge_y=-0.25,
-    size=6
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 500),
+    minor_breaks=NULL
   ) +
   scale_fill_manual(
     values=c("openings"=blue, "closures"=red),
@@ -865,10 +876,13 @@ figure_4 <- ggplot(
   labs(
     title = "Openings vs Closures 2000-2025",
     y = "Governance",
-    x = "Number of openings/closures" 
+    x = "Number of museum openings/closures" 
   ) +
   standard_bars_theme +
-  theme(legend.position="right")
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
 ggsave("figures/fig04.svg", figure_4, width=output_width, height=output_height, units=output_units, bg="white")
 figure_4
 ```
@@ -894,14 +908,20 @@ figure_8 <- ggplot(
   geom_text(
     data=fig_8_data |> filter(label=="openings"),
     aes(label=count),
+    hjust=0,
     nudge_y=0.25,
-    size=6
+    size=4
   ) +
   geom_text(
     data=fig_8_data |> filter(label=="closures"),
     aes(label=count),
+    hjust=0,
     nudge_y=-0.25,
-    size=6
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 610),
+    minor_breaks=NULL
   ) +
   scale_fill_manual(
     values=c("openings"=blue, "closures"=red),
@@ -913,10 +933,13 @@ figure_8 <- ggplot(
   labs(
     title = "Openings vs Closures 2000-2025",
     y = "Size",
-    x = "Number of openings/closures" 
+    x = "Number of museum openings/closures" 
   ) +
   standard_bars_theme +
-  theme(legend.position="right")
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
 ggsave("figures/fig08.svg", figure_8, width=output_width, height=output_height, units=output_units, bg="white")
 figure_8
 ```
@@ -941,14 +964,20 @@ figure_12 <- ggplot(
   geom_text(
     data=fig_12_data |> filter(label=="openings"),
     aes(label=count),
+    hjust=0,
     nudge_y=0.25,
-    size=6
+    size=4
   ) +
   geom_text(
     data=fig_12_data |> filter(label=="closures"),
     aes(label=count),
+    hjust=0,
     nudge_y=-0.25,
-    size=6
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 700),
+    minor_breaks=NULL
   ) +
   scale_fill_manual(
     values=c("openings"=blue, "closures"=red),
@@ -960,10 +989,13 @@ figure_12 <- ggplot(
   labs(
     title = "Openings vs Closures 2000-2025",
     y = "Accreditation",
-    x = "Number of openings/closures" 
+    x = "Number of museum openings/closures" 
   ) +
   standard_bars_theme +
-  theme(legend.position="right")
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
 ggsave("figures/fig12.svg", figure_12, width=output_width, height=output_height, units=output_units, bg="white")
 figure_12
 ```
@@ -985,18 +1017,26 @@ figure_14 <- ggplot(
     fill=label
   )
 ) +
-  geom_bar(position="dodge", stat="identity") +
+  geom_bar(position="dodge", stat="identity", width=0.7) +
   geom_text(
     data=fig_14_data |> filter(label=="openings"),
     aes(label=count),
-    nudge_y=0.25,
-    size=4
+    hjust=0,
+    nudge_y=0.2,
+    size=3
   ) +
   geom_text(
     data=fig_14_data |> filter(label=="closures"),
     aes(label=count),
-    nudge_y=-0.25,
-    size=4
+    hjust=0,
+    nudge_y=-0.2,
+    size=3
+  ) +
+  geom_hline(aes(yintercept=3.5)) +
+  scale_x_continuous(
+    limits=c(0, 110),
+    breaks=seq(0, 100, by=25),
+    minor_breaks=NULL
   ) +
   scale_fill_manual(
     values=c("openings"=blue, "closures"=red),
@@ -1007,11 +1047,14 @@ figure_14 <- ggplot(
   ) +
   labs(
     title = "Openings vs Closures 2000-2025",
-    y = "Country / Region",
-    x = "Number of openings/closures" 
+    y = "Country / region",
+    x = "Number of museum openings/closures" 
   ) +
   standard_bars_theme +
-  theme(legend.position="right")
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.9, 0.5)
+  )
 ggsave("figures/fig14.svg", figure_14, width=output_width, height=output_height, units=output_units, bg="white")
 figure_14
 ```
@@ -1027,7 +1070,7 @@ figure_6 <- ggplot(
 ) +
   geom_point(alpha=0.7) +
   geom_abline(colour="grey") +
-  geom_text(aes(label=governance_broad), size=4, colour="black") +
+  geom_text(aes(label=governance_broad), size=3, colour="black") +
   coord_fixed() +
   scale_x_continuous(limits=c(0, 60)) +
   scale_y_continuous(limits=c(0, 60)) +
@@ -1039,12 +1082,11 @@ figure_6 <- ggplot(
   ) +
   scale_colour_manual(values=governance_colours) +
   labs(
-    title="Opening vs closure rates 2000-2025 by governance",
+    title="Opening vs Closure Rates 2000-2025 by Governance",
     x="Closures per 100 existing museums",
-    y="Openings\nper 100\nexisting museums"
+    y="Openings per 100 existing museums"
   ) +
-  standard_bars_theme +
-  theme(axis.title.y=element_text(angle=0, vjust=0.5))
+  standard_bars_theme
 ggsave("figures/fig06.svg", figure_6, width=output_width, height=output_height, units=output_units, bg="white")
 figure_6
 ```
@@ -1060,7 +1102,7 @@ figure_9 <- ggplot(
 ) +
   geom_point(alpha=0.7) +
   geom_abline(colour="grey") +
-  geom_text(aes(label=size), size=4, colour="black") +
+  geom_text(aes(label=size), size=3, colour="black") +
   coord_fixed() +
   scale_x_continuous(limits=c(0, 50)) +
   scale_y_continuous(limits=c(0, 50)) +
@@ -1072,12 +1114,11 @@ figure_9 <- ggplot(
   ) +
   scale_colour_manual(values=size_colours) +
   labs(
-    title="Opening vs closure rates 2000-2025 by size",
+    title="Opening vs Closure Rates 2000-2025 by Size",
     x="Closures per 100 existing museums",
-    y="Openings\nper 100\nexisting museums"
+    y="Openings per 100 existing museums"
   ) +
-  standard_bars_theme +
-  theme(axis.title.y=element_text(angle=0, vjust=0.5))
+  standard_bars_theme
 ggsave("figures/fig09.svg", figure_9, width=output_width, height=output_height, units=output_units, bg="white")
 figure_9
 ```
@@ -1103,7 +1144,7 @@ changes_by_size_and_governance_with_scale <- changes_by_size_and_governance_main
   rbind(all_size_governance) |>
   mutate(z_change=sign(change) * abs(z_change))
 figure_10 <- ggplot(
-  changes_by_size_and_governance_with_scale,
+  changes_by_size_and_governance_with_scale |> filter(change != 0),
   aes(x=size, y=governance_broad, fill=z_change)
 ) +
   geom_tile() +
@@ -1122,14 +1163,15 @@ figure_10 <- ggplot(
   ) +
   red_to_white_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025",
-    x="Size",
+    title="Change in Museum Numbers 2000-2025",
+    x="Museum size",
     y="Governance"
   ) +
   standard_heatmap_theme +
   theme(
     axis.text.x = element_text(size=12),
-    axis.text.y = element_text(size=12)
+    axis.text.y = element_text(size=12),
+    panel.grid = element_blank()
   )
 ggsave("figures/fig10.svg", figure_10, width=output_width, height=output_height, units=output_units, bg="white")
 figure_10
@@ -1156,13 +1198,14 @@ changes_by_region_and_governance_with_scale <- changes_by_region_and_governance_
   rbind(all_region_governance) |>
   mutate(z_change=sign(change) * abs(z_change))
 figure_15 <- ggplot(
-  changes_by_region_and_governance_with_scale,
+  changes_by_region_and_governance_with_scale |> filter(change != 0),
   aes(x=region, y=governance_broad, fill=z_change)
 ) +
   geom_tile() +
   geom_text(aes(label=change), size=4, colour="black") +
   geom_hline(aes(yintercept=1.5)) +
   geom_vline(aes(xintercept=1.5)) +
+  geom_vline(aes(xintercept=4.5), colour="grey") +
   scale_x_discrete(
     labels=c(
       "all"="all",
@@ -1182,14 +1225,15 @@ figure_15 <- ggplot(
   ) +
   red_to_white_fill_scale +
   labs(
-    title="Change in museum numbers 2000-2025",
-    x="Region",
+    title="Change in Museum Numbers 2000-2025",
+    x="Country / region",
     y="Governance"
   ) +
   standard_heatmap_theme +
   theme(
     axis.text.x = element_text(size=12),
-    axis.text.y = element_text(size=12)
+    axis.text.y = element_text(size=12),
+    panel.grid = element_blank()
   )
 ggsave("figures/fig15.svg", figure_15, width=output_width, height=output_height, units=output_units, bg="white")
 figure_15

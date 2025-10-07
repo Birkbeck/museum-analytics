@@ -867,7 +867,10 @@ figure_19 <- ggplot(
     y="Reason for closure",
     x="Number of closures where reason is cited"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig19.svg", figure_19, width=output_width, height=output_height, units=output_units, bg="white")
 figure_19
 ```
@@ -882,11 +885,14 @@ figure_20 <- ggplot(
   geom_col(fill=purple) +
   geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
   labs(
-    title="What happened to collections after closure, 2000-2025",
+    title="Post-Closure Outcomes for Collections, 2000-2025",
     y="Collection outcome",
     x="Number of museums"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig20.svg", figure_20, width=output_width, height=output_height, units=output_units, bg="white")
 figure_20
 ```
@@ -901,11 +907,14 @@ figure_22 <- ggplot(
   geom_col(fill=purple) +
   geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
   labs(
-    title="How many recipients collections went to after closure, 2000-2025",
+    title="Number of Recipients for each Collection, 2000-2025",
     y="Number of recipients",
     x="Number of museums"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig22.svg", figure_22, width=output_width, height=output_height, units=output_units, bg="white")
 figure_22
 ```
@@ -921,13 +930,17 @@ figure_23 <- ggplot(
 ) +
   geom_col(fill=purple) +
   geom_text(aes(label=paste0(percentage, "%")), hjust="left", size=3) +
+  scale_y_discrete(limits=rev) +
   scale_x_continuous(limits=c(0, 50)) +
   labs(
-    title="Where did collections go after closure, 2000-2025",
+    title="Where Collections Went post-Closure, 2000-2025",
     y="Destination",
     x="Percentage of closures"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig23.svg", figure_23, width=output_width, height=output_height, units=output_units, bg="white")
 figure_23
 ```
@@ -944,11 +957,14 @@ figure_26 <- ggplot(
   geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
   scale_x_continuous(limits=c(0, 60)) +
   labs(
-    title="What happened to collections after closure, 2000-2025",
+    title="Post-Closure Outcomes for Collections, 2000-2025",
     y="Collection outcome",
     x="Percentage of local authority museums"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig26.svg", figure_26, width=output_width, height=output_height, units=output_units, bg="white")
 figure_26
 ```
@@ -965,11 +981,14 @@ figure_29 <- ggplot(
   geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
   scale_x_continuous(limits=c(0, 40)) +
   labs(
-    title="What happened to collections after closure, 2000-2025",
+    title="Post-Closure Outcomes for Collections, 2000-2025",
     y="Collection outcome",
     x="Percentage of independent museums"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig29.svg", figure_29, width=output_width, height=output_height, units=output_units, bg="white")
 figure_29
 ```
@@ -986,11 +1005,14 @@ figure_31 <- ggplot(
   geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
   scale_x_continuous(limits=c(0, 60)) +
   labs(
-    title="What happened to collections after closure, 2000-2025",
+    title="Post-Closure Outcomes for Collections, 2000-2025",
     y="Collection outcome",
     x="Percentage of private museums"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig31.svg", figure_31, width=output_width, height=output_height, units=output_units, bg="white")
 figure_31
 ```
@@ -1004,7 +1026,7 @@ figure_21 <- ggplot(
   aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
 ) +
   geom_line(alpha=0.7, aes(group=outcome_event_type)) +
-  geom_point() +
+  geom_point(aes(shape=outcome_event_type)) +
   geom_text(
     data=outcomes_over_time |> filter(period_of_closure=="2010-2014", outcome_event_type %in% important_outcomes),
     position=position_jitter(width=0.5, height=0.5, seed=123),
@@ -1013,11 +1035,12 @@ figure_21 <- ggplot(
   ) +
   scale_colour_brewer(palette="Paired") +
   guides(
-    colour="none"
+    colour="none",
+    shape="none"
   ) +
   labs(
-    title="Changing Outcomes of Museum Closure Over Time",
-    x="Year of Closure",
+    title="Changing Outcomes for Collections Over Time",
+    x="Year of closure",
     y="Percentage of museum closures",
     colour="Outcome of closure"
   ) +
@@ -1041,7 +1064,7 @@ figure_27 <- ggplot(
   aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
 ) +
   geom_line(alpha=0.7, aes(group=outcome_event_type)) +
-  geom_point() +
+  geom_point(aes(shape=outcome_event_type)) +
   geom_text(
     data=fig_27_data |> filter(period_of_closure=="2010-2014"),
     position=position_jitter(width=0.5, height=0.5, seed=123),
@@ -1050,11 +1073,12 @@ figure_27 <- ggplot(
   ) +
   scale_colour_brewer(palette="Paired") +
   guides(
-    colour="none"
+    colour="none",
+    shape="none"
   ) +
   labs(
-    title="Changing outcomes of local authority museum closure over time",
-    x="Year of Closure",
+    title="Changing Outcomes for Local Authority Collections Over Time",
+    x="Year of closure",
     y="Percentage of museum closures",
     colour="Outcome of closure"
   ) +
@@ -1065,22 +1089,9 @@ figure_27
 
 ### Figure 34
 ```{r reason-vs-subject}
-reasons_vs_subject_main <- reasons_vs_subject |>
+reasons_vs_subject_with_scale <- reasons_vs_subject |>
   filter(reason_core != "all", subject != "all") |>
   mutate(z_percent=as.numeric(scale(percentage_x)))
-all_subjects <- reasons_vs_subject |>
-  filter(subject == "all", reason_core != "all") |>
-  mutate(z_percent=as.numeric(scale(percentage_x)))
-all_reasons <- reasons_vs_subject |>
-  filter(reason_core == "all", subject != "all") |>
-  mutate(z_percent=as.numeric(scale(percentage_x)))
-all_reasons_subjects <- reasons_vs_subject |>
-  filter(reason_core == "all", subject == "all") |>
-  mutate(z_percent=NaN)
-reasons_vs_subject_with_scale <- reasons_vs_subject_main |>
-  rbind(all_subjects) |>
-  rbind(all_reasons) |>
-  rbind(all_reasons_subjects)
 figure_34 <- ggplot(
   reasons_vs_subject_with_scale |>
     mutate(
@@ -1094,7 +1105,6 @@ figure_34 <- ggplot(
     x=factor(
       subject,
       c(
-        "all",
         "archaeology",
         "arts",
         "belief & identity",
@@ -1121,7 +1131,6 @@ figure_34 <- ggplot(
     y=factor(
       reason_core,
       c(
-        "all",
         "unknown",
         "other",
         "destruction",
@@ -1142,17 +1151,15 @@ figure_34 <- ggplot(
 ) +
   geom_tile() +
   geom_text(aes(label=percentage_x), size=2.5, colour="black") +
-  geom_hline(aes(yintercept=1.5)) +
-  geom_vline(aes(xintercept=1.5)) +
   heatmap_fill_scale +
   labs(
-    title="Reasons for museum closure by subject matter",
+    title="Reasons for Museum Closure by Subject",
     x="Subject matter",
     y="Reason for closure"
   ) +
   standard_heatmap_theme +
   theme(
-    axis.text.x = element_text(size=11),
+    axis.text.x = element_text(size=11, vjust=1.1),
     axis.text.y = element_text(size=11)
   )
 ggsave("figures/fig34.svg", figure_34, width=output_width, height=output_height, units=output_units, bg="white")
@@ -1161,44 +1168,23 @@ figure_34
 
 ### Figure 35
 ```{r reason-vs-size}
-reasons_vs_size_main <- reasons_vs_size |>
+reasons_vs_size_with_scale <- reasons_vs_size |>
   filter(reason_core != "all", size != "all") |>
   mutate(z_percent=as.numeric(scale(percentage_x)))
-all_sizes <- reasons_vs_size |>
-  filter(size == "all", reason_core != "all") |>
-  mutate(z_percent=as.numeric(scale(percentage_x)))
-all_reasons <- reasons_vs_size |>
-  filter(reason_core == "all", size != "all") |>
-  mutate(z_percent=as.numeric(scale(percentage_x)))
-all_reasons_sizes <- reasons_vs_size |>
-  filter(reason_core == "all", size == "all") |>
-  mutate(z_percent=NaN)
-reasons_vs_size_with_scale <- reasons_vs_size_main |>
-  rbind(all_sizes) |>
-  rbind(all_reasons) |>
-  rbind(all_reasons_sizes)
 figure_35 <- ggplot(
-  reasons_vs_size_with_scale |>
-    mutate(
-      reason_core=ifelse(
-        reason_core == "restructure of host organisation",
-        "restructure of host org.",
-        reason_core
-      )
-    ),
+  reasons_vs_size_with_scale,
   aes(
     x=size,
     y=factor(
       reason_core,
       c(
-        "all",
         "unknown",
         "other",
         "destruction",
         "dispute",
         "collections",
         "staff",
-        "restructure of host org.",
+        "restructure of host organisation",
         "low visitor numbers",
         "strategic closure",
         "building",
@@ -1212,17 +1198,15 @@ figure_35 <- ggplot(
 ) +
   geom_tile() +
   geom_text(aes(label=percentage_x), size=2.5, colour="black") +
-  geom_hline(aes(yintercept=1.5)) +
-  geom_vline(aes(xintercept=1.5)) +
   heatmap_fill_scale +
   labs(
-    title="Reasons for museum closure by size",
-    x="Size",
+    title="Reasons for Museum Closure by Size",
+    x="Museum size",
     y="Reason for closure"
   ) +
   standard_heatmap_theme +
   theme(
-    axis.text.x = element_text(size=11),
+    axis.text.x = element_text(size=11, angle=0, hjust=0.5),
     axis.text.y = element_text(size=11)
   )
 ggsave("figures/fig35.svg", figure_35, width=output_width, height=output_height, units=output_units, bg="white")
@@ -1245,9 +1229,9 @@ figure_24 <- ggplot(
   geom_point() +
   geom_line() +
   labs(
-    title = "Time taken by closed museums to dispose of objects",
+    title = "Time Taken by Closed Museums to Dispose of Objects",
     x = "Length of disposal period (years)",
-    y = "Number of Museums"
+    y = "Number of museums"
   ) +
   standard_bars_theme +
   theme(

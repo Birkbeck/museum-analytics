@@ -269,7 +269,7 @@ governance_colours <- c(
 )
 
 title_size <- 18
-subtitle_size <- 16
+subtitle_size <- 12
 axis_title_size <- 16
 axis_text_size <- 16
 legend_title_size <- 16
@@ -629,52 +629,8 @@ all_museums_over_time <- simulate_museum_timeseries(museums, dimension="all") |>
 
 ### Figure 1
 Number of museum openings and closures in the UK 1960-2025
-```{r openings-vs-closures}
-figure_1_v_1 <- ggplot(all_museums_over_time, aes(x=year)) +
-  geom_ribbon(
-    aes(ymin=openings_lo_all, ymax=openings_hi_all),
-    fill="blue",alpha=0.3
-  ) +
-  geom_ribbon(
-    aes(ymin=closures_lo_all, ymax=closures_hi_all),
-    fill="red", alpha=0.3
-  ) +
-  geom_line(
-    aes(y=openings_all, colour="Openings"), size=1, alpha=0.7
-  ) +
-  geom_line(
-    aes(y=closures_all, colour="Closures"), size=1, alpha=0.7
-  ) +
-  scale_x_continuous(
-    expand=c(0,0),
-    limits=c(1960, 2026),
-    breaks=seq(1965, 2025, by=5),
-    minor_breaks=seq(1960, 2025, by=1)
-  ) +
-  scale_y_continuous(
-    expand=c(0,0),
-    breaks=seq(0, 120, by=20),
-    minor_breaks=seq(0, 120, by=10)
-  ) +
-  scale_colour_manual(
-    name="",
-    values=c("Openings"="blue", "Closures"="red")
-  ) +
-  guides(colour=guide_legend(reverse=TRUE)) +
-  labs(
-    title = "Museum openings and closures (1960-2025)",
-    subtitle = "with 95% confidence intervals",
-    y = "Number of openings/closures",
-    x = "Year"
-  ) +
-  theme_minimal() +
-  theme(legend.position=c(0.85, 0.9))
-#ggsave("figures/fig01v1.svg", figure_1_v_1, width=output_width, height=output_height, units=output_units, bg="white")
-figure_1_v_1
-```
-
 ```{r openings-vs-closures-smooth}
-figure_1_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
+figure_1 <- ggplot(all_museums_over_time, aes(x=year)) +
   geom_smooth(
     aes(y=openings_all, color="Openings"),
     method="loess",
@@ -691,7 +647,7 @@ figure_1_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
     expand=c(0,0),
     limits=c(1960, 2026),
     breaks=seq(1965, 2025, by=5),
-    minor_breaks=seq(1960, 2025, by=1)
+    minor_breaks=seq(1960, 2025, by=5)
   ) +
   scale_y_continuous(
     expand=c(0,0),
@@ -705,64 +661,20 @@ figure_1_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
   ) +
   guides(colour=guide_legend(reverse=TRUE)) +
   labs(
-    title = "Museum openings and closures (LOESS-smoothed), 1960-2025",
-    y = "Number of openings/closures",
+    title = "Museum Openings and Closures (LOESS-smoothed), 1960-2025",
+    y = "Number of museum openings/closures",
     x = "Year"
   ) +
   theme_minimal() +
   theme(legend.position=c(0.85, 0.9))
-ggsave("figures/fig01.svg", figure_1_v_2, width=output_width, height=output_height, units=output_units, bg="white")
-figure_1_v_2
+ggsave("figures/fig01.svg", figure_1, width=output_width, height=output_height, units=output_units, bg="white")
+figure_1
 ```
 
 ### Figure 2
 Rate of museum openings and closures in the UK 1960-2025
-```{r opening-vs-closure-rate}
-figure_2_v_1 <- ggplot(all_museums_over_time, aes(x=year)) +
-  geom_ribbon(
-    aes(ymin=opening_rate_lo_all, ymax=opening_rate_hi_all),
-    fill="blue",alpha=0.3
-  ) +
-  geom_ribbon(
-    aes(ymin=closure_rate_lo_all, ymax=closure_rate_hi_all),
-    fill="red", alpha=0.3
-  ) +
-  geom_line(
-    aes(y=opening_rate_all, colour="Opening rate"), size=1, alpha=0.7
-  ) +
-  geom_line(
-    aes(y=closure_rate_all, colour="Closure rate"), size=1, alpha=0.7
-  ) +
-  scale_x_continuous(
-    expand=c(0,0),
-    limits=c(1960, 2026),
-    breaks=seq(1965, 2025, by=5),
-    minor_breaks=seq(1960, 2025, by=1)
-  ) +
-  scale_y_continuous(
-    expand=c(0,0),
-    breaks=seq(0, 7, by=1),
-    minor_breaks=seq(0, 7, by=0.5)
-  ) +
-  scale_colour_manual(
-    name="",
-    values=c("Opening rate"="blue", "Closure rate"="red")
-  ) +
-  guides(colour=guide_legend(reverse=TRUE)) +
-  labs(
-    title = "Museum opening and closure rates (1960-2025)",
-    subtitle = "with 95% confidence intervals",
-    y = "Openings/Closures per 100 existing museums",
-    x = "Year"
-  ) +
-  theme_minimal() +
-  theme(legend.position=c(0.85, 0.9))
-#ggsave("figures/fig02v1.svg", figure_2_v_1, width=output_width, height=output_height, units=output_units, bg="white")
-figure_2_v_1
-```
-
 ```{r openings-vs-closures-rate-smooth}
-figure_2_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
+figure_2 <- ggplot(all_museums_over_time, aes(x=year)) +
   geom_smooth(
     aes(y=opening_rate_all, color="Opening rate"),
     method="loess",
@@ -779,13 +691,13 @@ figure_2_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
     expand=c(0,0),
     limits=c(1960, 2026),
     breaks=seq(1965, 2025, by=5),
-    minor_breaks=seq(1960, 2025, by=1)
+    minor_breaks=seq(1960, 2025, by=5)
   ) +
   scale_y_continuous(
     expand=c(0,0),
-    limits=c(0,7),
-    breaks=seq(0, 7, by=1),
-    minor_breaks=seq(0, 7, by=0.5)
+    limits=c(0,6),
+    breaks=seq(0, 6, by=1),
+    minor_breaks=seq(0, 6, by=0.5)
   ) +
   scale_colour_manual(
     name="",
@@ -793,71 +705,20 @@ figure_2_v_2 <- ggplot(all_museums_over_time, aes(x=year)) +
   ) +
   guides(colour=guide_legend(reverse=TRUE)) +
   labs(
-    title = "Museum opening and closure rates (LOESS-smoothed), 1960-2025",
-    y = "Openings/Closures per 100 existing museums",
+    title = "Museum Opening and Closure Rates (LOESS-smoothed), 1960-2025",
+    y = "Openings/closures per 100 existing museums",
     x = "Year"
   ) +
   theme_minimal() +
   theme(legend.position=c(0.85, 0.9))
-ggsave("figures/fig02.svg", figure_2_v_2, width=output_width, height=output_height, units=output_units, bg="white")
-figure_2_v_2
+ggsave("figures/fig02.svg", figure_2, width=output_width, height=output_height, units=output_units, bg="white")
+figure_2
 ```
 
 ### Figure 5
 Rates of closure for independent, local authority, and private museums in the UK 2000-25
-```{r closure-rates-governance}
-figure_5_v_1 <- ggplot(
-  governance_over_time |>
-    filter(
-      governance_broad %in% c("local authority", "independent", "private")
-    ),
-  aes(x=year, group=governance_broad)
-) +
-  geom_ribbon(
-    aes(
-      ymin=closure_rate_lo,
-      ymax=closure_rate_hi,
-      fill=governance_broad
-    ),
-    alpha=0.3
-  ) +
-  geom_line(
-    aes(y=closure_rate, colour=governance_broad), size=1, alpha=0.7
-  ) +
-  scale_x_continuous(
-    expand=c(0,0),
-    limits=c(1999, 2026),
-    breaks=seq(1965, 2025, by=5),
-    minor_breaks=seq(1960, 2025, by=1)
-  ) +
-  scale_y_continuous(
-    expand=c(0,0),
-    breaks=seq(0, 7, by=1),
-    minor_breaks=seq(0, 7, by=0.5)
-  ) +
-  scale_colour_manual(
-    name="",
-    values=governance_colours
-  ) +
-  scale_fill_manual(
-    name="",
-    values=governance_colours
-  ) +
-  guides(colour=guide_legend(reverse=TRUE), fill=FALSE) +
-  labs(
-    title = "Museum opening and closure rates (2000-2025), selected governance types",
-    subtitle = "with 95% confidence intervals",
-    y = "Closures per 100 existing museums",
-    x = "Year"
-  ) +
-  theme_minimal() +
-  theme(legend.position=c(0.8, 0.9))
-#ggsave("figures/fig05v1.svg", width=output_width, height=output_height, units=output_units, bg="white")
-figure_5_v_1
-```
-
 ```{r closure-rates-governance-smooth}
-figure_5_v_2 <- ggplot(
+figure_5 <- ggplot(
   governance_over_time |>
     filter(
       governance_broad %in% c("local authority", "independent", "private")
@@ -892,21 +753,20 @@ figure_5_v_2 <- ggplot(
   ) +
   guides(colour=guide_legend(reverse=TRUE), fill=FALSE) +
   labs(
-    title = "Museum closure rates (LOESS-smoothed), 2000-2025, selected governance types",
-    subtitle = "with 95% confidence intervals",
+    title = "Museum Closure Rates (LOESS-smoothed), 2000-2025, Selected Governance Types",
     y = "Closures per 100 existing museums",
     x = "Year"
   ) +
   theme_minimal() +
   theme(legend.position=c(0.8, 0.9))
-ggsave("figures/fig05.svg", figure_5_v_2, width=output_width, height=output_height, units=output_units, bg="white")
-figure_5_v_2
+ggsave("figures/fig05.svg", figure_5, width=output_width, height=output_height, units=output_units, bg="white")
+figure_5
 ```
 
 ### Figure 16
 The year of foundation of museums open in the UK in 2000, the colour blocks indicate five-year intervals
 ```{r founding-year-histogram-2000}
-figure_16_v_1 <- ggplot(
+figure_16 <- ggplot(
   museums |>
     filter(is.na(year_closed_sampled) | year_closed_sampled > 2000, year_opened_2 < 2000),
   aes(
@@ -915,48 +775,25 @@ figure_16_v_1 <- ggplot(
 ) +
   geom_histogram(binwidth=5, boundary=2000, closed="left", fill="#004D40", alpha=0.7) +
   scale_x_continuous(
-    breaks=seq(1600, 2000, 50),
-    minor_breaks=seq(1600, 2000, 10),
-    limits=c(1600, 2000)
-  ) +
-  labs(
-    title="Founding year of museums open in 2000",
-    y="Number of museums",
-    x="Founding year"
-  ) +
-  standard_bars_theme
-ggsave("figures/fig16.svg", figure_16_v_1, width=output_width, height=output_height, units=output_units, bg="white")
-figure_16_v_1
-```
-
-```{r founding-year-histogram-2000-shortened}
-figure_16_v_2 <- ggplot(
-  museums |>
-    filter(is.na(year_closed_sampled) | year_closed_sampled > 2000, year_opened_2 < 2000),
-  aes(
-    x=year_opened_sampled
-  )
-) +
-  geom_histogram(binwidth=5, boundary=2000, closed="left", fill="#004D40", alpha=0.7) +
-  scale_x_continuous(
-    breaks=seq(1600, 2000, 50),
-    minor_breaks=seq(1600, 2000, 10),
+    breaks=seq(1800, 2000, 50),
+    minor_breaks=seq(1800, 2000, 10),
     limits=c(1800, 2000)
   ) +
   labs(
-    title="Founding year of museums open in 2000",
+    title="Founding Year of Museums Open in 2000",
+    subtitle="Excluding pre-1800 museums",
     y="Number of museums",
     x="Founding year"
   ) +
   standard_bars_theme
-#ggsave("figures/fig16v2.svg", width=output_width, height=output_height, units=output_units, bg="white")
-figure_16_v_2
+ggsave("figures/fig16.svg", figure_16, width=output_width, height=output_height, units=output_units, bg="white")
+figure_16
 ```
 
 ### Figure 17
 The year of foundation of museums open in the UK in 2025 grouped by five-year intervals
 ```{r founding-year-histogram-2025}
-figure_17_v_1 <- ggplot(
+figure_17 <- ggplot(
   museums |>
     filter(is.na(year_closed_sampled)),
   aes(
@@ -965,42 +802,19 @@ figure_17_v_1 <- ggplot(
 ) +
   geom_histogram(binwidth=5, boundary=2025, closed="left", fill="#004D40", alpha=0.7) +
   scale_x_continuous(
-    breaks=seq(1600, 2025, 50),
-    minor_breaks=seq(1600, 2025, 10),
-    limits=c(1600, 2025)
-  ) +
-  labs(
-    title="Founding year of museums open in 2025",
-    y="Number of museums",
-    x="Founding year"
-  ) +
-  standard_bars_theme
-ggsave("figures/fig17.svg", figure_17_v_1, width=output_width, height=output_height, units=output_units, bg="white")
-figure_17_v_1
-```
-
-```{r founding-year-histogram-2025-shortened}
-figure_17_v_2 <- ggplot(
-  museums |>
-    filter(is.na(year_closed_sampled)),
-  aes(
-    x=year_opened_sampled
-  )
-) +
-  geom_histogram(binwidth=5, boundary=2025, closed="left", fill="#004D40", alpha=0.7) +
-  scale_x_continuous(
-    breaks=seq(1600, 2025, 50),
-    minor_breaks=seq(1600, 2025, 10),
+    breaks=seq(1800, 2025, 50),
+    minor_breaks=seq(1800, 2025, 10),
     limits=c(1800, 2025)
   ) +
   labs(
-    title="Founding year of museums open in 2025",
+    title="Founding Year of Museums Open in 2025",
+    subtitle="Excluding pre-1800 museums",
     y="Number of museums",
     x="Founding year"
   ) +
   standard_bars_theme
-#ggsave("figures/fig17v2.svg", width=output_width, height=output_height, units=output_units, bg="white")
-figure_17_v_2
+ggsave("figures/fig17.svg", figure_17, width=output_width, height=output_height, units=output_units, bg="white")
+figure_17
 ```
 ### Figure 18
 ```{r hazard-by-age-group}
@@ -1102,10 +916,14 @@ figure_18 <- ggplot(haz_by_band_ci |> filter(!is.na(age_band)), aes(age_band, ha
   labs(
     x = "Age (years)",
     y = paste0("Closures per ", scale_factor, " museum-years"),
-    title = "Closure hazard by age band with 95% Poisson Confidence Intervals"
+    title = "Closure Hazard by Age with 95% Confidence Intervals"
   ) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
 ggsave("figures/fig18.svg", figure_18, width=output_width, height=output_height, units=output_units, bg="white")
 figure_18
 ```

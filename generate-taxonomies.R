@@ -19,7 +19,7 @@ taxonomy_theme <- theme(
   legend.key = element_rect(fill="white")
 )
 
-dispersal_events_csv <- "data/query_results/dispersal_events.csv"
+dispersal_events_csv <- "data/closure_data/dispersal_events.csv"
 dispersal_events <- read_csv(dispersal_events_csv) |>
   mutate(
     initial_museum_all = "All",

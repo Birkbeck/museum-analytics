@@ -546,11 +546,15 @@ figure_25 <- ggplot(
   geom_text(aes(label=paste0(percentage, "%")), hjust="left", nudge_x=1, size=3) +
   scale_x_continuous(limits=c(0, 45)) +
   labs(
-    title="Transfers, sales, and loans from closed museums by recipient type 2000-2025",
+    title="Post-Closure Transfers, Sales, and Loans by Recipient 2000-2025",
     y="Recipient type",
     x="Percentage of recorded transactions"
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    axis.text.y = element_text(size=11),
+    panel.grid.major.y = element_blank()
+  )
 ggsave("figures/fig25.svg", figure_25, width=output_width, height=output_height, units=output_units, bg="white")
 figure_25
 ```

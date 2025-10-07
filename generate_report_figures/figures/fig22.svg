@@ -33,14 +33,6 @@
 <polyline points='278.17,211.94 278.17,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='354.83,211.94 354.83,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='431.48,211.94 431.48,27.85 ' style='stroke-width: 0.53; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,198.47 490.58,198.47 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,176.02 490.58,176.02 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,153.57 490.58,153.57 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,131.12 490.58,131.12 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,108.67 490.58,108.67 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,86.22 490.58,86.22 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,63.77 490.58,63.77 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
-<polyline points='67.29,41.32 490.58,41.32 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='86.53,211.94 86.53,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='163.18,211.94 163.18,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='239.84,211.94 239.84,27.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' />
@@ -81,6 +73,6 @@
 <text x='469.81' y='228.35' text-anchor='middle' style='font-size: 16.00px;fill: #4D4D4D; font-family: "Arial";' textLength='26.70px' lengthAdjust='spacingAndGlyphs'>250</text>
 <text x='278.94' y='246.10' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='148.49px' lengthAdjust='spacingAndGlyphs'>Number of museums</text>
 <text transform='translate(16.96,119.90) rotate(-90)' text-anchor='middle' style='font-size: 16.00px; font-family: "Arial";' textLength='147.61px' lengthAdjust='spacingAndGlyphs'>Number of recipients</text>
-<text x='67.29' y='18.39' style='font-size: 18.00px; font-family: "Arial";' textLength='519.23px' lengthAdjust='spacingAndGlyphs'>How many recipients collections went to after closure, 2000-2025</text>
+<text x='67.29' y='18.39' style='font-size: 18.00px; font-family: "Arial";' textLength='423.19px' lengthAdjust='spacingAndGlyphs'>Number of Recipients for each Collection, 2000-2025</text>
 </g>
 </svg>
