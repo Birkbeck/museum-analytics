@@ -687,7 +687,7 @@ write_xlsx(
         opening_rate
       )
   ),
-  "tables/changes_2000-2025.xlsx"
+  "../data/report_data_01_08_2025/changes_2000-2025.xlsx"
 )
 ```
 

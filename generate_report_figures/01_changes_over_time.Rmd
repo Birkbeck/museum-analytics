@@ -1127,6 +1127,6 @@ write_xlsx(
     "Museums over time 1960-2025"=all_museums_over_time,
     "hazard by age 2000-2025"=hazard_table
   ),
-  "tables/museums-over-time.xlsx"
+  "../data/report_data_01_08_2025/museums-over-time.xlsx"
 )
 ```

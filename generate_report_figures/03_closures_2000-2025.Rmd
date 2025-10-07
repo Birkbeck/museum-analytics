@@ -840,7 +840,7 @@ write_xlsx(
       rename(collection_outcome=outcome_event_type),
     "Closure Lengths"=closure_lengths_summary
   ),
-  "tables/closures_2000-2025.xlsx"
+  "../data/report_data_01_08_2025/closures_2000-2025.xlsx"
 )
 ```
 

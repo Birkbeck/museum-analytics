@@ -523,7 +523,7 @@ write_xlsx(
     "Data Dictionary"=read_csv("dictionaries/data_dictionary_transactions.csv"),
     "initial transactions"=transactions |> select(-recipient_core_type, -collection_status, -event_id, -event_core_type)
   ),
-  "tables/transactions.xlsx"
+  "../data/report_data_01_08_2025/transactions.xlsx"
 )
 ```
 
