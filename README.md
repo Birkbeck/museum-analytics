@@ -12,7 +12,7 @@ The creation of the tools in this repository is described in the paper: Wright, 
 
 ## Data
 
-The `data` directory contains data concerning museums in the UK, closures that took place between 2000 and 2025, and the flows of objects away from those museums.
+The `data` directory contains data concerning museums in the UK, closures that took place between 2000 and 2025, and the flows of objects away from those museums. This data is contained comprehensively within the [`closure_data`](data/closure_data) directory.
 
 The data includes a CSV dump of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used to generate a Neo4j database. The directory also contains CSV dumps from that database and summary tables used in the creation of a report.
 
