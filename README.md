@@ -1,4 +1,4 @@
-# Museum Object Flows
+# Museum Closure in the UK 2000-2025
 
 This repository contains data and software tools collected and developed in a research project covering museum closure in the UK between 2000 and 2025 and the flows of objects away from those museums.
 
