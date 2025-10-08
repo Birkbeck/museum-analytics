@@ -57,13 +57,19 @@ The actors sheet contains the following columns:
 
 | **Column**        | **Description**                                                                                   |
 |--------------------|---------------------------------------------------------------------------------------------------|
-| Actor ID           | A unique identifier for the actor.                                                               |
-| Actor name         | The actor's name.                                                                                |
-| Actor quantity     | How many entities this actor represents.                                                         |
-| Actor type         | A type from the actor types hierarchy.                                                           |
-| Actor sector       | Which sector of the economy the actor belongs to.                                                |
-| Museum ID          | If the actor is a UK museum, its ID in the Mapping Museums database.                             |
-| Address fields     | The address of the actor, including street, city, postcode, country.                             |
+| actor_id           | A unique identifier for the actor.                                                               |
+| actor_name | The actor's name.                                                                                |
+| actor_type         | A type from the actor types hierarchy.                                                           |
+| actor_sector       | Which sector of the economy the actor belongs to.                                                |
+| mm_id          | If the actor is a UK museum, its ID in the Mapping Museums database.                             |
+| actor_address_1    | The address of the actor                             |
+| actor_address_2    | The address of the actor                             |
+| actor_town_city    | The address of the actor                             |
+| actor_county    | The address of the actor                             |
+| actor_postcode    | The address of the actor                             |
+| actor_country | The address of the actor                             |
+| actor_location | The address of the actor                             |
+| actor_note | Additional notes relating to the actor                             |
 
 ### The Event Types Hierarchy
 
