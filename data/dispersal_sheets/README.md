@@ -77,11 +77,14 @@ The event types sheet contains the following columns:
 
 | **Column**              | **Description**                                                                    |
 |--------------------------|-----------------------------------------------------------------------------------|
-| Type name               | A descriptive name for the type.                                                   |
-| Sub-type of             | The name of this type's super-type.                                                |
-| Change of ownership?    | True if this type involves a transfer of legal ownership, false otherwise.         |
-| Change of custody?      | True if this type involves a change of location, false otherwise.                  |
-| End of existence?       | True if this type results in an object no longer existing, false otherwise.        |
+| type_name               | A descriptive name for the type.                                                   |
+| sub_type_of             | The name of this type's super-type.                                                |
+| is_core_category             | True if this type should be used by default in analysis (it is neither too specific nor too general).                                               |
+| change_of_ownership    | True if this type is assumed to involve a transfer of legal ownership, false otherwise.         |
+| change_of_custody      | True if this type is assumed to involve a change of location, false otherwise.                  |
+| end_of_existence       | True if this type is assumed to result in an object no longer existing, false otherwise.        |
+| contributes_to_length_calculation | True if events of this type contribute to calculation of a museum's length of time dispersing objects        |
+| definition | The definition of the type |
 
 ### The Actor Types Hierarchy
 
@@ -89,9 +92,9 @@ The actor types sheet contains the following columns:
 
 | **Column**       | **Description**                                                                      |
 |-------------------|-------------------------------------------------------------------------------------|
-| Type name         | A descriptive name for the type.                                                    |
-| Sub-type of       | The name of this type's super-type.                                                 |
-| Core category?    | True if this type is a core category, false otherwise.                              |
+| type_name         | A descriptive name for the type.                                                    |
+| sub_type_of       | The name of this type's super-type.                                                 |
+| is_core_category    | True if this type is a core category, false otherwise.                              |
 
 ### The Default Recipient Types Sheet
 
@@ -99,8 +102,8 @@ The default recipient types sheet matches event types with default recipient act
 
 | **Column**             | **Description**                                                                  |
 |------------------------|----------------------------------------------------------------------------------|
-| Event type             | The name of the event type.                                                      |
-| Default recipient type | The name of this actor type that recipients are assumed by default to belong to. |
+| event_type             | The name of the event type.                                                      |
+| default_recipient_type | The name of this actor type that recipients are assumed by default to belong to. |
 
 ### The Closure Causes Hierarchy
 
@@ -108,7 +111,7 @@ The closure causes hierarchy maps unstructured notes in the SuperEvent Causes fi
 
 | **Column**             | **Description**                                                                          |
 |------------------------|------------------------------------------------------------------------------------------|
-| super cause text       | Text as it appears in the SuperEvent causes column.                                      |
-| cause                  | The type from the lowest level in the closure causes hierarchy that they text maps onto. |
-| cause type             | The type from the mid-level of the closure causes hierarchy.                             |
-| cause super type       | The type from the top-level of the closure causes hierarchy.                             |
+| super_cause_text       | Text as it appears in the super_causes column.                                      |
+| cause                  | The type from the lowest level in the closure causes hierarchy that the text maps onto. |
+| cause_type             | The type from the mid-level of the closure causes hierarchy.                             |
+| cause_super_type       | The type from the top-level of the closure causes hierarchy.                             |
