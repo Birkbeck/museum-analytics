@@ -28,7 +28,7 @@ The events sheet contains the following columns:
 | coll_wiki_instance  | A semi-colon separated list of names of Wikidata resources of specific individual objects                                       |
 | coll_wiki_instance_url  | A semi-colon separated list of Wikidata resources of specific individual objects                                       |
 | coll_desc | A textual description of the collection                                                        |
-| coll_status    | Whether the museum is part of the museum collection (blank) ; a loan (L); handling objects(H); or museum furniture (F)|
+| coll_status    | Whether the museum is part of the museum collection (blank or C) ; a loan (L); handling objects(H); or miscellaneous items such as museum furniture (M)|
 | collection_id        | A unique identifier for the collection or object.                                                 |
 | coll_subset_of         | The ID of a super-collection that this collection was removed from                                |
 | coll_contains            | The ID of a collection that is contained within this collection but has not been removed from it  |
