@@ -1,8 +1,8 @@
 {
     "credentials_file": "credentials.json",
-    "dispersal_sheet_file": "../data/dispersal-sheet-2025-07-24.xlsx",
-    "dispersal_sheet_anon": "../data/dispersal-sheet-anonymized.xlsx",
-    "mapping_museums_file": "../data/mm-data-dump-adjusted-2025-07-28.csv",
+    "dispersal_sheet_file": "../data/dispersal_sheets/dispersal-sheet-2025-07-24.xlsx",
+    "dispersal_sheet_anon": "../data/dispersal_sheets/dispersal-sheet-anonymized.xlsx",
+    "mapping_museums_file": "../data/mapping_museums_data/mm-data-dump-2025-07-28.csv",
     "sheets": {
 	"actor types": {
 	    "file": "",
@@ -25,7 +25,7 @@
 	    "sheet": "closure-causes-hierarchy"
 	},
 	"museums": {
-	    "file": "../data/mapping-museums-data.csv",
+	    "file": "../data/mapping_museums_data/mapping-museums-data.csv",
 	    "sheet": ""
 	},
 	"actors": {

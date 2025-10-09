@@ -1,0 +1,178 @@
+type_name,sub_type_of,is_core
+low visitor numbers,,TRUE
+financial,,TRUE
+loss of premises,,TRUE
+life events,,TRUE
+strategic closure,,TRUE
+building,,TRUE
+collections,,TRUE
+restructure of host organisation,,TRUE
+unknown,,TRUE
+destruction,,TRUE
+other,,TRUE
+staff,,TRUE
+dispute,,TRUE
+low visitor numbers - other,low visitor numbers,FALSE
+financial - funding cut,financial,FALSE
+loss of premises - change of use,loss of premises,FALSE
+loss of premises - redevelopment,loss of premises,FALSE
+financial - costs,financial,FALSE
+life events - retirement,life events,FALSE
+strategic closure - replacement museum,strategic closure,FALSE
+life events - owner moved house,life events,FALSE
+life events - death,life events,FALSE
+building - other,building,FALSE
+building - condition of building,building,FALSE
+collections - collection damaged,collections,FALSE
+building - health and safety,building,FALSE
+building - unsuitable,building,FALSE
+restructure of host organisation - relocation,restructure of host organisation,FALSE
+loss of premises - other,loss of premises,FALSE
+strategic closure - amalgamation,strategic closure,FALSE
+unknown - other,unknown,FALSE
+destruction - building destroyed,destruction,FALSE
+financial - insolvency,financial,FALSE
+life events - illness,life events,FALSE
+loss of premises - sold,loss of premises,FALSE
+other - unwanted by heritage organisations,other,FALSE
+other - other,other,FALSE
+staff - disagreement,staff,FALSE
+staff - insufficient staff,staff,FALSE
+strategic closure - seeking new premises,strategic closure,FALSE
+loss of premises - legal,loss of premises,FALSE
+financial - other,financial,FALSE
+financial - mismanagement,financial,FALSE
+strategic closure - premises not required,strategic closure,FALSE
+other - collection not insured,other,FALSE
+dispute - unable to agree lease terms,dispute,FALSE
+dispute - disagreement,dispute,FALSE
+other - location no longer suitable,other,FALSE
+restructure of host organisation - change in corporate priorities,restructure of host organisation,FALSE
+building - building maintenance issues,building,FALSE
+restructure of host organisation - local authority reorganisation,restructure of host organisation,FALSE
+other - reverted to private use,other,FALSE
+life events - too much work,life events,FALSE
+restructure of host organisation - co-occupant leaves,restructure of host organisation,FALSE
+strategic closure - other,strategic closure,FALSE
+collections - theft,collections,FALSE
+life events - imprisonment of owner,life events,FALSE
+financial - recession,financial,FALSE
+other - change of management within local authority,other,FALSE
+collections - lender requested return of loans,collections,FALSE
+other - already running another museum,other,FALSE
+life events - divorce,life events,FALSE
+other - nearby businesses closed,other,FALSE
+life events - too far away for owners,life events,FALSE
+life events - owner's age,life events,FALSE
+other - return of management to local authority,other,FALSE
+collections - collection repurposed,collections,FALSE
+other - theft,other,FALSE
+staff - area unsafe for staff,staff,FALSE
+restructure of host organisation - regimental reorganisation,restructure of host organisation,FALSE
+other - loss of perceived value,other,FALSE
+dispute - access refused by host organisation,dispute,FALSE
+other - never fully established as a museum,other,FALSE
+other - associated business sold,other,FALSE
+financial - managing trust disposing of liabilities,financial,FALSE
+life events - owners in dispute,life events,FALSE
+restructure of host organisation - merger of fire services,restructure of host organisation,FALSE
+low visitor numbers - other - other,low visitor numbers - other,FALSE
+financial - funding cut - external funding cut,financial - funding cut,FALSE
+loss of premises - change of use - space repurposed,loss of premises - change of use,FALSE
+loss of premises - redevelopment - redevelopment of site,loss of premises - redevelopment,FALSE
+financial - funding cut - local authority funding cut,financial - funding cut,FALSE
+financial - costs - other,financial - costs,FALSE
+life events - retirement - retirement of owner,life events - retirement,FALSE
+strategic closure - replacement museum - other,strategic closure - replacement museum,FALSE
+loss of premises - change of use - other,loss of premises - change of use,FALSE
+life events - owner moved house - other,life events - owner moved house,FALSE
+life events - death - death of owner,life events - death,FALSE
+building - other - other,building - other,FALSE
+building - condition of building - deterioration,building - condition of building,FALSE
+collections - collection damaged - infestation,collections - collection damaged,FALSE
+building - health and safety - other,building - health and safety,FALSE
+financial - costs - low revenue,financial - costs,FALSE
+building - unsuitable - other,building - unsuitable,FALSE
+financial - costs - unsustainable,financial - costs,FALSE
+restructure of host organisation - relocation - other,restructure of host organisation - relocation,FALSE
+loss of premises - other - other,loss of premises - other,FALSE
+strategic closure - amalgamation - other,strategic closure - amalgamation,FALSE
+unknown - other - other,unknown - other,FALSE
+destruction - building destroyed - fire,destruction - building destroyed,FALSE
+financial - insolvency - other,financial - insolvency,FALSE
+life events - illness - other,life events - illness,FALSE
+loss of premises - sold - other,loss of premises - sold,FALSE
+other - unwanted by heritage organisations - other,other - unwanted by heritage organisations,FALSE
+other - other - other,other - other,FALSE
+staff - disagreement - other,staff - disagreement,FALSE
+staff - insufficient staff - other,staff - insufficient staff,FALSE
+staff - insufficient staff - no volunteers,staff - insufficient staff,FALSE
+building - unsuitable - access,building - unsuitable,FALSE
+life events - death - death of founder,life events - death,FALSE
+strategic closure - seeking new premises - other,strategic closure - seeking new premises,FALSE
+loss of premises - legal - lease expired,loss of premises - legal,FALSE
+financial - other - other,financial - other,FALSE
+building - unsuitable - facilities,building - unsuitable,FALSE
+financial - mismanagement - other,financial - mismanagement,FALSE
+strategic closure - premises not required - other,strategic closure - premises not required,FALSE
+life events - retirement - retirement of staff,life events - retirement,FALSE
+financial - funding cut - mod funding cut,financial - funding cut,FALSE
+building - condition of building - damp,building - condition of building,FALSE
+other - collection not insured - other,other - collection not insured,FALSE
+dispute - unable to agree lease terms - other,dispute - unable to agree lease terms,FALSE
+dispute - disagreement - other,dispute - disagreement,FALSE
+staff - insufficient staff - museum service stretched,staff - insufficient staff,FALSE
+other - location no longer suitable - other,other - location no longer suitable,FALSE
+financial - costs - lease cost,financial - costs,FALSE
+building - condition of building - asbestos,building - condition of building,FALSE
+loss of premises - redevelopment - redevelopment of building,loss of premises - redevelopment,FALSE
+loss of premises - redevelopment - other,loss of premises - redevelopment,FALSE
+restructure of host organisation - change in corporate priorities - other,restructure of host organisation - change in corporate priorities,FALSE
+building - building maintenance issues - other,building - building maintenance issues,FALSE
+restructure of host organisation - local authority reorganisation - other,restructure of host organisation - local authority reorganisation,FALSE
+building - unsuitable - too small,building - unsuitable,FALSE
+financial - costs - building costs,financial - costs,FALSE
+other - reverted to private use - other,other - reverted to private use,FALSE
+life events - too much work - other,life events - too much work,FALSE
+financial - costs - deficit,financial - costs,FALSE
+restructure of host organisation - co-occupant leaves - other,restructure of host organisation - co-occupant leaves,FALSE
+strategic closure - other - other,strategic closure - other,FALSE
+financial - funding cut - host organisation funding cut,financial - funding cut,FALSE
+financial - costs - insurance,financial - costs,FALSE
+collections - theft - other,collections - theft,FALSE
+life events - death - death of staff,life events - death,FALSE
+life events - imprisonment of owner - other,life events - imprisonment of owner,FALSE
+financial - funding cut - ace funding cut,financial - funding cut,FALSE
+financial - funding cut - other,financial - funding cut,FALSE
+destruction - building destroyed - arson,destruction - building destroyed,FALSE
+financial - recession - other,financial - recession,FALSE
+staff - insufficient staff - no succession,staff - insufficient staff,FALSE
+destruction - building destroyed - other,destruction - building destroyed,FALSE
+other - change of management within local authority - other,other - change of management within local authority,FALSE
+collections - lender requested return of loans - other,collections - lender requested return of loans,FALSE
+other - already running another museum - other,other - already running another museum,FALSE
+financial - funding cut - shopping centre withdrew subsidy,financial - funding cut,FALSE
+life events - divorce - other,life events - divorce,FALSE
+loss of premises - legal - eviction,loss of premises - legal,FALSE
+other - nearby businesses closed - other,other - nearby businesses closed,FALSE
+life events - too far away for owners - other,life events - too far away for owners,FALSE
+life events - owner's age - other,life events - owner's age,FALSE
+loss of premises - legal - other,loss of premises - legal,FALSE
+other - return of management to local authority - other,other - return of management to local authority,FALSE
+collections - collection repurposed - other,collections - collection repurposed,FALSE
+other - theft - other,other - theft,FALSE
+staff - area unsafe for staff - other,staff - area unsafe for staff,FALSE
+restructure of host organisation - regimental reorganisation - other,restructure of host organisation - regimental reorganisation,FALSE
+financial - funding cut - charity lost funding,financial - funding cut,FALSE
+financial - funding cut - museums scotland funding cut,financial - funding cut,FALSE
+financial - funding cut - dfe funding cut,financial - funding cut,FALSE
+building - unsuitable - poor environmental conditions,building - unsuitable,FALSE
+other - loss of perceived value - other,other - loss of perceived value,FALSE
+financial - funding cut - university cost cutting,financial - funding cut,FALSE
+dispute - access refused by host organisation - other,dispute - access refused by host organisation,FALSE
+other - never fully established as a museum - other,other - never fully established as a museum,FALSE
+other - associated business sold - other,other - associated business sold,FALSE
+financial - managing trust disposing of liabilities - other,financial - managing trust disposing of liabilities,FALSE
+life events - owners in dispute - other,life events - owners in dispute,FALSE
+building - condition of building - other,building - condition of building,FALSE
+restructure of host organisation - merger of fire services - other,restructure of host organisation - merger of fire services,FALSE

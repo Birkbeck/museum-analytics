@@ -1,0 +1,11 @@
+initial_museum_id,Mapping Museums identifier of the sending museum in the transaction
+initial_museum_name,Name of the sending museum
+initial_museum_governance,Governance category of the sending museum
+initial_museum_size,Size category of the sending museum
+initial_museum_subject,Broad subject-matter category of the sending museum
+event_type,Type of transaction event
+recipient_sector,Economic sector of the recipient
+recipient_type,Actor type of the recipient
+recipient_governance,Governance of the recipient if the recipient is a known museum; blank otherwise
+collection_types,Comma-separated list of Wikidata collection types describing the contents transferred
+collection_size,Extent of the collection transferred as a proportion of the museum’s total collection (all; most; half; some; few)

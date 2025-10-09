@@ -1,0 +1,1240 @@
+---
+title: "Report Data and Figures"
+output: html_notebook
+---
+
+```{r libraries}
+library(tidyverse)
+library(writexl)
+
+museum_attribute_ordering <- c(
+  "all",
+  # size
+  "unknown size",
+  "small",
+  "medium",
+  "large",
+  "huge",
+  # governance
+  "unknown governance",
+  "private",
+  "independent",
+  "Historic Environment Scotland",
+  "National Trust for Scotland",
+  "National Trust",
+  "English Heritage",
+  "not-for-profit",
+  "university",
+  "other government",
+  "local authority",
+  "national",
+  # region/country
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "England",
+  "North East",
+  "North West",
+  "Yorks & Humber",
+  "East Midlands",
+  "West Midlands",
+  "East of England",
+  "London",
+  "South East",
+  "South West",
+  # accreditation
+  "unaccredited",
+  "accredited",
+  # subject
+  "other",
+  "mixed: other",
+  "mixed: encyclopaedic",
+  "mixed: bygones",
+  "mixed",
+  "war & conflict: other",
+  "war & conflict: regiment",
+  "war & conflict: navy",
+  "war & conflict: military",
+  "war & conflict: event or site",
+  "war & conflict: castles & forts",
+  "war & conflict: bunker",
+  "war & conflict: airforce",
+  "war & conflict",
+  "utilities: water & waste",
+  "utilities: gas & electricity",
+  "utilities",
+  "transport: other",
+  "transport: mixed",
+  "transport: trains & railways",
+  "transport: cars & motorbikes",
+  "transport: canals",
+  "transport: buses & trams",
+  "transport: bicycles",
+  "transport: aviation",
+  "transport",
+  "services: other",
+  "services: rnli",
+  "services: police",
+  "services: fire",
+  "services",
+  "sea & seafaring: other",
+  "sea & seafaring: mixed",
+  "sea & seafaring: lighthouses",
+  "sea & seafaring: fishing",
+  "sea & seafaring: boats & ships",
+  "sea & seafaring",
+  "science & technology: other",
+  "science & technology: computing & gaming",
+  "science & technology",
+  "rural industry: other",
+  "rural industry: windmills",
+  "rural industry: watermills",
+  "rural industry: textiles",
+  "rural industry: rural life",
+  "rural industry: forges",
+  "rural industry: farming",
+  "rural industry",
+  "personality: other",
+  "personality: scientific",
+  "personality: religious",
+  "personality: political",
+  "personality: music",
+  "personality: literary",
+  "personality: explorer",
+  "personality: art",
+  "personality",
+  "natural world: other",
+  "natural world: mixed",
+  "natural world: zoology",
+  "natural world: herbaria & gardening",
+  "natural world: geology",
+  "natural world: fossils",
+  "natural world: dinosaurs",
+  "natural world",
+  "medicine & health: other",
+  "medicine & health: professional association",
+  "medicine & health: hospital",
+  "medicine & health",
+  "local histories",
+  "leisure & sport: other",
+  "leisure & sport: toys & models",
+  "leisure & sport: rugby & football",
+  "leisure & sport: film cinema & tv",
+  "leisure & sport: fairgrounds & amusements",
+  "leisure & sport: cricket",
+  "leisure & sport",
+  "industry & manufacture: other",
+  "industry & manufacture: mixed",
+  "industry & manufacture: textiles",
+  "industry & manufacture: steam & engines",
+  "industry & manufacture: print",
+  "industry & manufacture: potteries",
+  "industry & manufacture: mining & quarrying",
+  "industry & manufacture: metals",
+  "industry & manufacture: industrial life",
+  "industry & manufacture: clocks & watches",
+  "industry & manufacture",
+  "food & drink",
+  "communications: other",
+  "communications: radio",
+  "communications: post",
+  "communications",
+  "buildings: other",
+  "buildings: shops",
+  "buildings: school",
+  "buildings: penal",
+  "buildings: palace",
+  "buildings: houses (small)",
+  "buildings: houses (medium)",
+  "buildings: houses (large)",
+  "buildings: civic",
+  "buildings",
+  "belief & identity: other",
+  "belief & identity: religious buildings",
+  "belief & identity: religion",
+  "belief & identity: freemasons",
+  "belief & identity: ethnic group",
+  "belief & identity: church treasuries",
+  "belief & identity",
+  "arts: other",
+  "arts: photography",
+  "arts: music",
+  "arts: literature",
+  "arts: glass",
+  "arts: fine & decorative arts",
+  "arts: design",
+  "arts: crafts",
+  "arts: costume & textiles",
+  "arts: ceramics",
+  "arts",
+  "archaeology: other",
+  "archaeology: mixed",
+  "archaeology: roman",
+  "archaeology: prehistory",
+  "archaeology: medieval",
+  "archaeology: greek & egyptian",
+  "archaeology",
+  # destination outcome
+  "mostly no move",
+  "mostly within the same LAD",
+  "mostly within the same region",
+  "mostly within the UK",
+  "mostly abroad",
+  "mixed destinations",
+  # collection share
+  "'few'",
+  "'some'",
+  "'half'",
+  "'most'",
+  "'all'",
+  # recipient count outcome
+  "many",
+  "> 5",
+  "5",
+  "4",
+  "3",
+  "2",
+  "1",
+  "0",
+  # recipient outcome
+  "mostly N/A",
+  "mostly storage",
+  "mostly museum service",
+  "mostly museum",
+  "mostly library/archive",
+  "mostly temporary museum",
+  "mostly heritage",
+  "mostly education/research",
+  "mostly society",
+  "mostly civic organisation",
+  "mostly service",
+  "mostly armed forces",
+  "mostly leisure",
+  "mostly transport provider",
+  "mostly other organisation",
+  "mostly company",
+  "mostly trader",
+  "mostly individual",
+  "mostly unspecified actor",
+  "mostly end of existence",
+  # event outcome
+  "mostly kept",
+  "mostly left-in-situ",
+  "mostly rescued",
+  "mostly recorded",
+  "mostly modified",
+  "mostly used",
+  "mostly displayed",
+  "mostly stored",
+  "mostly loaned",
+  "mostly moved",
+  "mostly returned",
+  "mostly transferred",
+  "mostly sold",
+  "mostly lost/stolen",
+  "mostly damaged/destroyed",
+  "mostly unknown",
+  # reason for closure
+  "financial",
+  "low visitor numbers",
+  "loss of premises",
+  "destruction",
+  "collections",
+  "building",
+  "strategic closure",
+  "restructure of host organisation",
+  "dispute",
+  "life events",
+  "staff"
+)
+
+governance_colours <- c(
+  "unknown size"="lightgrey",
+  "private"="#E69F00",
+  "independent"="#0D4373",
+  "not-for-profit"="#0D4373",
+  "National Trust for Scotland"="#1878CE",
+  "National Trust"="#1878CE",
+  "English Heritage"="#60ABEC",
+  "Historic Environment Scotland"="#BBDBF7",
+  "university"="#009E73",
+  "national"="#720E32",
+  "local authority"="#CD185A",
+  "other government"="#ED5F93"
+)
+
+size_colours <- c(
+  "unknown size"="#E84A84",
+  "small"="#00FFD4",
+  "medium"="#00B394",
+  "large"="#006655",
+  "huge"="#001A15"
+)
+
+white = "#FFFFFF"
+red = "#FF99A1"
+blue = "#99E0FF"
+is_positive_fill_scale <- scale_fill_manual(values=c("TRUE"=blue, "FALSE"=red))
+red_to_white_fill_scale <- scale_fill_gradient2(
+  low=red, mid=white, high=blue, midpoint=0, na.value="grey85"
+)
+
+title_size <- 18
+subtitle_size <- 16
+axis_title_size <- 16
+axis_text_size <- 16
+legend_title_size <- 16
+
+standard_bars_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size=title_size),
+    plot.subtitle = element_text(size=subtitle_size),
+    legend.position = "Non",
+    axis.title.x = element_text(size=axis_title_size),
+    axis.title.y = element_text(size=axis_title_size),
+    axis.text.x = element_text(size=axis_text_size),
+    axis.text.y = element_text(size=axis_text_size)
+  )
+
+standard_heatmap_theme <- standard_bars_theme +
+  theme(
+    axis.text.x = element_text(angle=30, hjust=1)
+  )
+
+output_width <- 175
+output_height <- 90
+output_units <- "mm"
+```
+
+## data files
+```{r data-files}
+data_directory <- "../data/closure_data_01_08_2025"
+museums_file <- paste(data_directory, "museums.csv", sep="/")
+```
+
+## helper functions
+```{r}
+probability_happened_by_end_of_year <- function(year_1, year_2, cut_off_year)  {
+  # year_1 and year_2 are opposite ends of an inclusive range of years during which an event happened
+  ifelse(
+    # if year 2 is before cut_off_year, it must have happened before cut_off_year
+    # [ -- ] -- c
+    year_2 < cut_off_year,
+    1,
+    ifelse(
+      # if year 1 is after cut_of_year, it could not have happened before cut_off_year
+      # c -- [ -- ]
+      year_1 > cut_off_year,
+      0,
+      # probability is the proportion of the years in the inclusive range that come before cut_off_year
+      # [ -- c -- ]
+      (cut_off_year - year_1 + 1) / (year_2 - year_1 + 1)
+    )
+  )
+}
+
+probability_happened_before_year <- function(year_1, year_2, cut_off_year)  {
+  probability_happened_by_end_of_year(year_1, year_2, cut_off_year - 1)
+}
+
+museums_in_time_period_raw_figures <- function(museums, start_year, end_year) {
+  # raw opening, closing, change, etc figures for museums in period between
+  # 1st January start_year and 31st December end_year
+  # if end == start, period is 1 year january to december
+  years_in_period <- end_year - start_year + 1
+  museums |>
+    mutate(
+      prob_opened_before_start = probability_happened_before_year(year_opened_1, year_opened_2, start_year),
+      prob_closed_before_start = probability_happened_before_year(year_closed_1, year_closed_2, start_year),
+      prob_opened_before_end = probability_happened_before_year(year_opened_1, year_opened_2, end_year + 1),
+      prob_closed_before_end = probability_happened_before_year(year_closed_1, year_closed_2, end_year + 1),
+      prob_open_at_start = prob_opened_before_start * (1 - prob_closed_before_start),
+      prob_open_at_end = prob_opened_before_end * (1 - prob_closed_before_end),
+      prob_closed_in_period = prob_closed_before_end - prob_closed_before_start,
+      prob_opened_in_period = prob_opened_before_end - prob_opened_before_start,
+      prob_open_for_some_of_period = prob_opened_before_end * (1 - prob_closed_before_start)
+    ) |>
+    summarize(
+      period_total = sum(prob_open_for_some_of_period),
+      start_total = sum(prob_open_at_start),
+      end_total = sum(prob_open_at_end),
+      average_total = (start_total + end_total) / 2,
+      closures = sum(prob_closed_in_period),
+      openings = sum(prob_opened_in_period),
+      change = openings - closures,
+      change_pc = change / start_total * 100,
+      closure_rate = closures / start_total * 100,
+      opening_rate = openings / start_total * 100,
+      yearly_closures = closures / years_in_period,
+      yearly_openings = openings / years_in_period,
+      turnover = openings + closures,
+      turnover_pc = turnover / average_total * 100
+    ) |>
+    ungroup() |>
+    mutate(
+      period_total_pc = period_total / sum(period_total) * 100,
+      start_total_pc = start_total / sum(start_total) * 100,
+      end_total_pc = end_total / sum(end_total) * 100,
+      closures_pc = closures / sum(closures) * 100
+    )
+}
+
+museums_in_time_period <- function(museums, start_year, end_year) {
+  # rounded opening, closing, change, etc figures for museums in period between
+  # 1st January start_year and 31st December end_year
+  # if end == start, period is 1 year january to december
+  museums |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+}
+
+get_open_and_close_data <- function(data, dimension, start_year, end_year) {
+  data |>
+    group_by(.data[[dimension]]) |>
+    museums_in_time_period(start_year, end_year) |>
+    mutate(
+      !!sym(dimension) := factor(.data[[dimension]], museum_attribute_ordering)
+    )
+
+}
+get_2_way_open_and_close_data <- function(data, dimension1, dimension2, start_year, end_year) {
+  data_2_way <- data |>
+    group_by(.data[[dimension1]], .data[[dimension2]]) |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    group_by(.data[[dimension1]]) |>
+    mutate(
+      period_total_pc_x = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_x = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_x = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_x = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    group_by(.data[[dimension2]]) |>
+    mutate(
+      period_total_pc_y = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_y = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_y = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_y = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    mutate(
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_dimension_1_totals <- data |>
+    group_by(.data[[dimension1]]) |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = 100,
+      start_total_pc_x = 100,
+      end_total_pc_x = 100,
+      closures_pc_x = 100,
+      period_total_pc_y = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_y = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_y = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_y = round(closures / sum(closures) * 100, 1)
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension2) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_dimension_2_totals <- data |>
+    group_by(.data[[dimension2]]) |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = round(period_total / sum(period_total) * 100, 1),
+      start_total_pc_x = round(start_total / sum(start_total) * 100, 1),
+      end_total_pc_x = round(end_total / sum(end_total) * 100, 1),
+      closures_pc_x = round(closures / sum(closures) * 100, 1),
+      period_total_pc_y = 100,
+      start_total_pc_y = 100,
+      end_total_pc_y = 100,
+      closures_pc_y = 100
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension1) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_all_totals <- data |>
+    museums_in_time_period_raw_figures(start_year, end_year) |>
+    mutate(
+      period_total_pc_x = 100,
+      start_total_pc_x = 100,
+      end_total_pc_x = 100,
+      closures_pc_x = 100,
+      period_total_pc_y = 100,
+      start_total_pc_y = 100,
+      end_total_pc_y = 100,
+      closures_pc_y = 100,
+    ) |>
+    ungroup() |>
+    mutate(
+      !!sym(dimension1) := "all",
+      !!sym(dimension2) := "all",
+      period_total = round(period_total, 0),
+      period_total_pc = round(period_total_pc, 1),
+      start_total = round(start_total, 0),
+      start_total_pc = round(start_total_pc, 1),
+      end_total = round(end_total, 0),
+      end_total_pc = round(end_total_pc, 1),
+      closures = round(closures, 0),
+      closures_pc = round(closures_pc, 1),
+      openings = round(openings, 0),
+      change = round(change, 0),
+      change_pc = round(change_pc, 1),
+      closure_rate = round(closure_rate, 1),
+      closures_rate = closure_rate,
+      opening_rate = round(opening_rate, 1),
+      openings_rate = opening_rate,
+      yearly_closures = round(yearly_closures, 1),
+      yearly_openings = round(yearly_openings, 1),
+      turnover = round(turnover, 0),
+      turnover_pc = round(turnover_pc, 1)
+    ) |>
+    select(-average_total)
+  data_2_way |>
+    rbind(data_dimension_1_totals) |>
+    rbind(data_dimension_2_totals) |>
+    rbind(data_all_totals) |>
+    mutate(
+      !!sym(dimension1) := factor(.data[[dimension1]], museum_attribute_ordering),
+      !!sym(dimension2) := factor(.data[[dimension2]], museum_attribute_ordering)
+    )
+}
+```
+
+## load data
+```{r load-data}
+museums <- read_csv(museums_file) |>
+  filter(!country %in% c("Channel Islands", "Isle of Man")) |>
+  mutate(
+    year_opened = ifelse(
+      year_opened_1 == year_opened_2,
+      year_opened_1,
+      paste(year_opened_1, year_opened_2, sep=":")
+    ),
+    year_closed = case_when(
+      year_closed_1 == 9999 ~ "N/A",
+      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
+      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
+    ),
+    all=factor(all, museum_attribute_ordering),
+    size=factor(size, museum_attribute_ordering),
+    governance=factor(governance, museum_attribute_ordering),
+    governance_broad=factor(governance_broad, museum_attribute_ordering),
+    subject=factor(subject, museum_attribute_ordering),
+    subject_broad=factor(subject_broad, museum_attribute_ordering),
+    accreditation=factor(accreditation, museum_attribute_ordering),
+    region=factor(region, museum_attribute_ordering),
+    country=factor(country, museum_attribute_ordering)
+  )
+```
+
+## summary tables
+```{r summary-tables}
+changes_by_governance <- get_open_and_close_data(museums, "governance_broad", 2000, 2025)
+changes_by_size <- get_open_and_close_data(museums, "size", 2000, 2025)
+changes_by_subject <- get_open_and_close_data(museums, "subject_broad", 2000, 2025)
+changes_by_accreditation <- get_open_and_close_data(museums, "accreditation", 2000, 2025)
+changes_by_region <- get_open_and_close_data(museums, "region", 2000, 2025)
+changes_by_size_and_governance <- get_2_way_open_and_close_data(museums, "size", "governance_broad", 2000, 2025)
+changes_by_region_and_governance <- get_2_way_open_and_close_data(museums, "region", "governance_broad", 2000, 2025)
+
+tidy_table <- function(table) {
+  table |>
+    rename(
+      museums_count_2000=start_total,
+      museums_count_2025=end_total
+    ) |>
+    select(
+      -period_total,
+      -yearly_closures,
+      -yearly_openings,
+      -turnover,
+      -turnover_pc,
+      -period_total_pc,
+      -start_total_pc,
+      -end_total_pc,
+      -closures_rate,
+      -openings_rate,
+      -closures_pc
+    )
+}
+
+write_xlsx(
+  list(
+    "Data Dictionary"=read_csv("dictionaries/data_dictionary_changes.csv"),
+    "Governance"=changes_by_governance |>
+      rename(governance=governance_broad) |>
+      tidy_table(),
+    "Size"=changes_by_size |> tidy_table(),
+    "Subject"=changes_by_subject |>
+      rename(subject=subject_broad) |>
+      tidy_table(),
+    "Accreditation"=changes_by_accreditation |> tidy_table(),
+    "Region"=changes_by_region |> tidy_table(),
+    "Size and Governance"=changes_by_size_and_governance |>
+      rename(governance=governance_broad) |>
+      tidy_table() |>
+      filter(size != "all", governance != "all") |>
+      select(
+        size,
+        governance,
+        museums_count_2000,
+        museums_count_2025,
+        closures,
+        openings,
+        change,
+        change_pc,
+        closure_rate,
+        opening_rate
+      ),
+    "Region and Governance"=changes_by_region_and_governance |>
+      rename(governance=governance_broad) |>
+      tidy_table() |>
+      filter(region != "all", governance != "all") |>
+      select(
+        region,
+        governance,
+        museums_count_2000,
+        museums_count_2025,
+        closures,
+        openings,
+        change,
+        change_pc,
+        closure_rate,
+        opening_rate
+      )
+  ),
+  "../data/report_data_01_08_2025/changes_2000-2025.xlsx"
+)
+```
+
+## Figures
+
+### Figure 3
+Change in museums numbers in the UK 2000-25, according to form of governance (excluding museums of unknown and other governance)
+```{r change-governance-percentage}
+figure_3 <- ggplot(
+  changes_by_governance |> filter(
+    !governance_broad %in% c("unknown governance")
+  ),
+  aes(x=change_pc, y=governance_broad, fill=change > 0)
+) +
+  geom_col() +
+  geom_text(
+    data=changes_by_governance |> filter(change > 0, governance_broad != "unknown governance"),
+    aes(label=paste0(change_pc, "%\n(+", change, ")")),
+    hjust=1
+  ) +
+  geom_text(
+    data=changes_by_governance |> filter(change < 0, governance_broad != "unknown governance"),
+    aes(label=paste0(change_pc, "%\n(", change, ")")),
+    hjust=0
+  ) +
+  scale_x_continuous(
+    limits=c(-10, 25),
+    breaks=seq(-10, 25, by=5),
+    minor_breaks=NULL
+  ) +
+  is_positive_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025 by Governance",
+    x="Percentage change",
+    y="Governance"
+  ) +
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
+ggsave("figures/fig03.svg", figure_3, width=output_width, height=output_height, units=output_units, bg="white")
+figure_3
+```
+
+```{r change-size-percentage}
+figure_7 <- ggplot(
+  changes_by_size |> filter(
+    !size %in% c("unknown size")
+  ),
+  aes(x=change_pc, y=size, fill=change > 0)
+) +
+  geom_col() +
+  geom_text(
+    data=changes_by_size |> filter(change > 0, size != "unknown size"),
+    aes(label=paste0(change_pc, "%\n(+", change, ")")),
+    hjust=1
+  ) +
+  geom_text(
+    data=changes_by_size |> filter(change < 0, size != "unknown size"),
+    aes(label=paste0(change_pc, "%\n(", change, ")")),
+    hjust=0
+  ) +
+  scale_x_continuous(
+    limits=c(-5, 15),
+    breaks=seq(-5, 15, by=5),
+    minor_breaks=NULL
+  ) +
+  is_positive_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025 by Size",
+    x="Percentage change",
+    y="Size"
+  ) +
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
+ggsave("figures/fig07.svg", figure_7, width=output_width, height=output_height, units=output_units, bg="white")
+figure_7
+```
+
+```{r change-subject-percentage}
+figure_11 <- ggplot(
+  changes_by_subject,
+  aes(x=change_pc, y=subject_broad, fill=change > 0)
+) +
+  geom_col() +
+  geom_text(
+    data=changes_by_subject |> filter(change_pc >= 0),
+    aes(label=paste0(change_pc, "% (+", change, ")")),
+    size=3,
+    hjust=0
+  ) +
+  geom_text(
+    data=changes_by_subject |> filter(change_pc < 0),
+    aes(label=paste0(change_pc, "% (", change, ")")),
+    size=3,
+    hjust=1
+  ) +
+  scale_x_continuous(
+    limits=c(-30, 130),
+    breaks=seq(-25, 100, by=25),
+    minor_breaks=NULL
+  ) +
+  is_positive_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025 by Subject",
+    x="Percentage change",
+    y="Subject"
+  ) +
+  standard_bars_theme +
+  theme(axis.text.y=element_text(size=12))
+ggsave("figures/fig11.svg", figure_11, width=output_width, height=output_height, units=output_units, bg="white")
+figure_11
+```
+
+```{r change-region-percentage}
+figure_13 <- ggplot(
+  changes_by_region |>
+    filter(!is.na(region)),
+  aes(x=change_pc, y=region, fill=change > 0)
+) +
+  geom_col() +
+  geom_text(
+    aes(label=paste0(change_pc, "% (+", change, ")")),
+    size=3,
+    hjust=0
+  ) +
+  geom_hline(aes(yintercept=3.5)) +
+  scale_x_continuous(
+    limits=c(0, 59),
+    breaks=seq(0, 50, by=10),
+    minor_breaks=NULL
+  ) +
+  is_positive_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025 by Country/Region",
+    x="Percentage change",
+    y="Country / Region"
+  ) +
+  standard_bars_theme +
+  theme(panel.grid.major.y = element_blank())
+ggsave("figures/fig13.svg", figure_13, width=output_width, height=output_height, units=output_units, bg="white")
+figure_13
+```
+### Figure 4
+Number of museum openings and closures in the UK 2000-25, according to form of governance (excluding museums of unknown governance)
+```{r}
+fig_4_data <- changes_by_governance |>
+  filter(governance_broad != "unknown governance") |>
+  pivot_longer(
+    cols=c("closures", "openings"),
+    names_to="label",
+    values_to="count"
+  )
+figure_4 <- ggplot(
+  fig_4_data,
+  aes(
+    x=count,
+    y=governance_broad,
+    fill=label
+  )
+) +
+  geom_bar(position="dodge", stat="identity") +
+  geom_text(
+    data=fig_4_data |> filter(label=="openings"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=0.25,
+    size=4
+  ) +
+  geom_text(
+    data=fig_4_data |> filter(label=="closures"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=-0.25,
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 500),
+    minor_breaks=NULL
+  ) +
+  scale_fill_manual(
+    values=c("openings"=blue, "closures"=red),
+    name=""
+  ) +
+  guides(
+    fill=guide_legend(reverse=TRUE)
+  ) +
+  labs(
+    title = "Openings vs Closures 2000-2025",
+    y = "Governance",
+    x = "Number of museum openings/closures" 
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
+ggsave("figures/fig04.svg", figure_4, width=output_width, height=output_height, units=output_units, bg="white")
+figure_4
+```
+
+### Figure 8
+```{r}
+fig_8_data <- changes_by_size |>
+  filter(size != "unknown size") |>
+  pivot_longer(
+    cols=c("closures", "openings"),
+    names_to="label",
+    values_to="count"
+  )
+figure_8 <- ggplot(
+  fig_8_data,
+  aes(
+    x=count,
+    y=size,
+    fill=label
+  )
+) +
+  geom_bar(position="dodge", stat="identity") +
+  geom_text(
+    data=fig_8_data |> filter(label=="openings"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=0.25,
+    size=4
+  ) +
+  geom_text(
+    data=fig_8_data |> filter(label=="closures"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=-0.25,
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 610),
+    minor_breaks=NULL
+  ) +
+  scale_fill_manual(
+    values=c("openings"=blue, "closures"=red),
+    name=""
+  ) +
+  guides(
+    fill=guide_legend(reverse=TRUE)
+  ) +
+  labs(
+    title = "Openings vs Closures 2000-2025",
+    y = "Size",
+    x = "Number of museum openings/closures" 
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
+ggsave("figures/fig08.svg", figure_8, width=output_width, height=output_height, units=output_units, bg="white")
+figure_8
+```
+
+### Figure 12
+```{r}
+fig_12_data <- changes_by_accreditation |>
+  pivot_longer(
+    cols=c("closures", "openings"),
+    names_to="label",
+    values_to="count"
+  )
+figure_12 <- ggplot(
+  fig_12_data,
+  aes(
+    x=count,
+    y=accreditation,
+    fill=label
+  )
+) +
+  geom_bar(position="dodge", stat="identity") +
+  geom_text(
+    data=fig_12_data |> filter(label=="openings"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=0.25,
+    size=4
+  ) +
+  geom_text(
+    data=fig_12_data |> filter(label=="closures"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=-0.25,
+    size=4
+  ) +
+  scale_x_continuous(
+    limits=c(0, 700),
+    minor_breaks=NULL
+  ) +
+  scale_fill_manual(
+    values=c("openings"=blue, "closures"=red),
+    name=""
+  ) +
+  guides(
+    fill=guide_legend(reverse=TRUE)
+  ) +
+  labs(
+    title = "Openings vs Closures 2000-2025",
+    y = "Accreditation",
+    x = "Number of museum openings/closures" 
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.8, 0.8)
+  )
+ggsave("figures/fig12.svg", figure_12, width=output_width, height=output_height, units=output_units, bg="white")
+figure_12
+```
+
+### Figure 14
+```{r}
+fig_14_data <- changes_by_region |>
+  filter(!is.na(region)) |>
+  pivot_longer(
+    cols=c("closures", "openings"),
+    names_to="label",
+    values_to="count"
+  )
+figure_14 <- ggplot(
+  fig_14_data,
+  aes(
+    x=count,
+    y=region,
+    fill=label
+  )
+) +
+  geom_bar(position="dodge", stat="identity", width=0.7) +
+  geom_text(
+    data=fig_14_data |> filter(label=="openings"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=0.2,
+    size=3
+  ) +
+  geom_text(
+    data=fig_14_data |> filter(label=="closures"),
+    aes(label=count),
+    hjust=0,
+    nudge_y=-0.2,
+    size=3
+  ) +
+  geom_hline(aes(yintercept=3.5)) +
+  scale_x_continuous(
+    limits=c(0, 110),
+    breaks=seq(0, 100, by=25),
+    minor_breaks=NULL
+  ) +
+  scale_fill_manual(
+    values=c("openings"=blue, "closures"=red),
+    name=""
+  ) +
+  guides(
+    fill=guide_legend(reverse=TRUE)
+  ) +
+  labs(
+    title = "Openings vs Closures 2000-2025",
+    y = "Country / region",
+    x = "Number of museum openings/closures" 
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank(),
+    legend.position=c(0.9, 0.5)
+  )
+ggsave("figures/fig14.svg", figure_14, width=output_width, height=output_height, units=output_units, bg="white")
+figure_14
+```
+
+### Figure 6
+UK museum opening and closure rates 2000-25 according to form of governance (excluding museums of unknown and other governance)
+```{r open-v-close-rates-governance}
+figure_6 <- ggplot(
+  changes_by_governance |> filter(
+    !governance_broad %in% c("other government", "unknown governance")
+  ),
+  aes(x=closures_rate, y=openings_rate, colour=governance_broad, size=turnover)
+) +
+  geom_point(alpha=0.7) +
+  geom_abline(colour="grey") +
+  geom_text(aes(label=governance_broad), size=3, colour="black") +
+  coord_fixed() +
+  scale_x_continuous(limits=c(0, 60)) +
+  scale_y_continuous(limits=c(0, 60)) +
+  scale_size_continuous(
+      limits=c(1, 2000),
+      range=c(2, 40),
+      breaks=c(1, 5, 10, 50, 100, 500, 1000),
+      labels=c("1", "5", "10", "50", "100", "500", "1000")
+  ) +
+  scale_colour_manual(values=governance_colours) +
+  labs(
+    title="Opening vs Closure Rates 2000-2025 by Governance",
+    x="Closures per 100 existing museums",
+    y="Openings per 100 existing museums"
+  ) +
+  standard_bars_theme
+ggsave("figures/fig06.svg", figure_6, width=output_width, height=output_height, units=output_units, bg="white")
+figure_6
+```
+
+### Figure 9
+UK museum opening and closure rates 2000-25 according to size (excluding museums of unknown size)
+```{r open-v-close-rates-size}
+figure_9 <- ggplot(
+  changes_by_size |> filter(
+    !size %in% c("unknown size")
+  ),
+  aes(x=closures_rate, y=openings_rate, colour=size, size=turnover)
+) +
+  geom_point(alpha=0.7) +
+  geom_abline(colour="grey") +
+  geom_text(aes(label=size), size=3, colour="black") +
+  coord_fixed() +
+  scale_x_continuous(limits=c(0, 50)) +
+  scale_y_continuous(limits=c(0, 50)) +
+  scale_size_continuous(
+      limits=c(1, 2000),
+      range=c(2, 40),
+      breaks=c(1, 5, 10, 50, 100, 500, 1000),
+      labels=c("1", "5", "10", "50", "100", "500", "1000")
+  ) +
+  scale_colour_manual(values=size_colours) +
+  labs(
+    title="Opening vs Closure Rates 2000-2025 by Size",
+    x="Closures per 100 existing museums",
+    y="Openings per 100 existing museums"
+  ) +
+  standard_bars_theme
+ggsave("figures/fig09.svg", figure_9, width=output_width, height=output_height, units=output_units, bg="white")
+figure_9
+```
+
+### Figure 10
+Change in museum numbers, according to form of governance vs size, UK 2000-2025
+```{r change-size-vs-governance}
+changes_by_size_and_governance_main <- changes_by_size_and_governance |>
+  filter(size != "all", governance_broad != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_governances <- changes_by_size_and_governance |>
+  filter(governance_broad == "all", size != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_sizes <- changes_by_size_and_governance |>
+  filter(size == "all", governance_broad != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_size_governance <- changes_by_size_and_governance |>
+  filter(size == "all", governance_broad == "all") |>
+  mutate(z_change=NaN)
+changes_by_size_and_governance_with_scale <- changes_by_size_and_governance_main |>
+  rbind(all_governances) |>
+  rbind(all_sizes) |>
+  rbind(all_size_governance) |>
+  mutate(z_change=sign(change) * abs(z_change))
+figure_10 <- ggplot(
+  changes_by_size_and_governance_with_scale |> filter(change != 0),
+  aes(x=size, y=governance_broad, fill=z_change)
+) +
+  geom_tile() +
+  geom_text(aes(label=change), size=4, colour="black") +
+  geom_hline(aes(yintercept=1.5)) +
+  geom_vline(aes(xintercept=1.5)) +
+  scale_x_discrete(
+    labels=c(
+      "all"="all",
+      "unknown size"="unknown",
+      "small"="small",
+      "medium"="medium",
+      "large"="large",
+      "huge"="huge"
+    )
+  ) +
+  red_to_white_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025",
+    x="Museum size",
+    y="Governance"
+  ) +
+  standard_heatmap_theme +
+  theme(
+    axis.text.x = element_text(size=12),
+    axis.text.y = element_text(size=12),
+    panel.grid = element_blank()
+  )
+ggsave("figures/fig10.svg", figure_10, width=output_width, height=output_height, units=output_units, bg="white")
+figure_10
+```
+
+### Figure 15
+Change in museum numbers, according to form of governance vs country/region, UK 2000-2025
+```{r change-size-vs-governance}
+changes_by_region_and_governance_main <- changes_by_region_and_governance |>
+  filter(region != "all", governance_broad != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_governances <- changes_by_region_and_governance |>
+  filter(governance_broad == "all", region != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_regions <- changes_by_region_and_governance |>
+  filter(region == "all", governance_broad != "all") |>
+  mutate(z_change=as.numeric(scale(change)))
+all_region_governance <- changes_by_region_and_governance |>
+  filter(region == "all", governance_broad == "all") |>
+  mutate(z_change=NaN)
+changes_by_region_and_governance_with_scale <- changes_by_region_and_governance_main |>
+  rbind(all_governances) |>
+  rbind(all_regions) |>
+  rbind(all_region_governance) |>
+  mutate(z_change=sign(change) * abs(z_change))
+figure_15 <- ggplot(
+  changes_by_region_and_governance_with_scale |> filter(change != 0),
+  aes(x=region, y=governance_broad, fill=z_change)
+) +
+  geom_tile() +
+  geom_text(aes(label=change), size=4, colour="black") +
+  geom_hline(aes(yintercept=1.5)) +
+  geom_vline(aes(xintercept=1.5)) +
+  geom_vline(aes(xintercept=4.5), colour="grey") +
+  scale_x_discrete(
+    labels=c(
+      "all"="all",
+      "Northern Ireland"="N. Ire.",
+      "Wales"="Wales",
+      "Scotland"="Scot.",
+      "North East"="N. East",
+      "North West"="N. West",
+      "Yorks & Humber"="Yorks.",
+      "East Midlands"="East Mids.",
+      "West Midlands"="West Mids.",
+      "East of England"="East Eng.",
+      "London"="London",
+      "South East"="S. East",
+      "South West"="S. West"
+    )
+  ) +
+  red_to_white_fill_scale +
+  labs(
+    title="Change in Museum Numbers 2000-2025",
+    x="Country / region",
+    y="Governance"
+  ) +
+  standard_heatmap_theme +
+  theme(
+    axis.text.x = element_text(size=12),
+    axis.text.y = element_text(size=12),
+    panel.grid = element_blank()
+  )
+ggsave("figures/fig15.svg", figure_15, width=output_width, height=output_height, units=output_units, bg="white")
+figure_15
+```

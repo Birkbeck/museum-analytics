@@ -10,8 +10,8 @@ import shutil
 
 from sheet_to_graph.connection_managers import QueryToCsv
 
-RESULTS_DIR = "../data/query_results"
-SHINY_RESULTS_DIR = "../shiny/mappingmuseums/data/query_results"
+RESULTS_DIR = ".."
+# SHINY_RESULTS_DIR = "../shiny/mappingmuseums/data/query_results"
 
 actor_types_query = """
 MATCH (actor_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "actor"})
@@ -289,11 +289,18 @@ if __name__ == "__main__":
         credentials_file_name = config["credentials_file"]
 
     queries = {
-        "actor_types": actor_types_query,
-        "event_types": event_types_query,
-        "museums": museums_query,
-        "super_events": super_events_query,
-        "dispersal_events": dispersal_events_query,
+        # for top-level data directories:
+        "data-model/actor_types": actor_types_query,
+        "data-model/event_types": event_types_query,
+        "data/closure_data/museums": museums_query,
+        "data/closure_data/super_events": super_events_query,
+        "data/closure_data/dispersal_events": dispersal_events_query,
+        # for shiny app inputs:
+        "shiny/mappingmuseums/data/query_results/actor_types": actor_types_query,
+        "shiny/mappingmuseums/data/query_results/event_types": event_types_query,
+        "shiny/mappingmuseums/data/query_results/museums": museums_query,
+        "shiny/mappingmuseums/data/query_results/super_events": super_events_query,
+        "shiny/mappingmuseums/data/query_results/dispersal_events": dispersal_events_query,
     }
 
     query_to_csv = QueryToCsv(
@@ -305,9 +312,9 @@ if __name__ == "__main__":
     query_to_csv.make_queries_and_save_outputs()
 
     # copy query results into shiny app
-    os.makedirs(SHINY_RESULTS_DIR, exist_ok=True)
-    for item in os.listdir(RESULTS_DIR):
-        src_path = os.path.join(RESULTS_DIR, item)
-        dest_path = os.path.join(SHINY_RESULTS_DIR, item)
-        if os.path.isfile(src_path):
-            shutil.copy2(src_path, dest_path)
+    # os.makedirs(SHINY_RESULTS_DIR, exist_ok=True)
+    # for item in os.listdir(RESULTS_DIR):
+    #    src_path = os.path.join(RESULTS_DIR, item)
+    #    dest_path = os.path.join(SHINY_RESULTS_DIR, item)
+    #    if os.path.isfile(src_path):
+    #        shutil.copy2(src_path, dest_path)

@@ -1,0 +1,1242 @@
+---
+title: "Report Data and Figures"
+output: html_notebook
+---
+
+```{r libraries}
+library(tidyverse)
+library(writexl)
+source("../shiny/mappingmuseums/src/calculate_outcomes.R")
+source("../shiny/mappingmuseums/src/calculate_closure_lengths.R")
+
+core_actor_types_with_children <- c(
+  "armed forces",
+  "civic organisation",
+  "company",
+  "education/research",
+  "heritage",
+  "leisure",
+  "library/archive",
+  "other organisation",
+  "service",
+  "society",
+  "storage",
+  "temporary museum",
+  "trader",
+  "transport provider"
+)
+
+museum_attribute_ordering <- c(
+  "all",
+  # size
+  "unknown size",
+  "small",
+  "medium",
+  "large",
+  "huge",
+  # governance
+  "unknown governance",
+  "private",
+  "independent",
+  "Historic Environment Scotland",
+  "National Trust for Scotland",
+  "National Trust",
+  "English Heritage",
+  "not-for-profit",
+  "university",
+  "other government",
+  "local authority",
+  "national",
+  # region/country
+  "Isle of Man",
+  "Channel Islands",
+  "Northern Ireland",
+  "Wales",
+  "Scotland",
+  "England",
+  "North East",
+  "North West",
+  "Yorks & Humber",
+  "East Midlands",
+  "West Midlands",
+  "East of England",
+  "London",
+  "South East",
+  "South West",
+  # accreditation
+  "unaccredited",
+  "accredited",
+  # subject
+  "other",
+  "mixed: other",
+  "mixed: encyclopaedic",
+  "mixed: bygones",
+  "mixed",
+  "war & conflict: other",
+  "war & conflict: regiment",
+  "war & conflict: navy",
+  "war & conflict: military",
+  "war & conflict: event or site",
+  "war & conflict: castles & forts",
+  "war & conflict: bunker",
+  "war & conflict: airforce",
+  "war & conflict",
+  "utilities: water & waste",
+  "utilities: gas & electricity",
+  "utilities",
+  "transport: other",
+  "transport: mixed",
+  "transport: trains & railways",
+  "transport: cars & motorbikes",
+  "transport: canals",
+  "transport: buses & trams",
+  "transport: bicycles",
+  "transport: aviation",
+  "transport",
+  "services: other",
+  "services: rnli",
+  "services: police",
+  "services: fire",
+  "services",
+  "sea & seafaring: other",
+  "sea & seafaring: mixed",
+  "sea & seafaring: lighthouses",
+  "sea & seafaring: fishing",
+  "sea & seafaring: boats & ships",
+  "sea & seafaring",
+  "science & technology: other",
+  "science & technology: computing & gaming",
+  "science & technology",
+  "rural industry: other",
+  "rural industry: windmills",
+  "rural industry: watermills",
+  "rural industry: textiles",
+  "rural industry: rural life",
+  "rural industry: forges",
+  "rural industry: farming",
+  "rural industry",
+  "personality: other",
+  "personality: scientific",
+  "personality: religious",
+  "personality: political",
+  "personality: music",
+  "personality: literary",
+  "personality: explorer",
+  "personality: art",
+  "personality",
+  "natural world: other",
+  "natural world: mixed",
+  "natural world: zoology",
+  "natural world: herbaria & gardening",
+  "natural world: geology",
+  "natural world: fossils",
+  "natural world: dinosaurs",
+  "natural world",
+  "medicine & health: other",
+  "medicine & health: professional association",
+  "medicine & health: hospital",
+  "medicine & health",
+  "local histories",
+  "leisure & sport: other",
+  "leisure & sport: toys & models",
+  "leisure & sport: rugby & football",
+  "leisure & sport: film cinema & tv",
+  "leisure & sport: fairgrounds & amusements",
+  "leisure & sport: cricket",
+  "leisure & sport",
+  "industry & manufacture: other",
+  "industry & manufacture: mixed",
+  "industry & manufacture: textiles",
+  "industry & manufacture: steam & engines",
+  "industry & manufacture: print",
+  "industry & manufacture: potteries",
+  "industry & manufacture: mining & quarrying",
+  "industry & manufacture: metals",
+  "industry & manufacture: industrial life",
+  "industry & manufacture: clocks & watches",
+  "industry & manufacture",
+  "food & drink",
+  "communications: other",
+  "communications: radio",
+  "communications: post",
+  "communications",
+  "buildings: other",
+  "buildings: shops",
+  "buildings: school",
+  "buildings: penal",
+  "buildings: palace",
+  "buildings: houses (small)",
+  "buildings: houses (medium)",
+  "buildings: houses (large)",
+  "buildings: civic",
+  "buildings",
+  "belief & identity: other",
+  "belief & identity: religious buildings",
+  "belief & identity: religion",
+  "belief & identity: freemasons",
+  "belief & identity: ethnic group",
+  "belief & identity: church treasuries",
+  "belief & identity",
+  "arts: other",
+  "arts: photography",
+  "arts: music",
+  "arts: literature",
+  "arts: glass",
+  "arts: fine & decorative arts",
+  "arts: design",
+  "arts: crafts",
+  "arts: costume & textiles",
+  "arts: ceramics",
+  "arts",
+  "archaeology: other",
+  "archaeology: mixed",
+  "archaeology: roman",
+  "archaeology: prehistory",
+  "archaeology: medieval",
+  "archaeology: greek & egyptian",
+  "archaeology",
+  # destination outcome
+  "mostly no move",
+  "mostly within the same LAD",
+  "mostly within the same region",
+  "mostly within the UK",
+  "mostly abroad",
+  "mixed destinations",
+  # collection share
+  "'few'",
+  "'some'",
+  "'half'",
+  "'most'",
+  "'all'",
+  # recipient count outcome
+  "many",
+  "> 5",
+  "5",
+  "4",
+  "3",
+  "2",
+  "1",
+  "0",
+  # recipient outcome
+  "mostly N/A",
+  "mostly storage",
+  "mostly museum service",
+  "mostly museum",
+  "mostly library/archive",
+  "mostly temporary museum",
+  "mostly heritage",
+  "mostly education/research",
+  "mostly society",
+  "mostly civic organisation",
+  "mostly service",
+  "mostly armed forces",
+  "mostly leisure",
+  "mostly transport provider",
+  "mostly other organisation",
+  "mostly company",
+  "mostly trader",
+  "mostly individual",
+  "mostly unspecified actor",
+  "mostly end of existence",
+  # event outcome
+  "mostly kept",
+  "mostly left-in-situ",
+  "mostly rescued",
+  "mostly recorded",
+  "mostly modified",
+  "mostly used",
+  "mostly displayed",
+  "mostly stored",
+  "mostly loaned",
+  "mostly moved",
+  "mostly returned",
+  "mostly transferred",
+  "mostly sold",
+  "mostly lost/stolen",
+  "mostly damaged/destroyed",
+  "mostly unknown",
+  # reason for closure
+  "financial",
+  "low visitor numbers",
+  "loss of premises",
+  "destruction",
+  "collections",
+  "building",
+  "strategic closure",
+  "restructure of host organisation",
+  "dispute",
+  "life events",
+  "staff"
+)
+
+purple = "#E4A8F0"
+white = "#FFFFFF"
+heatmap_fill_scale <- scale_fill_continuous(low=white, high=purple)
+
+standard_bars_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size=title_size),
+    plot.subtitle = element_text(size=subtitle_size),
+    legend.position = "Non",
+    axis.title.x = element_text(size=axis_title_size),
+    axis.title.y = element_text(size=axis_title_size),
+    axis.text.x = element_text(size=axis_text_size),
+    axis.text.y = element_text(size=axis_text_size)
+  )
+
+standard_heatmap_theme <- standard_bars_theme +
+  theme(
+    axis.text.x = element_text(angle=30, hjust=1)
+  )
+
+output_width <- 175
+output_height <- 90
+output_units <- "mm"
+```
+
+## data files
+```{r data-files}
+data_directory <- "../data/closure_data_01_08_2025"
+museums_file <- paste(data_directory, "museums.csv", sep="/")
+event_types_file <- paste(data_directory, "event_types.csv", sep="/")
+super_events_file <- paste(data_directory, "super_events.csv", sep="/")
+dispersal_events_file <- paste(data_directory, "dispersal_events.csv", sep="/")
+```
+
+## Load data
+```{r}
+event_types <- read_csv(event_types_file)
+super_events <- read_csv(super_events_file)
+
+dispersal_events <- read_csv(dispersal_events_file) |>
+  mutate(
+    event_stage_in_path = event_stage_in_path + 1,
+    recipient_type = case_when(
+      is.na(recipient_type) ~ "N/A",
+      recipient_type %in% core_actor_types_with_children ~ paste("unspecified", recipient_core_type),
+      recipient_type == "actor" ~ "unspecified actor",
+      TRUE ~ recipient_type
+    ),
+    recipient_core_type = case_when(
+      recipient_type == "N/A" ~ "N/A",
+      recipient_type == "unspecified actor" ~ "unspecified actor",
+      TRUE ~ recipient_core_type
+    ),
+    sender_type = case_when(
+      is.na(sender_type) ~ "N/A",
+      sender_type %in% core_actor_types_with_children ~ paste("unspecified", sender_core_type),
+      sender_type == "actor" ~ "unspecified actor",
+      TRUE ~ sender_type
+    ),
+    sender_core_type = case_when(
+      is.na(sender_type) ~ "N/A",
+      sender_type == "unspecified actor" ~ "unspecified actor",
+      TRUE ~ sender_core_type
+    ),
+    recipient_region = case_when(
+      recipient_type == "end of existence" ~ "end of existence",
+      recipient_type == "N/A" ~ "N/A",
+      !is.na(recipient_region) ~ recipient_region,
+      !is.na(recipient_country) ~ recipient_country,
+      !is.na(destination_region) ~ destination_region,
+      !is.na(destination_country) ~ destination_country,
+      TRUE ~ "unknown"
+    ),
+    sender_region = case_when(
+      sender_type == "end of existence" ~ "end of existence",
+      !is.na(sender_region) ~ sender_region,
+      !is.na(sender_country) ~ sender_country,
+      !is.na(sender_region) ~ sender_region,
+      !is.na(sender_country) ~ sender_country,
+      TRUE ~ "unknown"
+    ),
+    collection_status = case_when(
+      collection_status == "collection" ~ "Objects from a museum collection",
+      collection_status == "loan" ~ "Objects on loan to a museum",
+      collection_status == "handling" ~ "Handling objects",
+      collection_status == "museum-stuff" ~ "Other objects (e.g. display cases)"
+    ),
+    initial_museum_all = "all",
+    sender_all = ifelse(!is.na(sender_size), "all", NA),
+    recipient_all = ifelse(!is.na(recipient_size), "all", NA)
+  )
+
+senders <- dispersal_events |>
+  select(
+    actor_id=sender_id,
+    name=sender_name,
+    quantity=sender_quantity,
+    sector=sender_sector,
+    type=sender_type,
+    size=sender_size,
+    governance=sender_governance,
+    accreditation=sender_accreditation,
+    town=sender_town,
+    county=sender_county,
+    postcode=sender_postcode,
+    region=sender_region,
+    country=sender_country
+  )
+recipients <- dispersal_events |>
+  select(
+    actor_id=recipient_id,
+    name=recipient_name,
+    quantity=recipient_quantity,
+    sector=recipient_sector,
+    type=recipient_type,
+    size=recipient_size,
+    governance=recipient_governance,
+    accreditation=recipient_accreditation,
+    town=recipient_town,
+    county=recipient_county,
+    postcode=recipient_postcode,
+    region=recipient_region,
+    country=recipient_country
+  )
+actors <- rbind(senders, recipients) |>
+  unique()
+
+initial_museums <- dispersal_events |>
+  select(
+    museum_id=initial_museum_id,
+    museum_name=initial_museum_name,
+    size=initial_museum_size,
+    governance=initial_museum_governance,
+    governance_broad=initial_museum_governance_broad,
+    subject_broad=initial_museum_subject_broad,
+    subject=initial_museum_subject,
+    region=initial_museum_region,
+    country=initial_museum_country,
+    accreditation=initial_museum_accreditation
+  ) |>
+  distinct() |>
+  mutate(
+    name=paste0(museum_name, " (", museum_id, ")")
+  ) |>
+  arrange(name)
+
+collection_types <- dispersal_events |>
+  mutate(
+    collection_type = str_remove_all(collection_types, "\\[|\\]|'") |>
+      str_split(",\\s*")
+  ) |>
+  unnest(collection_type) |>
+  select(collection_type) |>
+  unique() |>
+  arrange(collection_type) |>
+  filter(collection_type != "")
+
+museums_including_crown_dependencies <- read_csv(museums_file) |>
+  mutate(
+    year_opened = ifelse(
+      year_opened_1 == year_opened_2,
+      year_opened_1,
+      paste(year_opened_1, year_opened_2, sep=":")
+    ),
+    year_closed = case_when(
+      year_closed_1 == 9999 ~ "N/A",
+      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
+      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
+    ),
+    all=factor(all, museum_attribute_ordering),
+    size=factor(size, museum_attribute_ordering),
+    governance=factor(governance, museum_attribute_ordering),
+    governance_broad=factor(governance_broad, museum_attribute_ordering),
+    subject=factor(subject, museum_attribute_ordering),
+    subject_broad=factor(subject_broad, museum_attribute_ordering),
+    accreditation=factor(accreditation, museum_attribute_ordering),
+    region=factor(region, museum_attribute_ordering),
+    country=factor(country, museum_attribute_ordering)
+  )
+
+closure_reasons <- super_events |>
+  separate_rows(reason, sep = "; ") |>
+  separate_wider_delim(
+    reason,
+    " - ",
+    names=c("reason_core", "reason_core_or_child", "reason_specific"),
+    too_few="align_start"
+  ) |>
+  mutate(
+    reason_core_or_child=ifelse(
+      is.na(reason_core_or_child),
+      reason_core,
+      paste(reason_core, "-", reason_core_or_child)
+    ),
+    reason_specific=ifelse(
+      is.na(reason_specific),
+      reason_core_or_child,
+      paste(reason_core_or_child, "-", reason_specific)
+    )
+  ) |>
+  left_join(museums_including_crown_dependencies, by="museum_id")
+
+closure_outcomes <- get_outcomes_by_museum(super_events, dispersal_events)
+closure_lengths <- get_closure_lengths_by_museum(
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
+)
+closure_timeline_events <- get_closure_timeline_events(
+  super_events, dispersal_events, event_types, museums_including_crown_dependencies
+)
+
+museums_including_crown_dependencies <- museums_including_crown_dependencies |>
+  left_join(closure_outcomes, by="museum_id") |>
+  left_join(
+    closure_reasons |>
+      select(museum_id, reasons_for_closure=super_reasons) |>
+      unique(),
+    by="museum_id"
+  ) |>
+  mutate(
+    outcome_event_type=factor(outcome_event_type, museum_attribute_ordering),
+    outcome_recipient_type=factor(outcome_recipient_type, museum_attribute_ordering),
+    outcome_recipient_count=factor(outcome_recipient_count, museum_attribute_ordering),
+    outcome_largest_share=factor(outcome_largest_share, museum_attribute_ordering),
+    outcome_destination_type=factor(outcome_destination_type, museum_attribute_ordering)
+  )
+museums <- museums_including_crown_dependencies |>
+  filter(!country %in% c("Channel Islands", "Isle of Man"))
+
+```
+
+## Helper functions
+
+```{r}
+closure_reasons_summary_table <- function(closure_reasons_table, reason_level) {
+  number_of_closed_museums <- closure_reasons_table |>
+    select(museum_id) |>
+    distinct() |>
+    nrow()
+  closure_reasons_table |>
+    group_by(.data[[reason_level]]) |>
+    summarize(
+      frequency=n_distinct(museum_id),
+      percentage=round(frequency / number_of_closed_museums * 100, 1)
+    ) |>
+    ungroup()
+}
+
+closure_reasons_two_way_summary_table <- function(closure_reasons_table,
+                                                  reason_level,
+                                                  museum_grouping) {
+  number_of_closed_museums <- closure_reasons_table |>
+    select(museum_id) |>
+    distinct() |>
+    nrow()
+  number_of_closed_museums_by_type <- closure_reasons_table |>
+    select(museum_id, .data[[museum_grouping]]) |>
+    distinct() |>
+    group_by(.data[[museum_grouping]]) |>
+    summarize(number_of_closures=n_distinct(museum_id))
+  data_2_way <- closure_reasons_table |>
+    filter(!is.na(reason_core)) |>
+    group_by(.data[[museum_grouping]], .data[[reason_level]]) |>
+    summarize(
+      frequency=n_distinct(museum_id),
+      percentage=round(frequency / number_of_closed_museums * 100, 1)
+    ) |>
+    ungroup() |>
+    left_join(number_of_closed_museums_by_type, by=museum_grouping) |>
+    group_by(.data[[museum_grouping]]) |>
+    mutate(
+      percentage_x=round(frequency / number_of_closures * 100, 1)
+    ) |>
+    ungroup() |>
+    group_by(.data[[reason_level]]) |>
+    mutate(
+      percentage_y=round(frequency / sum(frequency) * 100, 1)
+    ) |>
+    ungroup() |>
+    select(-number_of_closures)
+  data_dimension_1_totals <- closure_reasons_table |>
+    filter(!is.na(reason_core)) |>
+    group_by(.data[[reason_level]]) |>
+    summarize(
+      !!sym(museum_grouping) := "all",
+      frequency=n_distinct(museum_id),
+      percentage=round(frequency / number_of_closed_museums * 100, 1),
+      percentage_x=percentage,
+      percentage_y=100
+    ) |>
+    ungroup()
+  data_dimension_2_totals <- closure_reasons_table |>
+    filter(!is.na(reason_core)) |>
+    left_join(number_of_closed_museums_by_type, by=museum_grouping) |>
+    group_by(.data[[museum_grouping]]) |>
+    summarize(
+      !!sym(reason_level) := "all",
+      frequency=number_of_closures,
+      percentage=round(frequency / number_of_closed_museums * 100, 1),
+      percentage_x=100,
+      percentage_y=percentage
+    ) |>
+    ungroup() |>
+    distinct()
+  data_all_totals <- closure_reasons_table |>
+    filter(!is.na(reason_core)) |>
+    summarize(
+      !!sym(reason_level) := "all",
+      !!sym(museum_grouping) := "all",
+      frequency=number_of_closed_museums,
+      percentage=100,
+      percentage_x=100,
+      percentage_y=100
+    )
+  data_2_way |>
+    rbind(data_dimension_1_totals) |>
+    rbind(data_dimension_2_totals) |>
+    rbind(data_all_totals) |>
+    mutate(
+      !!sym(museum_grouping) := factor(.data[[museum_grouping]], museum_attribute_ordering)
+    )
+}
+
+closure_outcomes_summary_table <- function(museums_table, outcome_type) {
+  museums_table |>
+    filter(!is.na(.data[[outcome_type]])) |>
+    group_by(.data[[outcome_type]]) |>
+    summarize(frequency=n()) |>
+    ungroup() |>
+    mutate(percentage=round(frequency / sum(frequency) * 100, 1))
+}
+
+closure_outcomes_two_way_summary_table <- function(museums_table,
+                                                   outcome_type,
+                                                   museum_grouping) {
+  if (museum_grouping =="reason_core") {
+    museums_table <- museums_table |>
+      left_join(
+        closure_reasons |>
+          select(museum_id, reason_core),
+        by="museum_id"
+      )
+  }
+  closure_outcomes <- museums_table |>
+    filter(!is.na(.data[[outcome_type]])) |>
+    mutate(
+      dimension_1=.data[[outcome_type]],
+      dimension_2=.data[[museum_grouping]]
+    )
+  number_of_closed_museums <- closure_outcomes |>
+    select(museum_id) |>
+    distinct() |>
+    nrow()
+  number_of_closed_museums_dimension_1 <- closure_outcomes |>
+    group_by(dimension_1) |>
+    summarize(number_of_closures_dimension_1=n_distinct(museum_id)) |>
+    ungroup()
+  number_of_closed_museums_dimension_2 <- closure_outcomes |>
+    group_by(dimension_2) |>
+    summarize(number_of_closures_dimension_2=n_distinct(museum_id)) |>
+    ungroup()
+  data_2_way <- closure_outcomes |>
+    group_by(dimension_1, dimension_2) |>
+    summarize(
+      frequency=n_distinct(museum_id),
+      percentage=round(frequency / number_of_closed_museums * 100, 1)
+    ) |>
+    ungroup() |>
+    left_join(number_of_closed_museums_dimension_1, by="dimension_1") |>
+    left_join(number_of_closed_museums_dimension_2, by="dimension_2") |>
+    group_by(dimension_1) |>
+    mutate(
+      percentage_y=round(frequency / number_of_closures_dimension_1 * 100, 1)
+    ) |>
+    ungroup() |>
+    group_by(dimension_2) |>
+    mutate(
+      percentage_x=round(frequency / number_of_closures_dimension_2 * 100, 1)
+    ) |>
+    ungroup() |>
+    select(-number_of_closures_dimension_1, -number_of_closures_dimension_2)
+  data_dimension_1_totals <- closure_outcomes |>
+    group_by(dimension_1) |>
+    left_join(number_of_closed_museums_dimension_1, by="dimension_1") |>
+    summarize(
+      dimension_2="all",
+      frequency=number_of_closures_dimension_1,
+      percentage=round(frequency / number_of_closed_museums * 100, 1),
+      percentage_x=percentage,
+      percentage_y=100
+    ) |>
+    ungroup() |>
+    distinct()
+  data_dimension_2_totals <- closure_outcomes |>
+    group_by(dimension_2) |>
+    left_join(number_of_closed_museums_dimension_2, by="dimension_2") |>
+    summarize(
+      dimension_1="all",
+      frequency=number_of_closures_dimension_2,
+      percentage=round(frequency / number_of_closed_museums * 100, 1),
+      percentage_x=100,
+      percentage_y=percentage
+    ) |>
+    ungroup() |>
+    distinct()
+  data_all_totals <- closure_outcomes |>
+    summarize(
+      dimension_1="all",
+      dimension_2="all",
+      frequency=number_of_closed_museums,
+      percentage=100,
+      percentage_x=100,
+      percentage_y=100
+    )
+  data_2_way |>
+    rbind(data_dimension_1_totals) |>
+    rbind(data_dimension_2_totals) |>
+    rbind(data_all_totals)
+}
+
+closure_outcomes_over_time_table <- function(museums_table, outcome_type) {
+  museums_table |>
+    rowwise() |>
+    mutate(
+      year_closed = mean(c(year_closed_1, year_closed_2)),
+      period_of_closure = ifelse(
+        year_closed > 1999 & year_closed < 2005,
+        "2000-2004",
+        ifelse(
+          year_closed < 2010,
+          "2005-2009",
+          ifelse(
+            year_closed < 2015,
+            "2010-2014",
+            ifelse(
+              year_closed < 2020,
+              "2015-2019",
+              "2020-2025"
+            )
+          )
+        )
+      ),
+      period_of_closure = factor(
+        period_of_closure, 
+        levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2025"),
+        ordered = TRUE
+      )
+    ) |>
+    group_by(.data[[outcome_type]], period_of_closure) |>
+    summarize(frequency=n()) |>
+    ungroup() |>
+    group_by(period_of_closure) |>
+    mutate(percentage=round(frequency / sum(frequency) * 100, 1)) |>
+    ungroup()
+}
+
+closure_outcomes_over_time_two_way_table <- function(
+    museums_table, outcome_type, museum_grouping
+) {
+  museums_table |>
+    rowwise() |>
+    mutate(
+      year_closed = mean(c(year_closed_1, year_closed_2)),
+      period_of_closure = ifelse(
+        year_closed > 1999 & year_closed < 2005,
+        "2000-2004",
+        ifelse(
+          year_closed < 2010,
+          "2005-2009",
+          ifelse(
+            year_closed < 2015,
+            "2010-2014",
+            ifelse(
+              year_closed < 2020,
+              "2015-2019",
+              "2020-2025"
+            )
+          )
+        )
+      ),
+      period_of_closure = factor(
+        period_of_closure, 
+        levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2025"),
+        ordered = TRUE
+      )
+    ) |>
+    group_by(.data[[museum_grouping]], .data[[outcome_type]], period_of_closure) |>
+    summarize(frequency=n()) |>
+    ungroup() |>
+    group_by(period_of_closure) |>
+    mutate(percentage=round(frequency / sum(frequency) * 100, 1)) |>
+    ungroup()
+}
+```
+
+## Tables
+```{r tables}
+reasons_for_closure <- closure_reasons_summary_table(
+  closure_reasons, "reason_core"
+)
+reasons_vs_governance <- closure_reasons_two_way_summary_table(
+  closure_reasons, "reason_core", "governance_broad"
+) |>
+  rename(governance=governance_broad)
+reasons_vs_size <- closure_reasons_two_way_summary_table(
+  closure_reasons, "reason_core", "size"
+)
+reasons_vs_subject <- closure_reasons_two_way_summary_table(
+  closure_reasons, "reason_core", "subject_broad"
+) |>
+  rename(subject=subject_broad)
+
+outcomes_events <- closure_outcomes_summary_table(
+  museums_including_crown_dependencies, "outcome_event_type"
+)
+outcomes_recipients <- closure_outcomes_summary_table(
+  museums_including_crown_dependencies, "outcome_recipient_type"
+)
+outcomes_recipient_counts <- closure_outcomes_summary_table(
+  museums_including_crown_dependencies, "outcome_recipient_count"
+)
+outcomes_destinations <- closure_outcomes_summary_table(
+  museums_including_crown_dependencies, "outcome_destination_type"
+)
+outcomes_events_vs_governance <- closure_outcomes_two_way_summary_table(
+  museums_including_crown_dependencies, "outcome_event_type", "governance_broad"
+) |>
+  rename(outcome_event_type=dimension_1, governance=dimension_2)
+outcomes_over_time <- closure_outcomes_over_time_table(
+  museums_including_crown_dependencies |>
+    filter(!is.na(outcome_event_type)),
+  "outcome_event_type"
+)
+outcomes_over_time_vs_governance <- closure_outcomes_over_time_two_way_table(
+  museums_including_crown_dependencies |>
+    filter(!is.na(outcome_event_type)),
+  "outcome_event_type",
+  "governance_broad"
+)
+
+closure_lengths_summary <- closure_lengths |>
+  group_by(closure_length_category) |>
+  summarize(count=n()) |>
+  ungroup()
+
+write_xlsx(
+  list(
+    "Data Dictionary"=read_csv("dictionaries/data_dictionary_closures.csv"),
+    "Reasons for Closure"=reasons_for_closure,
+    "Reasons by Governance"=reasons_vs_governance |>
+      select(-percentage_x, -percentage_y),
+    "Reasons by Size"=reasons_vs_size |>
+      select(-percentage_x, -percentage_y),
+    "Reasons by Subject"=reasons_vs_subject |>
+      select(-percentage_x, -percentage_y),
+    "Collection Outcomes"=outcomes_events |>
+      rename(collection_outcome=outcome_event_type),
+    "Collection Recipients"=outcomes_recipients |>
+      rename(collection_recipient_type=outcome_recipient_type),
+    "Collection Recipient Counts"=outcomes_recipient_counts |>
+      rename(collection_recipient_count=outcome_recipient_count),
+    "Collection Destinations"=outcomes_destinations |>
+      rename(collection_destination=outcome_destination_type),
+    "Outcomes by Governance"=outcomes_events_vs_governance |>
+      rename(collection_outcome=outcome_event_type) |>
+      select(-percentage_x, -percentage_y),
+    "Outcomes Over Time"=outcomes_over_time |>
+      rename(collection_outcome=outcome_event_type),
+    "Outcomes Over Time by Governance"=outcomes_over_time_vs_governance |>
+      rename(collection_outcome=outcome_event_type),
+    "Closure Lengths"=closure_lengths_summary
+  ),
+  "../data/report_data_01_08_2025/closures_2000-2025.xlsx"
+)
+```
+
+## Figures
+
+### Figure 18
+Reasons for closure, UK museums 2000-25
+```{r reasons}
+figure_18 <- ggplot(
+  reasons_for_closure |>
+    mutate(
+      reason_core=ifelse(
+        reason_core == "restructure of host organisation",
+        "restructure of host org.",
+        reason_core
+      )
+    ),
+  aes(x=frequency, y=reorder(reason_core, frequency))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
+  labs(
+    title="Reasons for Museum Closure, 2000-2025",
+    y="Reason for closure",
+    x="Number of closures where reason is cited"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig18.svg", figure_18, width=output_width, height=output_height, units=output_units, bg="white")
+figure_18
+```
+
+### Figure 19
+Outcomes for the collection after closure, UK museums 2000-25
+```{r reasons}
+figure_19 <- ggplot(
+  outcomes_events,
+  aes(x=frequency, y=reorder(outcome_event_type, frequency))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
+  labs(
+    title="Post-Closure Outcomes for Collections, 2000-2025",
+    y="Collection outcome",
+    x="Number of museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig19.svg", figure_19, width=output_width, height=output_height, units=output_units, bg="white")
+figure_19
+```
+
+### Figure 21
+The number of recipients for collections from closed museums, 2000-25
+```{r reasons}
+figure_21 <- ggplot(
+  outcomes_recipient_counts,
+  aes(x=frequency, y=outcome_recipient_count)
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=frequency), hjust="left", nudge_x=1, size=3) +
+  labs(
+    title="Number of Recipients for each Collection, 2000-2025",
+    y="Number of recipients",
+    x="Number of museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig21.svg", figure_21, width=output_width, height=output_height, units=output_units, bg="white")
+figure_21
+```
+
+### Figure 22
+Destination of collections from closed museums, 2000-25
+```{r reasons}
+figure_22 <- ggplot(
+  outcomes_destinations |>
+    filter(outcome_destination_type != "mostly unknown") |>
+    mutate(percentage=round(frequency / sum(frequency) * 100, 1)),
+  aes(x=percentage, y=outcome_destination_type)
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=paste0(percentage, "%")), hjust="left", size=3) +
+  scale_y_discrete(limits=rev) +
+  scale_x_continuous(limits=c(0, 50)) +
+  labs(
+    title="Where Collections Went post-Closure, 2000-2025",
+    y="Destination",
+    x="Percentage of closures"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig22.svg", figure_22, width=output_width, height=output_height, units=output_units, bg="white")
+figure_22
+```
+
+### Figure 25
+Outcomes for the collection after closure, UK museums 2000-25
+```{r reasons}
+figure_25 <- ggplot(
+  outcomes_events_vs_governance |>
+    filter(governance == "local authority", outcome_event_type != "all"),
+  aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
+  scale_x_continuous(limits=c(0, 60)) +
+  labs(
+    title="Post-Closure Outcomes for Collections, 2000-2025",
+    y="Collection outcome",
+    x="Percentage of local authority museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig25.svg", figure_25, width=output_width, height=output_height, units=output_units, bg="white")
+figure_25
+```
+
+### Figure 28
+Outcomes for the collection after closure, UK museums 2000-25
+```{r reasons}
+figure_28 <- ggplot(
+  outcomes_events_vs_governance |>
+    filter(governance == "independent", outcome_event_type != "all"),
+  aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
+  scale_x_continuous(limits=c(0, 40)) +
+  labs(
+    title="Post-Closure Outcomes for Collections, 2000-2025",
+    y="Collection outcome",
+    x="Percentage of independent museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig28.svg", figure_28, width=output_width, height=output_height, units=output_units, bg="white")
+figure_28
+```
+
+### Figure 30
+Outcomes for the collection after closure, UK museums 2000-25
+```{r reasons}
+figure_30 <- ggplot(
+  outcomes_events_vs_governance |>
+    filter(governance == "private", outcome_event_type != "all"),
+  aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
+) +
+  geom_col(fill=purple) +
+  geom_text(aes(label=paste0(percentage_x, "%")), hjust="left", nudge_x=1, size=3) +
+  scale_x_continuous(limits=c(0, 60)) +
+  labs(
+    title="Post-Closure Outcomes for Collections, 2000-2025",
+    y="Collection outcome",
+    x="Percentage of private museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    panel.grid.major.y = element_blank()
+  )
+ggsave("figures/fig30.svg", figure_30, width=output_width, height=output_height, units=output_units, bg="white")
+figure_30
+```
+
+### Figure 20
+Outcomes of closure over time, UK museums 2000-2025
+```{r outcomes-over-time}
+important_outcomes <- c("mostly transferred", "mostly sold", "mostly stored", "mixed", "mostly unknown", "mostly left-in-situ", "mostly kept", "mostly returned")
+figure_20 <- ggplot(
+  outcomes_over_time |> filter(outcome_event_type %in% important_outcomes), 
+  aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
+) +
+  geom_line(alpha=0.7, aes(group=outcome_event_type)) +
+  geom_point(aes(shape=outcome_event_type)) +
+  geom_text(
+    data=outcomes_over_time |> filter(period_of_closure=="2010-2014", outcome_event_type %in% important_outcomes),
+    position=position_jitter(width=0.5, height=0.5, seed=123),
+    aes(label=outcome_event_type, colour=outcome_event_type),
+    size=3
+  ) +
+  scale_colour_brewer(palette="Paired") +
+  guides(
+    colour="none",
+    shape="none"
+  ) +
+  labs(
+    title="Changing Outcomes for Collections Over Time",
+    x="Year of closure",
+    y="Percentage of museum closures",
+    colour="Outcome of closure"
+  ) +
+  theme_minimal()
+ggsave("figures/fig20.svg", figure_20, width=output_width, height=output_height, units=output_units, bg="white")
+figure_20
+```
+
+### Figure 26
+Outcomes of closure over time, UK museums 2000-2025
+```{r outcomes-over-time}
+fig_26_data <- outcomes_over_time_vs_governance |>
+  filter(governance_broad == "local authority") |>
+  group_by(period_of_closure) |>
+  mutate(percentage=round(frequency / sum(frequency) * 100, 1)) |>
+  ungroup() |>
+  filter(outcome_event_type %in% important_outcomes)
+important_outcomes <- c("mostly transferred", "mostly sold", "mostly stored", "mixed", "mostly unknown", "mostly left-in-situ", "mostly kept", "mostly returned")
+figure_26 <- ggplot(
+  fig_26_data, 
+  aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
+) +
+  geom_line(alpha=0.7, aes(group=outcome_event_type)) +
+  geom_point(aes(shape=outcome_event_type)) +
+  geom_text(
+    data=fig_26_data |> filter(period_of_closure=="2010-2014"),
+    position=position_jitter(width=0.5, height=0.5, seed=123),
+    aes(label=outcome_event_type, colour=outcome_event_type),
+    size=3
+  ) +
+  scale_colour_brewer(palette="Paired") +
+  guides(
+    colour="none",
+    shape="none"
+  ) +
+  labs(
+    title="Changing Outcomes for Local Authority Collections Over Time",
+    x="Year of closure",
+    y="Percentage of museum closures",
+    colour="Outcome of closure"
+  ) +
+  theme_minimal()
+ggsave("figures/fig26.svg", figure_26, width=output_width, height=output_height, units=output_units, bg="white")
+figure_26
+```
+
+### Figure 33
+```{r reason-vs-subject}
+reasons_vs_subject_with_scale <- reasons_vs_subject |>
+  filter(reason_core != "all", subject != "all") |>
+  mutate(z_percent=as.numeric(scale(percentage_x)))
+figure_33 <- ggplot(
+  reasons_vs_subject_with_scale |>
+    mutate(
+      reason_core=ifelse(
+        reason_core == "restructure of host organisation",
+        "restructure of host org.",
+        reason_core
+      )
+    ),
+  aes(
+    x=factor(
+      subject,
+      c(
+        "archaeology",
+        "arts",
+        "belief & identity",
+        "buildings",
+        "communications",
+        "food & drink",
+        "industry & manufacture",
+        "leisure & sport",
+        "local histories",
+        "medicine & health",
+        "natural world",
+        "personality",
+        "rural industry",
+        "science & technology",
+        "sea & seafaring",
+        "services",
+        "transport",
+        "utilities",
+        "war & conflict",
+        "mixed",
+        "other"
+      )
+    ),
+    y=factor(
+      reason_core,
+      c(
+        "unknown",
+        "other",
+        "destruction",
+        "dispute",
+        "collections",
+        "staff",
+        "restructure of host org.",
+        "low visitor numbers",
+        "strategic closure",
+        "building",
+        "life events",
+        "loss of premises",
+        "financial"
+      )
+    ),
+    fill=z_percent
+  )
+) +
+  geom_tile() +
+  geom_text(aes(label=percentage_x), size=2.5, colour="black") +
+  heatmap_fill_scale +
+  labs(
+    title="Reasons for Museum Closure by Subject",
+    x="Subject matter",
+    y="Reason for closure"
+  ) +
+  standard_heatmap_theme +
+  theme(
+    axis.text.x = element_text(size=11, vjust=1.1),
+    axis.text.y = element_text(size=11)
+  )
+ggsave("figures/fig33.svg", figure_33, width=output_width, height=output_height, units=output_units, bg="white")
+figure_33
+```
+
+### Figure 34
+```{r reason-vs-size}
+reasons_vs_size_with_scale <- reasons_vs_size |>
+  filter(reason_core != "all", size != "all") |>
+  mutate(z_percent=as.numeric(scale(percentage_x)))
+figure_34 <- ggplot(
+  reasons_vs_size_with_scale,
+  aes(
+    x=size,
+    y=factor(
+      reason_core,
+      c(
+        "unknown",
+        "other",
+        "destruction",
+        "dispute",
+        "collections",
+        "staff",
+        "restructure of host organisation",
+        "low visitor numbers",
+        "strategic closure",
+        "building",
+        "life events",
+        "loss of premises",
+        "financial"
+      )
+    ),
+    fill=z_percent
+  )
+) +
+  geom_tile() +
+  geom_text(aes(label=percentage_x), size=2.5, colour="black") +
+  heatmap_fill_scale +
+  labs(
+    title="Reasons for Museum Closure by Size",
+    x="Museum size",
+    y="Reason for closure"
+  ) +
+  standard_heatmap_theme +
+  theme(
+    axis.text.x = element_text(size=11, angle=0, hjust=0.5),
+    axis.text.y = element_text(size=11)
+  )
+ggsave("figures/fig34.svg", figure_34, width=output_width, height=output_height, units=output_units, bg="white")
+figure_34
+```
+
+### Figure 23
+Time taken by closed museums to dispose of objects
+```{r outcomes-over-time}
+figure_23 <- ggplot(
+  closure_lengths_summary |>
+    mutate(all="all") |>
+    filter(!closure_length_category %in% c("all", "unknown")),
+  aes(
+    x=closure_length_category,
+    y=count,
+    group=all
+  )
+) +
+  geom_point() +
+  geom_line() +
+  labs(
+    title = "Time Taken by Closed Museums to Dispose of Objects",
+    x = "Length of disposal period (years)",
+    y = "Number of museums"
+  ) +
+  standard_bars_theme +
+  theme(
+    axis.text.x = element_text(angle=30, hjust=1)
+  )
+ggsave("figures/fig23.svg", figure_23, width=output_width, height=output_height, units=output_units, bg="white")
+figure_23
+```

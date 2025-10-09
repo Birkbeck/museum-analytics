@@ -19,7 +19,7 @@ taxonomy_theme <- theme(
   legend.key = element_rect(fill="white")
 )
 
-dispersal_events_csv <- "data/query_results/dispersal_events.csv"
+dispersal_events_csv <- "data/closure_data/dispersal_events.csv"
 dispersal_events <- read_csv(dispersal_events_csv) |>
   mutate(
     initial_museum_all = "All",
@@ -58,7 +58,26 @@ closure_reasons <- dispersal_events |>
       )
     )
 
-size_types_csv <- "data/size_types.csv"
+core_reasons <- closure_reasons |>
+  select(type_name=closure_reason_top_level) |>
+  distinct() |>
+  mutate(sub_type_of="", is_core=TRUE)
+sub_core_reasons <- closure_reasons |>
+  select(type_name=closure_reason_mid_level, sub_type_of=closure_reason_top_level) |>
+  distinct() |>
+  mutate(is_core=FALSE) |>
+  filter(!is.na(type_name))
+specific_reasons <- closure_reasons |>
+  select(type_name=closure_reason_low_level, sub_type_of=closure_reason_mid_level) |>
+  distinct() |>
+  mutate(is_core=FALSE) |>
+  filter(!is.na(type_name), !is.na(sub_type_of))
+core_reasons |>
+  rbind(sub_core_reasons) |>
+  rbind(specific_reasons) |>
+  write_csv("data-model/reason_types.csv")
+
+size_types_csv <- "data-model/size_types.csv"
 size_types <- read_csv(size_types_csv)
 size_hierarchy <- size_taxonomy(size_types)
 ggsave(
@@ -68,7 +87,7 @@ ggsave(
   height=4
 )
 
-governance_types_csv <- "data/governance_types.csv"
+governance_types_csv <- "data-model/governance_types.csv"
 governance_types <- read_csv(governance_types_csv)
 governance_hierarchy <- governance_taxonomy(governance_types)
 ggsave(
@@ -78,7 +97,7 @@ ggsave(
   height=6
 )
 
-subject_types_csv <- "data/subject_types.csv"
+subject_types_csv <- "data-model/subject_types.csv"
 subject_types <- read_csv(subject_types_csv)
 subject_hierarchy <- subject_taxonomy(subject_types)
 ggsave(
@@ -88,7 +107,7 @@ ggsave(
   height=18
 )
 
-actor_types_csv <- "data/query_results/actor_types.csv"
+actor_types_csv <- "data-model/actor_types.csv"
 actor_types <- read_csv(actor_types_csv)
 actor_type_hierarchy <- actors_taxonomy()
 ggsave(
@@ -98,7 +117,7 @@ ggsave(
   height=16
 )
 
-event_types_csv <- "data/query_results/event_types.csv"
+event_types_csv <- "data-model/event_types.csv"
 event_types <- read_csv(event_types_csv)
 event_type_hierarchy <- events_taxonomy()
 ggsave(

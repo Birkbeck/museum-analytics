@@ -1,0 +1,122 @@
+Column,Definition
+year,Calendar year (YYYY)
+total_all,Predicted number of museums of all types at the end of the year
+total_lo_all,Lower bound of the 95% confidence interval for total_all
+total_hi_all,Upper bound of the 95% confidence interval for total_all
+openings_all,Predicted number of openings of museums of all types during the year
+openings_lo_all,Lower bound of the 95% confidence interval for openings_all
+openings_hi_all,Upper bound of the 95% confidence interval for openings_all
+closures_all,Predicted number of closures of museums of all types during the year
+closures_lo_all,Lower bound of the 95% confidence interval for closures_all
+closures_hi_all,Upper bound of the 95% confidence interval for closures_all
+opening_rate_all,Openings per 100 existing museums at the start of the year (all types)
+opening_rate_lo_all,Lower bound of the 95% confidence interval for opening_rate_all
+opening_rate_hi_all,Upper bound of the 95% confidence interval for opening_rate_all
+closure_rate_all,Closures per 100 existing museums at the start of the year (all types)
+closure_rate_lo_all,Lower bound of the 95% confidence interval for closure_rate_all
+closure_rate_hi_all,Upper bound of the 95% confidence interval for closure_rate_all
+total_independent,Predicted number of independent museums at the end of the year
+total_lo_independent,Lower bound of the 95% confidence interval for total_independent
+total_hi_independent,Upper bound of the 95% confidence interval for total_independent
+openings_independent,Predicted number of openings of independent museums during the year
+openings_lo_independent,Lower bound of the 95% confidence interval for openings_independent
+openings_hi_independent,Upper bound of the 95% confidence interval for openings_independent
+closures_independent,Predicted number of closures of independent museums during the year
+closures_lo_independent,Lower bound of the 95% confidence interval for closures_independent
+closures_hi_independent,Upper bound of the 95% confidence interval for closures_independent
+opening_rate_independent,Openings per 100 existing independent museums at the start of the year
+opening_rate_lo_independent,Lower bound of the 95% confidence interval for opening_rate_independent
+opening_rate_hi_independent,Upper bound of the 95% confidence interval for opening_rate_independent
+closure_rate_independent,Closures per 100 existing independent museums at the start of the year
+closure_rate_lo_independent,Lower bound of the 95% confidence interval for closure_rate_independent
+closure_rate_hi_independent,Upper bound of the 95% confidence interval for closure_rate_independent
+total_local_authority,Predicted number of local authority museums at the end of the year
+total_lo_local_authority,Lower bound of the 95% confidence interval for total_local_authority
+total_hi_local_authority,Upper bound of the 95% confidence interval for total_local_authority
+openings_local_authority,Predicted number of openings of local authority museums during the year
+openings_lo_local_authority,Lower bound of the 95% confidence interval for openings_local_authority
+openings_hi_local_authority,Upper bound of the 95% confidence interval for openings_local_authority
+closures_local_authority,Predicted number of closures of local authority museums during the year
+closures_lo_local_authority,Lower bound of the 95% confidence interval for closures_local_authority
+closures_hi_local_authority,Upper bound of the 95% confidence interval for closures_local_authority
+opening_rate_local_authority,Openings per 100 existing local authority museums at the start of the year
+opening_rate_lo_local_authority,Lower bound of the 95% confidence interval for opening_rate_local_authority
+opening_rate_hi_local_authority,Upper bound of the 95% confidence interval for opening_rate_local_authority
+closure_rate_local_authority,Closures per 100 existing local authority museums at the start of the year
+closure_rate_lo_local_authority,Lower bound of the 95% confidence interval for closure_rate_local_authority
+closure_rate_hi_local_authority,Upper bound of the 95% confidence interval for closure_rate_local_authority
+total_private,Predicted number of private museums at the end of the year
+total_lo_private,Lower bound of the 95% confidence interval for total_private
+total_hi_private,Upper bound of the 95% confidence interval for total_private
+openings_private,Predicted number of openings of private museums during the year
+openings_lo_private,Lower bound of the 95% confidence interval for openings_private
+openings_hi_private,Upper bound of the 95% confidence interval for openings_private
+closures_private,Predicted number of closures of private museums during the year
+closures_lo_private,Lower bound of the 95% confidence interval for closures_private
+closures_hi_private,Upper bound of the 95% confidence interval for closures_private
+opening_rate_private,Openings per 100 existing private museums at the start of the year
+opening_rate_lo_private,Lower bound of the 95% confidence interval for opening_rate_private
+opening_rate_hi_private,Upper bound of the 95% confidence interval for opening_rate_private
+closure_rate_private,Closures per 100 existing private museums at the start of the year
+closure_rate_lo_private,Lower bound of the 95% confidence interval for closure_rate_private
+closure_rate_hi_private,Upper bound of the 95% confidence interval for closure_rate_private
+total_national,Predicted number of national museums at the end of the year
+total_lo_national,Lower bound of the 95% confidence interval for total_national
+total_hi_national,Upper bound of the 95% confidence interval for total_national
+openings_national,Predicted number of openings of national museums during the year
+openings_lo_national,Lower bound of the 95% confidence interval for openings_national
+openings_hi_national,Upper bound of the 95% confidence interval for openings_national
+closures_national,Predicted number of closures of national museums during the year
+closures_lo_national,Lower bound of the 95% confidence interval for closures_national
+closures_hi_national,Upper bound of the 95% confidence interval for closures_national
+opening_rate_national,Openings per 100 existing national museums at the start of the year
+opening_rate_lo_national,Lower bound of the 95% confidence interval for opening_rate_national
+opening_rate_hi_national,Upper bound of the 95% confidence interval for opening_rate_national
+closure_rate_national,Closures per 100 existing national museums at the start of the year
+closure_rate_lo_national,Lower bound of the 95% confidence interval for closure_rate_national
+closure_rate_hi_national,Upper bound of the 95% confidence interval for closure_rate_national
+total_unknown_governance,Predicted number of museums with unknown governance at the end of the year
+total_lo_unknown_governance,Lower bound of the 95% confidence interval for total_unknown_governance
+total_hi_unknown_governance,Upper bound of the 95% confidence interval for total_unknown_governance
+openings_unknown_governance,Predicted number of openings of museums with unknown governance during the year
+openings_lo_unknown_governance,Lower bound of the 95% confidence interval for openings_unknown_governance
+openings_hi_unknown_governance,Upper bound of the 95% confidence interval for openings_unknown_governance
+closures_unknown_governance,Predicted number of closures of museums with unknown governance during the year
+closures_lo_unknown_governance,Lower bound of the 95% confidence interval for closures_unknown_governance
+closures_hi_unknown_governance,Upper bound of the 95% confidence interval for closures_unknown_governance
+opening_rate_unknown_governance,Openings per 100 existing museums with unknown governance at the start of the year
+opening_rate_lo_unknown_governance,Lower bound of the 95% confidence interval for opening_rate_unknown_governance
+opening_rate_hi_unknown_governance,Upper bound of the 95% confidence interval for opening_rate_unknown_governance
+closure_rate_unknown_governance,Closures per 100 existing museums with unknown governance at the start of the year
+closure_rate_lo_unknown_governance,Lower bound of the 95% confidence interval for closure_rate_unknown_governance
+closure_rate_hi_unknown_governance,Upper bound of the 95% confidence interval for closure_rate_unknown_governance
+total_university,Predicted number of university museums at the end of the year
+total_lo_university,Lower bound of the 95% confidence interval for total_university
+total_hi_university,Upper bound of the 95% confidence interval for total_university
+openings_university,Predicted number of openings of university museums during the year
+openings_lo_university,Lower bound of the 95% confidence interval for openings_university
+openings_hi_university,Upper bound of the 95% confidence interval for openings_university
+closures_university,Predicted number of closures of university museums during the year
+closures_lo_university,Lower bound of the 95% confidence interval for closures_university
+closures_hi_university,Upper bound of the 95% confidence interval for closures_university
+opening_rate_university,Openings per 100 existing university museums at the start of the year
+opening_rate_lo_university,Lower bound of the 95% confidence interval for opening_rate_university
+opening_rate_hi_university,Upper bound of the 95% confidence interval for opening_rate_university
+closure_rate_university,Closures per 100 existing university museums at the start of the year
+closure_rate_lo_university,Lower bound of the 95% confidence interval for closure_rate_university
+closure_rate_hi_university,Upper bound of the 95% confidence interval for closure_rate_university
+total_other_government,Predicted number of other government museums at the end of the year
+total_lo_other_government,Lower bound of the 95% confidence interval for total_other_government
+total_hi_other_government,Upper bound of the 95% confidence interval for total_other_government
+openings_other_government,Predicted number of openings of other government museums during the year
+openings_lo_other_government,Lower bound of the 95% confidence interval for openings_other_government
+openings_hi_other_government,Upper bound of the 95% confidence interval for openings_other_government
+closures_other_government,Predicted number of closures of other government museums during the year
+closures_lo_other_government,Lower bound of the 95% confidence interval for closures_other_government
+closures_hi_other_government,Upper bound of the 95% confidence interval for closures_other_government
+opening_rate_other_government,Openings per 100 existing other government museums at the start of the year
+opening_rate_lo_other_government,Lower bound of the 95% confidence interval for opening_rate_other_government
+opening_rate_hi_other_government,Upper bound of the 95% confidence interval for opening_rate_other_government
+closure_rate_other_government,Closures per 100 existing other government museums at the start of the year
+closure_rate_lo_other_government,Lower bound of the 95% confidence interval for closure_rate_other_government
+closure_rate_hi_other_government,Upper bound of the 95% confidence interval for closure_rate_other_government
