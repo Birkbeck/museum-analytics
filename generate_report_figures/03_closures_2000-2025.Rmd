@@ -846,10 +846,10 @@ write_xlsx(
 
 ## Figures
 
-### Figure 19
+### Figure 18
 Reasons for closure, UK museums 2000-25
 ```{r reasons}
-figure_19 <- ggplot(
+figure_18 <- ggplot(
   reasons_for_closure |>
     mutate(
       reason_core=ifelse(
@@ -871,14 +871,14 @@ figure_19 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig19.svg", figure_19, width=output_width, height=output_height, units=output_units, bg="white")
-figure_19
+ggsave("figures/fig18.svg", figure_18, width=output_width, height=output_height, units=output_units, bg="white")
+figure_18
 ```
 
-### Figure 20
+### Figure 19
 Outcomes for the collection after closure, UK museums 2000-25
 ```{r reasons}
-figure_20 <- ggplot(
+figure_19 <- ggplot(
   outcomes_events,
   aes(x=frequency, y=reorder(outcome_event_type, frequency))
 ) +
@@ -893,14 +893,14 @@ figure_20 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig20.svg", figure_20, width=output_width, height=output_height, units=output_units, bg="white")
-figure_20
+ggsave("figures/fig19.svg", figure_19, width=output_width, height=output_height, units=output_units, bg="white")
+figure_19
 ```
 
-### Figure 22
+### Figure 21
 The number of recipients for collections from closed museums, 2000-25
 ```{r reasons}
-figure_22 <- ggplot(
+figure_21 <- ggplot(
   outcomes_recipient_counts,
   aes(x=frequency, y=outcome_recipient_count)
 ) +
@@ -915,14 +915,14 @@ figure_22 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig22.svg", figure_22, width=output_width, height=output_height, units=output_units, bg="white")
-figure_22
+ggsave("figures/fig21.svg", figure_21, width=output_width, height=output_height, units=output_units, bg="white")
+figure_21
 ```
 
-### Figure 23
+### Figure 22
 Destination of collections from closed museums, 2000-25
 ```{r reasons}
-figure_23 <- ggplot(
+figure_22 <- ggplot(
   outcomes_destinations |>
     filter(outcome_destination_type != "mostly unknown") |>
     mutate(percentage=round(frequency / sum(frequency) * 100, 1)),
@@ -941,14 +941,14 @@ figure_23 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig23.svg", figure_23, width=output_width, height=output_height, units=output_units, bg="white")
-figure_23
+ggsave("figures/fig22.svg", figure_22, width=output_width, height=output_height, units=output_units, bg="white")
+figure_22
 ```
 
-### Figure 26
+### Figure 25
 Outcomes for the collection after closure, UK museums 2000-25
 ```{r reasons}
-figure_26 <- ggplot(
+figure_25 <- ggplot(
   outcomes_events_vs_governance |>
     filter(governance == "local authority", outcome_event_type != "all"),
   aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
@@ -965,14 +965,14 @@ figure_26 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig26.svg", figure_26, width=output_width, height=output_height, units=output_units, bg="white")
-figure_26
+ggsave("figures/fig25.svg", figure_25, width=output_width, height=output_height, units=output_units, bg="white")
+figure_25
 ```
 
-### Figure 29
+### Figure 28
 Outcomes for the collection after closure, UK museums 2000-25
 ```{r reasons}
-figure_29 <- ggplot(
+figure_28 <- ggplot(
   outcomes_events_vs_governance |>
     filter(governance == "independent", outcome_event_type != "all"),
   aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
@@ -989,14 +989,14 @@ figure_29 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig29.svg", figure_29, width=output_width, height=output_height, units=output_units, bg="white")
-figure_29
+ggsave("figures/fig28.svg", figure_28, width=output_width, height=output_height, units=output_units, bg="white")
+figure_28
 ```
 
-### Figure 31
+### Figure 30
 Outcomes for the collection after closure, UK museums 2000-25
 ```{r reasons}
-figure_31 <- ggplot(
+figure_30 <- ggplot(
   outcomes_events_vs_governance |>
     filter(governance == "private", outcome_event_type != "all"),
   aes(x=percentage_x, y=reorder(outcome_event_type, percentage_x))
@@ -1013,15 +1013,15 @@ figure_31 <- ggplot(
   theme(
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig31.svg", figure_31, width=output_width, height=output_height, units=output_units, bg="white")
-figure_31
+ggsave("figures/fig30.svg", figure_30, width=output_width, height=output_height, units=output_units, bg="white")
+figure_30
 ```
 
-### Figure 21
+### Figure 20
 Outcomes of closure over time, UK museums 2000-2025
 ```{r outcomes-over-time}
 important_outcomes <- c("mostly transferred", "mostly sold", "mostly stored", "mixed", "mostly unknown", "mostly left-in-situ", "mostly kept", "mostly returned")
-figure_21 <- ggplot(
+figure_20 <- ggplot(
   outcomes_over_time |> filter(outcome_event_type %in% important_outcomes), 
   aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
 ) +
@@ -1045,28 +1045,28 @@ figure_21 <- ggplot(
     colour="Outcome of closure"
   ) +
   theme_minimal()
-ggsave("figures/fig21.svg", figure_21, width=output_width, height=output_height, units=output_units, bg="white")
-figure_21
+ggsave("figures/fig20.svg", figure_20, width=output_width, height=output_height, units=output_units, bg="white")
+figure_20
 ```
 
-### Figure 27
+### Figure 26
 Outcomes of closure over time, UK museums 2000-2025
 ```{r outcomes-over-time}
-fig_27_data <- outcomes_over_time_vs_governance |>
+fig_26_data <- outcomes_over_time_vs_governance |>
   filter(governance_broad == "local authority") |>
   group_by(period_of_closure) |>
   mutate(percentage=round(frequency / sum(frequency) * 100, 1)) |>
   ungroup() |>
   filter(outcome_event_type %in% important_outcomes)
 important_outcomes <- c("mostly transferred", "mostly sold", "mostly stored", "mixed", "mostly unknown", "mostly left-in-situ", "mostly kept", "mostly returned")
-figure_27 <- ggplot(
-  fig_27_data, 
+figure_26 <- ggplot(
+  fig_26_data, 
   aes(x=period_of_closure, y=percentage, colour=outcome_event_type)
 ) +
   geom_line(alpha=0.7, aes(group=outcome_event_type)) +
   geom_point(aes(shape=outcome_event_type)) +
   geom_text(
-    data=fig_27_data |> filter(period_of_closure=="2010-2014"),
+    data=fig_26_data |> filter(period_of_closure=="2010-2014"),
     position=position_jitter(width=0.5, height=0.5, seed=123),
     aes(label=outcome_event_type, colour=outcome_event_type),
     size=3
@@ -1083,16 +1083,16 @@ figure_27 <- ggplot(
     colour="Outcome of closure"
   ) +
   theme_minimal()
-ggsave("figures/fig27.svg", figure_27, width=output_width, height=output_height, units=output_units, bg="white")
-figure_27
+ggsave("figures/fig26.svg", figure_26, width=output_width, height=output_height, units=output_units, bg="white")
+figure_26
 ```
 
-### Figure 34
+### Figure 33
 ```{r reason-vs-subject}
 reasons_vs_subject_with_scale <- reasons_vs_subject |>
   filter(reason_core != "all", subject != "all") |>
   mutate(z_percent=as.numeric(scale(percentage_x)))
-figure_34 <- ggplot(
+figure_33 <- ggplot(
   reasons_vs_subject_with_scale |>
     mutate(
       reason_core=ifelse(
@@ -1162,16 +1162,16 @@ figure_34 <- ggplot(
     axis.text.x = element_text(size=11, vjust=1.1),
     axis.text.y = element_text(size=11)
   )
-ggsave("figures/fig34.svg", figure_34, width=output_width, height=output_height, units=output_units, bg="white")
-figure_34
+ggsave("figures/fig33.svg", figure_33, width=output_width, height=output_height, units=output_units, bg="white")
+figure_33
 ```
 
-### Figure 35
+### Figure 34
 ```{r reason-vs-size}
 reasons_vs_size_with_scale <- reasons_vs_size |>
   filter(reason_core != "all", size != "all") |>
   mutate(z_percent=as.numeric(scale(percentage_x)))
-figure_35 <- ggplot(
+figure_34 <- ggplot(
   reasons_vs_size_with_scale,
   aes(
     x=size,
@@ -1209,14 +1209,14 @@ figure_35 <- ggplot(
     axis.text.x = element_text(size=11, angle=0, hjust=0.5),
     axis.text.y = element_text(size=11)
   )
-ggsave("figures/fig35.svg", figure_35, width=output_width, height=output_height, units=output_units, bg="white")
-figure_35
+ggsave("figures/fig34.svg", figure_34, width=output_width, height=output_height, units=output_units, bg="white")
+figure_34
 ```
 
-### Figure 24
+### Figure 23
 Time taken by closed museums to dispose of objects
 ```{r outcomes-over-time}
-figure_24 <- ggplot(
+figure_23 <- ggplot(
   closure_lengths_summary |>
     mutate(all="all") |>
     filter(!closure_length_category %in% c("all", "unknown")),
@@ -1237,6 +1237,6 @@ figure_24 <- ggplot(
   theme(
     axis.text.x = element_text(angle=30, hjust=1)
   )
-ggsave("figures/fig24.svg", figure_24, width=output_width, height=output_height, units=output_units, bg="white")
-figure_24
+ggsave("figures/fig23.svg", figure_23, width=output_width, height=output_height, units=output_units, bg="white")
+figure_23
 ```

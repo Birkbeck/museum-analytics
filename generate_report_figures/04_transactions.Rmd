@@ -527,7 +527,7 @@ write_xlsx(
 )
 ```
 
-### Figure 25
+### Figure 24
 ```{r}
 transactions_summary <- transactions |>
   filter(
@@ -538,7 +538,7 @@ transactions_summary <- transactions |>
   summarize(count=n_distinct(event_id)) |>
   ungroup() |>
   mutate(percentage=round(count / sum(count) * 100, 1))
-figure_25 <- ggplot(
+figure_24 <- ggplot(
   transactions_summary,
   aes(x=percentage, y=reorder(recipient_core_type, percentage))
 ) +
@@ -555,6 +555,6 @@ figure_25 <- ggplot(
     axis.text.y = element_text(size=11),
     panel.grid.major.y = element_blank()
   )
-ggsave("figures/fig25.svg", figure_25, width=output_width, height=output_height, units=output_units, bg="white")
-figure_25
+ggsave("figures/fig24.svg", figure_24, width=output_width, height=output_height, units=output_units, bg="white")
+figure_24
 ```

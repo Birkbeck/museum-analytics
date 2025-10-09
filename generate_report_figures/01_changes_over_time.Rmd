@@ -764,59 +764,56 @@ figure_5
 ```
 
 ### Figure 16
-The year of foundation of museums open in the UK in 2000, the colour blocks indicate five-year intervals
-```{r founding-year-histogram-2000}
+```{r}
+df_2000 <- museums |>
+  filter(
+    (is.na(year_closed_sampled) | year_closed_sampled > 2000),
+    year_opened_2 < 2000
+  ) |>
+  transmute(year_opened_sampled, cohort = "Museums in 2000")
+
+df_2025 <- museums |>
+  filter(is.na(year_closed_sampled)) |>
+  transmute(year_opened_sampled, cohort = "Museums in 2025")
+
+overlay_df <- bind_rows(df_2000, df_2025)
+
 figure_16 <- ggplot(
-  museums |>
-    filter(is.na(year_closed_sampled) | year_closed_sampled > 2000, year_opened_2 < 2000),
-  aes(
-    x=year_opened_sampled
-  )
+  overlay_df,
+  aes(x = year_opened_sampled, fill = cohort)
 ) +
-  geom_histogram(binwidth=5, boundary=2000, closed="left", fill="#004D40", alpha=0.7) +
+  geom_histogram(
+    binwidth = 5,
+    boundary = 1800,
+    closed = "left",
+    position = "identity",
+    alpha = 1
+  ) +
+  scale_fill_manual(
+    values = c("Museums in 2000" = "grey40", "Museums in 2025" = "grey70")
+  ) +
   scale_x_continuous(
-    breaks=seq(1800, 2000, 50),
-    minor_breaks=seq(1800, 2000, 10),
-    limits=c(1800, 2000)
+    breaks = seq(1800, 2025, 50),
+    minor_breaks = seq(1800, 2025, 10),
+    limits = c(1800, 2025)
   ) +
+  scale_y_continuous(limits = c(0, 350)) +
   labs(
-    title="Founding Year of Museums Open in 2000",
-    subtitle="Excluding pre-1800 museums",
-    y="Number of museums",
-    x="Founding year"
+    title = "Founding Year of Museums in 2000 vs 2025",
+    subtitle = "Excluding pre-1800 museums",
+    y = "Number of museums",
+    x = "Founding year",
+    fill = NULL
   ) +
-  standard_bars_theme
+  standard_bars_theme +
+  theme(
+    legend.position=c(0.2, 0.8),
+    legend.text=element_text(size=12)
+  )
 ggsave("figures/fig16.svg", figure_16, width=output_width, height=output_height, units=output_units, bg="white")
 figure_16
 ```
-
 ### Figure 17
-The year of foundation of museums open in the UK in 2025 grouped by five-year intervals
-```{r founding-year-histogram-2025}
-figure_17 <- ggplot(
-  museums |>
-    filter(is.na(year_closed_sampled)),
-  aes(
-    x=year_opened_sampled
-  )
-) +
-  geom_histogram(binwidth=5, boundary=2025, closed="left", fill="#004D40", alpha=0.7) +
-  scale_x_continuous(
-    breaks=seq(1800, 2025, 50),
-    minor_breaks=seq(1800, 2025, 10),
-    limits=c(1800, 2025)
-  ) +
-  labs(
-    title="Founding Year of Museums Open in 2025",
-    subtitle="Excluding pre-1800 museums",
-    y="Number of museums",
-    x="Founding year"
-  ) +
-  standard_bars_theme
-ggsave("figures/fig17.svg", figure_17, width=output_width, height=output_height, units=output_units, bg="white")
-figure_17
-```
-### Figure 18
 ```{r hazard-by-age-group}
 museums_with_ages <- museums |>
   filter(!region %in% c("Channel Islands", "Isle of Man")) |>
@@ -910,7 +907,7 @@ haz_by_band_ci <- haz_by_band_ci %>%
   )
 
 # Plot with error bars
-figure_18 <- ggplot(haz_by_band_ci |> filter(!is.na(age_band)), aes(age_band, hazard_rate_k, group=1)) +
+figure_17 <- ggplot(haz_by_band_ci |> filter(!is.na(age_band)), aes(age_band, hazard_rate_k, group=1)) +
   geom_col(fill="#004D40", alpha=0.7) +
   geom_errorbar(aes(ymin = rate_lo_k, ymax = rate_hi_k), width = 0.2) +
   labs(
@@ -924,8 +921,8 @@ figure_18 <- ggplot(haz_by_band_ci |> filter(!is.na(age_band)), aes(age_band, ha
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank()
   )
-ggsave("figures/fig18.svg", figure_18, width=output_width, height=output_height, units=output_units, bg="white")
-figure_18
+ggsave("figures/fig17.svg", figure_17, width=output_width, height=output_height, units=output_units, bg="white")
+figure_17
 ```
 
 ```{r output-tables}
