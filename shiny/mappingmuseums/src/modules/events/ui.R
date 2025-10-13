@@ -73,16 +73,7 @@ eventsUI <- function(id) {
         form_item(
           "Counts or percentages",
           tooltip_count_or_percentage_events,
-          radioButtons(
-            inputId = NS(id, "countOrPercentage"),
-            label = "",
-            choices = list(
-              "Show number of events" = "count",
-              "Show percentage of events" = "percentage",
-              "Show rowwise percentages" = "percentage_rowwise",
-              "Show columnwise percentages" = "percentage_columnwise"
-            )
-          )
+          uiOutput(NS(id, "mainPlotOptions"))
         ),
 
         form_item(
