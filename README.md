@@ -13,7 +13,6 @@ The creation of the tools in this repository is described in the paper: Wright, 
 ## Download the data
 
 The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *dispersal of their collections*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
-TODO: add readme and data dicts into this subfolder, as it will be the most important one for users
 
  It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
 
@@ -25,7 +24,7 @@ The `data-model` directory contains the data model (also known as conceptual mod
 
 ## Software
 
-TODO: what is it?
+The software tools in this repository can be used in conjunction with the above mentioned data to generate a Neo4j graph database, to query the database, and to produce an interactive application for data exploration and visualization.
 
 ### Source code
 
@@ -47,16 +46,14 @@ The source code in `llm-data-modelling` describes experiments used for the autom
 
 ## Research team
 
-TODO: add affiliation and sort in some way
-
-- Fiona Candlin (PI) – Prof etc
-- Andrea Ballatore (Co-I) – Cultural Geo-Analytics Lab, King's College London
-- Mark Liebenrood
-- Alexandra Poulovassilis
-- Peter T Wood
-- George A Wright
-- Maria Golovteeva
-- Helena Bonett
+- Fiona Candlin, Professor of Museology, School of Historical Studies 
+- Andrea Ballatore, Senior Lecturer in Cultural Data Science, Cultural Geo-Analytics Lab, Department of Digital Humanities, King's College London. 
+- Mark Liebenrood, Post-doctoral Researcher (data collection), School of Historical Studies 
+- Alexandra Poulovassilis, Professor Emerita, School of Computing and Mathematical Sciences  
+- Peter T Wood, Professor of Computer Science, School of Computing and Mathematical Sciences 
+- George A Wright, Post-doctoral Researcher (Computer Science) School of Computing and Mathematical Sciences 
+- Helena Bonett, Researcher (data collection), School of Historical Studies 
+- Maria Golovteeva, Researcher (data collection), School of Historical Studies 
 
 ## License & usage
 
