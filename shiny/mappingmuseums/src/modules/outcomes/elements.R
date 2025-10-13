@@ -131,9 +131,9 @@ closure_outcomes_over_time_table <- function(museums_table, outcome_type) {
         
 closure_outcomes_bar_chart <- function(summary_table, count_or_percentage, outcome_type, outcome_type_name) {
   if (count_or_percentage == "frequency") {
-    x_title <- "Number of museum closures"
+    x_title <- "Number of museums"
   } else {
-    x_title <- "Percentage of museum closures"
+    x_title <- "Percentage of museums"
   }
   if (outcome_type %in% c("outcome_event_type", "outcome_recipient_type")) {
     plot <- ggplot(
@@ -152,10 +152,17 @@ closure_outcomes_bar_chart <- function(summary_table, count_or_percentage, outco
       )
     )
   }
+  title <- c(
+    "outcome_event_type"="Collection outcomes 2000-2025",
+    "outcome_recipient_type"="Collection recipients 2000-2025",
+    "outcome_recipient_count"="Recipient counts per museum 2000-2025",
+    "outcome_destination_type"="Collection destinations 2000-2025",
+    "outcome_largest_share"="Largest recipient share per museum 2000-2025"
+  )[outcome_type]
   plot <- plot +
     geom_col(fill=purple) +
     labs(
-      title="Outcomes of Museum Closure 2000-2025",
+      title=title,
       y=outcome_type_name,
       x=x_title
     ) +
