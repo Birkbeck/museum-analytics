@@ -4,9 +4,9 @@ eventsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateRadioButtons(session=session, inputId="yAxis", selected="Sender")
+      updateRadioButtons(session=session, inputId="yAxis", selected="Initial museum")
       updateRadioButtons(session=session, inputId="xAxis", selected="Event")
-      updateRadioButtons(session=session, inputId="stepsOrLast", selected="Stepwise events")
+      updateRadioButtons(session=session, inputId="stepsOrLast", selected="Sequence of events")
       updatePickerInput(
         session=session,
         inputId="stagesInPath",
@@ -157,10 +157,10 @@ eventsServer <- function(id) {
         "Event" = {
           paste0("Event (", input$eventGrouping, ")")
         },
-        "Sender type" = {
+        "Sender" = {
           paste0("Sender (", input$actorGrouping, ")")
         },
-        "Recipient type" = {
+        "Recipient" = {
           paste0("Recipient (", input$actorGrouping, ")")
         },
         "Object" = {
@@ -191,6 +191,24 @@ eventsServer <- function(id) {
         "Initial museum" = {
           paste0("Initial museum (", input$museumGrouping, ")")
         }
+      )
+    })
+
+    output$mainPlotOptions <- renderUI({
+      rowwise <- paste("Show percentages by", y_label())
+      columnwise <- paste("Show percentages by", x_label())
+      radioButtons(
+        inputId = NS(id, "countOrPercentage"),
+        label = "",
+        choices = setNames(
+          c("count", "percentage", "percentage_rowwise", "percentage_columnwise"),
+          c(
+            "Show number of events",
+            "Show percentage of events",
+            rowwise,
+            columnwise
+          )
+        )
       )
     })
 

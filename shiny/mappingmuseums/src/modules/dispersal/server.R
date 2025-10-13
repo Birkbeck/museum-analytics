@@ -4,7 +4,7 @@ dispersalServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateRadioButtons(session=session, inputId="stepsOrFirstLast", selected="Steps in path")
+      updateRadioButtons(session=session, inputId="stepsOrFirstLast", selected="Actors in path")
       updateSliderInput(session=session, inputId="stagesInOwnershipPath", value=2)
       updateCheckboxInput(session=session, inputId="showTransactionCounts", value=FALSE)
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")
@@ -405,8 +405,8 @@ dispersalServer <- function(id) {
           choices = list(
             "Show number of collections/objects" = "count",
             "Show percentage of collections/objects" = "percentage",
-            "Show rowwise percentages" = "percentage_y",
-            "Show columnwise percentages" = "percentage_x"
+            "Show percentages by museum type" = "percentage_y",
+            "Show percentages by distance category" = "percentage_x"
           )
         )
       }

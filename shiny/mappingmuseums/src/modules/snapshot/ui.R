@@ -42,15 +42,18 @@ snapshotUI <- function(id, production) {
           )
         ),
 
-        form_item(
-          "Secondary museum attribute (for heatmaps only)",
-          tooltip_secondary_attribute,
-          disabled(
-            selectInput(
-              NS(id, "secondAxis"),
-              label="",
-              choices=field_names$name,
-              selected="Country/Region"
+        shinyjs::hidden(
+          tags$div(
+            id=NS(id, "secondAxisFormItem"),
+            form_item(
+              "Secondary museum attribute",
+              tooltip_secondary_attribute,
+              selectInput(
+                NS(id, "secondAxis"),
+                label="",
+                choices=field_names$name,
+                selected="Country/Region"
+              )
             )
           )
         ),

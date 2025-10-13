@@ -23,14 +23,14 @@ dispersalUI <- function(id) {
           radioButtons(
             NS(id, "stepsOrFirstLast"),
             label="",
-            choices=c("Steps in path", "First and last actors"),
-            selected="Steps in path",
+            choices=c("Actors in path", "First and last actors"),
+            selected="Actors in path",
             inline=TRUE
           )
         ),
 
         form_item(
-          "Steps in path",
+          "Actors in path",
           tooltip_steps_in_path,
           sliderInput(
             NS(id, "stagesInOwnershipPath"),

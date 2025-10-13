@@ -18,24 +18,24 @@ eventsUI <- function(id) {
         form_subtitle("View", tooltip_view),
 
         form_item(
-          "Y-axis",
+          "Vertical axis",
           tooltip_main_attribute_events,
           radioButtons(
             NS(id, "yAxis"),
             label="",
-            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
-            selected="Sender",
+            choices=c("Event", "Initial museum", "Sender", "Recipient", "Object"),
+            selected="Initial museum",
             inline=TRUE
           )
         ),
         
         form_item(
-          "X-axis",
+          "Horizontal axis",
           tooltip_secondary_attribute_events,
           radioButtons(
             NS(id, "xAxis"),
             label="",
-            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
+            choices=c("Event", "Initial museum", "Sender", "Recipient", "Object"),
             selected="Event",
             inline=TRUE
           )
@@ -47,14 +47,14 @@ eventsUI <- function(id) {
           radioButtons(
             NS(id, "stepsOrLast"),
             label="",
-            choices=c("Stepwise events", "Last known event"),
-            selected="Stepwise events",
+            choices=c("Sequence of events", "Last known event"),
+            selected="Sequence of events",
             inline=TRUE
           )
         ),
 
         form_item(
-          "Steps in path",
+          "Steps in sequence of events",
           tooltip_stepwise_events,
           pickerInput(
             NS(id, "stagesInPath"),
@@ -73,16 +73,7 @@ eventsUI <- function(id) {
         form_item(
           "Counts or percentages",
           tooltip_count_or_percentage_events,
-          radioButtons(
-            inputId = NS(id, "countOrPercentage"),
-            label = "",
-            choices = list(
-              "Show number of events" = "count",
-              "Show percentage of events" = "percentage",
-              "Show rowwise percentages" = "percentage_rowwise",
-              "Show columnwise percentages" = "percentage_columnwise"
-            )
-          )
+          uiOutput(NS(id, "mainPlotOptions"))
         ),
 
         form_item(

@@ -14,7 +14,7 @@ taxonomy_theme <- theme(
   plot.title = element_text(size="18"),
   legend.position = "right",
   legend.title = element_text(size="14"),
-  legend.text = element_text(size="12"),
+  legend.text = element_text(size="10"),
   legend.background = element_rect(fill="white"),
   legend.key = element_rect(fill="white")
 )
@@ -84,7 +84,7 @@ ggsave(
   file="shiny/mappingmuseums/www/size_types.png",
   plot=size_hierarchy,
   width=14,
-  height=4
+  height=2
 )
 
 governance_types_csv <- "data-model/governance_types.csv"
@@ -94,7 +94,7 @@ ggsave(
   file="shiny/mappingmuseums/www/governance_types.png",
   plot=governance_hierarchy,
   width=14,
-  height=6
+  height=5
 )
 
 subject_types_csv <- "data-model/subject_types.csv"
@@ -104,7 +104,7 @@ ggsave(
   file="shiny/mappingmuseums/www/subject_types.png",
   plot=subject_hierarchy,
   width=14,
-  height=18
+  height=14
 )
 
 actor_types_csv <- "data-model/actor_types.csv"
@@ -114,7 +114,7 @@ ggsave(
   file="shiny/mappingmuseums/www/actor_types.png",
   plot=actor_type_hierarchy,
   width=14,
-  height=16
+  height=10
 )
 
 event_types_csv <- "data-model/event_types.csv"
@@ -124,13 +124,15 @@ ggsave(
   file="shiny/mappingmuseums/www/event_types.png",
   plot=event_type_hierarchy,
   width=14,
-  height=12
+  height=6
 )
 
+super_events_csv <- "data/closure_data/super_events.csv"
+super_events <- read_csv(super_events_csv)
 reason_type_hierarchy <- reasons_taxonomy()
 ggsave(
   file="shiny/mappingmuseums/www/reason_types.png",
   plot=reason_type_hierarchy,
   width=14,
-  height=16
+  height=13
 )

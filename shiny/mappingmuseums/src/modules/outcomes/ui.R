@@ -36,23 +36,26 @@ outcomesUI <- function(id) {
           )
         ),
 
-        form_item(
-          "Museums attribute (for heatmaps only)",
-          tooltip_secondary_attribute,
-          disabled(
-            radioButtons(
-              NS(id, "museumGrouping"),
-              label="",
-              choices=c(
-                field_names$name,
-                "Core reason for closure",
-                "Collection outcome",
-                "Collection recipient",
-                "Collection recipient count",
-                "Collection recipient share",
-                "Collection destination"
-              ),
-              selected="Governance"
+        shinyjs::hidden(
+          tags$div(
+            id=NS(id, "museumGroupingFormItem"),
+            form_item(
+              "Museums attribute",
+              tooltip_secondary_attribute,
+              radioButtons(
+                NS(id, "museumGrouping"),
+                label="",
+                choices=c(
+                  field_names$name,
+                  "Core reason for closure",
+                  "Collection outcome",
+                  "Collection recipient",
+                  "Collection recipient count",
+                  "Collection recipient share",
+                  "Collection destination"
+                ),
+                selected="Governance"
+              )
             )
           )
         ),

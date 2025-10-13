@@ -10,8 +10,8 @@ restructure of host organisation,,TRUE
 unknown,,TRUE
 destruction,,TRUE
 other,,TRUE
-staff,,TRUE
 dispute,,TRUE
+staff,,TRUE
 low visitor numbers - other,low visitor numbers,FALSE
 financial - funding cut,financial,FALSE
 loss of premises - change of use,loss of premises,FALSE
@@ -36,7 +36,7 @@ life events - illness,life events,FALSE
 loss of premises - sold,loss of premises,FALSE
 other - unwanted by heritage organisations,other,FALSE
 other - other,other,FALSE
-staff - disagreement,staff,FALSE
+dispute - disagreement,dispute,FALSE
 staff - insufficient staff,staff,FALSE
 strategic closure - seeking new premises,strategic closure,FALSE
 loss of premises - legal,loss of premises,FALSE
@@ -45,7 +45,6 @@ financial - mismanagement,financial,FALSE
 strategic closure - premises not required,strategic closure,FALSE
 other - collection not insured,other,FALSE
 dispute - unable to agree lease terms,dispute,FALSE
-dispute - disagreement,dispute,FALSE
 other - location no longer suitable,other,FALSE
 restructure of host organisation - change in corporate priorities,restructure of host organisation,FALSE
 building - building maintenance issues,building,FALSE
@@ -66,7 +65,6 @@ life events - too far away for owners,life events,FALSE
 life events - owner's age,life events,FALSE
 other - return of management to local authority,other,FALSE
 collections - collection repurposed,collections,FALSE
-other - theft,other,FALSE
 staff - area unsafe for staff,staff,FALSE
 restructure of host organisation - regimental reorganisation,restructure of host organisation,FALSE
 other - loss of perceived value,other,FALSE
@@ -104,7 +102,7 @@ life events - illness - other,life events - illness,FALSE
 loss of premises - sold - other,loss of premises - sold,FALSE
 other - unwanted by heritage organisations - other,other - unwanted by heritage organisations,FALSE
 other - other - other,other - other,FALSE
-staff - disagreement - other,staff - disagreement,FALSE
+dispute - disagreement - other,dispute - disagreement,FALSE
 staff - insufficient staff - other,staff - insufficient staff,FALSE
 staff - insufficient staff - no volunteers,staff - insufficient staff,FALSE
 building - unsuitable - access,building - unsuitable,FALSE
@@ -120,7 +118,6 @@ financial - funding cut - mod funding cut,financial - funding cut,FALSE
 building - condition of building - damp,building - condition of building,FALSE
 other - collection not insured - other,other - collection not insured,FALSE
 dispute - unable to agree lease terms - other,dispute - unable to agree lease terms,FALSE
-dispute - disagreement - other,dispute - disagreement,FALSE
 staff - insufficient staff - museum service stretched,staff - insufficient staff,FALSE
 other - location no longer suitable - other,other - location no longer suitable,FALSE
 financial - costs - lease cost,financial - costs,FALSE
@@ -160,7 +157,6 @@ life events - owner's age - other,life events - owner's age,FALSE
 loss of premises - legal - other,loss of premises - legal,FALSE
 other - return of management to local authority - other,other - return of management to local authority,FALSE
 collections - collection repurposed - other,collections - collection repurposed,FALSE
-other - theft - other,other - theft,FALSE
 staff - area unsafe for staff - other,staff - area unsafe for staff,FALSE
 restructure of host organisation - regimental reorganisation - other,restructure of host organisation - regimental reorganisation,FALSE
 financial - funding cut - charity lost funding,financial - funding cut,FALSE

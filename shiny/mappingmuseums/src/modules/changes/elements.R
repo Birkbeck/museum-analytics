@@ -116,7 +116,7 @@ bar_chart <- function(data, dimension, measure, title, y_label, x_label) {
         size=6
       )
   }
-  bar_chart |> ggplotly(tooltip=c("label", "x"))
+  bar_chart |> ggplotly(tooltip=c())
 }
 
 bar_chart_small <- function(data, dimension, measure, title, x_label) {
@@ -258,7 +258,7 @@ two_measure_bar_chart <- function(data,
         size=6
       )
   }
-  bar_chart |> ggplotly(tooltip=c("label", "x", "fill"))
+  bar_chart |> ggplotly(tooltip=c())
 }
 
 two_measure_bar_chart_small <- function(data, dimension, measures, title, fill_labels, fill_values) {
@@ -454,7 +454,7 @@ heatmap <- function(data, dimension, dimension2, measure, title, y_label, x_labe
     geom_vline(xintercept=1.5)
 
 
-  heatmap |> ggplotly(tooltip=c("x", "y", "fill"))
+  heatmap |> ggplotly(tooltip=c())
 }
 
 heatmap_small <- function(museums, dimension, dimension2, measure, title) {
@@ -556,7 +556,7 @@ time_series_line <- function(data, dimension, measure, title, y_label, start_yea
       year <= end_year
     ) |>
     pivot_longer(cols=c(measure), names_to="measure", values_to="value")
-  ggplot(
+  plot <- ggplot(
     data,
     aes(x=year, y=value, colour=.data[[dimension]], linetype=measure)
   ) + 
@@ -577,6 +577,7 @@ time_series_line <- function(data, dimension, measure, title, y_label, start_yea
       x="Year"
     ) +
     standard_bars_theme
+  plot |> ggplotly(tooltip=c("x", "y", "colour"))
 }
 
 time_series_line_small <- function(data, dimension, measure, title, y_label, start_year, end_year) {
@@ -650,7 +651,7 @@ time_series_line_double <- function(data,
       year <= end_year
     ) |>
     pivot_longer(cols=measures, names_to="measure", values_to="value")
-  ggplot(
+  plot <- ggplot(
     data,
     aes(x=year, y=value, colour=.data[[dimension]], linetype=measure)
   ) + 
@@ -677,6 +678,7 @@ time_series_line_double <- function(data,
       axis.line.x.bottom = element_line(colour="black"),
       axis.line.y.left = element_line(colour="black")
     )
+  plot |> ggplotly(tooltip=c("x", "y", "colour", "linetype"))
 }
 
 time_series_line_double_small <- function(data,

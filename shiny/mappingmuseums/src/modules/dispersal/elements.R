@@ -719,7 +719,7 @@ give_individual_names_to_nodes_in_different_paths <- function(sequences, steps_o
       select(-from, -to) |>
       rename(from = full_from, to = full_to)
   }
-  if (steps_or_first_last == "Steps in path") {
+  if (steps_or_first_last == "Actors in path") {
     sequences <- build_chains(sequences)
   } else {
     sequences <- sequences |>
@@ -929,7 +929,14 @@ get_edges <- function(sequences, nodes) {
 }
 
 pathway_dendrogram <- function(layout, show_transaction_counts) {
-  node_counts <- layout$nodes
+  node_counts <- layout$nodes |>
+    mutate(
+      label = ifelse(
+        position == min(position),
+        paste(label, "(origin)"),
+        label
+      )
+    )
   edges <- layout$edges
   theta <- seq(pi/8, 2*pi, length.out=16)
   xo <- diff(range(node_counts$x)) / 500
@@ -1008,7 +1015,7 @@ pathway_dendrogram <- function(layout, show_transaction_counts) {
   }
   ggsave("fig28.svg", transaction_pathways_plot, width=175, height=90, units="mm", bg="white")
   transaction_pathways_plot |>
-    ggplotly(tooltip=c("label", "count")) |>
+    ggplotly(tooltip=c("label")) |>
     layout(
       showlegend=FALSE,
       xaxis=list(title="", zeroline=FALSE, showticklabels=FALSE),
@@ -1136,7 +1143,7 @@ sequence_network <- function(layout, start_position, end_position, show_transact
   transaction_sequence_plot
 
   transaction_sequence_plot |>
-    ggplotly(tooltip=c("actor_group", "count")) |>
+    ggplotly(tooltip=c("actor_group", "label")) |>
     layout(
       showlegend=FALSE
     )
