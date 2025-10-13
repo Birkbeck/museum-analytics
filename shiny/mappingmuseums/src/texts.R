@@ -29,32 +29,32 @@ top_data <- "<p>We collected a varied amount of data on each museum. The tables 
 
 top_snapshot <- "<p>What does the UK museum sector currently look like? What did it contain? This search enables you to visualise the distribution of museums across the UK in a single year or during a specified period.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of open museums returned by the search</p>"
+<p>Details of open museums returned by the search are listed below the charts.</p>"
 
 top_changes <- "<p>How has the UK museum sector changed since 1960?  This search enables you to visualise museum openings and closings over time.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The tables below list details of opened and closed museums returned by the search</p>"
+<p>Details of opened and closed museums returned by the search are listed below the charts.</p>"
 
 top_reasons <- "<p>Why do museums close? These visualisations show reasons why museums have closed since 2000. The numbers relate to reasons cited not to the number of museums (Some museums gave more than one reason).</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of museums returned by the search</p>"
+<p>Details of museums returned by the search are listed below the charts.</p>"
 
 top_outcomes <- "<p>What happens to the collections when museums close? These visualisations provide an overview of the outcomes. Here collections are understood to be the entirety of a museum’s holdings. The numbers relate to individual museums.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of museums returned by the search</p>"
+<p>Details of museums returned by the search are listed below the charts.</p>"
 
 top_events <- "<p>What happens to museum collections after museums close? These visualisations show the various events that occur after closure. The numbers relate to recorded events, not to individual museums.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of events returned by the search</p>"
+<p>Details of events returned by the search are listed below the charts.</p>"
 
 top_dispersal <- "<p>Who are the recipients of collections from closed museums? These visualisations show where objects go after closure. The numbers relate to actors, that is, to the people, groups, and organisations involved in object dispersal. A plus sign next to a number means 'at least'.  For instance, a circle marked 81+trader means that objects went to at least 81 traders.</p>
 <p>Click the thumbnail image to select your preferred visualisation. The pathways visualisation shows where objects from a single museum type go; the sequences visualisation enables the comparison of different museum types.</p>
 <p>You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of events returned by the search</p>"
+<p>Details of events returned by the search are listed below the charts.</p>"
 
 top_length <- "<p>How long does it take to dispose of the collection after a museum closes? These visualisations plot the time between each museum closing and the last object(s) being disposed of or moved.</p>
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
-<p>The table below lists details of museums returned by the search</p>"
+<p>Details of museums returned by the search are listed below the charts.</p>"
 
 tooltip_view <- "Controls the overall parameters of the visualisations."
 tooltip_filter <- "Allows you to refine your searches. E.g. you might choose to view museums according to size, and then further select according to governance."
