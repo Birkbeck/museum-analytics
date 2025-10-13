@@ -1,6 +1,6 @@
 # Museum Closure in the UK 2000-2025
 
-This repository contains data and software tools collected and developed in a research project covering museum closure in the UK between 2000 and 2025 and the flows of objects away from those museums. The PI is Prof Fiona Candlin. The project is conducted at the [Mapping Museums Lab](https://mapping-museums.bbk.ac.uk/) (Birkbeck, University of London) and at the [Cultural Geo-Analytics Lab](https://www.kcl.ac.uk/research/cultural-geo-analytics-lab) (King's College London).
+This repository contains data and software tools collected and developed in a research project covering museum closure in the UK between 2000 and 2025 and the flows of objects away from those museums. The PI is Prof *Fiona Candlin* (Birkbeck, University of London). The project is conducted at the [Mapping Museums Lab](https://mapping-museums.bbk.ac.uk/) (Birkbeck, University of London) and at the [Cultural Geo-Analytics Lab](https://www.kcl.ac.uk/research/cultural-geo-analytics-lab) (King's College London).
 
 ## The Museum Closure Project
 
@@ -12,7 +12,8 @@ The creation of the tools in this repository is described in the paper: Wright, 
 
 ## Data
 
-The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *flows of objects away from those museums*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory.
+The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *flows of objects away from those museums*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
+TODO: add readme and data dicts into this subfolder, as it will be the most important one for users
 
 The data describes the dispersal of collections away from approximately 500 UK museums that have closed between 2000 and 2025. It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
 
