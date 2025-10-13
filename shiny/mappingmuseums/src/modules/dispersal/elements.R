@@ -929,7 +929,14 @@ get_edges <- function(sequences, nodes) {
 }
 
 pathway_dendrogram <- function(layout, show_transaction_counts) {
-  node_counts <- layout$nodes
+  node_counts <- layout$nodes |>
+    mutate(
+      label = ifelse(
+        position == min(position),
+        paste(label, "(origin)"),
+        label
+      )
+    )
   edges <- layout$edges
   theta <- seq(pi/8, 2*pi, length.out=16)
   xo <- diff(range(node_counts$x)) / 500
