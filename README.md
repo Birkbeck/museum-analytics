@@ -10,7 +10,7 @@ The data in this repository was collected and curated by Mark Liebenrood and Fio
 
 The creation of the tools in this repository is described in the paper: Wright, G.A. and Ballatore, A. and Poulovassilis, A. and Wood, P.T. Modelling and visualizing flows of cultural objects (submitted for review).
 
-## Download data
+## Download the data
 
 The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *dispersal of their collections*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
 TODO: add readme and data dicts into this subfolder, as it will be the most important one for users
@@ -19,7 +19,7 @@ TODO: add readme and data dicts into this subfolder, as it will be the most impo
 
 The data also includes a CSV dump of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used to generate a Neo4j database. The directory also contains CSV dumps from that database and summary tables used in the creation of a report.
 
-## Data Model
+## Data model
 
 The `data-model` directory contains the data model (also known as conceptual model) used in this research, including the entities and relations used to represent object flows; taxonomies of actor types, event types, and reasons for museum closure; and the attributes of museums. These resources are designed to be as reusable as possible in musem projects, practices, and studies. 
 
@@ -45,7 +45,7 @@ The source code in `llm-data-modelling` describes experiments used for the autom
   - `make deploy-app-local` - Deploys the Shiny app and opens it in your default web browser.
   - `make deploy-app` - Deploys the Shiny app to a remote server.
 
-## Research Team
+## Research team
 
 TODO: add affiliation and sort in some way
 
@@ -58,7 +58,7 @@ TODO: add affiliation and sort in some way
 - Maria Golovteeva
 - Helena Bonett
 
-## License & Usage
+## License & usage
 
 This repository (code and data) is released under the  
 **Creative Commons Attribution–NonCommercial 4.0 International License (CC BY-NC 4.0)**.
@@ -72,7 +72,6 @@ This repository (code and data) is released under the
 If used in publications or presentations, please cite:
 
 > TBC (2025), <https://github.com/Birkbeck/museum-object-flows>
-
 
 ## See also
 
