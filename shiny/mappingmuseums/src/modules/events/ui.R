@@ -18,24 +18,24 @@ eventsUI <- function(id) {
         form_subtitle("View", tooltip_view),
 
         form_item(
-          "Y-axis",
+          "Vertical axis",
           tooltip_main_attribute_events,
           radioButtons(
             NS(id, "yAxis"),
             label="",
-            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
-            selected="Sender",
+            choices=c("Event", "Initial museum", "Sender", "Recipient", "Object"),
+            selected="Initial museum",
             inline=TRUE
           )
         ),
         
         form_item(
-          "X-axis",
+          "Horizontal axis",
           tooltip_secondary_attribute_events,
           radioButtons(
             NS(id, "xAxis"),
             label="",
-            choices=c("Event", "Sender", "Recipient", "Object", "Initial museum"),
+            choices=c("Event", "Initial museum", "Sender", "Recipient", "Object"),
             selected="Event",
             inline=TRUE
           )
