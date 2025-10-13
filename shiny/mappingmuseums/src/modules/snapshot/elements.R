@@ -255,7 +255,7 @@ snapshot_heatmap <- function(data,
   heatmap <- heatmap +
     geom_hline(yintercept=1.5) +
     geom_vline(xintercept=1.5)
-  heatmap
+  heatmap |> ggplotly(tooltip=c())
 }
 
 

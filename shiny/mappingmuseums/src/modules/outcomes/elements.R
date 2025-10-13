@@ -227,23 +227,28 @@ closure_outcomes_heatmap <- function(summary_table,
                                      count_or_percentage,
                                      outcome_type_name,
                                      museum_grouping_name) {
+  summary_table <- summary_table |>
+    rename(
+      !!outcome_type_name := dimension_1,
+      !!museum_grouping_name := dimension_2
+    )
   x_lines <- data.frame(
     x=seq_along(
-      unique(select(summary_table, dimension_2))$dimension_2
+      unique(select(summary_table, .data[[museum_grouping_name]]))[[museum_grouping_name]]
     )
   ) |>
     mutate(x=x+0.5)
   y_lines <- data.frame(
     y=seq_along(
-      unique(select(summary_table, dimension_1))$dimension_1
+      unique(select(summary_table, .data[[outcome_type_name]]))[[outcome_type_name]]
     )
   ) |>
     mutate(y=y+0.5)
   heatmap <- ggplot(
     summary_table,
     aes(
-      x=dimension_2,
-      y=dimension_1,
+      x=.data[[museum_grouping_name]],
+      y=.data[[outcome_type_name]],
       fill=.data[[count_or_percentage]]
     )
   ) +

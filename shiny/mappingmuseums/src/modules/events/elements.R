@@ -220,11 +220,16 @@ event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
       x_name
     )
   }
+  table <- table |>
+    rename(
+      !!x_label := dimension_1,
+      !!y_label := dimension_2
+    )
   plot <- ggplot(
     table,
     aes(
-      x=dimension_1,
-      y=dimension_2,
+      x=.data[[x_label]],
+      y=.data[[y_label]],
       fill=.data[[count_or_percentage]]
     )
   ) +
@@ -244,7 +249,7 @@ event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
   if (count_or_percentage == "percentage_rowwise") {
     y_lines <- data.frame(
       y=seq_along(
-        unique(select(table, dimension_1))$dimension_1
+        unique(select(table, .data[[x_label]]))[[x_label]]
       )
     ) |>
       mutate(y=y+0.5)
@@ -252,7 +257,7 @@ event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
   } else if (count_or_percentage == "percentage_columnwise") {
     x_lines <- data.frame(
       x=seq_along(
-        unique(select(table, dimension_2))$dimension_2
+        unique(select(table, .data[[y_label]]))[[y_label]]
       )
     ) |>
       mutate(x=x+0.5)
