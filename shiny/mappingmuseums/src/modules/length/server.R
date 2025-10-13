@@ -123,8 +123,8 @@ lengthServer <- function(id) {
           choices = list(
             "Show number of museums" = "count",
             "Show percentage of museums" = "percentage",
-            "Show rowwise percentages" = "percentage_y",
-            "Show columnwise percentages" = "percentage_x"
+            "Show percentages by museum type" = "percentage_y",
+            "Show percentages by length of disposal" = "percentage_x"
           )
         )
       } else if(currentMainPlot() == "lengthLineChart") {
