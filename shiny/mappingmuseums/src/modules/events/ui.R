@@ -47,14 +47,14 @@ eventsUI <- function(id) {
           radioButtons(
             NS(id, "stepsOrLast"),
             label="",
-            choices=c("Stepwise events", "Last known event"),
-            selected="Stepwise events",
+            choices=c("Sequence of events", "Last known event"),
+            selected="Sequence of events",
             inline=TRUE
           )
         ),
 
         form_item(
-          "Steps in path",
+          "Steps in sequence of events",
           tooltip_stepwise_events,
           pickerInput(
             NS(id, "stagesInPath"),

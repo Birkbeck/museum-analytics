@@ -6,7 +6,7 @@ eventsServer <- function(id) {
     observeEvent(input$reset, {
       updateRadioButtons(session=session, inputId="yAxis", selected="Sender")
       updateRadioButtons(session=session, inputId="xAxis", selected="Event")
-      updateRadioButtons(session=session, inputId="stepsOrLast", selected="Stepwise events")
+      updateRadioButtons(session=session, inputId="stepsOrLast", selected="Sequence of events")
       updatePickerInput(
         session=session,
         inputId="stagesInPath",

@@ -4,7 +4,7 @@ dispersalServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateRadioButtons(session=session, inputId="stepsOrFirstLast", selected="Steps in path")
+      updateRadioButtons(session=session, inputId="stepsOrFirstLast", selected="Actors in path")
       updateSliderInput(session=session, inputId="stagesInOwnershipPath", value=2)
       updateCheckboxInput(session=session, inputId="showTransactionCounts", value=FALSE)
       updateRadioButtons(session=session, inputId="countOrPercentage", selected="count")

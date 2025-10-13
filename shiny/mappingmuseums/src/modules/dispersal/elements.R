@@ -719,7 +719,7 @@ give_individual_names_to_nodes_in_different_paths <- function(sequences, steps_o
       select(-from, -to) |>
       rename(from = full_from, to = full_to)
   }
-  if (steps_or_first_last == "Steps in path") {
+  if (steps_or_first_last == "Actors in path") {
     sequences <- build_chains(sequences)
   } else {
     sequences <- sequences |>
