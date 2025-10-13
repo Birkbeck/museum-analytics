@@ -12,17 +12,17 @@ The creation of the tools in this repository is described in the paper: Wright, 
 
 ## Download the data
 
-The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *dispersal of their collections*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
+The [`data`](data/) directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *dispersal of their collections*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
 
  It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
 
-The data also includes a CSV snapshot of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used by the `sheet_to_graph` utility to generate a Neo4j database. The files in [`closure_data`](data/closure_data) is exported from that database.
+The data also includes a CSV snapshot of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used by the [`sheet_to_graph`](sheet_of_graph/) utility to generate a Neo4j database. The files in [`closure_data`](data/closure_data) is exported from that database.
 
 The files in [`report_data_01_08_2025`](data/report_data_01_08_2025) contain summary tables generated from a 1st August 2025 snapshot of the database. These summary tables were used to generate figures used in the report report Candlin _et al_ _Collections From Closed Museums in the UK 2000-25: A report on the data_.
 
 ## Data model
 
-The `data-model` directory contains the data model (also known as conceptual model) used in this research, including the entities and relations used to represent object flows; taxonomies of actor types, event types, and reasons for museum closure; and the attributes of museums. These resources are designed to be as reusable as possible in musem projects, practices, and studies. 
+The [`data-model`](data-model/) directory contains the data model (also known as conceptual model) used in this research, including the entities and relations used to represent object flows; taxonomies of actor types, event types, and reasons for museum closure; and the attributes of museums. These resources are designed to be as reusable as possible in musem projects, practices, and studies. 
 
 ## Software
 
@@ -30,11 +30,11 @@ The software tools in this repository can be used in conjunction with the above 
 
 ### Source code
 
-The source code in `sheet_to_graph` provides a tool that validates object flow data in spreadsheet format and translates it into a Neo4j database.
+The source code in [`sheet_to_graph`](sheet_to_graph/) provides a tool that validates object flow data in spreadsheet format and translates it into a Neo4j database.
 
-The source code in `shiny/mappingmuseums` provides an interactive web app for exploring the data.
+The source code in [`shiny/mappingmuseums`](shiny/mappingmuseums) provides an interactive web app for exploring the data.
 
-The source code in `llm-data-modelling` describes experiments used for the automated modelling of texts describing the buildings of closed museums.
+The source code in [`llm-data-modelling`](llm-data-modelling/) describes experiments used for the automated modelling of texts describing the buildings of closed museums.
 
 ### Instructions for Use
 
