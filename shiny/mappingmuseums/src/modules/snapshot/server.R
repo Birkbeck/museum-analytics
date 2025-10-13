@@ -157,14 +157,19 @@ snapshotServer <- function(id) {
           )
         )
       } else if(mainPlot() == "museumHeatmap") {
+        rowwise <- paste("Show percentages by", tolower(input$mainAxis))
+        columnwise <- paste("Show percentages by", tolower(input$secondAxis))
         radioButtons(
           inputId = NS(id, "countOrPercentage"),
           label = "",
-          choices = list(
-            "Show number of museums" = "",
-            "Show percentage of museums" = "_pc",
-            "Show rowwise percentages" = "_pc_x",
-            "Show columnwise percentages" = "_pc_y"
+          choices = setNames(
+            c("", "_pc", "_pc_x", "_pc_y"),
+            c(
+              "Show number of museums",
+              "Show percentage of museums",
+              rowwise,
+              columnwise
+            )
           )
         )
       }

@@ -228,25 +228,35 @@ changesServer <- function(id) {
           )
         )
       } else if(current_main_plot() == "start_total.2Way") {
+        rowwise <- paste("Show percentages by", tolower(input$mainAxis))
+        columnwise <- paste("Show percentages by", tolower(input$secondAxis))
         radioButtons(
           inputId = NS(id, "countOrPercentage"),
           label = "",
-          choices = list(
-            "Show number of museums" = "",
-            "Show percentage of museums" = "_pc",
-            "Show rowwise percentages" = "_pc_x",
-            "Show columnwise percentages" = "_pc_y"
+          choices = setNames(
+            c("", "_pc", "_pc_x", "_pc_y"),
+            c(
+              "Show number of museums",
+              "Show percentage of museums",
+              rowwise,
+              columnwise
+            )
           )
         )
       } else if(current_main_plot() == "end_total.2Way") {
+        rowwise <- paste("Show percentages by", tolower(input$mainAxis))
+        columnwise <- paste("Show percentages by", tolower(input$secondAxis))
         radioButtons(
           inputId = NS(id, "countOrPercentage"),
           label = "",
-          choices = list(
-            "Show number of museums" = "",
-            "Show percentage of museums" = "_pc",
-            "Show rowwise percentages" = "_pc_x",
-            "Show columnwise percentages" = "_pc_y"
+          choices = setNames(
+            c("", "_pc", "_pc_x", "_pc_y"),
+            c(
+              "Show number of museums",
+              "Show percentage of museums",
+              rowwise,
+              columnwise
+            )
           )
         )
       } else if(current_main_plot() == "change.2Way") {
