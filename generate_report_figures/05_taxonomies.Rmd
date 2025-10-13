@@ -182,7 +182,6 @@ closure_reasons <- data.frame(type_name=c("reason"), sub_type_of=c(NA), is_core_
   rbind(sub_core_reasons) |>
   rbind(specific_reasons) |>
   filter(!is.na(type_name)) |>
-  filter(!type_name %in% c("disagreement", "theft")) |>
   add_dummies()
 
 reasons_layout <- get_taxonomy_layout(closure_reasons, "reason")
