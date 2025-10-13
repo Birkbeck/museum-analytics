@@ -4,7 +4,7 @@ eventsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     observeEvent(input$reset, {
-      updateRadioButtons(session=session, inputId="yAxis", selected="Sender")
+      updateRadioButtons(session=session, inputId="yAxis", selected="Initial museum")
       updateRadioButtons(session=session, inputId="xAxis", selected="Event")
       updateRadioButtons(session=session, inputId="stepsOrLast", selected="Sequence of events")
       updatePickerInput(
