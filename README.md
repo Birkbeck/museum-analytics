@@ -10,18 +10,18 @@ The data in this repository was collected and curated by Mark Liebenrood and Fio
 
 The creation of the tools in this repository is described in the paper: Wright, G.A. and Ballatore, A. and Poulovassilis, A. and Wood, P.T. Modelling and visualizing flows of cultural objects (submitted for review).
 
-## Data
+## Download data
 
-The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *flows of objects away from those museums*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
+The `data` directory contains data concerning *museum closures that took place in the UK between 2000 and 2025*, and the *dispersal of their collections*. All this data is contained and documented in the [`closure_data`](data/closure_data) directory. 
 TODO: add readme and data dicts into this subfolder, as it will be the most important one for users
 
-The data describes the dispersal of collections away from approximately 500 UK museums that have closed between 2000 and 2025. It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
+ It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
 
 The data also includes a CSV dump of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used to generate a Neo4j database. The directory also contains CSV dumps from that database and summary tables used in the creation of a report.
 
 ## Data Model
 
-The `data-model` directory contains the data model used in this research including the entities and relations used to represent object flows; taxonomies of actor types, event types, and reasons for museum closure; and the attributes of museums.
+The `data-model` directory contains the data model (also known as conceptual model) used in this research, including the entities and relations used to represent object flows; taxonomies of actor types, event types, and reasons for museum closure; and the attributes of museums. These resources are designed to be as reusable as possible in musem projects, practices, and studies. 
 
 ## Software
 
