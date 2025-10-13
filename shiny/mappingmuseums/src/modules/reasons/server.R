@@ -104,15 +104,15 @@ reasonsServer <- function(id) {
     mainPlot <- reactiveVal("reasonsBarChart")
     # Update the current plot based on user clicks
     observeEvent(input$reasonsBarChart, {
-      disable("museumGrouping")
+      shinyjs::hide("museumGroupingFormItem")
       mainPlot("reasonsBarChart")
     })
     observeEvent(input$reasonsHeatmap, {
-      enable("museumGrouping")
+      shinyjs::show("museumGroupingFormItem")
       mainPlot("reasonsHeatmap")
     })
     observeEvent(input$reasonsLineChart, {
-      disable("museumGrouping")
+      shinyjs::hide("museumGroupingFormItem")
       mainPlot("reasonsLineChart")
     })
 

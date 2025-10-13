@@ -97,15 +97,15 @@ outcomesServer <- function(id) {
     mainPlot <- reactiveVal("outcomesBarChart")
     # Update the current plot based on user clicks
     observeEvent(input$outcomesBarChart, {
-      disable("museumGrouping")
+      shinyjs::hide("museumGroupingFormItem")
       mainPlot("outcomesBarChart")
     })
     observeEvent(input$outcomesHeatmap, {
-      enable("museumGrouping")
+      shinyjs::show("museumGroupingFormItem")
       mainPlot("outcomesHeatmap")
     })
     observeEvent(input$outcomesLineChart, {
-      disable("museumGrouping")
+      shinyjs::hide("museumGroupingFormItem")
       mainPlot("outcomesLineChart")
     })
 

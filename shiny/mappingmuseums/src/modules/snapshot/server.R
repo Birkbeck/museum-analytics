@@ -134,15 +134,15 @@ snapshotServer <- function(id) {
     mainPlot <- reactiveVal("museumMap")
     # Update the current plot based on user clicks
     observeEvent(input$museumMap, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       mainPlot("museumMap")
     })
     observeEvent(input$museumCounts, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       mainPlot("museumCounts")
     })
     observeEvent(input$museumHeatmap, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       mainPlot("museumHeatmap")
     })
     

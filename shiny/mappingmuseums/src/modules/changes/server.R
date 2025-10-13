@@ -84,63 +84,63 @@ changesServer <- function(id) {
     current_main_plot <- reactiveVal("openingsClosures")
     # Update the current plot based on user clicks
     observeEvent(input$openingsVsClosuresScatter, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("openingsVsClosuresScatter")
     })
     observeEvent(input$timeSeriesLine, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("timeSeriesLine")
     })
     observeEvent(input$closureRateLine, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("closureRateLine")
     })
     observeEvent(input$openingRateLine, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("openingRateLine")
     })
     observeEvent(input$openingClosureRateLine, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("openingClosureRateLine")
     })
     observeEvent(input$openingsClosures, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("openingsClosures")
     })
     observeEvent(input$startEnd, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("startEnd")
     })
     observeEvent(input$openings2Way, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       current_main_plot("openings.2Way")
     })
     observeEvent(input$closures2Way, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       current_main_plot("closures.2Way")
     })
     observeEvent(input$change, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("change")
     })
     observeEvent(input$change2Way, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       current_main_plot("change.2Way")
     })
     observeEvent(input$openStart2Way, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       current_main_plot("start_total.2Way")
     })
     observeEvent(input$openEnd2Way, {
-      enable("secondAxis")
+      shinyjs::show("secondAxisFormItem")
       current_main_plot("end_total.2Way")
     })
     observeEvent(input$openingsMap, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("openingsMap")
     })
     observeEvent(input$closuresMap, {
-      disable("secondAxis")
+      shinyjs::hide("secondAxisFormItem")
       current_main_plot("closuresMap")
     })
     

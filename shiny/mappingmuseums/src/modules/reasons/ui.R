@@ -30,15 +30,18 @@ reasonsUI <- function(id) {
           )
         ),
 
-        form_item(
-          "Museums attribute (for heatmaps only)",
-          tooltip_secondary_attribute,
-          disabled(
-            radioButtons(
-              NS(id, "museumGrouping"),
-              label="",
-              choices=field_names$name,
-              selected="Governance"
+        shinyjs::hidden(
+          tags$div(
+            id=NS(id, "museumGroupingFormItem"),
+            form_item(
+              "Museums attribute",
+              tooltip_secondary_attribute,
+              radioButtons(
+                NS(id, "museumGrouping"),
+                label="",
+                choices=field_names$name,
+                selected="Governance"
+              )
             )
           )
         ),
