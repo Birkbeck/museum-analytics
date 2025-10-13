@@ -120,14 +120,19 @@ outcomesServer <- function(id) {
           )
         )
       } else if(mainPlot() == "outcomesHeatmap") {
+        rowwise <- paste("Show percentages by", tolower(input$outcomeType))
+        columnwise <- paste("Show percentages by", tolower(input$museumGrouping))
         radioButtons(
           inputId = NS(id, "countOrPercentage"),
           label = "",
-          choices = list(
-            "Show number of closures" = "frequency",
-            "Show percentage of closures" = "percentage",
-            "Show rowwise percentages" = "percentage_y",
-            "Show columnwise percentages" = "percentage_x"
+          choices = setNames(
+            c("frequency", "percentage", "percentage_y", "percentage_x"),
+            c(
+              "Show number of closures",
+              "Show percentage of closures",
+              rowwise,
+              columnwise
+            )
           )
         )
       } else if(mainPlot() == "outcomesLineChart") {
