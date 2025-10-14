@@ -1,6 +1,6 @@
 # Data Model
 
-This directory contains files which describe the data model used in our research project.
+This directory contains files which describe the data model developed by our research project.
 
 ## Files
 
@@ -49,7 +49,7 @@ Actors invovled in the dispersal of museum objects.
 |------------------------|-----------------------------------------------------------------------------------|
 | type_name              | A descriptive name for the type.                                                  |
 | sub_type_of            | The name of this type's super-type.                                               |
-| is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic |
+| is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic) |
 | public_instances | The number of actors of this type in the database that are public sector actors |
 | private_instances | The number of actors of this type in the database that are private sector actors |
 | third_instances | The number of actors of this type in the database that are third sector actors |
@@ -66,7 +66,7 @@ Events involving objects from closed museums.
 | type_name              | A descriptive name for the type.                                                  |
 | sub_type_of            | The name of this type's super-type.                                               |
 | definition             | The defition of this type.                                                        |
-| is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic |
+| is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic) |
 | change_of_ownership    | True if this type involves a transfer of legal ownership, false otherwise.        |
 | change_of_custody      | True if this type involves a change of location, false otherwise.                 |
 | end_of_existence       | True if this type results in an object no longer existing, false otherwise.       |
@@ -95,7 +95,7 @@ Values that can be used to describe the governance of a museum.
 
 ### Size Types
 
-Values that can be used to describe the size of a museum (measured according to visitor numbers).
+Values that can be used to describe the size of a museum (estimated from the museum's visitor numbers).
 
 | **Field name**         | **Description**                                                                   |
 |------------------------|-----------------------------------------------------------------------------------|
