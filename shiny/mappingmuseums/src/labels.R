@@ -799,8 +799,8 @@ short_labels <- c(
   "South East"="S. East",
   "South West"="S. West",
   # accreditation
-  "accredited"="accred.",
   "unaccredited"="unaccred.",
+  "accredited"="accred.",
   # subject
   "other"="other",
   "mixed: other"="other",
@@ -1044,8 +1044,8 @@ very_short_labels <- c(
   "South East (English Region)"="SE",
   "South West (English Region)"="SW",
   # accreditation
-  "Accredited"="Acc",
   "Unaccredited"="Unac",
+  "Accredited"="Acc",
   # subject
   "other"="oth",
   "mixed: other"="other",
