@@ -38,7 +38,7 @@ The source code in [`llm-data-modelling`](llm-data-modelling/) describes experim
 
 ### Instructions for Use
 
-- Follow the setup instructions inside `sheet-to-graph/readme.md` and `shiny/mappingmuseums/readme.md` to setup the database and web app hosting.
+- Run `make install-sheet-to-graph` and follow the setup instructions inside `sheet-to-graph/readme.md` and `shiny/mappingmuseums/readme.md` to setup the database and web app hosting.
 - From this directory you can run the following commands:
   - `make reset-db` - Clears the contents of your Neo4j database.
   - `make upload-db` - Reads data from the spreadsheet, validates it, and uploads it to the Neo4j database.
