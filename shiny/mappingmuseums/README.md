@@ -1,6 +1,6 @@
 # Mapping Museums and Museum Closure Web App
 
-The code in this directory defines an interactive web app based on mapping museums and museum closure data.
+The code in this directory generates an interactive web app to explore the data arising from the Museum Closure and Mapping Museums projects. 
 
 ## Setup
 
