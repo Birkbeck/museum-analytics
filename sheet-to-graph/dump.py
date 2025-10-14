@@ -68,6 +68,33 @@ RETURN
     total_instances
 """
 
+actor_types_data_dump_query = """
+MATCH (actor_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "actor"})
+WITH actor_type
+OPTIONAL MATCH (actor_type)-[:SUB_TYPE_OF]->(super_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "actor"})
+RETURN
+    actor_type.type_name AS type_name,
+    super_type.type_name AS sub_type_of,
+    actor_type.is_core_category AS is_core_category
+"""
+
+event_types_data_dump_query = """
+MATCH (event_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "event"})
+WITH event_type
+OPTIONAL MATCH (event_type)-[:SUB_TYPE_OF]->(super_type:Type)-[:SUB_TYPE_OF*0..]->(:Type {type_name: "event"})
+RETURN
+    event_type.type_name AS type_name,
+    super_type.type_name AS sub_type_of,
+    [
+      (event_type)-[:SUB_TYPE_OF*0..]->(event_core_type:Type {is_core_category: TRUE})
+      | event_core_type.type_name
+    ][0] AS core_type,
+    event_type.is_core_category AS is_core_category,
+    event_type.change_of_ownership AS change_of_ownership,
+    event_type.change_of_custody AS change_of_custody,
+    event_type.end_of_existence AS end_of_existence
+"""
+
 museums_query = """
 MATCH (museum:Actor)-[:HAS_LOCATION]->(place:Place)
 WHERE museum.mm_id <> ""
@@ -276,6 +303,97 @@ RETURN
     destination.country AS destination_country
 """
 
+dispersal_events_data_dump_query = """
+MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)<-[:SUB_EVENT_OF]-(event:Event)-[event_is_instance_of:INSTANCE_OF]->(event_type:Type)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type
+OPTIONAL MATCH (event)-[:INVOLVES]->(collection:CollectionOrObject)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection
+OPTIONAL MATCH (event)-[:HAS_SENDER]->(sender:Actor)-[:INSTANCE_OF]->(sender_type:Type)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type
+OPTIONAL MATCH (event)-[:HAS_RECIPIENT]->(recipient:Actor)-[:INSTANCE_OF]->(recipient_type:Type)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type, recipient, recipient_type
+OPTIONAL MATCH (event)-[:HAS_ORIGIN]->(origin:Place)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type, recipient, recipient_type, origin
+OPTIONAL MATCH (event)-[:HAS_DESTINATION]->(destination:Place)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type, recipient, recipient_type, origin, destination
+OPTIONAL MATCH (sender)-[:HAS_LOCATION]->(sender_location:Place)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type, recipient, recipient_type, origin, destination, sender_location
+OPTIONAL MATCH (recipient)-[:HAS_LOCATION]->(recipient_location:Place)
+WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection, sender, sender_type, recipient, recipient_type, origin, destination, sender_location, recipient_location
+OPTIONAL MATCH (initial_museum)-[:HAS_LOCATION]->(initial_museum_location:Place)
+RETURN
+
+    initial_museum.mm_id AS initial_museum_id,
+    initial_museum.actor_name AS initial_museum_name,
+    initial_museum.size AS initial_museum_size,
+    initial_museum.governance AS initial_museum_governance,
+    initial_museum.accreditation AS initial_museum_accreditation,
+    initial_museum.subject AS initial_museum_subject,
+    initial_museum_location.village_town_city AS initial_museum_town,
+    initial_museum.region AS initial_museum_region,
+    initial_museum_location.postcode AS initial_museum_postcode,
+
+    super_event.super_event_id AS super_event_id,
+    super_event.super_date AS super_event_date,
+    super_event.super_cause_types AS super_event_reasons,
+
+    event.event_id AS event_id,
+    event.stage_in_path AS event_stage_in_path,
+    event_type.type_name AS event_type,
+    [
+      (event_type)-[:SUB_TYPE_OF*0..]->(event_core_type:Type {is_core_category: TRUE})
+      | event_core_type.type_name
+    ][0] AS event_core_type,
+    event_is_instance_of.event_type_uncertainty AS event_type_uncertainty,
+    event_type.end_of_existence AS event_is_end_of_existence,
+    event_type.change_of_ownership AS event_is_change_of_ownership,
+    event_type.change_of_custody and exists((event)-[:HAS_DESTINATION]->()) AS event_is_change_of_custody,
+    event.event_date AS event_date,
+    event.event_date_from AS event_date_from,
+    event.event_date_to AS event_date_to,
+    [
+      (previous_event)-[:PRECEDES]->(event) | previous_event.event_id
+    ][0] AS previous_event_id,
+
+    sender.actor_id AS sender_id,
+    sender.actor_name AS sender_name,
+    sender.mm_id AS sender_mm_id,
+    sender_type.type_name AS sender_type,
+    [
+      (sender_type)-[:SUB_TYPE_OF*0..]->(sender_core_type:Type {is_core_category: TRUE})
+      | sender_core_type.type_name
+    ][0] AS sender_core_type,
+    sender.actor_sector_name AS sender_sector,
+
+    recipient.actor_id AS recipient_id,
+    recipient.actor_name AS recipient_name,
+    recipient.mm_id AS recipient_mm_id,
+    recipient.actor_quantity AS recipient_quantity,
+    recipient_type.type_name AS recipient_type,
+    [
+      (recipient_type)-[:SUB_TYPE_OF*0..]->(recipient_core_type:Type {is_core_category: TRUE})
+      | recipient_core_type.type_name
+    ][0] AS recipient_core_type,
+    recipient.actor_sector_name AS recipient_sector,
+    recipient.size AS recipient_size,
+    recipient.governance AS recipient_governance,
+    recipient.accreditation AS recipient_accreditation,
+    recipient.subject AS recipient_subject,
+    recipient_location.village_town_city AS recipient_town,
+    recipient.region AS recipient_region,
+    recipient_location.postcode AS recipient_postcode,
+
+    collection.collection_or_object_id AS object_id,
+    [
+      (collection)-[:WAS_REMOVED_FROM]->(parent_collection:CollectionOrObject) | parent_collection.collection_or_object_id
+    ][0] AS parent_object_id,
+    collection.coll_size_name AS object_size,
+    collection.object_qty AS object_quantity,
+    collection.collection_status AS object_status,
+    collection.coll_type AS object_types,
+    collection.coll_desc AS object_description
+"""
+
 
 if __name__ == "__main__":
     with open("config.json") as f:
@@ -284,11 +402,11 @@ if __name__ == "__main__":
 
     queries = {
         # for top-level data directories:
-        "data-model/actor_types": actor_types_query,
-        "data-model/event_types": event_types_query,
+        "data-model/actor_types": actor_types_data_dump_query,
+        "data-model/event_types": event_types_data_dump_query,
         "data/closure_data/museums": museums_query,
         "data/closure_data/super_events": super_events_query,
-        "data/closure_data/dispersal_events": dispersal_events_query,
+        "data/closure_data/dispersal_events": dispersal_events_data_dump_query,
         # for shiny app inputs:
         "shiny/mappingmuseums/data/query_results/actor_types": actor_types_query,
         "shiny/mappingmuseums/data/query_results/event_types": event_types_query,

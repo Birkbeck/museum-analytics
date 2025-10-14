@@ -50,12 +50,6 @@ Actors invovled in the dispersal of museum objects.
 | type_name              | A descriptive name for the type.                                                  |
 | sub_type_of            | The name of this type's super-type.                                               |
 | is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic) |
-| public_instances | The number of actors of this type in the database that are public sector actors |
-| private_instances | The number of actors of this type in the database that are private sector actors |
-| third_instances | The number of actors of this type in the database that are third sector actors |
-| university_instances | The number of actors of this type in the database that are university sector actors |
-| hybrid_instances | The number of actors of this type in the database that are from a hybrid of sectors |
-| unknown_instances | The number of actors of this type in the database that are from an unknown sector |
 
 ### Event Types
 
@@ -70,8 +64,6 @@ Events involving objects from closed museums.
 | change_of_ownership    | True if this type involves a transfer of legal ownership, false otherwise.        |
 | change_of_custody      | True if this type involves a change of location, false otherwise.                 |
 | end_of_existence       | True if this type results in an object no longer existing, false otherwise.       |
-| contributes_to_length_calculation | True if events of this type are included in calculations of the length of time it took for a museum to disperse of its collection. |
-| total_instances | The number of instances of this type in the database |
 
 ### Reason Types
 
