@@ -19,7 +19,7 @@ taxonomy_theme <- theme(
   legend.key = element_rect(fill="white")
 )
 
-dispersal_events_csv <- "data/closure_data/dispersal_events.csv"
+dispersal_events_csv <- "shiny/mappingmuseums/data/query_results/dispersal_events.csv"
 dispersal_events <- read_csv(dispersal_events_csv) |>
   mutate(
     initial_museum_all = "All",
@@ -107,7 +107,7 @@ ggsave(
   height=14
 )
 
-actor_types_csv <- "data-model/actor_types.csv"
+actor_types_csv <- "shiny/mappingmuseums/data/query_results/actor_types.csv"
 actor_types <- read_csv(actor_types_csv)
 actor_type_hierarchy <- actors_taxonomy()
 ggsave(
@@ -117,7 +117,7 @@ ggsave(
   height=10
 )
 
-event_types_csv <- "data-model/event_types.csv"
+event_types_csv <- "shiny/mappingmuseums/data/query_results/event_types.csv"
 event_types <- read_csv(event_types_csv)
 event_type_hierarchy <- events_taxonomy()
 ggsave(
@@ -127,7 +127,7 @@ ggsave(
   height=6
 )
 
-super_events_csv <- "data/closure_data/super_events.csv"
+super_events_csv <- "shiny/mappingmuseums/data/query_results/super_events.csv"
 super_events <- read_csv(super_events_csv)
 reason_type_hierarchy <- reasons_taxonomy()
 ggsave(
