@@ -16,7 +16,7 @@ The [`data`](data/) directory contains data concerning *museum closures that too
 
  It details the different types of event that collections and objects are involved in and the different types of actor and location that collections flow between.
 
-The data directory also includes a CSV snapshot of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used by the [`sheet_to_graph`](sheet_to_graph/) utility to generate a Neo4j database. The files in [`data/closure_data`](data/closure_data) are exported from that database.
+The data directory also includes a CSV snapshot of the Mapping Museums database and a spreadsheet detailing closures and object flows. These are both used by the [`sheet-to-graph`](sheet-to-graph/) utility to generate a Neo4j database. The files in [`data/closure_data`](data/closure_data) are exported from that database.
 
 The files in [`data/report_data_01_08_2025`](data/report_data_01_08_2025) contain summary tables generated from a 1st August 2025 snapshot of the database. These summary tables were used to generate figures used in the report Candlin _et al_ _Collections From Closed Museums in the UK 2000-25: A report on the data_.
 
@@ -30,7 +30,7 @@ The software tools in this repository can be used in conjunction with the above 
 
 ### Source code
 
-The source code in [`sheet_to_graph`](sheet_to_graph/) provides a tool that validates object flow data in spreadsheet format and translates it into a Neo4j database.
+The source code in [`sheet-to-graph`](sheet-to-graph/) provides a tool that validates object flow data in spreadsheet format and translates it into a Neo4j database.
 
 The source code in [`shiny/mappingmuseums`](shiny/mappingmuseums) provides an interactive web app for exploring the data.
 
@@ -38,7 +38,7 @@ The source code in [`llm-data-modelling`](llm-data-modelling/) describes experim
 
 ### Instructions for Use
 
-- Follow the setup instructions inside `sheet_to_graph/readme.md` and `shiny/mappingmuseums/readme.md` to setup the database and web app hosting.
+- Follow the setup instructions inside `sheet-to-graph/readme.md` and `shiny/mappingmuseums/readme.md` to setup the database and web app hosting.
 - From this directory you can run the following commands:
   - `make reset-db` - Clears the contents of your Neo4j database.
   - `make upload-db` - Reads data from the spreadsheet, validates it, and uploads it to the Neo4j database.

@@ -34,7 +34,7 @@ class QueryToCsv(ConnectionManager):
     def _make_query_and_save_output(self, neo4j_connection, query_name, query):
         print(f"Making query: {query_name}")
         query_file_name = f"{self.output_directory_name}/{query_name}.csv"
-        records = [item["record"] for item in neo4j_connection.run_query(query)]
+        records = neo4j_connection.run_query(query)
         try:
             field_names = records[0].keys()
         except IndexError:
