@@ -5,12 +5,12 @@ This directory contains files which describe the data model developed by our res
 ## Files
 
 - `data-model.xlsx` The entities, relations, and their attributes used in our graph database of museum object flows
-- `actor_types.csv` The taxonomy of actor types involved in collection dispersal. Each row defines an actor type with name `type_name` whose parent type is found in the `sub_type_of` column.
-- `event_types.csv` The taxonomy of event types involved in collection dispersal. Each row defines an event type with name `type_name` whose parent type is found in the `sub_type_of` column.
-- `reason_types.csv` The taxonomy of reasons for museum closure.
-- `governance_types.csv` The governance categories that museums belong to.
-- `size_types.csv` The size categories that museums belong to.
-- `subject_types.csv` The subject matter categories that museums belong to.
+- `actor_types.csv` The taxonomy of actor types involved in collection dispersal. Each row defines an actor type with name `type_name` (e.g. museum, individual, civic organisation) whose parent type is found in the `sub_type_of` column.
+- `event_types.csv` The taxonomy of event types involved in collection dispersal. Each row defines an event type with name `type_name` (e.g. displayed, stored, transferred) whose parent type is found in the `sub_type_of` column.
+- `reason_types.csv` The taxonomy of reasons for museum closure (e.g. loss of premises, death of owner).
+- `governance_types.csv` The governance categories that museums belong to (e.g. local authority, independent).
+- `size_types.csv` The size categories that museums belong to (e.g. small, medium).
+- `subject_types.csv` The subject matter categories that museums belong to (e.g. arts, war & conflict).
 
 ## Dictionary
 
