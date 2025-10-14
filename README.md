@@ -36,6 +36,8 @@ The source code in [`shiny/mappingmuseums`](shiny/mappingmuseums) provides an in
 
 The source code in [`llm-data-modelling`](llm-data-modelling/) describes experiments used for the automated generation of a data model from notes describing what happened to the buildings of closed museums.
 
+The source code in [`generate-report-figures`](generate-report-figures) can be used to generate summary statistics and visualizations of the closure data.
+
 ### Instructions for Use
 
 - Run `make install-sheet-to-graph` and follow the setup instructions inside `sheet-to-graph/readme.md` and `shiny/mappingmuseums/readme.md` to setup the database and web app hosting.
