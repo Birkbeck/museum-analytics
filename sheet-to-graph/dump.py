@@ -304,7 +304,9 @@ RETURN
 """
 
 dispersal_events_data_dump_query = """
-MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)<-[:SUB_EVENT_OF]-(event:Event)-[event_is_instance_of:INSTANCE_OF]->(event_type:Type)
+MATCH (initial_museum:Actor)<-[:CONCERNS]-(super_event:SuperEvent)
+WITH initial_museum, super_event
+OPTIONAL MATCH (super_event)<-[:SUB_EVENT_OF]-(event:Event)-[event_is_instance_of:INSTANCE_OF]->(event_type:Type)
 WITH initial_museum, super_event, event, event_is_instance_of, event_type
 OPTIONAL MATCH (event)-[:INVOLVES]->(collection:CollectionOrObject)
 WITH initial_museum, super_event, event, event_is_instance_of, event_type, collection
