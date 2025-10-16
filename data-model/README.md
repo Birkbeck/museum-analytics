@@ -5,12 +5,12 @@ This directory contains files which describe the data model developed by our res
 ## Files
 
 - `data-model.xlsx` The entities, relations, and their attributes used in our graph database of museum object flows
-- `actor_types.csv` The taxonomy of actor types involved in collection dispersal. Each row defines an actor type with name `type_name` whose parent type is found in the `sub_type_of` column.
-- `event_types.csv` The taxonomy of event types involved in collection dispersal. Each row defines an event type with name `type_name` whose parent type is found in the `sub_type_of` column.
-- `reason_types.csv` The taxonomy of reasons for museum closure.
-- `governance_types.csv` The governance categories that museums belong to.
-- `size_types.csv` The size categories that museums belong to.
-- `subject_types.csv` The subject matter categories that museums belong to.
+- `actor_types.csv` The taxonomy of actor types involved in collection dispersal. Each row defines an actor type with name `type_name` (e.g. museum, individual, civic organisation) whose parent type is found in the `sub_type_of` column.
+- `event_types.csv` The taxonomy of event types involved in collection dispersal. Each row defines an event type with name `type_name` (e.g. displayed, stored, transferred) whose parent type is found in the `sub_type_of` column.
+- `reason_types.csv` The taxonomy of reasons for museum closure (e.g. loss of premises, death of owner).
+- `governance_types.csv` The governance categories that museums belong to (e.g. local authority, independent).
+- `size_types.csv` The size categories that museums belong to (e.g. small, medium).
+- `subject_types.csv` The subject matter categories that museums belong to (e.g. arts, war & conflict).
 
 ## Dictionary
 
@@ -50,12 +50,6 @@ Actors invovled in the dispersal of museum objects.
 | type_name              | A descriptive name for the type.                                                  |
 | sub_type_of            | The name of this type's super-type.                                               |
 | is_core_category       | True if this type should be treated as a core category (neither highly specific nor highly generic) |
-| public_instances | The number of actors of this type in the database that are public sector actors |
-| private_instances | The number of actors of this type in the database that are private sector actors |
-| third_instances | The number of actors of this type in the database that are third sector actors |
-| university_instances | The number of actors of this type in the database that are university sector actors |
-| hybrid_instances | The number of actors of this type in the database that are from a hybrid of sectors |
-| unknown_instances | The number of actors of this type in the database that are from an unknown sector |
 
 ### Event Types
 
@@ -70,8 +64,6 @@ Events involving objects from closed museums.
 | change_of_ownership    | True if this type involves a transfer of legal ownership, false otherwise.        |
 | change_of_custody      | True if this type involves a change of location, false otherwise.                 |
 | end_of_existence       | True if this type results in an object no longer existing, false otherwise.       |
-| contributes_to_length_calculation | True if events of this type are included in calculations of the length of time it took for a museum to disperse of its collection. |
-| total_instances | The number of instances of this type in the database |
 
 ### Reason Types
 
