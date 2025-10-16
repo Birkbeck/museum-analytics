@@ -1,5 +1,9 @@
 # Closure Data
 
+The data in `dispersal_events.csv` is a flat table containing all the data collected over the course of the research project.
+
+Each row corresponds to a single event involving an object or group of objects. Each event belongs to a super event (a museum closure) concerning an individual museum. Each event also has a sender and a recipient.
+
 ## Data Dictionary
 
 | **Column**           | **Description**                                                |
