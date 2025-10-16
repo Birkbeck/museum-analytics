@@ -4,7 +4,6 @@
 
 | **Column**           | **Description**                                                |
 |----------------------|----------------------------------------------------------------|
-
 | initial_museum_id | The Mapping Museums ID of the museum where the object(s) involved in the event originate(s). | 
 | initial_museum_name | The name of the initial museum. | 
 | initial_museum_size | The Mapping Museums size category of the initial museum, estimated from its yearly visitor numbers (huge, large, medium, small, unknown). | 
