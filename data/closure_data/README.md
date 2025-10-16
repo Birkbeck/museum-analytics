@@ -53,4 +53,4 @@
 | object_quantity | The precise number of object(s) when known. | 
 | object_status | The status of the object(s), either: collection (objects from a museum’s collection), loan (objects on loan to the museum when it closed); handling (handling objects), museum-stuff (other items such as display cases). | 
 | object_types | A list of Wikidata items describing the types of object(s). | 
-| object_description | An English description of the object(s). 
+| object_description | An English description of the object(s). |
