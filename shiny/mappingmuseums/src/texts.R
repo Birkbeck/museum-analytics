@@ -47,9 +47,10 @@ top_events <- "<p>What happens to museum collections after museums close? These 
 <p>Click the thumbnail image to select your preferred visualisation. You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
 <p>Details of events returned by the search are listed below the charts.</p>"
 
-top_dispersal <- "<p>Who are the recipients of collections from closed museums? These visualisations show where objects go after closure. The numbers relate to actors, that is, to the people, groups, and organisations involved in object dispersal. A plus sign next to a number means 'at least'.  For instance, a circle marked 81+trader means that objects went to at least 81 traders.</p>
+top_dispersal <- "<p>Who are the recipients of collections from closed museums? These visualisations show where objects go after closure.</p>
 <p>Click the thumbnail image to select your preferred visualisation. The pathways visualisation shows where objects from a single museum type go; the sequences visualisation enables the comparison of different museum types.</p>
-<p>You can refine your search by using View and Filters. Click the <i class='fa-solid fa-circle-info' style='color: #007bff'></i> buttons for guidance.</p>
+<p>The numbers relate to actors, that is, to the people, groups, and organisations involved in object dispersal. A plus sign next to a number means 'at least'. For instance, a circle marked 81+ trader means that objects went to at least 81 traders.</p>
+<p>You can refine your search by using View and Filters. Click the buttons for guidance.</p>
 <p>Details of events returned by the search are listed below the charts.</p>"
 
 top_length <- "<p>How long does it take to dispose of the collection after a museum closes? These visualisations plot the time between each museum closing and the last object(s) being disposed of or moved.</p>
