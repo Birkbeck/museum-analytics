@@ -19,7 +19,7 @@ eventsServer <- function(id) {
       updatePickerInput(
         session=session, inputId="eventTypeFilter", selected=event_core_types$label
       )
-      updatePickerInput(
+      updateVirtualSelectInput(
         session=session, inputId="collectionTypeFilter", selected=collection_types$collection_type
       )
       updatePickerInput(
