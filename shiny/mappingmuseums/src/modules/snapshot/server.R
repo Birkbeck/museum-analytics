@@ -364,6 +364,8 @@ snapshotServer <- function(id) {
           governance,
           accreditation,
           subject,
+          village_town_city,
+          postcode,
           region,
           year_opened,
           year_closed
