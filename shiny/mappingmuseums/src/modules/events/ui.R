@@ -174,19 +174,17 @@ eventsUI <- function(id) {
           form_item(
             "Object",
             tooltip_collection_type,
-            pickerInput(
+            virtualSelectInput(
               NS(id, "collectionTypeFilter"), 
               "",
               choices=collection_types$collection_type,
               selected=collection_types$collection_type,
-              options=pickerOptions(
-                actionsBox=TRUE, 
-                size=10,
-                selectedTextFormat="count > 3"
-              ), 
-              multiple=TRUE
+              multiple=TRUE,
+              disableSelectAll=FALSE,
+              search=TRUE
             ) 
           ),
+
           form_item(
             "Object status",
             tooltip_collection_status,

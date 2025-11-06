@@ -138,11 +138,25 @@ dispersalUI <- function(id) {
         tags$details(
           tags$summary("Objects"),
           form_item(
-            "Collection status",
+            "Object",
+            tooltip_collection_type,
+            virtualSelectInput(
+              NS(id, "collectionTypeFilter"), 
+              "",
+              choices=collection_types$collection_type,
+              selected=collection_types$collection_type,
+              multiple=TRUE,
+              disableSelectAll=FALSE,
+              search=TRUE
+            ) 
+          ),
+
+          form_item(
+            "Object status",
             tooltip_collection_status,
             pickerInput(
               NS(id, "collectionStatusFilter"), 
-              "", 
+              "",
               choices=collection_status_labels$label,
               selected=collection_status_labels$label,
               options=pickerOptions(
@@ -151,7 +165,7 @@ dispersalUI <- function(id) {
                 selectedTextFormat="count > 3"
               ), 
               multiple=TRUE
-            )   
+            ) 
           )
         ),
             
