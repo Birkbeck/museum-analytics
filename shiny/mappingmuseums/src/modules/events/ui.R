@@ -184,6 +184,7 @@ eventsUI <- function(id) {
               search=TRUE
             ) 
           ),
+
           form_item(
             "Object status",
             tooltip_collection_status,

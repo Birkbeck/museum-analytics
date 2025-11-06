@@ -41,11 +41,14 @@ dispersalServer <- function(id) {
         inputId="eventTypeUncertaintyFilter",
         selected=c("certain", "?+", "?", "?-")
       )
-      updatePickerInput(
-        session=session, inputId="collectionStatusFilter", selected=collection_status_labels$label,
+      updateVirtualSelect(
+        session=session, inputId="collectionTypeFilter", selected=collection_types$collection_type
       )
       updatePickerInput(
-        session=session, inputId="startGovernanceFilter", selected=governance_broad_labels$label,
+        session=session, inputId="collectionStatusFilter", selected=collection_status_labels$label
+      )
+      updatePickerInput(
+        session=session, inputId="startGovernanceFilter", selected=governance_broad_labels$label
       )
       updatePickerInput(
         session=session, inputId="startSizeFilter", selected=size_labels$label
@@ -137,6 +140,7 @@ dispersalServer <- function(id) {
 
     event_type_filter <- reactive({ input$eventTypeFilter })
     event_type_uncertainty_filter <- reactive({ input$eventTypeUncertaintyFilter })
+    collection_type_filter <- reactive({ input$collectionTypeFilter })
     collection_status_filter <- reactive({ input$collectionStatusFilter })
     size_filter_choices <- reactive({ input$startSizeFilter })
     governance_filter_choices <- reactive({ input$startGovernanceFilter })
@@ -292,6 +296,7 @@ dispersalServer <- function(id) {
           museum_grouping_field(),
           event_type_filter(),
           event_type_uncertainty_filter(),
+          collection_type_filter(),
           collection_status_filter(),
           initial_museum_ids(),
           sequence_end(),

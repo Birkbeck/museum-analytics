@@ -153,11 +153,20 @@ get_filtered_sequences <- function(events_data,
                                    museum_grouping_dimension,
                                    event_type_filter,
                                    event_type_uncertainty_filter,
+                                   collection_type_filter,
                                    collection_status_filter,
                                    initial_museum_ids,
                                    show_ending_points,
                                    #show_passes_through,
                                    steps_or_first_last) {
+  event_collection_types <- events_data |>
+    mutate(
+      collection_type = str_remove_all(collection_types, "\\[|\\]|'") |>
+        str_split(",\\s*")
+    ) |>
+    unnest(collection_type) |>
+    select(event_id, collection_type) |>
+    filter(collection_type %in% collection_type_filter)
   sequences <- events_data |>
     filter(initial_museum_id %in% initial_museum_ids) |>
     find_events_to_show(show_transaction_types) |>
@@ -174,6 +183,7 @@ get_filtered_sequences <- function(events_data,
     #  show_passes_through, grouping_dimension, museum_grouping_dimension
     #) |>
     filter(
+      event_id %in% event_collection_types$event_id,
       collection_status %in% collection_status_filter,
       event_core_type %in% c(event_type_filter),
       event_type_uncertainty %in% c(event_type_uncertainty_filter),
