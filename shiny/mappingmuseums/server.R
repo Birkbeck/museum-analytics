@@ -29,6 +29,9 @@ source("src/modules/home/server.R")
 source("src/modules/glossary/ui.R")
 source("src/modules/glossary/server.R")
 
+source("src/modules/taxonomies/ui.R")
+source("src/modules/taxonomies/server.R")
+
 source("src/modules/snapshot/ui.R")
 source("src/modules/snapshot/server.R")
 
@@ -142,8 +145,17 @@ function(input, output, session) {
               homeUI("home")
             ),
             tabPanel(
-              tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),
-              glossaryUI("glossary"),
+              tags$span("Help", title="Definitions of key terms and type hierarchies"),
+              tabsetPanel(
+                tabPanel(
+                  tags$span("Glossary", title="Definitions of key terms"),
+                  glossaryUI("glossary")
+                ),
+                tabPanel(
+                  tags$span("Taxonomies", title="Type hierarchies"),
+                  taxonomiesUI("taxonomies")
+                )
+              )
             ),
             tabPanel(
               tags$span("Mapping Museums", title=""),
@@ -252,6 +264,7 @@ function(input, output, session) {
       
       homeServer("home")
       glossaryServer("glossary")
+      taxonomiesServer("taxonomies")
 
       # mapping museums
       snapshotServer("snapshot")
