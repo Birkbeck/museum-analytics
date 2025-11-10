@@ -22,6 +22,9 @@ load-mm-data:
 reset-db:
 	@cd sheet-to-graph && pipenv run python reset.py
 
+tests:
+	@cd sheet-to-graph && pipenv run python -m pytest tests/
+
 upload-db:
 	@cd sheet-to-graph \
 	&& pipenv run python anonymize_dispersal_spreadsheet.py \

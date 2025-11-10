@@ -1,4 +1,6 @@
 import csv
+import json
+
 import openpyxl
 
 
@@ -14,7 +16,8 @@ class FileLoader:
 
     @classmethod
     def from_config_file(cls, filename: str):
-        values = json.load(filename)
+        with open(filename, "r", encoding="utf-8") as f:
+            values = json.load(f)
         return cls(values)
 
     def get_sheet_as_list_of_lists(self, sheet_name: str):
