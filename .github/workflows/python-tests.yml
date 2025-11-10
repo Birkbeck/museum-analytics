@@ -14,6 +14,9 @@ jobs:
       run:
         working-directory: sheet-to-graph
 
+    env:
+      PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/sheet-to-graph
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -21,14 +24,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          # Match whatever you use locally, or what’s in your Pipfile
           python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip pipenv
-	  pipenv sync --dev
+          pipenv sync --dev
 
       - name: Run tests
         run: |
-          pipenv run pytest
+          pipenv run python -m pytest tests/

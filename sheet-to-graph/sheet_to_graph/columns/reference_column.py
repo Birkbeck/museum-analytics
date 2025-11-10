@@ -54,10 +54,13 @@ class ReferenceColumn(Column):
             return None
 
     def _validate_entire_column(self) -> str:
-        missing_values = set()
+        missing_values_set = set()
+        missing_values = []
         for value in self:
             if value != "" and value not in self.reference_column:
-                missing_values.add(value)
+                if value not in missing_values_set:
+                    missing_values.append(value)
+                    missing_values_set.add(value)
         if len(missing_values) == 0:
             return None
         missing_values = ", ".join(missing_values)
