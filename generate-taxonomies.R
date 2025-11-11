@@ -5,7 +5,7 @@ library(ggraph)
 library(tidyverse)
 library(readr)
 
-source("shiny/mappingmuseums/src/modules/glossary/elements.R")
+source("shiny/mappingmuseums/src/modules/taxonomies/elements.R")
 source("shiny/mappingmuseums/src/themes.R")
 
 taxonomy_theme <- theme(

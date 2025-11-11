@@ -26,8 +26,8 @@ source("src/ui_elements.R")
 source("src/modules/home/ui.R")
 source("src/modules/home/server.R")
 
-source("src/modules/glossary/ui.R")
-source("src/modules/glossary/server.R")
+source("src/modules/help/ui.R")
+source("src/modules/help/server.R")
 
 source("src/modules/snapshot/ui.R")
 source("src/modules/snapshot/server.R")
@@ -49,6 +49,12 @@ source("src/modules/events/server.R")
 
 source("src/modules/dispersal/ui.R")
 source("src/modules/dispersal/server.R")
+
+source("src/modules/glossary/ui.R")
+source("src/modules/glossary/server.R")
+
+source("src/modules/taxonomies/ui.R")
+source("src/modules/taxonomies/server.R")
 
 source("src/modules/data_collection/ui.R")
 source("src/modules/data_collection/server.R")
@@ -142,8 +148,8 @@ function(input, output, session) {
               homeUI("home")
             ),
             tabPanel(
-              tags$span("Taxonomies", title="Definitions of key terms and type hierarchies"),
-              glossaryUI("glossary"),
+              tags$span("Help", title="Introduction and guide to using the app"),
+              helpUI("Help")
             ),
             tabPanel(
               tags$span("Mapping Museums", title=""),
@@ -191,6 +197,14 @@ function(input, output, session) {
             tabPanel(
               tags$span("About the data", title="A description of the data concerning object disposal"),
               tabsetPanel(
+                tabPanel(
+                  tags$span("Glossary", title="Definitions of key terms"),
+                  glossaryUI("glossary")
+                ),
+                tabPanel(
+                  tags$span("Taxonomies", title="Type hierarchies"),
+                  taxonomiesUI("taxonomies")
+                ),
                 tabPanel(
                   tags$span("Interpreting the Data", title=""),
                   interpretingDataUI("interpreting_data")
@@ -251,7 +265,7 @@ function(input, output, session) {
       )
       
       homeServer("home")
-      glossaryServer("glossary")
+      helpServer("help")
 
       # mapping museums
       snapshotServer("snapshot")
@@ -267,6 +281,8 @@ function(input, output, session) {
       lengthServer("length")
 
       # about the data
+      glossaryServer("glossary")
+      taxonomiesServer("taxonomies")
       dataCollectionServer("data_collection")
       dataCollectionAnalysisServer("data_collection_analysis")
       interpretingDataServer("interpreting_data")
