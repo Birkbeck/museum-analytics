@@ -21,7 +21,7 @@ def test_from_config_file_loads_values(tmp_path):
 
 
 def test_get_sheet_as_list_of_lists_delegates_to_sheet_source_factory(monkeypatch):
-    """FileLoader should delegate to make_sheet_source and return load_rows()."""
+    """FileLoader should delegate to make_sheet_source and return get_rows()."""
 
     values = {
         "sheets": {
@@ -41,7 +41,7 @@ def test_get_sheet_as_list_of_lists_delegates_to_sheet_source_factory(monkeypatc
         def __init__(self, rows):
             self._rows = rows
 
-        def load_rows(self):
+        def get_rows(self):
             return self._rows
 
     def fake_make_sheet_source(sheet_conf, *, google_service=None):
@@ -88,7 +88,7 @@ def test_uses_dispersal_sheet_anon_when_file_is_blank(monkeypatch, tmp_path):
         def __init__(self):
             pass
 
-        def load_rows(self):
+        def get_rows(self):
             return [["dummy"]]
 
     def fake_make_sheet_source(sheet_conf, *, google_service=None):

@@ -21,10 +21,10 @@ class FileLoader:
         return cls(values)
 
     def get_sheet_as_list_of_lists(self, sheet_name: str):
-        sheet_conf = self.values["sheets"][sheet_name]
+        sheet_config = self.values["sheets"][sheet_name]
 
-        if sheet_conf.get("file", "") == "":
-            sheet_conf["file"] = self.values["dispersal_sheet_anon"]
+        if sheet_config.get("file", "") == "":
+            sheet_config["file"] = self.values["dispersal_sheet_anon"]
 
-        source = make_sheet_source(sheet_conf, google_service=self.google_service)
-        return source.load_rows()
+        source = make_sheet_source(sheet_config, google_service=self.google_service)
+        return source.get_rows()

@@ -6,35 +6,43 @@
     "sheets": {
 	"actor types": {
 	    "file": "",
-	    "sheet": "actor-types-hierarchy"
+	    "sheet": "actor-types-hierarchy",
+	    "backend": "excel"
 	},
 	"event types": {
 	    "file": "",
-	    "sheet": "event-types-hierarchy"
+	    "sheet": "event-types-hierarchy",
+	    "backend": "excel"
 	},
 	"super-event types": {
 	    "file": "",
-	    "sheet": "super-event-types-hierarchy"
+	    "sheet": "super-event-types-hierarchy",
+	    "backend": "excel"
 	},
 	"default recipient types": {
 	    "file": "",
-	    "sheet": "default-recipient-types"
+	    "sheet": "default-recipient-types",
+	    "backend": "excel"
 	},
 	"super causes hierarchy": {
 	    "file": "",
-	    "sheet": "closure-causes-hierarchy"
+	    "sheet": "closure-causes-hierarchy",
+	    "backend": "excel"
 	},
 	"museums": {
 	    "file": "../data/mapping_museums_data/mapping-museums-data.csv",
-	    "sheet": ""
+	    "sheet": "",
+	    "backend": "csv"
 	},
 	"actors": {
 	    "file": "",
-	    "sheet": "model-v1-actors"
+	    "sheet": "model-v1-actors",
+	    "backend": "excel"
 	},
 	"events": {
 	    "file": "",
-	    "sheet": "model-v1-events"
+	    "sheet": "model-v1-events",
+	    "backend": "excel"
 	}
     }
 }
