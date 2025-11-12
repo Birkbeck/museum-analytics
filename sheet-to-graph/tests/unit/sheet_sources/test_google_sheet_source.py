@@ -5,7 +5,7 @@ def test_google_sheet_source_calls_service_and_returns_values():
     """GoogleSheetSource should call the Sheets API and return the values list."""
 
     expected_spreadsheet_id = "spreadsheet-id-123"
-    expected_range = "Sheet1!A1:B2"
+    expected_sheet_name = "Sheet1"
     expected_rows = [["a", "b"], ["c", "d"]]
 
     # --- Fake Google Sheets API client structure ---
@@ -49,7 +49,7 @@ def test_google_sheet_source_calls_service_and_returns_values():
     source = GoogleSheetSource(
         fake_service,
         spreadsheet_id=expected_spreadsheet_id,
-        range_=expected_range,
+        sheet_name=expected_sheet_name,
     )
 
     rows = source.get_rows()
@@ -58,7 +58,7 @@ def test_google_sheet_source_calls_service_and_returns_values():
     assert rows == expected_rows
 
     # And it should have called the API with the correct parameters
-    assert fake_values.calls == [(expected_spreadsheet_id, expected_range)]
+    assert fake_values.calls == [(expected_spreadsheet_id, expected_sheet_name)]
 
 
 def test_google_sheet_source_returns_empty_list_when_no_values():

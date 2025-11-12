@@ -1,3 +1,4 @@
+import copy
 import json
 
 from sheet_to_graph.sheet_sources import make_sheet_source
@@ -15,13 +16,13 @@ class FileLoader:
         self.google_service = google_service
 
     @classmethod
-    def from_config_file(cls, filename: str):
+    def from_config_file(cls, filename: str, google_service=None):
         with open(filename, "r", encoding="utf-8") as f:
             values = json.load(f)
-        return cls(values)
+        return cls(values, google_service=google_service)
 
     def get_sheet_as_list_of_lists(self, sheet_name: str):
-        sheet_config = self.values["sheets"][sheet_name]
+        sheet_config = copy.deepcopy(self.values["sheets"][sheet_name])
 
         if sheet_config.get("file", "") == "":
             sheet_config["file"] = self.values["dispersal_sheet_anon"]

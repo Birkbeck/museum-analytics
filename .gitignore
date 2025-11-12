@@ -8,10 +8,10 @@
 data/ONSPD*
 data/dispersal-sheet-2*
 
-sheet_to_graph/credentials.json
-sheet_to_graph/output.xlsx
-sheet_to_graph/*lookup.json
-sheet_to_graph/queries.txt
+sheet-to-graph/credentials.json
+sheet-to-graph/output.xlsx
+sheet-to-graph/*lookup.json
+sheet-to-graph/queries.txt
 
 shiny/mappingmuseums/keys.csv
 shiny/mappingmuseums/users.rds

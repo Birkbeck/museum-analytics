@@ -44,8 +44,8 @@ def test_get_sheet_as_list_of_lists_delegates_to_sheet_source_factory(monkeypatc
         def get_rows(self):
             return self._rows
 
-    def fake_make_sheet_source(sheet_conf, *, google_service=None):
-        captured["sheet_conf"] = sheet_conf
+    def fake_make_sheet_source(sheet_config, *, google_service=None):
+        captured["sheet_config"] = sheet_config
         captured["google_service"] = google_service
         return DummySource([["ok"]])
 
@@ -59,7 +59,7 @@ def test_get_sheet_as_list_of_lists_delegates_to_sheet_source_factory(monkeypatc
 
     assert rows == [["ok"]]
     # It passed the right config dict
-    assert captured["sheet_conf"] is values["sheets"]["my_sheet"]
+    assert captured["sheet_config"] == values["sheets"]["my_sheet"]
     # It forwarded google_service from the loader
     assert captured["google_service"] == "GOOGLE_SERVICE_SENTINEL"
 
@@ -91,8 +91,8 @@ def test_uses_dispersal_sheet_anon_when_file_is_blank(monkeypatch, tmp_path):
         def get_rows(self):
             return [["dummy"]]
 
-    def fake_make_sheet_source(sheet_conf, *, google_service=None):
-        captured["sheet_conf"] = dict(sheet_conf)  # copy to inspect safely
+    def fake_make_sheet_source(sheet_config, *, google_service=None):
+        captured["sheet_config"] = dict(sheet_config)  # copy to inspect safely
         return DummySource()
 
     monkeypatch.setattr(
@@ -104,7 +104,7 @@ def test_uses_dispersal_sheet_anon_when_file_is_blank(monkeypatch, tmp_path):
 
     assert rows == [["dummy"]]
     # The file field should have been replaced with the fallback path
-    assert captured["sheet_conf"]["file"] == str(fallback_csv)
+    assert captured["sheet_config"]["file"] == str(fallback_csv)
 
 
 def test_raises_key_error_for_unknown_sheet_name():

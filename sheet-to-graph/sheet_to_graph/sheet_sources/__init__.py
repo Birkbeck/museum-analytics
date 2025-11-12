@@ -19,7 +19,7 @@ def make_sheet_source(sheet_config, *, google_service=None) -> SheetSource:
         return GoogleSheetSource(
             google_service,
             sheet_config["spreadsheet_id"],
-            sheet_config["range"],
+            sheet_config["sheet"],
         )
 
     raise ValueError(f"Unknown backend: {backend}")
