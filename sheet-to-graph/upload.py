@@ -46,7 +46,7 @@ from sheet_to_graph.rules import (
 )
 
 if __name__ == "__main__":
-    google_service = GoogleUtils.get_service()
+    google_service = GoogleUtils.get_sheets_service()
     file_loader = FileLoader.from_config_file("config.json", google_service)
     credentials_file_name = "credentials.json"
     postcode_to_lat_long = PostcodeToLatLong(
