@@ -1,12 +1,9 @@
 from datetime import datetime
+import json
 from typing import Dict, Tuple, List
 import zoneinfo
 
 from sheet_to_graph import GoogleUtils
-
-SPREADSHEET_ID = "1Xxr8ndgVSs5G5e_R7SSKYZpExoEFu8GfIUMVMYTbBnA"
-BACKUP_DIRECTORY_ID = "1UuQYPXU7IQf5J2JvroOWKb7NYlLGNOCz"
-ANONYMOUS_SPREADSHEET_ID = "1vQRe5JyduQ1AHXtKReSZN_4Sx6DL8dPmyMMatzlE4bk"
 
 ACTORS_SHEET = "model-v1-actors"
 EVENTS_SHEET = "model-v1-events"
@@ -212,10 +209,14 @@ def anonymize_spreadsheet(spreadsheet_id: str, output_spreadsheet_id: str) -> No
 
 
 if __name__ == "__main__":
-    # Example usage
-    backup_info = backup_spreadsheet(SPREADSHEET_ID, BACKUP_DIRECTORY_ID)
+    with open("config.json") as f:
+        config = json.load(f)
+    spreadsheet_id = config["dispersal_sheet_input_id"]
+    backup_directory_id = config["dispersal_sheet_backups_id"]
+    anonymous_spreadsheet_id = config["dispersal_sheet_anon_id"]
+    backup_info = backup_spreadsheet(spreadsheet_id, backup_directory_id)
     print("Backup created:")
     print(f"ID: {backup_info['id']}")
     print(f"Name: {backup_info['name']}")
     print(f"Link: {backup_info['webViewLink']}")
-    anonymize_spreadsheet(SPREADSHEET_ID, ANONYMOUS_SPREADSHEET_ID)
+    anonymize_spreadsheet(spreadsheet_id, anonymous_spreadsheet_id)
