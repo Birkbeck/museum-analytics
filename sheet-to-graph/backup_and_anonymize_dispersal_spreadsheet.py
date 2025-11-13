@@ -10,6 +10,11 @@ ANONYMOUS_SPREADSHEET_ID = "1vQRe5JyduQ1AHXtKReSZN_4Sx6DL8dPmyMMatzlE4bk"
 
 ACTORS_SHEET = "model-v1-actors"
 EVENTS_SHEET = "model-v1-events"
+ACTOR_TYPES_SHEET = "actor-types-hierarchy"
+EVENT_TYPES_SHEET = "event-types-hierarchy"
+SUPER_EVENT_TYPES_SHEET = "super-event-types-hierarchy"
+DEFAULT_RECIPIENT_TYPES_SHEET = "default-recipient-types"
+CLOSURE_CAUSES_HIERARCHY = "closure-causes-hierarchy"
 
 ACTOR_ID_COL = 0
 ACTOR_NAME_COL = 1
@@ -76,7 +81,15 @@ def anonymize_spreadsheet(spreadsheet_id: str, output_spreadsheet_id: str) -> No
         .values()
         .batchGet(
             spreadsheetId=spreadsheet_id,
-            ranges=[ACTORS_SHEET, EVENTS_SHEET],
+            ranges=[
+                ACTORS_SHEET,
+                EVENTS_SHEET,
+                ACTOR_TYPES_SHEET,
+                EVENT_TYPES_SHEET,
+                SUPER_EVENT_TYPES_SHEET,
+                DEFAULT_RECIPIENT_TYPES_SHEET,
+                CLOSURE_CAUSES_HIERARCHY,
+            ],
             majorDimension="ROWS",
         )
         .execute()
@@ -88,6 +101,15 @@ def anonymize_spreadsheet(spreadsheet_id: str, output_spreadsheet_id: str) -> No
 
     actors_values = _rectangular(by_name.get(ACTORS_SHEET, []))
     events_values = _rectangular(by_name.get(EVENTS_SHEET, []))
+    actor_types_values = _rectangular(by_name.get(ACTOR_TYPES_SHEET, []))
+    event_types_values = _rectangular(by_name.get(EVENT_TYPES_SHEET, []))
+    super_event_types_values = _rectangular(by_name.get(SUPER_EVENT_TYPES_SHEET, []))
+    default_recipient_types_values = _rectangular(
+        by_name.get(DEFAULT_RECIPIENT_TYPES_SHEET, [])
+    )
+    closure_causes_hierarchy_values = _rectangular(
+        by_name.get(CLOSURE_CAUSES_HIERARCHY, [])
+    )
 
     a_header = actors_values[0]
     a_rows = actors_values[1:] if len(actors_values) > 1 else []
@@ -132,33 +154,61 @@ def anonymize_spreadsheet(spreadsheet_id: str, output_spreadsheet_id: str) -> No
 
     sheets.spreadsheets().values().batchClear(
         spreadsheetId=output_spreadsheet_id,
-        body={"ranges": [ACTORS_SHEET, EVENTS_SHEET]},
+        body={
+            "ranges": [
+                ACTORS_SHEET,
+                EVENTS_SHEET,
+                ACTOR_TYPES_SHEET,
+                EVENT_TYPES_SHEET,
+                SUPER_EVENT_TYPES_SHEET,
+                DEFAULT_RECIPIENT_TYPES_SHEET,
+                CLOSURE_CAUSES_HIERARCHY,
+            ]
+        },
     ).execute()
 
-    data = []
-    if actors_out:
-        data.append(
-            {
-                "range": ACTORS_SHEET,
-                "majorDimension": "ROWS",
-                "values": actors_out,
-            }
-        )
-    if events_out:
-        data.append(
-            {
-                "range": EVENTS_SHEET,
-                "majorDimension": "ROWS",
-                "values": events_out,
-            }
-        )
+    data = [
+        {
+            "range": ACTORS_SHEET,
+            "majorDimension": "ROWS",
+            "values": actors_out,
+        },
+        {
+            "range": EVENTS_SHEET,
+            "majorDimension": "ROWS",
+            "values": events_out,
+        },
+        {
+            "range": ACTOR_TYPES_SHEET,
+            "majorDimension": "ROWS",
+            "values": actor_types_values,
+        },
+        {
+            "range": EVENT_TYPES_SHEET,
+            "majorDimension": "ROWS",
+            "values": event_types_values,
+        },
+        {
+            "range": SUPER_EVENT_TYPES_SHEET,
+            "majorDimension": "ROWS",
+            "values": super_event_types_values,
+        },
+        {
+            "range": DEFAULT_RECIPIENT_TYPES_SHEET,
+            "majorDimension": "ROWS",
+            "values": default_recipient_types_values,
+        },
+        {
+            "range": CLOSURE_CAUSES_HIERARCHY,
+            "majorDimension": "ROWS",
+            "values": closure_causes_hierarchy_values,
+        },
+    ]
 
-    if data:
-        print("Writing anonymized data to output spreadsheet...")
-        sheets.spreadsheets().values().batchUpdate(
-            spreadsheetId=output_spreadsheet_id,
-            body={"valueInputOption": "RAW", "data": data},
-        ).execute()
+    sheets.spreadsheets().values().batchUpdate(
+        spreadsheetId=output_spreadsheet_id,
+        body={"valueInputOption": "RAW", "data": data},
+    ).execute()
 
 
 if __name__ == "__main__":
