@@ -1,3 +1,5 @@
+import pandas as pd
+
 from sheet_to_graph.columns import FormulaColumn, OptionalColumn
 from sheet_to_graph import FilePreprocessor
 
@@ -99,6 +101,9 @@ class Table:
             column_error = column.validate_entire_column()
             if column_error is not None:
                 self.validation_errors.append(f"Column [{column_name}] {column_error}")
+
+    def to_pandas_dataframe(self) -> pd.DataFrame:
+        return pd.DataFrame(self.rows)
 
     def filter(self, **terms) -> list:
         return [
