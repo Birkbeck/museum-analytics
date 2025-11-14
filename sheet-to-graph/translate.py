@@ -95,6 +95,24 @@ def make_get_core_type(lookup_table: dict, core_types: list) -> callable:
     return _get_core_type
 
 
+def make_get_ultimate_ancestor(lookup_table: dict) -> callable:
+    """Create a function that returns the ultimate ancestor of a node in a hierarchy.
+    Args:
+        lookup_table (dict): A dictionary mapping node IDs to their parent IDs.
+    Returns:
+        callable: A function that takes a node ID and returns its ultimate ancestor ID.
+    """
+    get_ancestors = make_get_ancestors(lookup_table)
+
+    def _get_ultimate_ancestor(node_id: str) -> str:
+        ancestors = get_ancestors(node_id)
+        if ancestors:
+            return ancestors[-1]
+        return None
+
+    return _get_ultimate_ancestor
+
+
 if __name__ == "__main__":
     google_service = GoogleUtils.get_sheets_service()
     file_loader = FileLoader.from_config_file("config.json", google_service)
@@ -816,11 +834,13 @@ if __name__ == "__main__":
         file_loader.get_sheet_as_list_of_lists("events"),
         preprocessor=SuperEventsPreprocessor(),
     )
+    super_events.remove_duplicates()
 
     collections_and_objects.import_from_list_of_lists(
         file_loader.get_sheet_as_list_of_lists("events"),
         preprocessor=CollectionsPreprocessor(),
     )
+    collections_and_objects.remove_duplicates()
 
     events.import_from_list_of_lists(
         file_loader.get_sheet_as_list_of_lists("events"),
@@ -884,6 +904,17 @@ if __name__ == "__main__":
     super_events_df["super_event_causes"] = super_events_df["super_causes"]
     super_events_df["super_event_cause_types"] = super_events_df["super_cause_types"]
     super_events_df["super_event_date"] = super_events_df["super_date"]
+
+    collection_parents = dict(
+        zip(
+            collections_and_objects_df["collection_or_object_id"],
+            collections_and_objects_df["was_removed_from"],
+        )
+    )
+    get_ultimate_collection_ancestor = make_get_ultimate_ancestor(collection_parents)
+    collections_and_objects_df["original_collection_id"] = collections_and_objects_df[
+        "collection_id"
+    ].map(get_ultimate_collection_ancestor)
 
     dispersal_events = events_df
     dispersal_events["initial_museum_id"] = dispersal_events["museum_id"]
@@ -1006,6 +1037,9 @@ if __name__ == "__main__":
     dispersal_events["parent_collection_id"] = dispersal_events[
         "collection_was_removed_from"
     ]
+    dispersal_events["original_collection_id"] = dispersal_events[
+        "collection_original_collection_id"
+    ]
     dispersal_events["collection_description"] = dispersal_events[
         "collection_coll_desc"
     ]
@@ -1048,9 +1082,6 @@ if __name__ == "__main__":
     dispersal_events["ancestor_collections"] = dispersal_events["collection_id"].apply(
         lambda collection_id: get_collection_ancestors(collection_id)
     )
-
-    # print dispersal events column headings
-    present_dispersal_events_columns = dispersal_events.columns.tolist()
 
     dispersal_events_columns = [
         "initial_museum_id",
@@ -1169,17 +1200,70 @@ if __name__ == "__main__":
         "destination_region",
         "destination_country",
     ]
+    dispersal_events = dispersal_events[dispersal_events_columns]
 
-    not_present_columns = [
-        col
-        for col in dispersal_events_columns
-        if col not in present_dispersal_events_columns
+    # find "sold-at-auction" events
+    # where the same collection_id was in a preceding "sent-to-auction" event.
+    # Delete the "sent-to-auction" event and update the "sold-at-auction" event's
+    # stage_in_path, sender, and origin fields with the values from the "sent-to-auction" event.
+    sender_values = [
+        col_name
+        for col_name in dispersal_events_columns
+        if col_name.startswith("sender_")
     ]
-    for col in not_present_columns:
-        print(col)
+    origin_values = [
+        col_name
+        for col_name in dispersal_events_columns
+        if col_name.startswith("origin_")
+    ]
+    cols_to_update = (
+        ["event_stage_in_path", "previous_event_id"] + sender_values + origin_values
+    )
 
-    # TODO:
+    sent_to_auction_events = dispersal_events[
+        dispersal_events["event_type"] == "sent-to-auction"
+    ]
+    sold_at_auction_events = dispersal_events[
+        dispersal_events["event_type"] == "sold-at-auction"
+    ]
+    events_to_delete = []
+    for _, event in sold_at_auction_events.iterrows():
+        collection_id = event["collection_id"]
+        sent_to_auction_event = sent_to_auction_events[
+            (sent_to_auction_events["event_id"] == event["previous_event_id"])
+            & (sent_to_auction_events["collection_id"] == collection_id)
+            & (sent_to_auction_events["event_type"] == "sent-to-auction")
+        ]
+        if not sent_to_auction_event.empty:
+            events_to_delete.append(sent_to_auction_event["event_id"].values[0])
+            dispersal_events.loc[
+                dispersal_events["event_id"] == event["event_id"], cols_to_update
+            ] = sent_to_auction_event[cols_to_update].values
+            event["ancestor_events"].remove(sent_to_auction_event["event_id"].values[0])
+    dispersal_events = dispersal_events[
+        ~(dispersal_events["event_id"].isin(events_to_delete))
+    ]
 
-    # perform extra inferences of collection sizes and removal of sent_to_auction events where appropriate
+    # find "sold-at-auction" and "sent-to-auction" events where
+    # the collection sent-to-auction is parent collection of the collection sold-at-auction
+    # update the "sold-at-auction" event's
+    # stage_in_path, sender, and origin fields with the values from the "sent-to-auction" event.
+    # but do not delete the "sent-to-auction" event
+    for _, sold_event in sold_at_auction_events.iterrows():
+        collection_id = sold_event["collection_id"]
+        parent_collection_id = sold_event["parent_collection_id"]
+        if parent_collection_id is None:
+            continue
+        sent_to_auction_event = sent_to_auction_events[
+            (sent_to_auction_events["collection_id"] == parent_collection_id)
+            & (sent_to_auction_events["event_id"] == sold_event["previous_event_id"])
+        ]
+        if not sent_to_auction_event.empty:
+            dispersal_events.loc[
+                dispersal_events["event_id"] == sold_event["event_id"], cols_to_update
+            ] = sent_to_auction_event[cols_to_update].values
+            sold_event["ancestor_events"].remove(
+                sent_to_auction_event["event_id"].values[0]
+            )
 
-    # then generate single dispersal_events.csv file and save to Google Drive
+    dispersal_events.to_csv("dispersal_events.csv", index=False)
