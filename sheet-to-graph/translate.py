@@ -49,6 +49,52 @@ from sheet_to_graph.rules import (
     UniqueCorrespondences,
 )
 
+
+def make_get_ancestors(lookup_table: dict) -> callable:
+    """Create a function that returns all ancestors of a node in a hierarchy.
+    Args:
+        lookup_table (dict): A dictionary mapping node IDs to their parent IDs.
+    Returns:
+        callable: A function that takes a node ID and returns a list of its ancestor IDs.
+    """
+
+    @lru_cache(None)
+    def _get_ancestors(node_id: str) -> list:
+        ancestors = []
+        current_id = node_id
+        while True:
+            parent_id = lookup_table.get(current_id)
+            if pd.isna(parent_id) or parent_id == "":
+                break
+            ancestors.append(parent_id)
+            current_id = parent_id
+        return ancestors
+
+    return _get_ancestors
+
+
+def make_get_core_type(lookup_table: dict, core_types: list) -> callable:
+    """Create a function that returns the core type of a given type ID.
+    Args:
+        lookup_table (dict): A dictionary mapping type IDs to their parent type IDs.
+        core_types (list): A list of core type IDs.
+    Returns:
+        callable: A function that takes a type ID and returns its core type ID.
+    """
+
+    get_ancestors = make_get_ancestors(lookup_table)
+
+    def _get_core_type(type_id: str) -> str:
+        if type_id in core_types:
+            return type_id
+        for ancestor_id in get_ancestors(type_id):
+            if ancestor_id in core_types:
+                return ancestor_id
+        return None
+
+    return _get_core_type
+
+
 if __name__ == "__main__":
     google_service = GoogleUtils.get_sheets_service()
     file_loader = FileLoader.from_config_file("config.json", google_service)
@@ -794,6 +840,36 @@ if __name__ == "__main__":
     collections_and_objects_df = collections_and_objects.to_pandas_dataframe()
     events_df = events.to_pandas_dataframe()
 
+    actor_type_parents = dict(
+        zip(
+            actor_types_df["type_id"],
+            actor_types_df["sub_type_of_id"],
+        )
+    )
+    get_core_actor_type = make_get_core_type(
+        actor_type_parents,
+        actor_types_df[actor_types_df["is_core_category"] == True]["type_id"].tolist(),
+    )
+    actors_df["core_type"] = actors_df["actor_type_id"].map(get_core_actor_type)
+    actors_df["core_type_name"] = actors_df["core_type"].map(
+        actor_types_df.set_index("type_id")["type_name"]
+    )
+
+    event_type_parents = dict(
+        zip(
+            event_types_df["type_id"],
+            event_types_df["sub_type_of_id"],
+        )
+    )
+    get_core_event_type = make_get_core_type(
+        event_type_parents,
+        event_types_df[event_types_df["is_core_category"] == True]["type_id"].tolist(),
+    )
+    event_types_df["core_type"] = event_types_df["type_id"].map(get_core_event_type)
+    event_types_df["core_type_name"] = event_types_df["core_type"].map(
+        event_types_df.set_index("type_id")["type_name"]
+    )
+
     places_df["x"] = places_df["bng_x"]
     places_df["y"] = places_df["bng_y"]
     places_df["lad"] = places_df["local_authority_name"]
@@ -813,6 +889,12 @@ if __name__ == "__main__":
     dispersal_events["initial_museum_id"] = dispersal_events["museum_id"]
     dispersal_events = (
         dispersal_events.merge(
+            event_types_df.add_prefix("event_type_"),
+            left_on="event_type",
+            right_on="event_type_type_name",
+            how="left",
+        )
+        .merge(
             super_events_df,
             left_on="super_event_id",
             right_on="super_event_id",
@@ -857,6 +939,17 @@ if __name__ == "__main__":
     )
 
     dispersal_events["event_stage_in_path"] = dispersal_events["stage_in_path"]
+    dispersal_events["event_core_type"] = dispersal_events["event_type_core_type_name"]
+    dispersal_events["event_is_change_of_ownership"] = dispersal_events[
+        "event_type_change_of_ownership"
+    ]
+    dispersal_events["event_is_change_of_custody"] = (
+        dispersal_events["event_type_change_of_custody"]
+        & dispersal_events["has_destination"].notna()
+    )
+    dispersal_events["event_is_end_of_existence"] = dispersal_events[
+        "event_type_end_of_existence"
+    ]
     dispersal_events["initial_museum_name"] = dispersal_events[
         "initial_museum_actor_name"
     ]
@@ -887,6 +980,7 @@ if __name__ == "__main__":
     dispersal_events["sender_quantity"] = dispersal_events["sender_actor_quantity"]
     dispersal_events["sender_sector"] = dispersal_events["sender_actor_sector_name"]
     dispersal_events["sender_type"] = dispersal_events["sender_actor_type_name"]
+    dispersal_events["sender_core_type"] = dispersal_events["sender_core_type_name"]
     dispersal_events["recipient_name"] = dispersal_events["recipient_actor_name"]
     dispersal_events["recipient_all"] = ""
     dispersal_events["recipient_town"] = dispersal_events["recipient_actor_town_city"]
@@ -901,6 +995,9 @@ if __name__ == "__main__":
         "recipient_actor_sector_name"
     ]
     dispersal_events["recipient_type"] = dispersal_events["recipient_actor_type_name"]
+    dispersal_events["recipient_core_type"] = dispersal_events[
+        "recipient_core_type_name"
+    ]
     dispersal_events["origin_id"] = dispersal_events["origin_place_id"]
     dispersal_events["destination_id"] = dispersal_events["destination_place_id"]
     dispersal_events["collection_id"] = dispersal_events[
@@ -936,29 +1033,12 @@ if __name__ == "__main__":
     event_ancestors = dict(
         zip(dispersal_events.event_id, dispersal_events.previous_event_id)
     )
-    print(event_ancestors)
     collection_ancestors = dict(
         zip(
             collections_and_objects_df.collection_id,
             collections_and_objects_df.was_removed_from,
         )
     )
-
-    def make_get_ancestors(lookup_table):
-        @lru_cache(None)
-        def _get_ancestors(node_id):
-            ancestors = []
-            current_id = node_id
-            while True:
-                parent_id = lookup_table.get(current_id)
-                if pd.isna(parent_id) or parent_id == "":
-                    break
-                ancestors.append(parent_id)
-                current_id = parent_id
-            return ancestors
-
-        return _get_ancestors
-
     get_event_ancestors = make_get_ancestors(event_ancestors)
     get_collection_ancestors = make_get_ancestors(collection_ancestors)
 
