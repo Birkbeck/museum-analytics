@@ -870,6 +870,8 @@ if __name__ == "__main__":
         actor_type_parents,
         actor_types_df[actor_types_df["is_core_category"] == True]["type_id"].tolist(),
     )
+    get_parent_actor_types = make_get_ancestors(actor_type_parents)
+    actors_df["actor_types"] = actors_df["actor_type_id"].map(get_parent_actor_types)
     actors_df["core_type"] = actors_df["actor_type_id"].map(get_core_actor_type)
     actors_df["core_type_name"] = actors_df["core_type"].map(
         actor_types_df.set_index("type_id")["type_name"]
@@ -885,6 +887,7 @@ if __name__ == "__main__":
         event_type_parents,
         event_types_df[event_types_df["is_core_category"] == True]["type_id"].tolist(),
     )
+    get_parent_event_types = make_get_ancestors(event_type_parents)
     event_types_df["core_type"] = event_types_df["type_id"].map(get_core_event_type)
     event_types_df["core_type_name"] = event_types_df["core_type"].map(
         event_types_df.set_index("type_id")["type_name"]
@@ -971,6 +974,9 @@ if __name__ == "__main__":
 
     dispersal_events["event_stage_in_path"] = dispersal_events["stage_in_path"]
     dispersal_events["event_core_type"] = dispersal_events["event_type_core_type_name"]
+    dispersal_events["event_types"] = dispersal_events["event_type_type_id"].map(
+        get_parent_event_types
+    )
     dispersal_events["event_is_change_of_ownership"] = dispersal_events[
         "event_type_change_of_ownership"
     ]
@@ -1082,6 +1088,76 @@ if __name__ == "__main__":
     dispersal_events["ancestor_collections"] = dispersal_events["collection_id"].apply(
         lambda collection_id: get_collection_ancestors(collection_id)
     )
+
+    # actor types
+    actor_type_columns = [
+        "type_name",
+        "sub_type_of",
+        "is_core_category",
+        "total_instances",
+        "public_instances",
+        "private_instances",
+        "third_instances",
+        "university_instances",
+        "hybrid_instances",
+        "unknown_instances",
+    ]
+    # group actors in actors_df by parent_types and sector. Count sector instances per type.
+    type_sector_counts = (
+        actors_df.explode("actor_types")
+        .rename(columns={"actor_types": "type", "actor_sector_name": "sector"})
+        .groupby(["type", "sector"])
+        .size()
+        .reset_index(name="count")
+        .pivot_table(index="type", columns="sector", values="count", fill_value=0)
+    )
+    type_sector_counts = type_sector_counts.rename(
+        columns={col: f"{col}_instances" for col in type_sector_counts.columns}
+    )
+    type_sector_counts = type_sector_counts.reset_index()
+    actor_types_df = actor_types_df.merge(
+        type_sector_counts, left_on="type_id", right_on="type", how="left"
+    )
+    actor_types_df["total_instances"] = actor_types_df[
+        [
+            "public_instances",
+            "private_instances",
+            "third_instances",
+            "university_instances",
+            "hybrid_instances",
+            "unknown_instances",
+        ]
+    ].sum(axis=1)
+    actor_types_df = actor_types_df[actor_type_columns]
+
+    # event types
+    event_type_columns = [
+        "type_name",
+        "sub_type_of",
+        "core_type",
+        "is_core_category",
+        "change_of_ownership",
+        "change_of_custody",
+        "end_of_existence",
+        "contributes_to_length_calculation",
+        "definition",
+        "total_instances",
+    ]
+    event_type_counts = (
+        dispersal_events.explode("event_types")
+        .rename(columns={"event_types": "type"})
+        .groupby("type")
+        .size()
+        .reset_index(name="total_instances")
+    )
+    event_types_df = event_types_df.merge(
+        event_type_counts, left_on="type_name", right_on="type", how="left"
+    )
+    event_types_df = event_types_df[event_type_columns]
+
+    # super events
+    super_event_columns = ["museum_id", "super_reasons", "reason", "has_collection"]
+    # museums
 
     dispersal_events_columns = [
         "initial_museum_id",
@@ -1267,3 +1343,6 @@ if __name__ == "__main__":
             )
 
     dispersal_events.to_csv("dispersal_events.csv", index=False)
+
+    # TODO: this needs to be saved to google drive
+    # as do the type hierarchies
