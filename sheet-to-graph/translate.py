@@ -897,7 +897,7 @@ if __name__ == "__main__":
     places_df["y"] = places_df["bng_y"]
     places_df["lad"] = places_df["local_authority_name"]
 
-    museums = actors_df[actors_df["mm_id"].notna()].merge(
+    museums_df = actors_df[actors_df["mm_id"].notna()].merge(
         places_df,
         left_on="has_location",
         right_on="place_id",
@@ -935,7 +935,7 @@ if __name__ == "__main__":
             how="left",
         )
         .merge(
-            museums.add_prefix("initial_museum_"),
+            museums_df.add_prefix("initial_museum_"),
             left_on="initial_museum_id",
             right_on="initial_museum_mm_id",
             how="left",
@@ -1157,7 +1157,41 @@ if __name__ == "__main__":
 
     # super events
     super_event_columns = ["museum_id", "super_reasons", "reason", "has_collection"]
+    super_events_df["super_reasons"] = super_events_df["super_causes"]
+    super_events_df["reason"] = super_events_df["super_cause_types"]
+    super_events_df = super_events_df[super_event_columns]
+
     # museums
+    museum_columns = [
+        "museum_id",
+        "museum_name",
+        "all",
+        "governance",
+        "governance_broad",
+        "size",
+        "subject",
+        "subject_broad",
+        "accreditation",
+        "region",
+        "country",
+        "year_opened_1",
+        "year_opened_2",
+        "year_closed_1",
+        "year_closed_2",
+        "address_1",
+        "address_2",
+        "address_3",
+        "village_town_city",
+        "postcode",
+        "bng_x",
+        "bng_y",
+    ]
+    museums_df["museum_id"] = museums_df["mm_id"]
+    museums_df["museum_name"] = museums_df["actor_name"]
+    museums_df["all"] = "all"
+    museums_df["region"] = museums_df["region_x"]
+    museums_df["country"] = museums_df["country_x"]
+    museums_df = museums_df[museum_columns]
 
     dispersal_events_columns = [
         "initial_museum_id",
