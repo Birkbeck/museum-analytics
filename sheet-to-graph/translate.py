@@ -1152,7 +1152,7 @@ if __name__ == "__main__":
         .reset_index(name="total_instances")
     )
     event_types_df = event_types_df.merge(
-        event_type_counts, left_on="type_name", right_on="type", how="left"
+        event_type_counts, left_on="type_id", right_on="type", how="left"
     )
     event_types_df["core_type"] = event_types_df["core_type_name"]
     event_types_df = event_types_df[event_type_columns]
