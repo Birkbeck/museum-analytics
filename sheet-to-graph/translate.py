@@ -116,6 +116,7 @@ def make_get_ultimate_ancestor(lookup_table: dict) -> callable:
 if __name__ == "__main__":
     google_service = GoogleUtils.get_sheets_service()
     file_loader = FileLoader.from_config_file("config.json", google_service)
+    output_directory_id = file_loader.values["output_csvs_directory"]
     credentials_file_name = "credentials.json"
     postcode_to_lat_long = PostcodeToLatLong(
         "../data/ONSPD_FEB_2024_UK", WikidataConnection()
@@ -1376,7 +1377,17 @@ if __name__ == "__main__":
                 sent_to_auction_event["event_id"].values[0]
             )
 
-    dispersal_events.to_csv("dispersal_events.csv", index=False)
-
-    # TODO: this needs to be saved to google drive
-    # as do the type hierarchies
+    # save to google drive as a csv
+    GoogleUtils.save_df_to_drive_as_csv(
+        dispersal_events, "dispersal_events.csv", output_directory_id
+    )
+    GoogleUtils.save_df_to_drive_as_csv(
+        event_types_df, "event_types.csv", output_directory_id
+    )
+    GoogleUtils.save_df_to_drive_as_csv(
+        actor_types_df, "actor_types.csv", output_directory_id
+    )
+    GoogleUtils.save_df_to_drive_as_csv(
+        super_events_df, "super_events.csv", output_directory_id
+    )
+    GoogleUtils.save_df_to_drive_as_csv(museums_df, "museums.csv", output_directory_id)

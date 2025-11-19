@@ -5,6 +5,7 @@
     "dispersal_sheet_file": "../data/dispersal_sheets/dispersal-sheet-2025-07-24.xlsx",
     "dispersal_sheet_anon": "../data/dispersal_sheets/dispersal-sheet-anonymized.xlsx",
     "mapping_museums_file": "../data/mapping_museums_data/mm-data-dump-2025-07-28.csv",
+    "output_csvs_directory": "1hLzDXSaUZgJ47AZPAQ8bR0BediHk_p_u",
     "sheets": {
 	"actor types": {
 	    "file": "",
