@@ -57,25 +57,22 @@ class GoogleUtils:
         return cls._sheets_service
 
     @classmethod
-    def save_df_to_drive_as_csv(cls, df: pd.DataFrame, filename: str, folder_id: str):
+    def save_df_to_drive_as_csv(cls, df: pd.DataFrame, file_id: str):
         """
-        Save a pandas DataFrame as a CSV file into a Google Drive folder.
+        Overwrite an existing Google Drive file (by file_id)
+        with a CSV version of a DataFrame.
 
         Args:
-        df: pandas DataFrame
-        filename: e.g., "dispersal_events.csv"
-        folder_id: Google Drive directory ID
-        service_account_file: path to service account JSON key
+            df: pandas DataFrame
+            file_id: ID of the file on Google Drive to replace
         """
-        df.to_csv(filename, index=False)
+        temp_filename = "temp_upload.csv"
+        df.to_csv(temp_filename, index=False)
         drive = cls.get_drive_service()
-        file_metadata = {
-            "name": filename,
-            "parents": [folder_id],
-        }
-        media = MediaFileUpload(filename, mimetype="text/csv")
-        return (
+        media = MediaFileUpload(temp_filename, mimetype="text/csv")
+        updated = (
             drive.files()
-            .create(body=file_metadata, media_body=media, fields="id, name")
+            .update(fileId=file_id, media_body=media, fields="id, name, modifiedTime")
             .execute()
         )
+        return updated

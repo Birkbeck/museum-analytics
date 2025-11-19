@@ -1380,15 +1380,17 @@ if __name__ == "__main__":
 
     # save to google drive as a csv
     GoogleUtils.save_df_to_drive_as_csv(
-        dispersal_events, "dispersal_events.csv", output_directory_id
+        dispersal_events, file_loader.values["dispersal_events_output"]
     )
     GoogleUtils.save_df_to_drive_as_csv(
-        event_types_df, "event_types.csv", output_directory_id
+        event_types_df, file_loader.values["event_types_output"]
     )
     GoogleUtils.save_df_to_drive_as_csv(
-        actor_types_df, "actor_types.csv", output_directory_id
+        actor_types_df, file_loader.values["actor_types_output"]
     )
     GoogleUtils.save_df_to_drive_as_csv(
-        super_events_df, "super_events.csv", output_directory_id
+        super_events_df, file_loader.values["super_events_output"]
     )
-    GoogleUtils.save_df_to_drive_as_csv(museums_df, "museums.csv", output_directory_id)
+    GoogleUtils.save_df_to_drive_as_csv(
+        museums_df, file_loader.values["museums_output"]
+    )

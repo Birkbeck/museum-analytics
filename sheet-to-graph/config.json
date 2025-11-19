@@ -6,6 +6,11 @@
     "dispersal_sheet_anon": "../data/dispersal_sheets/dispersal-sheet-anonymized.xlsx",
     "mapping_museums_file": "../data/mapping_museums_data/mm-data-dump-2025-07-28.csv",
     "output_csvs_directory": "1hLzDXSaUZgJ47AZPAQ8bR0BediHk_p_u",
+    "actor_types_output": "1Q7aqbhHdv_FZO23okdbF4fesGe6i0B8A",
+    "event_types_output": "1Muwm6O8sBxcdUoY3wo4ohjSRKN8r5oft",
+    "super_events_output": "13YFfwAtXzYbFCJaDhokDRVNk0EYyb7hn",
+    "dispersal_events_output": "1EbmJT1OgGRsV_PQ8l9xLSORHPodKAUum",
+    "museums_output": "1VipAgQDuYNQAhG5uXYEiZfKMf5oCJ5cJ",
     "sheets": {
 	"actor types": {
 	    "file": "",
