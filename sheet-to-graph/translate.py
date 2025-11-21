@@ -915,12 +915,8 @@ if __name__ == "__main__":
             collections_and_objects_df["was_removed_from"],
         )
     )
-    get_ultimate_collection_ancestor = make_get_ultimate_ancestor(collection_parents)
-    collections_and_objects_df["original_collection_id"] = collections_and_objects_df[
-        "collection_id"
-    ].map(get_ultimate_collection_ancestor)
 
-    dispersal_events = events_df
+    dispersal_events = events_df[events_df["event_id"].notna()].copy()
     dispersal_events["initial_museum_id"] = dispersal_events["museum_id"]
     dispersal_events = (
         dispersal_events.merge(
@@ -1011,7 +1007,7 @@ if __name__ == "__main__":
         "initial_museum_actor_type_name"
     ]
     dispersal_events["sender_name"] = dispersal_events["sender_actor_name"]
-    dispersal_events["sender_all"] = ""
+    dispersal_events["sender_all"] = "all"
     dispersal_events["sender_town"] = dispersal_events["sender_actor_town_city"]
     dispersal_events["sender_county"] = dispersal_events["sender_actor_county"]
     dispersal_events["sender_postcode"] = dispersal_events["sender_actor_postcode"]
@@ -1020,7 +1016,7 @@ if __name__ == "__main__":
     dispersal_events["sender_type"] = dispersal_events["sender_actor_type_name"]
     dispersal_events["sender_core_type"] = dispersal_events["sender_core_type_name"]
     dispersal_events["recipient_name"] = dispersal_events["recipient_actor_name"]
-    dispersal_events["recipient_all"] = ""
+    dispersal_events["recipient_all"] = "all"
     dispersal_events["recipient_town"] = dispersal_events["recipient_actor_town_city"]
     dispersal_events["recipient_county"] = dispersal_events["recipient_actor_county"]
     dispersal_events["recipient_postcode"] = dispersal_events[
@@ -1043,9 +1039,6 @@ if __name__ == "__main__":
     ]
     dispersal_events["parent_collection_id"] = dispersal_events[
         "collection_was_removed_from"
-    ]
-    dispersal_events["original_collection_id"] = dispersal_events[
-        "collection_original_collection_id"
     ]
     dispersal_events["collection_description"] = dispersal_events[
         "collection_coll_desc"
@@ -1084,11 +1077,14 @@ if __name__ == "__main__":
     get_collection_ancestors = make_get_ancestors(collection_ancestors)
 
     dispersal_events["ancestor_events"] = dispersal_events["event_id"].apply(
-        lambda event_id: get_event_ancestors(event_id)
+        lambda event_id: [event_id] + get_event_ancestors(event_id)
     )
     dispersal_events["ancestor_collections"] = dispersal_events["collection_id"].apply(
-        lambda collection_id: get_collection_ancestors(collection_id)
+        lambda collection_id: [collection_id] + get_collection_ancestors(collection_id)
     )
+    dispersal_events["original_collection_id"] = dispersal_events[
+        "ancestor_collections"
+    ].apply(lambda ancestors: ancestors[-1])
 
     # actor types
     actor_type_columns = [
