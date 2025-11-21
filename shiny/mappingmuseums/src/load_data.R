@@ -1,5 +1,18 @@
 set.seed(1)
 
+drive_url <- "https://drive.google.com/uc?export=download&id="
+super_events_file_id <- "13YFfwAtXzYbFCJaDhokDRVNk0EYyb7hn"
+actor_types_file_id <- "1Q7aqbhHdv_FZO23okdbF4fesGe6i0B8A"
+event_types_file_id <- "1Muwm6O8sBxcdUoY3wo4ohjSRKN8r5oft"
+dispersal_events_file_id <- "1EbmJT1OgGRsV_PQ8l9xLSORHPodKAUum"
+museums_file_id <- "1VipAgQDuYNQAhG5uXYEiZfKMf5oCJ5cJ"
+
+super_events_url <- paste0(drive_url, super_events_file_id)
+actor_types_url <- paste0(drive_url, actor_types_file_id)
+event_types_url <- paste0(drive_url, event_types_file_id)
+dispersal_events_url <- paste0(drive_url, dispersal_events_file_id)
+museums_url <- paste0(drive_url, museums_file_id)
+
 DEBOUNCE_TIME <- 1000
 
 core_actor_types_with_children <- c(
@@ -40,14 +53,11 @@ calculate_distance <- function(lat1, lon1, lat2, lon2) {
   return(distance)
 }
 
-super_events_csv <- "data/query_results/super_events.csv"
-super_events <- read_csv(super_events_csv)
+super_events <- read_csv(super_events_url)
 
-event_types_csv <- "data/query_results/event_types.csv"
-event_types <- read_csv(event_types_csv)
+event_types <- read_csv(event_types_url)
 
-dispersal_events_csv <- "data/query_results/dispersal_events.csv"
-dispersal_events <- read_csv(dispersal_events_csv) |>
+dispersal_events <- read_csv(dispersal_events_url) |>
   mutate(
     event_stage_in_path = event_stage_in_path + 1,
     recipient_type = case_when(
@@ -207,7 +217,7 @@ collection_types <- dispersal_events |>
 
 not_really_museums <- read_csv("data/not-really-museums.csv")
 
-museums_including_crown_dependencies <- read_csv("data/query_results/museums.csv") |>
+museums_including_crown_dependencies <- read_csv(museums_url) |>
   filter(!museum_id %in% not_really_museums$museum_id) |>
   mutate(
     year_opened = ifelse(
@@ -340,11 +350,9 @@ subject_labels_map <- museums_including_crown_dependencies |>
 regions <- read_csv("data/regions.csv") |>
   mutate(group=paste(L1, L2, L3))
 
-actor_types_csv <- "data/query_results/actor_types.csv"
-actor_types <- read_csv(actor_types_csv)
+actor_types <- read_csv(actor_types_url)
  
-event_types_csv <- "data/query_results/event_types.csv"
-event_types <- read_csv(event_types_csv)
+event_types <- read_csv(event_types_url)
 
 field_names <- data.frame(
   name=c("All", "Size", "Governance", "Accreditation", "Subject Matter", "Country/Region", "Country"),
