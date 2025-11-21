@@ -11,6 +11,7 @@ The script does the following:
 from functools import lru_cache
 import json
 
+import numpy as np
 import pandas as pd
 
 from sheet_to_graph import (
@@ -914,7 +915,7 @@ if __name__ == "__main__":
     dispersal_events = (
         dispersal_events.merge(
             event_types_df.add_prefix("event_type_"),
-            left_on="event_type",
+            left_on="event_type_name",
             right_on="event_type_type_name",
             how="left",
         )
@@ -967,6 +968,7 @@ if __name__ == "__main__":
     dispersal_events["event_types"] = dispersal_events["event_type_type_id"].map(
         get_parent_event_types
     )
+    dispersal_events["event_type"] = dispersal_events["event_type_name"]
     dispersal_events["event_is_change_of_ownership"] = dispersal_events[
         "event_type_change_of_ownership"
     ]
@@ -1044,17 +1046,21 @@ if __name__ == "__main__":
     dispersal_events["collection_quantity"] = dispersal_events["collection_object_qty"]
 
     # infer collection sizes
-    dispersal_events["collection_estimated_size"] = (
-        dispersal_events["collection_coll_size_num"]
-        * dispersal_events["initial_museum_size_num"]
+    mask = dispersal_events["collection_collection_or_object"] == "Collection"
+    dispersal_events["collection_estimated_size"] = np.nan
+    dispersal_events["collection_estimated_size_min"] = np.nan
+    dispersal_events["collection_estimated_size_max"] = np.nan
+    dispersal_events.loc[mask, "collection_estimated_size"] = (
+        dispersal_events.loc[mask, "collection_coll_size_num"]
+        * dispersal_events.loc[mask, "initial_museum_size_num"]
     )
-    dispersal_events["collection_estimated_size_min"] = (
-        dispersal_events["collection_coll_size_num_min"]
-        * dispersal_events["initial_museum_size_num_min"]
+    dispersal_events.loc[mask, "collection_estimated_size_min"] = (
+        dispersal_events.loc[mask, "collection_coll_size_num_min"]
+        * dispersal_events.loc[mask, "initial_museum_size_num_min"]
     )
-    dispersal_events["collection_estimated_size_max"] = (
-        dispersal_events["collection_coll_size_num_max"]
-        * dispersal_events["initial_museum_size_num_max"]
+    dispersal_events.loc[mask, "collection_estimated_size_max"] = (
+        dispersal_events.loc[mask, "collection_coll_size_num_max"]
+        * dispersal_events.loc[mask, "initial_museum_size_num_max"]
     )
 
     event_ancestors = dict(
