@@ -873,7 +873,9 @@ if __name__ == "__main__":
         actor_types_df[actor_types_df["is_core_category"] == True]["type_id"].tolist(),
     )
     get_parent_actor_types = make_get_ancestors(actor_type_parents)
-    actors_df["actor_types"] = actors_df["actor_type_id"].map(get_parent_actor_types)
+    actors_df["actor_types"] = actors_df["actor_type_id"].map(
+        lambda type_id: [type_id] + get_parent_actor_types(type_id)
+    )
     actors_df["core_type"] = actors_df["actor_type_id"].map(get_core_actor_type)
     actors_df["core_type_name"] = actors_df["core_type"].map(
         actor_types_df.set_index("type_id")["type_name"]
@@ -891,7 +893,7 @@ if __name__ == "__main__":
     )
     get_parent_event_types = make_get_ancestors(event_type_parents)
     event_types_df["core_type"] = event_types_df["type_id"].map(get_core_event_type)
-    event_types_df["core_type_name"] = event_types_df["core_type"].map(
+    event_types_df["core_type"] = event_types_df["core_type"].map(
         event_types_df.set_index("type_id")["type_name"]
     )
 
@@ -899,7 +901,7 @@ if __name__ == "__main__":
     places_df["y"] = places_df["bng_y"]
     places_df["lad"] = places_df["local_authority_name"]
 
-    museums_df = actors_df[actors_df["mm_id"].notna()].merge(
+    museums_df = actors_df[actors_df["mm_id"] != ""].merge(
         places_df,
         left_on="has_location",
         right_on="place_id",
@@ -964,9 +966,9 @@ if __name__ == "__main__":
     )
 
     dispersal_events["event_stage_in_path"] = dispersal_events["stage_in_path"]
-    dispersal_events["event_core_type"] = dispersal_events["event_type_core_type_name"]
+    dispersal_events["event_core_type"] = dispersal_events["event_type_core_type"]
     dispersal_events["event_types"] = dispersal_events["event_type_type_id"].map(
-        get_parent_event_types
+        lambda type_id: [type_id] + get_parent_event_types(type_id)
     )
     dispersal_events["event_type"] = dispersal_events["event_type_name"]
     dispersal_events["event_is_change_of_ownership"] = dispersal_events[
@@ -1149,7 +1151,6 @@ if __name__ == "__main__":
     event_types_df = event_types_df.merge(
         event_type_counts, left_on="type_id", right_on="type", how="left"
     )
-    event_types_df["core_type"] = event_types_df["core_type_name"]
     event_types_df = event_types_df[event_type_columns]
 
     # super events
