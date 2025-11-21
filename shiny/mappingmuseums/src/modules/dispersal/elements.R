@@ -278,7 +278,6 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
           from_quantity=recipient_quantity,
           from_type=recipient_type,
           from_core_type=recipient_core_type,
-          from_general_type=recipient_general_type,
           from_sector=recipient_sector,
           from_all=recipient_all,
           from_size=recipient_size,
@@ -307,9 +306,6 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       ),
       sender_core_type=ifelse(
         event_stage_in_path==1, initial_museum_core_type, from_core_type
-      ),
-      sender_general_type=ifelse(
-        event_stage_in_path==1, initial_museum_general_type, from_general_type
       ),
       sender_sector=ifelse(
         event_stage_in_path==1, initial_museum_sector, from_sector
