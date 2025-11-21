@@ -909,13 +909,6 @@ if __name__ == "__main__":
     super_events_df["super_event_cause_types"] = super_events_df["super_cause_types"]
     super_events_df["super_event_date"] = super_events_df["super_date"]
 
-    collection_parents = dict(
-        zip(
-            collections_and_objects_df["collection_or_object_id"],
-            collections_and_objects_df["was_removed_from"],
-        )
-    )
-
     dispersal_events = events_df[events_df["event_id"].notna()].copy()
     dispersal_events["initial_museum_id"] = dispersal_events["museum_id"]
     dispersal_events = (
@@ -1069,7 +1062,7 @@ if __name__ == "__main__":
     )
     collection_ancestors = dict(
         zip(
-            collections_and_objects_df.collection_id,
+            collections_and_objects_df.collection_or_object_id,
             collections_and_objects_df.was_removed_from,
         )
     )
