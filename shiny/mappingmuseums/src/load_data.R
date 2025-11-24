@@ -220,16 +220,6 @@ not_really_museums <- read_csv("data/not-really-museums.csv")
 museums_including_crown_dependencies <- read_csv(museums_url) |>
   filter(!museum_id %in% not_really_museums$museum_id) |>
   mutate(
-    year_opened = ifelse(
-      year_opened_1 == year_opened_2,
-      year_opened_1,
-      paste(year_opened_1, year_opened_2, sep=":")
-    ),
-    year_closed = case_when(
-      year_closed_1 == 9999 ~ "N/A",
-      year_closed_1 == year_closed_2 ~ as.character(year_closed_1),
-      TRUE ~ paste(year_closed_1, year_closed_2, sep=":")
-    ),
     all=factor(all, museum_attribute_ordering),
     size=factor(size, museum_attribute_ordering),
     governance=factor(governance, museum_attribute_ordering),

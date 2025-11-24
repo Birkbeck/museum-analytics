@@ -1172,8 +1172,10 @@ if __name__ == "__main__":
         "accreditation",
         "region",
         "country",
+        "year_opened",
         "year_opened_1",
         "year_opened_2",
+        "year_closed",
         "year_closed_1",
         "year_closed_2",
         "address_1",
@@ -1189,6 +1191,24 @@ if __name__ == "__main__":
     museums_df["all"] = "all"
     museums_df["region"] = museums_df["region_x"]
     museums_df["country"] = museums_df["country_x"]
+
+    museums_df["year_opened"] = museums_df["year_opened_1"].astype(str)
+    certain_opened_mask = museums_df["year_opened_1"] == museums_df["year_opened_2"]
+    museums_df.loc[~certain_opened_mask, "year_opened"] = (
+        museums_df.loc[~certain_opened_mask, "year_opened_1"].astype(str)
+        + ":"
+        + museums_df.loc[~certain_opened_mask, "year_opened_2"].astype(str)
+    )
+    museums_df["year_closed"] = museums_df["year_closed_1"].astype(str)
+    certain_closed_mask = museums_df["year_closed_1"] == museums_df["year_closed_2"]
+    museums_df.loc[~certain_closed_mask, "year_closed"] = (
+        museums_df.loc[~certain_closed_mask, "year_closed_1"].astype(str)
+        + ":"
+        + museums_df.loc[~certain_closed_mask, "year_closed_2"].astype(str)
+    )
+    not_closed_mark = museums_df["year_closed_1"] != 9999
+    museums_df.loc[not_closed_mark, "year_closed"] = "N/A"
+
     museums_df = museums_df[museum_columns]
 
     dispersal_events_columns = [
@@ -1211,7 +1231,6 @@ if __name__ == "__main__":
         "initial_museum_town",
         "initial_museum_type",
         "initial_museum_core_type",
-        # "initial_museum_general_type",
         "super_event_id",
         "super_event_causes",
         "super_event_cause_types",
@@ -1263,7 +1282,6 @@ if __name__ == "__main__":
         "sender_sector",
         "sender_type",
         "sender_core_type",
-        # "sender_general_type",
         "recipient_id",
         "recipient_name",
         "recipient_all",
@@ -1286,7 +1304,6 @@ if __name__ == "__main__":
         "recipient_sector",
         "recipient_type",
         "recipient_core_type",
-        # "recipient_general_type",
         "initial_museum_latitude",
         "initial_museum_longitude",
         "initial_museum_x",
