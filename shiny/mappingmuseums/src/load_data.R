@@ -59,7 +59,6 @@ event_types <- read_csv(event_types_url)
 
 dispersal_events <- read_csv(dispersal_events_url) |>
   mutate(
-    event_stage_in_path = event_stage_in_path + 1,
     recipient_type = case_when(
       is.na(recipient_type) ~ "N/A",
       recipient_type %in% core_actor_types_with_children ~ paste("unspecified", recipient_core_type),
@@ -105,9 +104,6 @@ dispersal_events <- read_csv(dispersal_events_url) |>
       collection_status == "handling" ~ "Handling objects",
       collection_status == "museum-stuff" ~ "Other objects (e.g. display cases)"
     ),
-    initial_museum_all = "all",
-    sender_all = ifelse(!is.na(sender_size), "all", NA),
-    recipient_all = ifelse(!is.na(recipient_size), "all", NA),
     distance=calculate_distance(
       origin_latitude,
       origin_longitude,

@@ -965,7 +965,7 @@ if __name__ == "__main__":
         )
     )
 
-    dispersal_events["event_stage_in_path"] = dispersal_events["stage_in_path"]
+    dispersal_events["event_stage_in_path"] = dispersal_events["stage_in_path"] + 1
     dispersal_events["event_core_type"] = dispersal_events["event_type_core_type"]
     dispersal_events["event_types"] = dispersal_events["event_type_type_id"].map(
         lambda type_id: [type_id] + get_parent_event_types(type_id)
@@ -1004,7 +1004,10 @@ if __name__ == "__main__":
         "initial_museum_actor_type_name"
     ]
     dispersal_events["sender_name"] = dispersal_events["sender_actor_name"]
-    dispersal_events["sender_all"] = "all"
+    dispersal_events["sender_all"] = None
+    dispersal_events["sender_all"] = dispersal_events["sender_all"].mask(
+        dispersal_events["sender_size"] != "", "all"
+    )
     dispersal_events["sender_town"] = dispersal_events["sender_actor_town_city"]
     dispersal_events["sender_county"] = dispersal_events["sender_actor_county"]
     dispersal_events["sender_postcode"] = dispersal_events["sender_actor_postcode"]
@@ -1013,7 +1016,10 @@ if __name__ == "__main__":
     dispersal_events["sender_type"] = dispersal_events["sender_actor_type_name"]
     dispersal_events["sender_core_type"] = dispersal_events["sender_core_type_name"]
     dispersal_events["recipient_name"] = dispersal_events["recipient_actor_name"]
-    dispersal_events["recipient_all"] = "all"
+    dispersal_events["recipient_all"] = None
+    dispersal_events["recipient_all"] = dispersal_events["recipient_all"].mask(
+        dispersal_events["recipient_size"] != "", "all"
+    )
     dispersal_events["recipient_town"] = dispersal_events["recipient_actor_town_city"]
     dispersal_events["recipient_county"] = dispersal_events["recipient_actor_county"]
     dispersal_events["recipient_postcode"] = dispersal_events[
