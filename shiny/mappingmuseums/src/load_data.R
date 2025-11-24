@@ -15,43 +15,17 @@ museums_url <- paste0(drive_url, museums_file_id)
 
 DEBOUNCE_TIME <- 1000
 
-core_actor_types_with_children <- c(
-  "armed forces",
-  "civic organisation",
-  "company",
-  "education/research",
-  "heritage",
-  "leisure",
-  "library/archive",
-  "other organisation",
-  "service",
-  "society",
-  "storage",
-  "temporary museum",
-  "trader",
-  "transport provider"
+distance_categories <- c(
+  "all",
+  "unknown",
+  "end of existence",
+  "0",
+  "0 - 1",
+  "1 - 10",
+  "10 - 100",
+  "100 - 1,000",
+  "1,000+"
 )
-
-calculate_distance <- function(lat1, lon1, lat2, lon2) {
-  # Convert degrees to radians
-  radians <- function(degrees) {
-    degrees * pi / 180
-  }
-  earth_radius <- 6371
-  dlat <- radians(lat2 - lat1)
-  dlon <- radians(lon2 - lon1)
-  lat1 <- radians(lat1)
-  lat2 <- radians(lat2)
-  # Haversine formula
-  a <- sin(dlat / 2) * sin(dlat / 2) +
-    cos(lat1) * cos(lat2) * sin(dlon / 2) * sin(dlon / 2)
-  c <- 2 * atan2(sqrt(a), sqrt(1 - a))
-  # Distance in kilometers
-  distance <- earth_radius * c
-  # Distance in miles
-  distance <- distance * 0.621371
-  return(distance)
-}
 
 super_events <- read_csv(super_events_url)
 
@@ -59,45 +33,13 @@ event_types <- read_csv(event_types_url)
 
 dispersal_events <- read_csv(dispersal_events_url) |>
   mutate(
-    distance=calculate_distance(
-      origin_latitude,
-      origin_longitude,
-      destination_latitude,
-      destination_longitude
-    ),
-    distance_category=case_when(
-      recipient_type == "end of existence" ~ "end of existence",
-      is.na(distance) ~ "unknown",
-      distance == 0 ~ "0",
-      distance < 1 ~ "0 - 1",
-      distance < 10 ~ "1 - 10",
-      distance < 100 ~ "10 - 100",
-      distance < 1000 ~ "100 - 1,000",
-      TRUE ~ "1,000+"
-    ),
     distance_category=factor(
       distance_category,
-      c("all", "unknown", "end of existence", "0", "0 - 1", "1 - 10", "10 - 100", "100 - 1,000", "1,000+")
-    ),
-    distance_from_initial_museum=calculate_distance(
-      initial_museum_latitude,
-      initial_museum_longitude,
-      destination_latitude,
-      destination_longitude
-    ),
-    distance_from_initial_museum_category=case_when(
-      recipient_type == "end of existence" ~ "end of existence",
-      is.na(distance) ~ "unknown",
-      distance == 0 ~ "0",
-      distance < 1 ~ "0 - 1",
-      distance < 10 ~ "1 - 10",
-      distance < 100 ~ "10 - 100",
-      distance < 1000 ~ "100 - 1,000",
-      TRUE ~ "1,000+"
+      distance_categories
     ),
     distance_from_initial_museum_category=factor(
       distance_from_initial_museum_category,
-      c("all", "unknown", "end of existence", "0", "0 - 1", "1 - 10", "10 - 100", "100 - 1,000", "1,000+")
+      distance_categories
     )
   )
 

@@ -13,6 +13,7 @@ pandas = "*"
 requests = "*"
 google-api-python-client = "*"
 google-auth-oauthlib = "*"
+geopy = "*"
 
 [dev-packages]
 

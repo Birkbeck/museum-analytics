@@ -11,6 +11,7 @@ The script does the following:
 from functools import lru_cache
 import json
 
+from geopy.distance import geodesic
 import numpy as np
 import pandas as pd
 
@@ -1178,6 +1179,72 @@ if __name__ == "__main__":
         "end of existence",
     )
 
+    dispersal_events["distance"] = dispersal_events.apply(
+        lambda row: geodesic(
+            (row["origin_latitude"], row["origin_longitude"]),
+            (row["destination_latitude"], row["destination_longitude"]),
+        ).miles
+        if pd.notnull(row["origin_latitude"])
+        and pd.notnull(row["destination_latitude"])
+        else np.nan,
+        axis=1,
+    )
+    dispersal_events["distance_category"] = "1,000+"
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"] < 1000, "100 - 1,000"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"] < 100, "10 - 100"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"] < 10, "1 - 10"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"] < 1, "0 - 1"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"] == 0, "0"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["distance"].isna(), "unknown"
+    )
+    dispersal_events["distance_category"] = dispersal_events["distance_category"].mask(
+        dispersal_events["recipient_type"] == "end of existence", "end of existence"
+    )
+
+    dispersal_events["distance_from_initial_museum"] = dispersal_events.apply(
+        lambda row: geodesic(
+            (row["initial_museum_latitude"], row["initial_museum_longitude"]),
+            (row["destination_latitude"], row["destination_longitude"]),
+        ).miles
+        if pd.notnull(row["initial_museum_latitude"])
+        and pd.notnull(row["destination_latitude"])
+        else np.nan,
+        axis=1,
+    )
+    dispersal_events["distance_from_initial_museum_category"] = "1,000+"
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"] < 1000, "100 - 1,000")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"] < 100, "10 - 100")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"] < 10, "1 - 10")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"] < 1, "0 - 1")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"] == 0, "0")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["distance_from_initial_museum"].isna(), "unknown")
+    dispersal_events["distance_from_initial_museum_category"] = dispersal_events[
+        "distance_from_initial_museum_category"
+    ].mask(dispersal_events["recipient_type"] == "end of existence", "end of existence")
+
     # infer collection sizes
     mask = dispersal_events["collection_collection_or_object"] == "Collection"
     dispersal_events["collection_estimated_size"] = np.nan
@@ -1455,6 +1522,10 @@ if __name__ == "__main__":
         "destination_lad",
         "destination_region",
         "destination_country",
+        "distance",
+        "distance_category",
+        "distance_from_initial_museum",
+        "distance_from_initial_museum_category",
     ]
     dispersal_events = dispersal_events[dispersal_events_columns]
 
