@@ -1047,9 +1047,23 @@ if __name__ == "__main__":
         "collection_coll_desc"
     ]
     dispersal_events["collection_types"] = dispersal_events["collection_coll_type"]
-    dispersal_events["collection_status"] = dispersal_events[
-        "collection_collection_status"
-    ]
+    dispersal_events["collection_status"] = "NA"
+    dispersal_events["collection_status"] = dispersal_events["collection_status"].mask(
+        dispersal_events["collection_collection_status"] == "collection",
+        "Objects from a museum collection",
+    )
+    dispersal_events["collection_status"] = dispersal_events["collection_status"].mask(
+        dispersal_events["collection_collection_status"] == "loan",
+        "Objects on loan to a museum",
+    )
+    dispersal_events["collection_status"] = dispersal_events["collection_status"].mask(
+        dispersal_events["collection_collection_status"] == "handling",
+        "Handling objects",
+    )
+    dispersal_events["collection_status"] = dispersal_events["collection_status"].mask(
+        dispersal_events["collection_collection_status"] == "museum-stuff",
+        "Other objects (e.g. display cases)",
+    )
     dispersal_events["collection_size"] = dispersal_events["collection_coll_size_name"]
     dispersal_events["collection_quantity"] = dispersal_events["collection_object_qty"]
 

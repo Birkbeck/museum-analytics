@@ -98,12 +98,6 @@ dispersal_events <- read_csv(dispersal_events_url) |>
       !is.na(sender_country) ~ sender_country,
       TRUE ~ "unknown"
     ),
-    collection_status = case_when(
-      collection_status == "collection" ~ "Objects from a museum collection",
-      collection_status == "loan" ~ "Objects on loan to a museum",
-      collection_status == "handling" ~ "Handling objects",
-      collection_status == "museum-stuff" ~ "Other objects (e.g. display cases)"
-    ),
     distance=calculate_distance(
       origin_latitude,
       origin_longitude,
