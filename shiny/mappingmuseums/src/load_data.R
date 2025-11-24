@@ -81,23 +81,6 @@ dispersal_events <- read_csv(dispersal_events_url) |>
       sender_type == "unspecified actor" ~ "unspecified actor",
       TRUE ~ sender_core_type
     ),
-    recipient_region = case_when(
-      recipient_type == "end of existence" ~ "end of existence",
-      recipient_type == "N/A" ~ "N/A",
-      !is.na(recipient_region) ~ recipient_region,
-      !is.na(recipient_country) ~ recipient_country,
-      !is.na(destination_region) ~ destination_region,
-      !is.na(destination_country) ~ destination_country,
-      TRUE ~ "unknown"
-    ),
-    sender_region = case_when(
-      sender_type == "end of existence" ~ "end of existence",
-      !is.na(sender_region) ~ sender_region,
-      !is.na(sender_country) ~ sender_country,
-      !is.na(sender_region) ~ sender_region,
-      !is.na(sender_country) ~ sender_country,
-      TRUE ~ "unknown"
-    ),
     distance=calculate_distance(
       origin_latitude,
       origin_longitude,

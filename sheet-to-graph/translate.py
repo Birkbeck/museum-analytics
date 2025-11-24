@@ -1067,6 +1067,60 @@ if __name__ == "__main__":
     dispersal_events["collection_size"] = dispersal_events["collection_coll_size_name"]
     dispersal_events["collection_quantity"] = dispersal_events["collection_object_qty"]
 
+    dispersal_events["sender_region_original"] = dispersal_events["sender_region"]
+    dispersal_events["sender_region"] = "unknown"
+    dispersal_events["sender_region"] = dispersal_events["sender_region"].mask(
+        dispersal_events["origin_country"].notna()
+        & (dispersal_events["origin_country"] != ""),
+        dispersal_events["origin_country"],
+    )
+    dispersal_events["sender_region"] = dispersal_events["sender_region"].mask(
+        dispersal_events["origin_region"].notna()
+        & (dispersal_events["origin_region"] != ""),
+        dispersal_events["origin_region"],
+    )
+    dispersal_events["sender_region"] = dispersal_events["sender_region"].mask(
+        dispersal_events["sender_country"].notna()
+        & (dispersal_events["sender_country"] != ""),
+        dispersal_events["sender_country"],
+    )
+    dispersal_events["sender_region"] = dispersal_events["sender_region"].mask(
+        dispersal_events["sender_region_original"].notna()
+        & (dispersal_events["sender_region_original"] != ""),
+        dispersal_events["sender_region_original"],
+    )
+    dispersal_events["sender_region"] = dispersal_events["sender_region"].mask(
+        dispersal_events["sender_type"] == "end of existence",
+        "end of existence",
+    )
+
+    dispersal_events["recipient_region_original"] = dispersal_events["recipient_region"]
+    dispersal_events["recipient_region"] = "unknown"
+    dispersal_events["recipient_region"] = dispersal_events["recipient_region"].mask(
+        dispersal_events["destination_country"].notna()
+        & (dispersal_events["destination_country"] != ""),
+        dispersal_events["destination_country"],
+    )
+    dispersal_events["recipient_region"] = dispersal_events["recipient_region"].mask(
+        dispersal_events["destination_region"].notna()
+        & (dispersal_events["destination_region"] != ""),
+        dispersal_events["destination_region"],
+    )
+    dispersal_events["recipient_region"] = dispersal_events["recipient_region"].mask(
+        dispersal_events["recipient_country"].notna()
+        & (dispersal_events["recipient_country"] != ""),
+        dispersal_events["recipient_country"],
+    )
+    dispersal_events["recipient_region"] = dispersal_events["recipient_region"].mask(
+        dispersal_events["recipient_region_original"].notna()
+        & (dispersal_events["recipient_region_original"] != ""),
+        dispersal_events["recipient_region_original"],
+    )
+    dispersal_events["recipient_region"] = dispersal_events["recipient_region"].mask(
+        dispersal_events["recipient_type"] == "end of existence",
+        "end of existence",
+    )
+
     # infer collection sizes
     mask = dispersal_events["collection_collection_or_object"] == "Collection"
     dispersal_events["collection_estimated_size"] = np.nan
