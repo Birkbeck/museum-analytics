@@ -59,28 +59,6 @@ event_types <- read_csv(event_types_url)
 
 dispersal_events <- read_csv(dispersal_events_url) |>
   mutate(
-    recipient_type = case_when(
-      is.na(recipient_type) ~ "N/A",
-      recipient_type %in% core_actor_types_with_children ~ paste("unspecified", recipient_core_type),
-      recipient_type == "actor" ~ "unspecified actor",
-      TRUE ~ recipient_type
-    ),
-    recipient_core_type = case_when(
-      recipient_type == "N/A" ~ "N/A",
-      recipient_type == "unspecified actor" ~ "unspecified actor",
-      TRUE ~ recipient_core_type
-    ),
-    sender_type = case_when(
-      is.na(sender_type) ~ "N/A",
-      sender_type %in% core_actor_types_with_children ~ paste("unspecified", sender_core_type),
-      sender_type == "actor" ~ "unspecified actor",
-      TRUE ~ sender_type
-    ),
-    sender_core_type = case_when(
-      is.na(sender_type) ~ "N/A",
-      sender_type == "unspecified actor" ~ "unspecified actor",
-      TRUE ~ sender_core_type
-    ),
     distance=calculate_distance(
       origin_latitude,
       origin_longitude,

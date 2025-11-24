@@ -881,6 +881,19 @@ if __name__ == "__main__":
         actor_types_df.set_index("type_id")["type_name"]
     )
 
+    core_actor_types = (
+        actor_types_df[actor_types_df["is_core_category"]]["type_name"]
+        .unique()
+        .tolist()
+    )
+    core_actor_types_with_children = (
+        actor_types_df[actor_types_df["sub_type_of"].isin(core_actor_types)][
+            "sub_type_of"
+        ]
+        .unique()
+        .tolist()
+    )
+
     event_type_parents = dict(
         zip(
             event_types_df["type_id"],
@@ -1066,6 +1079,50 @@ if __name__ == "__main__":
     )
     dispersal_events["collection_size"] = dispersal_events["collection_coll_size_name"]
     dispersal_events["collection_quantity"] = dispersal_events["collection_object_qty"]
+
+    dispersal_events["recipient_type"] = dispersal_events["recipient_type"].mask(
+        dispersal_events["recipient_type"] == "actor", "unspecified actor"
+    )
+    dispersal_events["recipient_type"] = dispersal_events["recipient_type"].mask(
+        dispersal_events["recipient_type"].isin(core_actor_types_with_children),
+        "unspecified"
+        + dispersal_events.loc[
+            dispersal_events["recipient_type"].isin(core_actor_types_with_children),
+            "recipient_type",
+        ].astype(str),
+    )
+    dispersal_events["recipient_type"] = dispersal_events["recipient_type"].mask(
+        dispersal_events["recipient_type"].isna(), "N/A"
+    )
+    dispersal_events["recipient_core_type"] = dispersal_events[
+        "recipient_core_type"
+    ].mask(
+        dispersal_events["recipient_type"] == "unspecified actor", "unspecified actor"
+    )
+    dispersal_events["recipient_core_type"] = dispersal_events[
+        "recipient_core_type"
+    ].mask(dispersal_events["recipient_type"] == "N/A", "N/A")
+
+    dispersal_events["sender_type"] = dispersal_events["sender_type"].mask(
+        dispersal_events["sender_type"] == "actor", "unspecified actor"
+    )
+    dispersal_events["sender_type"] = dispersal_events["sender_type"].mask(
+        dispersal_events["sender_type"].isin(core_actor_types_with_children),
+        "unspecified"
+        + dispersal_events.loc[
+            dispersal_events["sender_type"].isin(core_actor_types_with_children),
+            "sender_type",
+        ].astype(str),
+    )
+    dispersal_events["sender_type"] = dispersal_events["sender_type"].mask(
+        dispersal_events["sender_type"].isna(), "N/A"
+    )
+    dispersal_events["sender_core_type"] = dispersal_events["sender_core_type"].mask(
+        dispersal_events["sender_type"] == "unspecified actor", "unspecified actor"
+    )
+    dispersal_events["sender_core_type"] = dispersal_events["sender_core_type"].mask(
+        dispersal_events["sender_type"] == "N/A", "N/A"
+    )
 
     dispersal_events["sender_region_original"] = dispersal_events["sender_region"]
     dispersal_events["sender_region"] = "unknown"
