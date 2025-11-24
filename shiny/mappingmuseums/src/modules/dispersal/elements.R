@@ -1527,7 +1527,8 @@ get_movements_distances <- function(sequences,
   data_2_way |>
     rbind(data_museum_totals) |>
     rbind(data_distance_totals) |>
-    rbind(data_all_totals)
+    rbind(data_all_totals) |>
+    unique()
 }
 
 movements_heatmap <- function(jumps, grouping_dimension, grouping_title, count_or_percentage) {
