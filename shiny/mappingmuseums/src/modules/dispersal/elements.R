@@ -106,10 +106,10 @@ get_actor_choices <- function(grouping_dimension, museum_grouping_dimension) {
   recipient_grouping_dimension <- paste0("recipient_", grouping_dimension)
   recipient_museum_grouping_dimension <- paste0("recipient_", museum_grouping_dimension)
   if (recipient_museum_grouping_dimension == recipient_grouping_dimension) {
-    grouped_events <- dispersal_events |>
+    grouped_events <- dispersal_events() |>
       group_by(.data[[recipient_grouping_dimension]])
   } else {
-    grouped_events <- dispersal_events |>
+    grouped_events <- dispersal_events() |>
       group_by(
         .data[[recipient_museum_grouping_dimension]],
         .data[[recipient_grouping_dimension]]

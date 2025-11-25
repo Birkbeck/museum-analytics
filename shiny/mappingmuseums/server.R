@@ -155,11 +155,17 @@ function(input, output, session) {
               tags$span("Mapping Museums", title=""),
               tabsetPanel(
                 tabPanel(
-                  tags$span("Sector Snapshot", title="Data on museums open in a chosen time period"),
+                  tags$span(
+                    "Sector Snapshot",
+                    title="Data on museums open in a chosen time period"
+                  ),
                   snapshotUI("snapshot")
                 ),
                 tabPanel(
-                  tags$span("Sector Changes", title="Changes in museum numbers over a chosen time period"),
+                  tags$span(
+                    "Sector Changes",
+                    title="Changes in museum numbers over a chosen time period"
+                  ),
                   changesUI("changes")
                 )
               )
@@ -168,11 +174,17 @@ function(input, output, session) {
               tags$span("Museum Closure", title=""),
               tabsetPanel(
                 tabPanel(
-                  tags$span("Reasons for Closure", title="Reasons why museums have closed"),
+                  tags$span(
+                    "Reasons for Closure",
+                    title="Reasons why museums have closed"
+                  ),
                   reasonsUI("reasons")
                 ),
                 tabPanel(
-                  tags$span("Collections after Closure", title="What happens to collections after closure"),
+                  tags$span(
+                    "Collections after Closure",
+                    title="What happens to collections after closure"
+                  ),
                   outcomesUI("outcomes")
                 )
               )
@@ -181,21 +193,33 @@ function(input, output, session) {
               tags$span("Details of Dispersal", title=""),
               tabsetPanel(
                 tabPanel(
-                  tags$span("Events after closure", title="What happens after closure"),
+                  tags$span(
+                    "Events after closure",
+                    title="What happens after closure"
+                  ),
                   eventsUI("events")
                 ),
                 tabPanel(
-                  tags$span("Object destinations", title="The flow of objects away from closed museums"),
+                  tags$span(
+                    "Object destinations",
+                    title="The flow of objects away from closed museums"
+                  ),
                   dispersalUI("dispersal")
                 ),
                 tabPanel(
-                  tags$span("Length of disposal", title="How long it takes for museums to close"),
+                  tags$span(
+                    "Length of disposal",
+                    title="How long it takes for museums to close"
+                  ),
                   lengthUI("length")
                 )
               )
             ),
             tabPanel(
-              tags$span("About the data", title="A description of the data concerning object disposal"),
+              tags$span(
+                "About the data",
+                title="A description of the data concerning object disposal"
+              ),
               tabsetPanel(
                 tabPanel(
                   tags$span("Glossary", title="Definitions of key terms"),

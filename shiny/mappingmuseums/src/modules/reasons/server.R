@@ -52,7 +52,7 @@ reasonsServer <- function(id) {
     })
     reason_filter <- reactive({input$reasonFilter})
     museum_grouping <- reactive({
-      filter(field_names, name==input$museumGrouping)$value[1]
+      filter(field_names(), name==input$museumGrouping)$value[1]
     })
     museum_grouping_name <- reactive({input$museumGrouping})
 
@@ -65,7 +65,7 @@ reasonsServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -77,7 +77,7 @@ reasonsServer <- function(id) {
 
     filtered_reasons <- debounce(
       reactive({
-        closure_reasons |>
+        closure_reasons() |>
           filter(
             !is.na(reason_core),
             reason_core %in% reason_filter(),

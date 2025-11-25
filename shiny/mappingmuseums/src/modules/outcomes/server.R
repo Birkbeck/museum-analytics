@@ -57,7 +57,7 @@ outcomesServer <- function(id) {
       } else if (input$museumGrouping == "Core reason for closure") {
         return("reason_core")
       }
-      filter(field_names, name==input$museumGrouping)$value[1]
+      filter(field_names(), name==input$museumGrouping)$value[1]
     })
     museum_grouping_name <- reactive({input$museumGrouping})
 
@@ -70,7 +70,7 @@ outcomesServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -83,7 +83,7 @@ outcomesServer <- function(id) {
     observeEvent(outcome_type(), {
       choices <- distinct(
         filter(
-          select(closure_outcomes, .data[[outcome_type()]]),
+          select(closure_outcomes(), .data[[outcome_type()]]),
           !is.na(.data[[outcome_type()]])
         )
       )[[outcome_type()]]
@@ -156,7 +156,7 @@ outcomesServer <- function(id) {
 
     filtered_museums <- debounce(
       reactive({
-        museums_including_crown_dependencies |>
+        museums_including_crown_dependencies() |>
           filter(
             !is.na(outcome_event_type),
             size %in% size_filter_choices(),

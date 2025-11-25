@@ -37,7 +37,7 @@ snapshotUI <- function(id, production) {
           radioButtons(
             NS(id, "mainAxis"),
             label="",
-            choices=field_names$name,
+            choices=field_names()$name,
             selected="Governance"
           )
         ),
@@ -51,7 +51,7 @@ snapshotUI <- function(id, production) {
               selectInput(
                 NS(id, "secondAxis"),
                 label="",
-                choices=field_names$name,
+                choices=field_names()$name,
                 selected="Country/Region"
               )
             )
@@ -68,8 +68,8 @@ snapshotUI <- function(id, production) {
           pickerInput(
             NS(id, "governanceFilter"), 
             "",
-            choices=governance_broad_labels$label,
-            selected=governance_broad_labels$label,
+            choices=governance_broad_labels()$label,
+            selected=governance_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -85,8 +85,8 @@ snapshotUI <- function(id, production) {
           pickerInput(
             NS(id, "sizeFilter"), 
             "",
-            choices=size_labels$label,
-            selected=size_labels$label,
+            choices=size_labels()$label,
+            selected=size_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -102,8 +102,8 @@ snapshotUI <- function(id, production) {
           pickerInput(
             NS(id, "subjectFilter"), 
             "",
-            choices=subject_broad_labels$label,
-            selected=subject_broad_labels$label,
+            choices=subject_broad_labels()$label,
+            selected=subject_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -136,8 +136,8 @@ snapshotUI <- function(id, production) {
           pickerInput(
             NS(id, "regionFilter"), 
             "",
-            choices=region_labels$label,
-            selected=region_labels$label,
+            choices=region_labels()$label,
+            selected=region_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -153,8 +153,8 @@ snapshotUI <- function(id, production) {
           pickerInput(
             NS(id, "accreditationFilter"), 
             "",
-            choices=accreditation_labels$label,
-            selected=accreditation_labels$label,
+            choices=accreditation_labels()$label,
+            selected=accreditation_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,

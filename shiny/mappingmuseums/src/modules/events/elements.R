@@ -271,7 +271,7 @@ event_heatmap <- function(table, x_label, y_label, count_or_percentage) {
 
 
 event_origin_destination_heatmap <- function(table, x_label, y_label, count_or_percentage) {
-  table <- dispersal_events |>
+  table <- dispersal_events() |>
     filter(recipient_type != "N/A") |>
     mutate(
       origin_region = case_when(

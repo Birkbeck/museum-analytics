@@ -106,7 +106,7 @@ eventsUI <- function(id) {
           radioButtons(
             NS(id, "museumGrouping"),
             label="",
-            choices=field_names$name,
+            choices=field_names()$name,
             selected="Governance"
           )
         ),
@@ -177,8 +177,8 @@ eventsUI <- function(id) {
             virtualSelectInput(
               NS(id, "collectionTypeFilter"), 
               "",
-              choices=collection_types$collection_type,
-              selected=collection_types$collection_type,
+              choices=collection_types()$collection_type,
+              selected=collection_types()$collection_type,
               multiple=TRUE,
               disableSelectAll=FALSE,
               search=TRUE
@@ -191,8 +191,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "collectionStatusFilter"), 
               "",
-              choices=collection_status_labels$label,
-              selected=collection_status_labels$label,
+              choices=collection_status_labels()$label,
+              selected=collection_status_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -211,8 +211,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "governanceFilter"), 
               "",
-              choices=governance_broad_labels$label,
-              selected=governance_broad_labels$label,
+              choices=governance_broad_labels()$label,
+              selected=governance_broad_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -228,8 +228,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "sizeFilter"), 
               "",
-              choices=size_labels$label,
-              selected=size_labels$label,
+              choices=size_labels()$label,
+              selected=size_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -245,8 +245,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "subjectFilter"), 
               "",
-              choices=subject_broad_labels$label,
-              selected=subject_broad_labels$label,
+              choices=subject_broad_labels()$label,
+              selected=subject_broad_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -279,8 +279,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "regionFilter"), 
               "",
-              choices=region_labels$label,
-              selected=region_labels$label,
+              choices=region_labels()$label,
+              selected=region_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -296,8 +296,8 @@ eventsUI <- function(id) {
             pickerInput(
               NS(id, "accreditationFilter"), 
               "",
-              choices=accreditation_labels$label,
-              selected=accreditation_labels$label,
+              choices=accreditation_labels()$label,
+              selected=accreditation_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,

@@ -123,7 +123,7 @@ events_per_museum_boxplots <- function(data_by_museum) {
 }
 
 events_per_museum <- function() {
-  summary <- dispersal_events |>
+  summary <- dispersal_events() |>
     group_by(initial_museum_id, initial_museum_name) |>
     summarize(
       number_of_events = n(),
@@ -139,7 +139,7 @@ events_per_museum <- function() {
 }
 
 events_per_collection <- function() {
-  summary <- dispersal_events |>
+  summary <- dispersal_events() |>
     select(
       museum_id=initial_museum_id,
       museum_name=initial_museum_name,
@@ -169,7 +169,7 @@ events_per_collection <- function() {
 }
 
 collection_distribution_bars <- function() {
-  summary <- dispersal_events |>
+  summary <- dispersal_events() |>
     mutate(
       collection_size = case_when(
         is.na(collection_quantity) ~ collection_size,
@@ -220,11 +220,11 @@ collection_distribution_bars <- function() {
 }
 
 collection_distribution_heatmap <- function() {
-  museums_in_subject <- dispersal_events |>
+  museums_in_subject <- dispersal_events() |>
     group_by(initial_museum_subject_broad) |>
     summarize(number_of_museums_in_subject=n_distinct(initial_museum_id)) |>
     ungroup()
-  summary <- dispersal_events |>
+  summary <- dispersal_events() |>
     mutate(
       collection_size = case_when(
         is.na(collection_quantity) ~ collection_size,

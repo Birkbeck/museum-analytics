@@ -71,13 +71,13 @@ changesServer <- function(id) {
     main_axis <- reactive({
       req(input$mainAxis)
       return(
-        filter(field_names, name==input$mainAxis)$value[1]
+        filter(field_names(), name==input$mainAxis)$value[1]
       )
     })
     second_axis <- reactive({
       req(input$secondAxis)
       return(
-        filter(field_names, name==input$secondAxis)$value[1]
+        filter(field_names(), name==input$secondAxis)$value[1]
       )
     })
     
@@ -302,7 +302,7 @@ changesServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -315,7 +315,7 @@ changesServer <- function(id) {
     filtered_museums <- debounce(
       reactive({
         get_museums_in_changes_period(
-          museums,
+          museums(),
           size_filter=size_filter_choices(),
           governance_filter=governance_filter_choices(),
           subject_filter=subject_filter_choices(),

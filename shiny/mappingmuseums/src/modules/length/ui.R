@@ -25,7 +25,7 @@ lengthUI <- function(id) {
           radioButtons(
             NS(id, "museumGrouping"),
             label="",
-            choices=c(field_names$name),
+            choices=c(field_names()$name),
             selected="All"
           )
         ),
@@ -38,8 +38,8 @@ lengthUI <- function(id) {
           pickerInput(
             NS(id, "governanceFilter"), 
             "",
-            choices=governance_broad_labels$label,
-            selected=governance_broad_labels$label,
+            choices=governance_broad_labels()$label,
+            selected=governance_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -55,8 +55,8 @@ lengthUI <- function(id) {
           pickerInput(
             NS(id, "sizeFilter"), 
             "",
-            choices=size_labels$label,
-            selected=size_labels$label,
+            choices=size_labels()$label,
+            selected=size_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -72,8 +72,8 @@ lengthUI <- function(id) {
           pickerInput(
             NS(id, "subjectFilter"), 
             "",
-            choices=subject_broad_labels$label,
-            selected=subject_broad_labels$label,
+            choices=subject_broad_labels()$label,
+            selected=subject_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -106,8 +106,8 @@ lengthUI <- function(id) {
           pickerInput(
             NS(id, "regionFilter"), 
             "",
-            choices=region_labels$label,
-            selected=region_labels$label,
+            choices=region_labels()$label,
+            selected=region_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -123,8 +123,8 @@ lengthUI <- function(id) {
           pickerInput(
             NS(id, "accreditationFilter"), 
             "",
-            choices=accreditation_labels$label,
-            selected=accreditation_labels$label,
+            choices=accreditation_labels()$label,
+            selected=accreditation_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
