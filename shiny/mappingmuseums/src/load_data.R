@@ -1,11 +1,18 @@
 set.seed(1)
 
-drive_url <- "https://drive.google.com/uc?export=download&id="
-super_events_file_id <- "13YFfwAtXzYbFCJaDhokDRVNk0EYyb7hn"
-actor_types_file_id <- "1Q7aqbhHdv_FZO23okdbF4fesGe6i0B8A"
-event_types_file_id <- "1Muwm6O8sBxcdUoY3wo4ohjSRKN8r5oft"
-dispersal_events_file_id <- "1EbmJT1OgGRsV_PQ8l9xLSORHPodKAUum"
-museums_file_id <- "1VipAgQDuYNQAhG5uXYEiZfKMf5oCJ5cJ"
+#drive_url <- "https://drive.google.com/uc?export=download&id="
+#super_events_file_id <- "13YFfwAtXzYbFCJaDhokDRVNk0EYyb7hn"
+#actor_types_file_id <- "1Q7aqbhHdv_FZO23okdbF4fesGe6i0B8A"
+#event_types_file_id <- "1Muwm6O8sBxcdUoY3wo4ohjSRKN8r5oft"
+#dispersal_events_file_id <- "1EbmJT1OgGRsV_PQ8l9xLSORHPodKAUum"
+#museums_file_id <- "1VipAgQDuYNQAhG5uXYEiZfKMf5oCJ5cJ"
+
+drive_url <- "data/drive-files/"
+super_events_file_id <- "super_events.csv"
+actor_types_file_id <- "actor_types.csv"
+event_types_file_id <- "event_types.csv"
+dispersal_events_file_id <- "dispersal_events.csv"
+museums_file_id <- "museums.csv"
 
 super_events_url <- paste0(drive_url, super_events_file_id)
 actor_types_url <- paste0(drive_url, actor_types_file_id)
@@ -28,7 +35,6 @@ distance_categories <- c(
 )
 
 super_events <- reactive({
-  print("getting super events")
   read_csv(super_events_url)
 })
 
@@ -37,7 +43,6 @@ event_types <- reactive({
 })
 
 dispersal_events <- reactive({
-  print("getting dispersal events")
   read_csv(dispersal_events_url) |>
     mutate(
       distance_category=factor(
@@ -52,7 +57,6 @@ dispersal_events <- reactive({
 })
 
 senders <- reactive({
-  print("getting senders")
   dispersal_events() |>
     select(
       actor_id=sender_id,
@@ -72,7 +76,6 @@ senders <- reactive({
 })
 
 recipients <- reactive({
-  print("getting recipients")
   dispersal_events() |>
     select(
       actor_id=recipient_id,
@@ -133,7 +136,6 @@ collection_types <- reactive({
 not_really_museums <- read_csv("data/not-really-museums.csv")
 
 museums_without_closure_info <- reactive({
-  print("getting museums without closure info")
   read_csv(museums_url) |>
     filter(!museum_id %in% not_really_museums$museum_id) |>
     mutate(
@@ -150,7 +152,6 @@ museums_without_closure_info <- reactive({
 })
 
 closure_reasons <- reactive({
-  print("getting closure reasons by museum")
   super_events() |>
     separate_rows(reason, sep = "; ") |>
     separate_wider_delim(
@@ -175,11 +176,9 @@ closure_reasons <- reactive({
 })
 
 closure_outcomes <- reactive({
-  print("getting closure outcomes by museum")
   get_outcomes_by_museum(super_events(), dispersal_events())
 })
 closure_lengths <- reactive({
-  print("getting closure lengths by museum")
   get_closure_lengths_by_museum(
     super_events(),
     dispersal_events(),
@@ -188,7 +187,6 @@ closure_lengths <- reactive({
   )
 })
 closure_timeline_events <- reactive({
-  print("getting closure timeline events")
   get_closure_timeline_events(
     super_events(),
     dispersal_events(),
@@ -198,7 +196,6 @@ closure_timeline_events <- reactive({
 })
 
 museums_including_crown_dependencies <- reactive({
-  print("getting all museums including crown dependencies")
   museums_without_closure_info() |>
     left_join(closure_outcomes(), by="museum_id") |>
     left_join(
@@ -217,7 +214,6 @@ museums_including_crown_dependencies <- reactive({
 })
 
 museums <- reactive({
-  print("getting non crown dependencies museums")
   museums_including_crown_dependencies() |>
     filter(!country %in% c("Channel Islands", "Isle of Man"))
 })
