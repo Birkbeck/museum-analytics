@@ -33,6 +33,9 @@ upload-db:
 dump-db:
 	@cd sheet-to-graph && pipenv run python dump.py
 
+backup-spreadsheet:
+	@cd sheet-to-graph && pipenv run python backup_and_anonymize_dispersal_spreadsheet.py
+
 translate-data:
 	@cd sheet-to-graph && pipenv run python translate.py
 
