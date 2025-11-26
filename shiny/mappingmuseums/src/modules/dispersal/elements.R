@@ -1019,9 +1019,9 @@ pathway_dendrogram <- function(layout, show_transaction_counts) {
         )
       )
   }
-  ggsave("fig28.svg", transaction_pathways_plot, width=175, height=90, units="mm", bg="white")
   transaction_pathways_plot |>
-    ggplotly(tooltip=c("label")) |>
+    #ggplotly(tooltip=c("label")) |>
+    ggplotly() |>
     layout(
       showlegend=FALSE,
       xaxis=list(title="", zeroline=FALSE, showticklabels=FALSE),
@@ -1149,7 +1149,8 @@ sequence_network <- function(layout, start_position, end_position, show_transact
   transaction_sequence_plot
 
   transaction_sequence_plot |>
-    ggplotly(tooltip=c("actor_group", "label")) |>
+    #ggplotly(tooltip=c("actor_group", "label")) |>
+    ggplotly() |>
     layout(
       showlegend=FALSE
     )
