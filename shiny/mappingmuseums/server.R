@@ -1,3 +1,6 @@
+library(yaml)
+library(commonmark)
+library(htmltools)
 library(DT)
 library(ggplot2)
 library(ggraph)
@@ -148,10 +151,6 @@ function(input, output, session) {
               homeUI("home")
             ),
             tabPanel(
-              tags$span("Help", title="Introduction and guide to using the app"),
-              helpUI("Help")
-            ),
-            tabPanel(
               tags$span("Mapping Museums", title=""),
               tabsetPanel(
                 tabPanel(
@@ -242,6 +241,10 @@ function(input, output, session) {
                   dataCollectionAnalysisUI("data_collection_analysis")
                 )
               )
+            ),
+            tabPanel(
+              tags$span("Help", title="Introduction and guide to using the app"),
+              helpUI("Help")
             )
           ),
           tags$head(
@@ -289,7 +292,6 @@ function(input, output, session) {
       )
       
       homeServer("home")
-      helpServer("help")
 
       # mapping museums
       snapshotServer("snapshot")
@@ -311,6 +313,7 @@ function(input, output, session) {
       dataCollectionAnalysisServer("data_collection_analysis")
       interpretingDataServer("interpreting_data")
       
+      helpServer("help")
     }
   })
 }

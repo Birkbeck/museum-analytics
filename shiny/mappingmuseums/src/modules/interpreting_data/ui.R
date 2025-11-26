@@ -177,7 +177,8 @@ interpretingDataUI <- function(id) {
 
 </div>
 
-    ")
+"
+      )
     )
   )
 }
