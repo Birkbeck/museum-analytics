@@ -268,12 +268,8 @@ make_app_content_ui <- function() {
 
 log_interaction <- function(session_id, tab_id) {
   timestamp <- Sys.time()
-  print(session_id)
-  print(tab_id)
-  print(timestamp)
-  # TODO: UNCOMMENT THIS!
-  # if (PRODUCTION) {
-  if (TRUE) {
+  message(paste0("[", timestamp, "] Session ", session_id, ": ", tab_id))
+  if (PRODUCTION) {
     interaction_data <- data.frame(
       session_id=session_id,
       tab_id=tab_id,
