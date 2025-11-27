@@ -13,6 +13,7 @@ sheet-to-graph/output.xlsx
 sheet-to-graph/*lookup.json
 sheet-to-graph/queries.txt
 
+shiny/mappingmuseums/gsheets-service-account.json
 shiny/mappingmuseums/keys.csv
 shiny/mappingmuseums/users.rds
 shiny/mappingmuseums/rsconnect
