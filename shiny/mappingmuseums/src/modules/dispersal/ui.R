@@ -74,7 +74,7 @@ dispersalUI <- function(id) {
           radioButtons(
             NS(id, "groupingMuseums"),
             label="",
-            choices=field_names$name,
+            choices=field_names()$name,
             selected="All"
           )
         ),
@@ -143,8 +143,8 @@ dispersalUI <- function(id) {
             virtualSelectInput(
               NS(id, "collectionTypeFilter"), 
               "",
-              choices=collection_types$collection_type,
-              selected=collection_types$collection_type,
+              choices=collection_types()$collection_type,
+              selected=collection_types()$collection_type,
               multiple=TRUE,
               disableSelectAll=FALSE,
               search=TRUE
@@ -157,8 +157,8 @@ dispersalUI <- function(id) {
             pickerInput(
               NS(id, "collectionStatusFilter"), 
               "",
-              choices=collection_status_labels$label,
-              selected=collection_status_labels$label,
+              choices=collection_status_labels()$label,
+              selected=collection_status_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -191,8 +191,8 @@ dispersalUI <- function(id) {
              pickerInput(
                NS(id, "startGovernanceFilter"), 
                "",
-               choices=governance_broad_labels$label,
-               selected=governance_broad_labels$label,
+               choices=governance_broad_labels()$label,
+               selected=governance_broad_labels()$label,
                options=pickerOptions(
                  actionsBox=TRUE, 
                  size=10,
@@ -208,8 +208,8 @@ dispersalUI <- function(id) {
             pickerInput(
               NS(id, "startSizeFilter"), 
               "",
-              choices=size_labels$label,
-              selected=size_labels$label,
+              choices=size_labels()$label,
+              selected=size_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,
@@ -225,8 +225,8 @@ dispersalUI <- function(id) {
            pickerInput(
              NS(id, "startSubjectFilter"), 
              "",
-             choices=subject_broad_labels$label,
-             selected=subject_broad_labels$label,
+             choices=subject_broad_labels()$label,
+             selected=subject_broad_labels()$label,
              options=pickerOptions(
                actionsBox=TRUE, 
                size=10,
@@ -259,8 +259,8 @@ dispersalUI <- function(id) {
            pickerInput(
              NS(id, "startRegionFilter"), 
              "",
-             choices=region_labels$label,
-             selected=region_labels$label,
+             choices=region_labels()$label,
+             selected=region_labels()$label,
              options=pickerOptions(
                actionsBox=TRUE, 
                size=10,
@@ -276,8 +276,8 @@ dispersalUI <- function(id) {
             pickerInput(
               NS(id, "startAccreditationFilter"), 
               "",
-              choices=accreditation_labels$label,
-              selected=accreditation_labels$label,
+              choices=accreditation_labels()$label,
+              selected=accreditation_labels()$label,
               options=pickerOptions(
                 actionsBox=TRUE, 
                 size=10,

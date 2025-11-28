@@ -24,16 +24,16 @@ lengthServer <- function(id) {
       updatePickerInput(
         session=session, inputId="accreditationFilter", selected=accreditation_labels$label
       )
-      example_museum_name <- initial_museums$name[1]
+      example_museum_name <- initial_museums()$name[1]
       updateVirtualSelect(
         session=session,
         inputId="exampleMuseum",
-        choices=initial_museums$name
+        choices=initial_museums()$name
       )
     })
 
     museum_grouping <- reactive({
-      filter(field_names, name==input$museumGrouping)$value[1]
+      filter(field_names(), name==input$museumGrouping)$value[1]
     })
     museum_grouping_name <- reactive({input$museumGrouping})
 
@@ -56,7 +56,7 @@ lengthServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -72,7 +72,7 @@ lengthServer <- function(id) {
 
     observeEvent(museum_filters(), {
       freezeReactiveValue(input, "exampleMuseum")
-      filtered_museums <- initial_museums |>
+      filtered_museums <- initial_museums() |>
         filter(
           size %in% size_filter_choices(),
           governance_broad %in% governance_filter_choices(),
@@ -92,7 +92,7 @@ lengthServer <- function(id) {
 
     filtered_closure_lengths <- debounce(
       reactive({
-        closure_lengths |>
+        closure_lengths() |>
           filter(
             size %in% size_filter_choices(),
             governance_broad %in% governance_filter_choices(),
@@ -110,7 +110,7 @@ lengthServer <- function(id) {
 
     example_museum_id <- reactive({
       filter(
-        initial_museums,
+        initial_museums(),
         name==input$exampleMuseum
       )$museum_id
     })
@@ -167,7 +167,7 @@ lengthServer <- function(id) {
       } else if (currentMainPlot() == "lengthScatter") {
         length_scatter(filtered_closure_lengths(), museum_grouping())
       } else if (currentMainPlot() == "exampleTimelines") {
-        example_timelines(closure_timeline_events, example_museum_id())
+        example_timelines(closure_timeline_events(), example_museum_id())
       }
     })
 
@@ -181,7 +181,7 @@ lengthServer <- function(id) {
       length_scatter_small(filtered_closure_lengths(), museum_grouping())
     })
     output$exampleTimelinesSmall <- renderPlot({
-      example_timelines_small(closure_timeline_events, example_museum_id())
+      example_timelines_small(closure_timeline_events(), example_museum_id())
     })
 
     length_of_disposal_table <- reactive({

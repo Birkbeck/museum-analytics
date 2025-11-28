@@ -1,7 +1,7 @@
-import csv
+import copy
 import json
 
-import openpyxl
+from sheet_to_graph.sheet_sources import make_sheet_source
 
 
 class FileLoader:
@@ -11,33 +11,21 @@ class FileLoader:
     The sheet_name must match with a sheet pointed to in the config file.
     """
 
-    def __init__(self, values):
+    def __init__(self, values, google_service=None):
         self.values = values
+        self.google_service = google_service
 
     @classmethod
-    def from_config_file(cls, filename: str):
+    def from_config_file(cls, filename: str, google_service=None):
         with open(filename, "r", encoding="utf-8") as f:
             values = json.load(f)
-        return cls(values)
+        return cls(values, google_service=google_service)
 
     def get_sheet_as_list_of_lists(self, sheet_name: str):
-        sheet_file_name = self.values["sheets"][sheet_name]["file"]
-        if sheet_file_name == "":
-            sheet_file_name = self.values["dispersal_sheet_anon"]
-        sheet_sheet_name = self.values["sheets"][sheet_name]["sheet"]
+        sheet_config = copy.deepcopy(self.values["sheets"][sheet_name])
 
-        is_a_csv_file = sheet_sheet_name == ""
+        if sheet_config.get("file", "") == "":
+            sheet_config["file"] = self.values["dispersal_sheet_anon"]
 
-        if is_a_csv_file:
-            with open(sheet_file_name, "r", encoding="utf-8-sig") as f:
-                rows = list(csv.reader(f, skipinitialspace=True))
-        else:  # is an xlsx file
-            workbook = openpyxl.load_workbook(sheet_file_name)
-            spreadsheet = workbook[sheet_sheet_name]
-            rows = [
-                ["" if cell is None else str(cell) for cell in row]
-                for row in spreadsheet.iter_rows(values_only=True)
-                if not all([cell is None for cell in row])
-            ]
-
-        return rows
+        source = make_sheet_source(sheet_config, google_service=self.google_service)
+        return source.get_rows()

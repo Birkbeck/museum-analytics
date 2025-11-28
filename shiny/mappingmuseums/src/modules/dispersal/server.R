@@ -15,13 +15,13 @@ dispersalServer <- function(id) {
         inputId="transactionTypeFilter",
         selected=c("Change of ownership", "Change of custody", "End of existence")
       )
-      core_event_types <- event_types |>
+      core_event_types <- event_types() |>
         filter(
           is_core_category,
           change_of_ownership | change_of_custody | end_of_existence
         ) |>
         select(type_name)
-      sub_event_types <- event_types |>
+      sub_event_types <- event_types() |>
         filter(
           !is_core_category & type_name != "event",
           change_of_ownership | change_of_custody | end_of_existence
@@ -66,7 +66,7 @@ dispersalServer <- function(id) {
         session=session, inputId="startAccreditationFilter", selected=accreditation_labels$label
       )
       filtered_museums <- get_dispersal_initial_museums(
-        dispersal_events,
+        dispersal_events(),
         size_filter_choices(),
         governance_filter_choices(),
         subject_filter_choices(),
@@ -184,9 +184,9 @@ dispersalServer <- function(id) {
 
     observeEvent(transaction_type_filter(), {
       event_type_choices <- data.frame(type_name=c())
-      core_event_types <- event_types |>
+      core_event_types <- event_types() |>
         filter(is_core_category)
-      sub_event_types <- event_types |>
+      sub_event_types <- event_types() |>
         filter(!is_core_category & type_name != "event")
       if ("Change of ownership" %in% transaction_type_filter()) {
         event_type_choices <- rbind(
@@ -237,7 +237,7 @@ dispersalServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "startSubjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -254,7 +254,7 @@ dispersalServer <- function(id) {
     observeEvent(initial_museum_filters(), {
       freezeReactiveValue(input, "initialMuseum")
       filtered_museums <- get_dispersal_initial_museums(
-        dispersal_events,
+        dispersal_events(),
         size_filter_choices(),
         governance_filter_choices(),
         subject_filter_choices(),
@@ -290,7 +290,7 @@ dispersalServer <- function(id) {
     filtered_sequences <- debounce(
       reactive({
         get_filtered_sequences(
-          dispersal_events,
+          dispersal_events(),
           transaction_type_filter(),
           actor_grouping(),
           museum_grouping_field(),

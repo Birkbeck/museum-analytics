@@ -106,10 +106,10 @@ get_actor_choices <- function(grouping_dimension, museum_grouping_dimension) {
   recipient_grouping_dimension <- paste0("recipient_", grouping_dimension)
   recipient_museum_grouping_dimension <- paste0("recipient_", museum_grouping_dimension)
   if (recipient_museum_grouping_dimension == recipient_grouping_dimension) {
-    grouped_events <- dispersal_events |>
+    grouped_events <- dispersal_events() |>
       group_by(.data[[recipient_grouping_dimension]])
   } else {
-    grouped_events <- dispersal_events |>
+    grouped_events <- dispersal_events() |>
       group_by(
         .data[[recipient_museum_grouping_dimension]],
         .data[[recipient_grouping_dimension]]
@@ -278,7 +278,6 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
           from_quantity=recipient_quantity,
           from_type=recipient_type,
           from_core_type=recipient_core_type,
-          from_general_type=recipient_general_type,
           from_sector=recipient_sector,
           from_all=recipient_all,
           from_size=recipient_size,
@@ -307,9 +306,6 @@ add_sender_details <- function(events_data, grouping_dimension, museum_grouping_
       ),
       sender_core_type=ifelse(
         event_stage_in_path==1, initial_museum_core_type, from_core_type
-      ),
-      sender_general_type=ifelse(
-        event_stage_in_path==1, initial_museum_general_type, from_general_type
       ),
       sender_sector=ifelse(
         event_stage_in_path==1, initial_museum_sector, from_sector
@@ -1023,9 +1019,9 @@ pathway_dendrogram <- function(layout, show_transaction_counts) {
         )
       )
   }
-  ggsave("fig28.svg", transaction_pathways_plot, width=175, height=90, units="mm", bg="white")
   transaction_pathways_plot |>
-    ggplotly(tooltip=c("label")) |>
+    #ggplotly(tooltip=c("label")) |>
+    ggplotly() |>
     layout(
       showlegend=FALSE,
       xaxis=list(title="", zeroline=FALSE, showticklabels=FALSE),
@@ -1153,7 +1149,8 @@ sequence_network <- function(layout, start_position, end_position, show_transact
   transaction_sequence_plot
 
   transaction_sequence_plot |>
-    ggplotly(tooltip=c("actor_group", "label")) |>
+    #ggplotly(tooltip=c("actor_group", "label")) |>
+    ggplotly() |>
     layout(
       showlegend=FALSE
     )
@@ -1531,7 +1528,8 @@ get_movements_distances <- function(sequences,
   data_2_way |>
     rbind(data_museum_totals) |>
     rbind(data_distance_totals) |>
-    rbind(data_all_totals)
+    rbind(data_all_totals) |>
+    unique()
 }
 
 movements_heatmap <- function(jumps, grouping_dimension, grouping_title, count_or_percentage) {

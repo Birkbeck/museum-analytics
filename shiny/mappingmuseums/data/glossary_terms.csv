@@ -1,0 +1,25 @@
+Term,Definition
+Accreditation,The bench-marking process whereby museums are recognised as reaching nationally agreed standards
+Actor,"Individuals, groups, organisations or other entities involved in the disposal process."
+Actors in path,"Museum objects sometimes move several times or go through several stages in the disposal process. This refers to the individuals, groups or organisations involved in that sequence."
+"Actors, first and last","Museum objects sometimes move several times or go through several stages in the disposal process. This refers to the initial and the last individuals, groups or organisations involved in that sequence."
+Civic organisation,"A generic term used to cover organisations that serve the public including visitor centres, village halls, town halls, parish councils, local authorities, government organisation, embassies, community centres."
+Collection,The group of objects that are preserved and owned by the museum. They are usually given a unique identifier and added to the museum catalogue (accessioned)
+Collection status,Whether an object has been accessioned and forms part of the museum collection; if it is on loan to the museum; if it is a handling objects; or another type of object e.g. display case.
+Core categories,The main categories used in our classifications. See Taxonomies tab for more details.
+Disposal,The process of removing an object from a collection and managing its departure
+Events,"Things that happen, in this case to collection or objects in the process of disposal. E.g. transferred, sold, thrown away."
+Governance,"The framework by which museums are directed and controlled. It identifies who can make decisions, who has the authority to act on behalf of the organisation, and who is accountable for how the museum and its people perform. See the Taxonomies tab for the breakdown of governance types."
+Handling object,Objects that are not part of a museum’s collection and are used for educational purpose.
+Initial museum,The museum that originally had possession of the objects or collections.
+Last known event,Museum objects sometimes move several times or go through several stages in the disposal process. This refers to the last move or stage in a sequence.
+Most,50% or over of a collection
+Museum attribute,"Our data is classified according to a museums’ size, governance, accreditation status, and location; we refer to them collectively as ‘attributes’."
+Object type,The specific item disposed of
+Recipient,"The individual, group, or organisation who took possession of an object, group of objects, or collection from a closed museum."
+Recipient count,The number of recipients that took possession of museum objects
+Recipient share,How the objects from a closed museum were divided between recipients
+Sender,"The individual, group, or organisation, other than the originating museum, who passed on an object, group of objects, or collection. The term sender is used when an object, group of objects, or collection has been passed on more than once."
+Size,"Estimated according to the annual number of visits. Small: 0 - 10,000 visits; Medium: 10,000 - 50,000 visits; Large: 50,000 - 1,000,000 visits; Huge: More than 1,000,000 visits."
+Transaction counts,"The number of transfers or sales between a sender and recipient. The sender (individual, group, or organisation) may make several sales or transfers to a single recipient hence the transaction counts are not identical to the number of recipients involved."
+Transfer,"Process in which objects are given to another individual, group, or organisation, usually involving formal change in ownership."

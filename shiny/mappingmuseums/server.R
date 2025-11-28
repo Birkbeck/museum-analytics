@@ -1,18 +1,23 @@
+library(commonmark)
 library(DT)
 library(ggplot2)
 library(ggraph)
 library(ggrepel)
+library(googlesheets4)
+library(htmltools)
 library(htmlwidgets)
 library(igraph)
 library(janitor)
+library(jsonlite)
 library(plotly)
 library(readr)
 library(shiny)
 library(shinyBS)
-library(shinyWidgets)
 library(shinycssloaders)
 library(shinyjs)
+library(shinyWidgets)
 library(tidyverse)
+library(yaml)
 
 source("src/labels.R")
 source("src/texts.R")
@@ -69,7 +74,224 @@ PRODUCTION <- FALSE
 
 user_base <- readRDS("users.rds")
 
+gs4_auth(path = "gsheets-service-account.json")
+
+config <- fromJSON("config.json")
+ANALYTICS_SHEET_ID = config$analytics_sheet_id
+
+app_style <- "
+body, p, li { font-size: 18px;}
+
+/* Remove default browser arrow */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary::marker {
+  display: none;
+}
+
+/* Add a custom arrow before the text */
+summary::before {
+  content: '▶ ';   /* closed state */
+  font-size: 14px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Change arrow when details is open */
+details[open] summary::before {
+  content: '▼ ';   /* open state */
+}
+
+.scroll-hint {
+  text-align: left;
+  font-size: 12px;
+  color: #777;
+  animation: bounce 1.5s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* top-level tabs (first nav-tabs inside .tabbable) — keep default */
+.nav-tabs > li > a { background-color: inherit; }
+/* second-level (nested) tabs: select nav-tabs that are inside a tab-pane */
+.tab-pane .nav-tabs > li > a {
+  background-color: #eee9ff !important;
+}
+.tab-pane .nav-tabs > li.active > a,
+.tab-pane .nav-tabs > li.active > a:focus,
+.tab-pane .nav-tabs > li.active > a:hover {
+  background-color: #ffffdd !important;
+}
+"
+
+make_app_content_ui <- function() {
+  fluidPage(
+    tags$head(
+      tags$style(HTML(app_style)),
+    ),
+    useShinyjs(),
+    actionButton("logout", "Logout"),
+    titlePanel(generate_title("Mapping Museums Database")),
+    tags$head(
+      tags$style(type="text/css", ".nav-tabs {font-size: 16px}")
+    ),
+    tabsetPanel(
+      id="tabPanelMain",
+      tabPanel(
+        value="home",
+        tags$span("Home", title="Go back to the home page"),
+        homeUI("home")
+      ),
+      tabPanel(
+        value="mappingMuseums",
+        tags$span("Mapping Museums", title=""),
+        tabsetPanel(
+          id="tabPanelMappingMuseums",
+          tabPanel(
+            value="sectorSnapshot",
+            tags$span(
+              "Sector Snapshot",
+              title="Data on museums open in a chosen time period"
+            ),
+            snapshotUI("snapshot")
+          ),
+          tabPanel(
+            value="sectorChanges",
+            tags$span(
+              "Sector Changes",
+              title="Changes in museum numbers over a chosen time period"
+            ),
+            changesUI("changes")
+          )
+        )
+      ),
+      tabPanel(
+        value="museumClosure",
+        tags$span("Museum Closure", title=""),
+        tabsetPanel(
+          id="tabPanelMuseumClosure",
+          tabPanel(
+            value="reasonsForClosure",
+            tags$span(
+              "Reasons for Closure",
+              title="Reasons why museums have closed"
+            ),
+            reasonsUI("reasons")
+          ),
+          tabPanel(
+            value="collectionsAfterClosure",
+            tags$span(
+              "Collections after Closure",
+              title="What happens to collections after closure"
+            ),
+            outcomesUI("outcomes")
+          )
+        )
+      ),
+      tabPanel(
+        value="detailsOfDispersal",
+        tags$span("Details of Dispersal", title=""),
+        tabsetPanel(
+          id="tabPanelDetailsOfDispersal",
+          tabPanel(
+            value="eventsAfterClosure",
+            tags$span(
+              "Events after closure",
+              title="What happens after closure"
+            ),
+            eventsUI("events")
+          ),
+          tabPanel(
+            value="objectDestinations",
+            tags$span(
+              "Object destinations",
+              title="The flow of objects away from closed museums"
+            ),
+            dispersalUI("dispersal")
+          ),
+          tabPanel(
+            value="lengthOfDisposal",
+            tags$span(
+              "Length of disposal",
+              title="How long it takes for museums to close"
+            ),
+            lengthUI("length")
+          )
+        )
+      ),
+      tabPanel(
+        value="aboutTheData",
+        tags$span(
+          "About the data",
+          title="A description of the data concerning object disposal"
+        ),
+        tabsetPanel(
+          id="tabPanelAboutTheData",
+          tabPanel(
+            value="glossary",
+            tags$span("Glossary", title="Definitions of key terms"),
+            glossaryUI("glossary")
+          ),
+          tabPanel(
+            value="taxonomies",
+            tags$span("Taxonomies", title="Type hierarchies"),
+            taxonomiesUI("taxonomies")
+          ),
+          tabPanel(
+            value="interpretingTheData",
+            tags$span("Interpreting the Data", title=""),
+            interpretingDataUI("interpreting_data")
+          ),
+          tabPanel(
+            value="dataCollection",
+            tags$span("Data Collection", title=""),
+            dataCollectionUI("data_collection")
+          ),
+          tabPanel(
+            value="dataCollectionAnalysis",
+            tags$span("Data Collection Analysis", title=""),
+            dataCollectionAnalysisUI("data_collection_analysis")
+          )
+        )
+      ),
+      tabPanel(
+        value="help",
+        tags$span("Help", title="Introduction and guide to using the app"),
+        helpUI("Help")
+      )
+    )
+  )
+}
+
+log_interaction <- function(session_id, tab_id) {
+  timestamp <- Sys.time()
+  message(paste0("[", timestamp, "] Session ", session_id, ": ", tab_id))
+  if (PRODUCTION) {
+    interaction_data <- data.frame(
+      session_id=session_id,
+      tab_id=tab_id,
+      timestamp=format(timestamp, tz = "UTC", usetz = TRUE),
+      stringsAsFactors=FALSE
+    )
+    googlesheets4::sheet_append(
+      ss=ANALYTICS_SHEET_ID,
+      data=interaction_data,
+      sheet=1
+    )
+  }
+}
+
 function(input, output, session) {
+
+  # unique id to track session activity
+  session_id <- paste0(
+    format(Sys.time(), "%Y%m%d%H%M%S"),
+    "_",
+    substr(session$token, 1, 8)
+  )
   
   # call login module supplying data frame, 
   # user and password cols and reactive trigger
@@ -98,195 +320,54 @@ function(input, output, session) {
   observeEvent(credentials()$user_auth, {
     if (!PRODUCTION || credentials()$user_auth) {
       output$appContent <- renderUI({
-        fluidPage(
-          tags$head(
-            tags$style(HTML("body, p, li { font-size: 18px;}")),
-            tags$style(HTML("
-              /* Remove default browser arrow */
-              summary::-webkit-details-marker {
-                display: none;
-              }
-              summary::marker {
-                display: none;
-              }
-
-              /* Add a custom arrow before the text */
-              summary::before {
-                content: '▶ ';   /* closed state */
-                font-size: 14px;
-                display: inline-block;
-                margin-right: 5px;
-              }
-
-              /* Change arrow when details is open */
-              details[open] summary::before {
-                content: '▼ ';   /* open state */
-              }
-            ")),
-            tags$style(HTML("
-              .scroll-hint {
-                text-align: left;
-                font-size: 12px;
-                color: #777;
-                animation: bounce 1.5s infinite;
-              }
-              @keyframes bounce {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(3px); }
-              }
-            "))
-          ),
-          useShinyjs(),
-          actionButton("logout", "Logout"),
-          titlePanel(generate_title("Mapping Museums Database")),
-          tags$head(
-            tags$style(type="text/css", ".nav-tabs {font-size: 16px}")
-          ),
-          tabsetPanel(
-            tabPanel(
-              tags$span("Home", title="Go back to the home page"),
-              homeUI("home")
-            ),
-            tabPanel(
-              tags$span("Help", title="Introduction and guide to using the app"),
-              helpUI("Help")
-            ),
-            tabPanel(
-              tags$span("Mapping Museums", title=""),
-              tabsetPanel(
-                tabPanel(
-                  tags$span("Sector Snapshot", title="Data on museums open in a chosen time period"),
-                  snapshotUI("snapshot")
-                ),
-                tabPanel(
-                  tags$span("Sector Changes", title="Changes in museum numbers over a chosen time period"),
-                  changesUI("changes")
-                )
-              )
-            ),
-            tabPanel(
-              tags$span("Museum Closure", title=""),
-              tabsetPanel(
-                tabPanel(
-                  tags$span("Reasons for Closure", title="Reasons why museums have closed"),
-                  reasonsUI("reasons")
-                ),
-                tabPanel(
-                  tags$span("Collections after Closure", title="What happens to collections after closure"),
-                  outcomesUI("outcomes")
-                )
-              )
-            ),
-            tabPanel(
-              tags$span("Details of Dispersal", title=""),
-              tabsetPanel(
-                tabPanel(
-                  tags$span("Events after closure", title="What happens after closure"),
-                  eventsUI("events")
-                ),
-                tabPanel(
-                  tags$span("Object destinations", title="The flow of objects away from closed museums"),
-                  dispersalUI("dispersal")
-                ),
-                tabPanel(
-                  tags$span("Length of disposal", title="How long it takes for museums to close"),
-                  lengthUI("length")
-                )
-              )
-            ),
-            tabPanel(
-              tags$span("About the data", title="A description of the data concerning object disposal"),
-              tabsetPanel(
-                tabPanel(
-                  tags$span("Glossary", title="Definitions of key terms"),
-                  glossaryUI("glossary")
-                ),
-                tabPanel(
-                  tags$span("Taxonomies", title="Type hierarchies"),
-                  taxonomiesUI("taxonomies")
-                ),
-                tabPanel(
-                  tags$span("Interpreting the Data", title=""),
-                  interpretingDataUI("interpreting_data")
-                ),
-                tabPanel(
-                  tags$span("Data Collection", title=""),
-                  dataCollectionUI("data_collection")
-                ),
-                tabPanel(
-                  tags$span("Data Collection Analysis", title=""),
-                  dataCollectionAnalysisUI("data_collection_analysis")
-                )
-              )
-            )
-          ),
-          tags$head(
-            tags$style(HTML("
-/* top-level tabs (first nav-tabs inside .tabbable) — keep default */
-.nav-tabs > li > a { background-color: inherit; }
-/* second-level (nested) tabs: select nav-tabs that are inside a tab-pane */
-.tab-pane .nav-tabs > li > a {
-  background-color: #eee9ff !important;
-}
-.tab-pane .nav-tabs > li.active > a,
-.tab-pane .nav-tabs > li.active > a:focus,
-.tab-pane .nav-tabs > li.active > a:hover {
-  background-color: #ffffdd !important;
-}"))
-          )
-        )
+        make_app_content_ui()
       })
-    } else {
-      output$app_content <- renderUI({
-        h3("Please log in.")
-      })
-    }
-  })
-  
-  observeEvent(credentials()$user_auth, {
-    if (!PRODUCTION | credentials()$user_auth) {
-      
-      small_chart_size <- 300
-      x_labels <- reactive({c(
-        "start_total"=paste("Open Museums at start of", input$year_range[1]),
-        "end_total"=paste("Open Museums at end of", input$year_range[2]),
-        "openings"=paste0("New Museum Openings ", input$year_range[1], "-", input$year_range[2]),
-        "closures"=paste0("Museum Closures ", input$year_range[1], "-", input$year_range[2]),
-        "change"=paste0("Change in Museum Numbers ", input$year_range[1], "-", input$year_range[2]),
-        "change_pc"=paste0("Percentage Change in Museums ", input$year_range[1], "-", input$year_range[2])
-      )})
-      y_labels <- c(
-        "No filter"="All Museums",
-        "size"="Museum Size",
-        "governance"="Museum Governance",
-        "accreditation"="Museum Accreditation",
-        "main_subject"="Subject Matter",
-        "region"="Country/Region"
-      )
-      
+      # home
       homeServer("home")
-      helpServer("help")
-
       # mapping museums
       snapshotServer("snapshot")
       changesServer("changes")
-
       # museum closure
       reasonsServer("reasons")
       outcomesServer("outcomes")
-
-      # object dispersal
+      # details of dispersal
       eventsServer("events")
       dispersalServer("dispersal")
       lengthServer("length")
-
       # about the data
       glossaryServer("glossary")
       taxonomiesServer("taxonomies")
       dataCollectionServer("data_collection")
       dataCollectionAnalysisServer("data_collection_analysis")
       interpretingDataServer("interpreting_data")
-      
+      # help
+      helpServer("help")
+      observeEvent(input$tabPanelMain, {
+        log_interaction(session_id, input$tabPanelMain)
+      }, ignoreInit = TRUE)
+      observeEvent(input$tabPanelMappingMuseums, {
+        if (input$tabPanelMain != "mappingMuseums") return()
+        log_interaction(session_id, input$tabPanelMappingMuseums)
+      }, ignoreInit = TRUE)
+      observeEvent(input$tabPanelMuseumClosure, {
+        if (input$tabPanelMain != "museumClosure") return()
+        log_interaction(session_id, input$tabPanelMuseumClosure)
+      }, ignoreInit = TRUE)
+      observeEvent(input$tabPanelDetailsOfDispersal, {
+        if (input$tabPanelMain != "detailsOfDispersal") return()
+        log_interaction(session_id, input$tabPanelDetailsOfDispersal)
+      }, ignoreInit = TRUE)
+      observeEvent(input$tabPanelAboutTheData, {
+        if (input$tabPanelMain != "aboutTheData") return()
+        log_interaction(session_id, input$tabPanelAboutTheData)
+      }, ignoreInit = TRUE)
+      session$onSessionEnded(function() {
+        log_interaction(session_id, "sessionEnded")
+      })
+    } else {
+      output$app_content <- renderUI({
+        h3("Please log in.")
+      })
     }
   })
 }

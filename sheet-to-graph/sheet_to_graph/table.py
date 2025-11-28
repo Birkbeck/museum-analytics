@@ -1,3 +1,5 @@
+import pandas as pd
+
 from sheet_to_graph.columns import FormulaColumn, OptionalColumn
 from sheet_to_graph import FilePreprocessor
 
@@ -100,6 +102,9 @@ class Table:
             if column_error is not None:
                 self.validation_errors.append(f"Column [{column_name}] {column_error}")
 
+    def to_pandas_dataframe(self) -> pd.DataFrame:
+        return pd.DataFrame(self.rows)
+
     def filter(self, **terms) -> list:
         return [
             row for row in self.rows if all([row[k] == v for k, v in terms.items()])
@@ -113,8 +118,6 @@ class Table:
         """
         new_rows = []
         for row in self.rows:
-            if "longitude" not in row:
-                print(row)
             if keep_blank_rows and all(
                 [
                     row[column.name] == ""

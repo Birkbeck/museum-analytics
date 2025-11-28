@@ -46,7 +46,7 @@ outcomesUI <- function(id) {
                 NS(id, "museumGrouping"),
                 label="",
                 choices=c(
-                  field_names$name,
+                  field_names()$name,
                   "Core reason for closure",
                   "Collection outcome",
                   "Collection recipient",
@@ -68,8 +68,8 @@ outcomesUI <- function(id) {
           pickerInput(
             NS(id, "governanceFilter"), 
             "",
-            choices=governance_broad_labels$label,
-            selected=governance_broad_labels$label,
+            choices=governance_broad_labels()$label,
+            selected=governance_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -85,8 +85,8 @@ outcomesUI <- function(id) {
           pickerInput(
             NS(id, "sizeFilter"), 
             "",
-            choices=size_labels$label,
-            selected=size_labels$label,
+            choices=size_labels()$label,
+            selected=size_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -102,8 +102,8 @@ outcomesUI <- function(id) {
           pickerInput(
             NS(id, "subjectFilter"), 
             "",
-            choices=subject_broad_labels$label,
-            selected=subject_broad_labels$label,
+            choices=subject_broad_labels()$label,
+            selected=subject_broad_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -136,8 +136,8 @@ outcomesUI <- function(id) {
           pickerInput(
             NS(id, "regionFilter"), 
             "",
-            choices=region_labels$label,
-            selected=region_labels$label,
+            choices=region_labels()$label,
+            selected=region_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,
@@ -153,8 +153,8 @@ outcomesUI <- function(id) {
           pickerInput(
             NS(id, "accreditationFilter"), 
             "",
-            choices=accreditation_labels$label,
-            selected=accreditation_labels$label,
+            choices=accreditation_labels()$label,
+            selected=accreditation_labels()$label,
             options=pickerOptions(
               actionsBox=TRUE, 
               size=10,

@@ -240,7 +240,7 @@ eventsServer <- function(id) {
     observeEvent(event_grouping(), {
       event_type_choices <- arrange(
         unique(
-          select(dispersal_events, .data[[event_grouping()]])
+          select(dispersal_events(), .data[[event_grouping()]])
         ),
         .data[[event_grouping()]]
       )[[event_grouping()]]
@@ -259,7 +259,7 @@ eventsServer <- function(id) {
         recipient_museum_type_choices = c()
       } else {
         sender_museum_type <- paste0("sender", museum_grouping())
-        sender_museum_types <- dispersal_events |>
+        sender_museum_types <- dispersal_events() |>
           filter(!is.na(.data[[sender_museum_type]])) |>
           select(.data[[sender_museum_type]]) |>
           unique() |>
@@ -268,7 +268,7 @@ eventsServer <- function(id) {
           )
         sender_museum_type_choices <- sender_museum_types$sender_museum_type
         recipient_museum_type <- paste0("recipient", museum_grouping())
-        recipient_museum_types <- dispersal_events |>
+        recipient_museum_types <- dispersal_events() |>
           filter(!is.na(.data[[recipient_museum_type]])) |>
           select(.data[[recipient_museum_type]]) |>
           unique() |>
@@ -281,7 +281,7 @@ eventsServer <- function(id) {
       sender_type <- paste0("sender", actor_grouping())
       sender_type_choices <- arrange(
         unique(
-          select(dispersal_events, .data[[sender_type]])
+          select(dispersal_events(), .data[[sender_type]])
         ),
         .data[[sender_type]]
       )[[sender_type]]
@@ -296,7 +296,7 @@ eventsServer <- function(id) {
       recipient_type <- paste0("recipient", actor_grouping())
       recipient_type_choices <- arrange(
         unique(
-          select(dispersal_events, .data[[recipient_type]])
+          select(dispersal_events(), .data[[recipient_type]])
         ),
         .data[[recipient_type]]
       )[[recipient_type]]
@@ -323,7 +323,7 @@ eventsServer <- function(id) {
 
     observeEvent(subject_filter_choices(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
-      specific_subjects <- subject_labels_map |>
+      specific_subjects <- subject_labels_map() |>
         filter(subject_broad %in% subject_filter_choices())
       updatePickerInput(
         session=session,
@@ -336,7 +336,7 @@ eventsServer <- function(id) {
     filtered_events_and_participants <- debounce(
       reactive({
         filter_events(
-          dispersal_events,
+          dispersal_events(),
           event_grouping=event_grouping(),
           sender_grouping=sender_grouping(),
           museum_grouping=museum_grouping(),

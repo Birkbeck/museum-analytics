@@ -12,6 +12,7 @@ import json
 from sheet_to_graph import (
     Column,
     FileLoader,
+    GoogleUtils,
     PostcodeToLatLong,
     Table,
     WikidataConnection,
@@ -45,11 +46,9 @@ from sheet_to_graph.rules import (
 )
 
 if __name__ == "__main__":
-    with open("config.json") as f:
-        config = json.load(f)
-        credentials_file_name = config["credentials_file"]
-        file_loader = FileLoader(config)
-
+    google_service = GoogleUtils.get_sheets_service()
+    file_loader = FileLoader.from_config_file("config.json", google_service)
+    credentials_file_name = "credentials.json"
     postcode_to_lat_long = PostcodeToLatLong(
         "../data/ONSPD_FEB_2024_UK", WikidataConnection()
     )

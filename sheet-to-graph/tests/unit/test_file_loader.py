@@ -1,10 +1,7 @@
 import json
-import csv
-
-import openpyxl
 import pytest
 
-from sheet_to_graph.file_loader import FileLoader  # adjust to your actual module path
+from sheet_to_graph.file_loader import FileLoader
 
 
 def test_from_config_file_loads_values(tmp_path):
@@ -23,76 +20,61 @@ def test_from_config_file_loads_values(tmp_path):
     assert loader.values == config_data
 
 
-def test_get_sheet_as_list_of_lists_csv(tmp_path):
-    """When sheet['sheet'] is empty, it should load from a CSV file."""
-    csv_path = tmp_path / "test.csv"
-    csv_contents = "col1,col2\n1,2\n3,4\n"
-    csv_path.write_text(csv_contents, encoding="utf-8")
+def test_get_sheet_as_list_of_lists_delegates_to_sheet_source_factory(monkeypatch):
+    """FileLoader should delegate to make_sheet_source and return get_rows()."""
 
     values = {
         "sheets": {
             "my_sheet": {
-                "file": str(csv_path),
-                "sheet": "",  # empty => CSV file
+                "backend": "csv",
+                "file": "dummy.csv",
             }
         },
         "dispersal_sheet_anon": "unused.csv",
     }
 
-    loader = FileLoader(values)
+    loader = FileLoader(values, google_service="GOOGLE_SERVICE_SENTINEL")
+
+    captured = {}
+
+    class DummySource:
+        def __init__(self, rows):
+            self._rows = rows
+
+        def get_rows(self):
+            return self._rows
+
+    def fake_make_sheet_source(sheet_config, *, google_service=None):
+        captured["sheet_config"] = sheet_config
+        captured["google_service"] = google_service
+        return DummySource([["ok"]])
+
+    # Patch the symbol used inside file_loader
+    monkeypatch.setattr(
+        "sheet_to_graph.file_loader.make_sheet_source",
+        fake_make_sheet_source,
+    )
 
     rows = loader.get_sheet_as_list_of_lists("my_sheet")
 
-    assert rows == [
-        ["col1", "col2"],
-        ["1", "2"],
-        ["3", "4"],
-    ]
+    assert rows == [["ok"]]
+    # It passed the right config dict
+    assert captured["sheet_config"] == values["sheets"]["my_sheet"]
+    # It forwarded google_service from the loader
+    assert captured["google_service"] == "GOOGLE_SERVICE_SENTINEL"
 
 
-def test_get_sheet_as_list_of_lists_xlsx(tmp_path):
-    """When sheet['sheet'] is non-empty, it should load from XLSX."""
-    xlsx_path = tmp_path / "test.xlsx"
+def test_uses_dispersal_sheet_anon_when_file_is_blank(monkeypatch, tmp_path):
+    """If 'file' is '', FileLoader should replace it with dispersal_sheet_anon before calling the factory."""
 
-    wb = openpyxl.Workbook()
-    ws = wb.active
-    ws.title = "DataSheet"
-    ws.append(["col1", "col2"])
-    ws.append([1, 2])
-    ws.append([None, None])  # this row should be filtered out
-    wb.save(xlsx_path)
-
-    values = {
-        "sheets": {
-            "data_sheet": {
-                "file": str(xlsx_path),
-                "sheet": "DataSheet",
-            }
-        },
-        "dispersal_sheet_anon": "unused.csv",
-    }
-
-    loader = FileLoader(values)
-
-    rows = loader.get_sheet_as_list_of_lists("data_sheet")
-
-    # All values are cast to str, None -> ""
-    assert rows == [
-        ["col1", "col2"],
-        ["1", "2"],
-    ]
-
-
-def test_uses_dispersal_sheet_anon_when_file_is_blank(tmp_path):
-    """If 'file' is '', it should fall back to dispersal_sheet_anon."""
     fallback_csv = tmp_path / "fallback.csv"
-    fallback_csv.write_text("a,b\nx,y\n", encoding="utf-8")
+    fallback_csv.write_text("does,not,matter\n", encoding="utf-8")
 
     values = {
         "sheets": {
             "fallback_sheet": {
+                "backend": "csv",
                 "file": "",  # triggers fallback
-                "sheet": "",  # CSV mode
             }
         },
         "dispersal_sheet_anon": str(fallback_csv),
@@ -100,16 +82,33 @@ def test_uses_dispersal_sheet_anon_when_file_is_blank(tmp_path):
 
     loader = FileLoader(values)
 
+    captured = {}
+
+    class DummySource:
+        def __init__(self):
+            pass
+
+        def get_rows(self):
+            return [["dummy"]]
+
+    def fake_make_sheet_source(sheet_config, *, google_service=None):
+        captured["sheet_config"] = dict(sheet_config)  # copy to inspect safely
+        return DummySource()
+
+    monkeypatch.setattr(
+        "sheet_to_graph.file_loader.make_sheet_source",
+        fake_make_sheet_source,
+    )
+
     rows = loader.get_sheet_as_list_of_lists("fallback_sheet")
 
-    assert rows == [
-        ["a", "b"],
-        ["x", "y"],
-    ]
+    assert rows == [["dummy"]]
+    # The file field should have been replaced with the fallback path
+    assert captured["sheet_config"]["file"] == str(fallback_csv)
 
 
 def test_raises_key_error_for_unknown_sheet_name():
-    """Accessing an unknown sheet should raise a KeyError"""
+    """Accessing an unknown sheet should raise a KeyError."""
     values = {
         "sheets": {},
         "dispersal_sheet_anon": "whatever.csv",

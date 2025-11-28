@@ -11,8 +11,11 @@ edtf = "*"
 bng-latlon = "*"
 pandas = "*"
 requests = "*"
+google-api-python-client = "*"
+google-auth-oauthlib = "*"
+geopy = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.12"
