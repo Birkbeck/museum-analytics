@@ -6,7 +6,8 @@ library(shinyWidgets)
 
 source("src/labels.R")
 
-PRODUCTION <- FALSE
+PRODUCTION <- FALSE 
+USE_PASSWORD <- FALSE
 
 if (PRODUCTION) {
   error_style <- ".shiny-output-error{color: white;}"
@@ -17,7 +18,7 @@ if (PRODUCTION) {
 fluidPage(
   tags$head(tags$style(error_style)),
 
-  if (PRODUCTION) {
+  if (USE_PASSWORD) {
     # add login panel UI function
     shinyauthr::loginUI(id = "login")
   },

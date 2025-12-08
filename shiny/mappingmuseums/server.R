@@ -71,6 +71,7 @@ source("src/modules/interpreting_data/ui.R")
 source("src/modules/interpreting_data/server.R")
 
 PRODUCTION <- FALSE
+USE_PASSWORD <- FALSE 
 
 user_base <- readRDS("users.rds")
 
@@ -133,7 +134,9 @@ make_app_content_ui <- function() {
       tags$style(HTML(app_style)),
     ),
     useShinyjs(),
-    actionButton("logout", "Logout"),
+    if (USE_PASSWORD) {
+      actionButton("logout", "Logout")
+    },
     titlePanel(generate_title("Mapping Museums Database")),
     tags$head(
       tags$style(type="text/css", ".nav-tabs {font-size: 16px}")
@@ -318,7 +321,7 @@ function(input, output, session) {
   })
 
   observeEvent(credentials()$user_auth, {
-    if (!PRODUCTION || credentials()$user_auth) {
+    if (!USE_PASSWORD || credentials()$user_auth) {
       output$appContent <- renderUI({
         make_app_content_ui()
       })
