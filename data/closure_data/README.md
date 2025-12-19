@@ -1,5 +1,18 @@
 # Closure Data
 
+This directory contains data collected as part of the AHRC-funded [**Museum closure in the UK 2000-2025**](https://gtr.ukri.org/projects?ref=AH%2FX012816%2F1) research project, covering museum closure in the UK between 2000 and 2025 and the flows of objects away from those museums. 
+
+The Principal Investigator is Prof Fiona Candlin (Birkbeck, University of London). The project was conducted at the [Mapping Museums Lab](https://mapping-museums.bbk.ac.uk/) (Birkbeck, University of London) and at the [Cultural Geo-Analytics Lab](https://www.kcl.ac.uk/research/cultural-geo-analytics-lab) (King's College London). 
+
+The dataset details the **closures of 479 museums**, recording the reasons why they closed, what happened to their collections, and the actors involved. Events, actors and reasons are typed according to taxonomies included in the [data-model](../../data-model); the objects are typed using Wikidata items; and each museum is linked to its entry in the Mapping Museums database.
+
+A detailed analysis of this dataset was published in the following report:
+
+> Candlin, Fiona and Ballatore, Andrea and Liebenrood, Mark and Poulovassilis, Alex and Wood, Peter and Wright, George and Golovteeva, M. and Bonett, H. (2025) [Closed museums and their collections 2000-25](https://eprints.bbk.ac.uk/id/eprint/56500/1/Closed%20museums%20and%20their%20collections%202000-25_a%20summary%20of%20the%20data.pdf). Birkbeck, University of London, London, UK.
+
+Cite this dataset as:
+> Mark Liebenrood, George A. Wright, Fiona Candlin, Alexandra Poulovassilis, Andrea Ballatore, Peter T. Wood (2026) A Dataset of Collections Dispersal following Museum Closures in the UK during 2000–2025. _Journal of Open Humanities Data_.
+
 The data in `dispersal_events.csv` is a flat table containing all the data collected over the course of the research project.
 
 Each row corresponds to a single event involving an object or group of objects. Each event belongs to a super event (a museum closure) concerning an individual museum. Each event also has a sender and a recipient.
