@@ -31,8 +31,8 @@ source("src/ui_elements.R")
 source("src/modules/home/ui.R")
 source("src/modules/home/server.R")
 
-source("src/modules/help/ui.R")
-source("src/modules/help/server.R")
+source("src/modules/database/ui.R")
+source("src/modules/database/server.R")
 
 source("src/modules/snapshot/ui.R")
 source("src/modules/snapshot/server.R")
@@ -69,6 +69,9 @@ source("src/modules/data_collection_analysis/server.R")
 
 source("src/modules/interpreting_data/ui.R")
 source("src/modules/interpreting_data/server.R")
+
+source("src/modules/help/ui.R")
+source("src/modules/help/server.R")
 
 PRODUCTION <- FALSE
 USE_PASSWORD <- FALSE 
@@ -147,6 +150,11 @@ make_app_content_ui <- function() {
         value="home",
         tags$span("Home", title="Go back to the home page"),
         homeUI("home")
+      ),
+      tabPanel(
+        value="database",
+        tags$span("Database search", title="Search the Mapping Museums database"),
+        databaseUI("database")
       ),
       tabPanel(
         value="mappingMuseums",
@@ -327,6 +335,8 @@ function(input, output, session) {
       })
       # home
       homeServer("home")
+      # database
+      databaseServer("database")
       # mapping museums
       snapshotServer("snapshot")
       changesServer("changes")

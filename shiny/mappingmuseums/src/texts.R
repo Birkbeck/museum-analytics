@@ -6,6 +6,8 @@ top_home <- "<p>This database brings together information about all museums in t
   <li>Object disposal: where objects from closed museums went</li>
 </ul>"
 
+top_database <- "<p>Use this tab to search the Mapping Museums database.</p>"
+
 top_glossary <- "<p>Information about museums, their closure, and collections dispersal is organised into taxonomies. These taxonomies underpin all the visualisations and analyses available on this web app. In all cases the main categories of our analyses are marked by a bold circle, the sub-categories by a grey circle.</p>
 <p>The taxonomies we have designed and used are as follows:</p>
 <ul>
