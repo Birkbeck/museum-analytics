@@ -1381,6 +1381,7 @@ if __name__ == "__main__":
         "address_3",
         "village_town_city",
         "postcode",
+        "lad",
         "bng_x",
         "bng_y",
     ]
@@ -1389,6 +1390,7 @@ if __name__ == "__main__":
     museums_df["all"] = "all"
     museums_df["region"] = museums_df["region_x"]
     museums_df["country"] = museums_df["country_x"]
+    museums_df["lad"] = museums_df["local_authority_name"]
 
     museums_df["year_opened"] = museums_df["year_opened_1"].astype(str)
     certain_opened_mask = museums_df["year_opened_1"] == museums_df["year_opened_2"]
