@@ -164,6 +164,7 @@ if __name__ == "__main__":
                 else "",
                 axis=1,
             ),
+            "notes": mapping_museums_data["Notes"],
         }
     )
 
