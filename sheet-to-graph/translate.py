@@ -14,6 +14,9 @@ import json
 from geopy.distance import geodesic
 import numpy as np
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from scipy import sparse
+from scipy.io import mmwrite
 
 from sheet_to_graph import (
     Column,
@@ -1411,6 +1414,40 @@ if __name__ == "__main__":
     )
     not_closed_mark = museums_df["year_closed_1"] != 9999
     museums_df.loc[not_closed_mark, "year_closed"] = "N/A"
+
+    # create vectors for museums for search tab
+    document_columns = [
+        "museum_name",
+        "governance",
+        "governance_broad",
+        "size",
+        "subject",
+        "accreditation",
+        "region",
+        "address_1",
+        "address_2",
+        "address_3",
+        "village_town_city",
+        "postcode",
+        "lad",
+        "notes",
+    ]
+    museums_df["document"] = (
+        museums_df[document_columns].astype(str).agg(" ".join, axis=1)
+    )
+    museum_documents_df = museums_df[["museum_id", "document"]]
+    museum_ids = museum_documents_df["museum_id"].astype(str).to_numpy()
+    museum_documents = museum_documents_df["document"].fillna("").astype(str).to_list()
+    vectorizer = TfidfVectorizer(
+        lowercase=True, stop_words="english", ngram_range=(1, 2), min_df=2, max_df=0.95
+    )
+    X = vectorizer.fit_transform(museum_documents)
+    pd.Series(museum_ids, name="museum_id").to_csv("museum_ids.csv", index=False)
+    mmwrite("tfidf.mtx", X.tocoo())
+    vocab = vectorizer.get_feature_names_out()
+    pd.Series(vocab, name="term").to_csv("vocab.csv", index=False)
+    idf = vectorizer.idf_
+    pd.Series(idf, name="idf").to_csv("idf.csv", index=False)
 
     museums_df = museums_df[museum_columns]
 
