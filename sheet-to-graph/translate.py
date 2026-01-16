@@ -394,6 +394,7 @@ if __name__ == "__main__":
             Column("actor_county", ignore=True),
             Column("actor_postcode", ignore=True),
             Column("actor_country", ignore=True),
+            Column("actor_note", property_of="actor_id"),
             OptionalColumn("size", property_of="actor_id"),
             OptionalColumn("governance", property_of="actor_id"),
             OptionalColumn("governance_broad", property_of="actor_id"),
@@ -1384,6 +1385,7 @@ if __name__ == "__main__":
         "lad",
         "bng_x",
         "bng_y",
+        "notes",
     ]
     museums_df["museum_id"] = museums_df["mm_id"]
     museums_df["museum_name"] = museums_df["actor_name"]
@@ -1391,6 +1393,7 @@ if __name__ == "__main__":
     museums_df["region"] = museums_df["region_x"]
     museums_df["country"] = museums_df["country_x"]
     museums_df["lad"] = museums_df["local_authority_name"]
+    museums_df["notes"] = museums_df["actor_note"]
 
     museums_df["year_opened"] = museums_df["year_opened_1"].astype(str)
     certain_opened_mask = museums_df["year_opened_1"] == museums_df["year_opened_2"]
