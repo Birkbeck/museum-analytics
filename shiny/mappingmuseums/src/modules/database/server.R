@@ -19,14 +19,77 @@ databaseServer <- function(id) {
     town_substring_filter <- reactive({input$townFilter})
     lad_filter <- reactive({input$ladFilter})
     region_filter <- reactive({input$regionFilter})
-    opening_range_is_certain <- reactive({input$openingCertainty=="definitely"})
-    opening_range_start <- reactive({input$openingStart})
-    opening_range_end <- reactive({input$openingEnd})
-    opening_range_is_inclusive <- reactive({input$openingInclusivity=="inclusive"})
-    closing_range_is_certain <- reactive({input$closingCertainty=="definitely"})
-    closing_range_start <- reactive({input$closingStart})
-    closing_range_end <- reactive({input$closingEnd})
-    closing_range_is_inclusive <- reactive({input$closingInclusivity=="inclusive"})
+    existence_or_open_close <- reactive({input$existenceOrOpenClose})
+
+    # determine opening and closing filters
+    opening_range_is_certain <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        input$existedCertainty == "definitely"
+      } else {
+        input$openingCertainty == "definitely"
+      }
+    })
+    opening_range_start <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        "pre-1960"
+      } else {
+        input$openingStart
+      }
+    })
+    opening_range_end <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        if (input$existedInclusivity == "inclusive") {
+          input$existedEnd
+        } else {
+          if (input$existedEnd == "pre-1960") {
+            1958
+          } else {
+            as.numeric(input$existedEnd) - 1
+          }
+        }
+      } else {
+        input$openingEnd
+      }
+    })
+    opening_range_is_inclusive <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        TRUE
+      } else {
+        input$openingInclusivity == "inclusive"
+      }
+    })
+    closing_range_is_certain <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        input$existedCertainty == "definitely"
+      } else {
+        input$closingCertainty == "definitely"
+      }
+    })
+    closing_range_start <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        if (input$existedInclusivity == "inclusive") {
+          input$existedStart
+        } else {
+          as.numeric(input$existedStart) + 1
+        }
+      } else {
+        input$closingStart
+      }
+    })
+    closing_range_end <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        "never"
+      } else {
+        input$closingEnd
+      }
+    })
+    closing_range_is_inclusive <- reactive({
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        TRUE
+      } else {
+        input$closingInclusivity == "inclusive"
+      }
+    })
 
     observeEvent(subject_filter(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
@@ -38,6 +101,132 @@ databaseServer <- function(id) {
         choices=specific_subjects$subject,
         selected=specific_subjects$subject,
       )
+    })
+
+    observeEvent(existence_or_open_close(), {
+      if (existence_or_open_close() == "Museums that were open in time period") {
+        output$timePeriodSearch <- renderUI({
+          tags$div(
+            style = "display: flex; align-items: flex-end; gap: 8px;",
+            p("Museums that"),
+            selectInput(
+              NS(id, "existedCertainty"),
+              "",
+              choices=c("definitely", "possibly"),
+              selected="possibly",
+              multiple=FALSE,
+              width=120
+            ),
+            p("were open between"),
+            selectInput(
+              NS(id, "existedStart"),
+              "",
+              choices=c("pre-1960", seq(1960, 2025, by=1)),
+              selected="pre-1960",
+              multiple=FALSE,
+              width=120
+            ),
+            p("and"),
+            selectInput(
+              NS(id, "existedEnd"),
+              "",
+              choices=c("pre-1960", seq(1960, 2025, by=1)),
+              selected="2025",
+              multiple=FALSE,
+              width=120
+            ),
+            selectInput(
+              NS(id, "existedInclusivity"),
+              "",
+              choices=c("inclusive", "exclusive"),
+              selected="inclusive",
+              multiple=FALSE,
+              width=120
+            )
+          )
+        })
+      } else {
+        output$timePeriodSearch <- renderUI({
+          tagList(
+            tags$div(
+              style = "display: flex; align-items: flex-end; gap: 8px;",
+              p("Museums that"),
+              selectInput(
+                NS(id, "openingCertainty"),
+                "",
+                choices=c("definitely", "possibly"),
+                selected="possibly",
+                multiple=FALSE,
+                width=120
+              ),
+              p("opened between"),
+              selectInput(
+                NS(id, "openingStart"),
+                "",
+                choices=c("pre-1960", seq(1960, 2025, by=1)),
+                selected="pre-1960",
+                multiple=FALSE,
+                width=120
+              ),
+              p("and"),
+              selectInput(
+                NS(id, "openingEnd"),
+                "",
+                choices=c("pre-1960", seq(1960, 2025, by=1)),
+                selected="2025",
+                multiple=FALSE,
+                width=120
+              ),
+              selectInput(
+                NS(id, "openingInclusivity"),
+                "",
+                choices=c("inclusive", "exclusive"),
+                selected="inclusive",
+                multiple=FALSE,
+                width=120
+              )
+            ),
+            tags$div(
+              style = "display: flex; align-items: flex-end; gap: 8px;",
+              p("Museums that"),
+              selectInput(
+                NS(id, "closingCertainty"),
+                "",
+                choices=c("definitely", "possibly"),
+                selected="possibly",
+                multiple=FALSE,
+                width=120
+              ),
+              p("closed between"),
+              selectInput(
+                NS(id, "closingStart"),
+                "",
+                choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
+                selected="pre-1960",
+                multiple=FALSE,
+                width=120
+              ),
+              p("and"),
+              selectInput(
+                NS(id, "closingEnd"),
+                "",
+                choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
+                selected="never",
+                multiple=FALSE,
+                width=120
+              ),
+              selectInput(
+                NS(id, "closingInclusivity"),
+                "",
+                choices=c("inclusive", "exclusive"),
+                selected="inclusive",
+                multiple=FALSE,
+                width=120
+              )
+            )
+          )
+        })
+      }
     })
 
     observeEvent(input$reset, {
@@ -64,6 +253,21 @@ databaseServer <- function(id) {
       )
       updatePickerInput(
         session, "regionFilter", selected=region_labels()$label
+      )
+      updateRadioButtons(
+        session, "existenceOrOpenClose", selected="Museums that were open in time period"
+      )
+      updateSelectInput(
+        session, "existedCertainty", selected="possibly"
+      )
+      updateSelectInput(
+        session, "existedStart", selected="pre-1960"
+      )
+      updateSelectInput(
+        session, "existedEnd", selected="2025"
+      )
+      updateSelectInput(
+        session, "existedInclusivity", selected="inclusive"
       )
     })
 

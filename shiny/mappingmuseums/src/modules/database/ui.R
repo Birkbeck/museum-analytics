@@ -2,6 +2,7 @@ db_tooltip_search <- "Enter free text to search all fields of the Mapping Museum
 
 tooltip_village_town_city <- "The village, town, or city where the museum is located."
 tooltip_local_authority_district <- "The local authority district (2023 boundaries) where the museum is located."
+tooltip_existence_or_open_close <- "Filter museums according to when they were open (they had opened before the start of the time period and closed during or after the time period) or according to their opening and closure dates (specify the time period during which their opening occurred and the time period during which their closure occurred)."
 tooltip_show_columns <- "Select which columns should appear in the results table."
 
 mm_db_choices <- c(
@@ -206,85 +207,24 @@ databaseUI <- function(id) {
   
     tags$details(
       tags$summary("Time period"),
-  
-      tags$div(
-        style = "display: flex; align-items: flex-end; gap: 8px;",
-        p("Show museums that"),
-        selectInput(
-          NS(id, "openingCertainty"),
-          "",
-          choices=c("definitely", "possibly"),
-          selected="possibly",
-          multiple=FALSE,
-          width=120
-        ),
-        p("opened between"),
-        selectInput(
-          NS(id, "openingStart"),
-          "",
-          choices=c("pre-1960", seq(1960, 2025, by=1)),
-          selected="pre-1960",
-          multiple=FALSE,
-          width=120
-        ),
-        p("and"),
-        selectInput(
-          NS(id, "openingEnd"),
-          "",
-          choices=c("pre-1960", seq(1960, 2025, by=1)),
-          selected="2025",
-          multiple=FALSE,
-          width=120
-        ),
-        selectInput(
-          NS(id, "openingInclusivity"),
-          "",
-          choices=c("inclusive", "exclusive"),
-          selected="inclusive",
-          multiple=FALSE,
-          width=120
+
+      search_form_item(
+        "Filter by",
+        tooltip_existence_or_open_close,
+        radioButtons(
+          NS(id, "existenceOrOpenClose"),
+          label="",
+          choices=c(
+            "Museums that were open in time period",
+            "Museum opening and closure dates"
+          ),
+          selected="Museums that were open in time period",
+          inline=FALSE
         )
       ),
-  
-      tags$div(
-        style = "display: flex; align-items: flex-end; gap: 8px;",
-        p("Show museums that"),
-        selectInput(
-          NS(id, "closingCertainty"),
-          "",
-          choices=c("definitely", "possibly"),
-          selected="possibly",
-          multiple=FALSE,
-          width=120
-        ),
-        p("closed between"),
-        selectInput(
-          NS(id, "closingStart"),
-          "",
-          choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
-          selected="pre-1960",
-          multiple=FALSE,
-          width=120
-        ),
-        p("and"),
-        selectInput(
-          NS(id, "closingEnd"),
-          "",
-          choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
-          selected="never",
-          multiple=FALSE,
-          width=120
-        ),
-        selectInput(
-          NS(id, "closingInclusivity"),
-          "",
-          choices=c("inclusive", "exclusive"),
-          selected="inclusive",
-          multiple=FALSE,
-          width=120
-        )
-      ),
-  
+
+      uiOutput(NS(id, "timePeriodSearch"))
+
     ),
 
     hr(),

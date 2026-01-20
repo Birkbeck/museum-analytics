@@ -34,48 +34,6 @@ score_query <- function(query, X, museum_ids, term_to_col, idf) {
     dplyr::arrange(dplyr::desc(score))
 }
 
-filter_by_opening <- function(df, start, end, certain, inclusive) {
-  convert_to_truncated_timescale <- function(year) {
-    ifelse(year < 1960, 1959, year)
-  }
-  if (start == "pre-1960") {
-    start <- 1959
-  } else {
-    start <- as.numeric(start)
-  }
-  if (end == "pre-1960") {
-    end <- 1959
-  } else {
-    end <- as.numeric(end)
-  }
-  if (inclusive) {
-    ordering_operator <- `<=`
-  } else {
-    ordering_operator <- `<`
-  }
-  if (certain) {
-    combination_operator <- `&`
-  } else {
-    combination_operator <- `|`
-  }
-  print(ordering_operator)
-  print(combination_operator)
-  print(start)
-  print(end)
-  df |>
-    mutate(
-      yo1=convert_to_truncated_timescale(year_opened_1),
-      yo2=convert_to_truncated_timescale(year_opened_2)
-    ) |>
-    filter(
-      combination_operator(
-        ordering_operator(start, yo1) & ordering_operator(yo1, end),
-        ordering_operator(start, yo2) & ordering_operator(yo2, end)
-      )
-    ) |>
-    select(-yo1, -yo2)
-} 
-
 filter_by_year <- function(df, event_type, start, end, certain, inclusive) {
   convert_to_truncated_timescale <- function(year) {
     ifelse(year < 1960, 1959, year)
