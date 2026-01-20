@@ -291,7 +291,7 @@ databaseUI <- function(id) {
 
     br(),
 
-    actionButton(NS(id, "reset"), "Reset"),
+    actionButton(NS(id, "reset"), "Reset filters"),
 
     search_form_item(
       "Show columns",
@@ -306,6 +306,8 @@ databaseUI <- function(id) {
         search=TRUE
       )
     ),
+
+    downloadButton(NS(id, "download"), label="Download table as CSV"),
 
     p(""),
     hr(),

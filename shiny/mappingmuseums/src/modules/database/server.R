@@ -117,6 +117,19 @@ databaseServer <- function(id) {
       mm_db_choices[mm_db_choices %in% input$tableSelect]
     })
 
+    output$download <- downloadHandler(
+      filename = function() {
+        paste('mapping-museums-search-results', Sys.Date(), '.csv', sep='')
+      },
+      content = function(con) {
+        write.csv(
+          filtered_museums() |> select(all_of(search_results_columns())),
+          con
+        )
+      },
+      contentType = "text/csv"
+    )
+
     output$searchTable <- renderDT({
       filtered_museums() |>
         select(all_of(search_results_columns()))
