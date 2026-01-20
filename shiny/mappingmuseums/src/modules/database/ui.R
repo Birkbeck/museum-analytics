@@ -1,7 +1,7 @@
 db_tooltip_search <- "Enter free text to search all fields of the Mapping Museums database"
 
 tooltip_village_town_city <- "The village, town, or city where the museum is located."
-tooltip_local_authority_district <- "The local authority district (20xx) where the museum is located."
+tooltip_local_authority_district <- "The local authority district (2023 boundaries) where the museum is located."
 
 databaseUI <- function(id) {
 
@@ -18,12 +18,12 @@ databaseUI <- function(id) {
       )
     ),
 
-    tags$details(
-      tags$summary("Advanced filters"),
+    h3("Advanced Filters"),
 
-      hr(),
-  
-      h4("Museum attributes"),
+    hr(),
+
+    tags$details(
+      tags$summary("Museum attributes"),
   
       search_form_item(
         "Governance",
@@ -108,11 +108,13 @@ databaseUI <- function(id) {
           ), 
           multiple=TRUE
         )   
-      ),
+      )
+    ),
   
-      hr(),
-  
-      h4("Museum location"),
+    hr(),
+
+    tags$details(
+      tags$summary("Museum location"),
   
       search_form_item(
         "Village / Town / City",
@@ -130,8 +132,8 @@ databaseUI <- function(id) {
         virtualSelectInput(
           NS(id, "ladFilter"),
           "",
-          choices=NULL,
-          selected=NULL,
+          choices=lad_labels()$label,
+          selected=lad_labels()$label,
           multiple=TRUE,
           disableSelectAll=FALSE,
           search=TRUE
@@ -153,17 +155,19 @@ databaseUI <- function(id) {
           ), 
           multiple=TRUE
         )   
-      ),
+      )
+    ),
   
-      hr(),
+    hr(),
   
-      h4("Time period"),
+    tags$details(
+      tags$summary("Time period"),
   
       tags$div(
         style = "display: flex; align-items: flex-end; gap: 8px;",
         p("Show museums that"),
         selectInput(
-          NS(id, "openingCertainity"),
+          NS(id, "openingCertainty"),
           "",
           choices=c("definitely", "possibly"),
           selected="possibly",
@@ -202,7 +206,7 @@ databaseUI <- function(id) {
         style = "display: flex; align-items: flex-end; gap: 8px;",
         p("Show museums that"),
         selectInput(
-          NS(id, "closingCertainity"),
+          NS(id, "closingCertainty"),
           "",
           choices=c("definitely", "possibly"),
           selected="possibly",
@@ -211,7 +215,7 @@ databaseUI <- function(id) {
         ),
         p("closed between"),
         selectInput(
-          NS(id, "closedStart"),
+          NS(id, "closingStart"),
           "",
           choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
           selected="pre-1960",
@@ -220,7 +224,7 @@ databaseUI <- function(id) {
         ),
         p("and"),
         selectInput(
-          NS(id, "closedEnd"),
+          NS(id, "closingEnd"),
           "",
           choices=c("never", "pre-1960", seq(1960, 2025, by=1)),
           selected="never",

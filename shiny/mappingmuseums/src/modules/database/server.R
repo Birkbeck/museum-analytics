@@ -1,6 +1,16 @@
+source("src/modules/database/elements.R")
+
 databaseServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
+    museum_ids <- read_csv("museum_ids.csv", show_col_types = FALSE)$museum_id
+    X <- readMM("tfidf.mtx")
+    X <- as(X, "dgCMatrix")  # efficient column-compressed
+    vocab <- read_csv("vocab.csv", show_col_types = FALSE)$term
+    idf <- read_csv("idf.csv", show_col_types = FALSE)$idf
+    term_to_col <- setNames(seq_along(vocab), vocab)
+
+    free_text_search <- reactive({input$freeText})
     governance_filter <- reactive({input$governanceFilter})
     size_filter <- reactive({input$sizeFilter})
     subject_filter <- reactive({input$subjectFilter})
@@ -9,6 +19,14 @@ databaseServer <- function(id) {
     town_substring_filter <- reactive({input$townFilter})
     lad_filter <- reactive({input$ladFilter})
     region_filter <- reactive({input$regionFilter})
+    opening_range_is_certain <- reactive({input$openingCertainty=="definitely"})
+    opening_range_start <- reactive({input$openingStart})
+    opening_range_end <- reactive({input$openingEnd})
+    opening_range_is_inclusive <- reactive({input$openingInclusivity=="inclusive"})
+    closing_range_is_certain <- reactive({input$closingCertainty=="definitely"})
+    closing_range_start <- reactive({input$closingStart})
+    closing_range_end <- reactive({input$closingEnd})
+    closing_range_is_inclusive <- reactive({input$closingInclusivity=="inclusive"})
 
     observeEvent(subject_filter(), {
       freezeReactiveValue(input, "subjectSpecificFilter")
@@ -42,28 +60,56 @@ databaseServer <- function(id) {
         session, "townFilter", value = ""
       )
       updateSelectInput(
-        session, "ladFilter", selected=character(0)
+        session, "ladFilter", selected=lad_labels()$label
       )
       updatePickerInput(
         session, "regionFilter", selected=region_labels()$label
       )
     })
-      
+
     filtered_museums <- reactive({
+      # TODO: rank results by score
+      if (free_text_search() == "") {
+        relevant_museums <- museum_ids
+      } else {
+        museum_scores <- score_query(
+          free_text_search(), X, museum_ids, term_to_col, idf
+        ) |> filter(score > 0)
+        print(museum_scores)
+        relevant_museums <- museum_scores$museum_id
+      }
       museums_including_crown_dependencies() |>
         filter(
+          museum_id %in% relevant_museums,
           governance_broad %in% governance_filter(),
           size %in% size_filter(),
           subject_broad %in% subject_filter(),
           subject %in% subject_specific_filter(),
           accreditation %in% accreditation_filter(),
-          grepl(
-            town_substring_filter(),
-            village_town_city,
-            ignore.case=TRUE
+          (
+            grepl(
+              town_substring_filter(),
+              village_town_city,
+              ignore.case=TRUE
+            )
+            | town_substring_filter() == ""
           ),
-          #lad %in% lad_filter_choices(),
+          lad %in% lad_filter(),
           region %in% region_filter()
+        ) |>
+        filter_by_year(
+          "opened",
+          opening_range_start(),
+          opening_range_end(),
+          opening_range_is_certain(),
+          opening_range_is_inclusive()
+        ) |>
+        filter_by_year(
+          "closed",
+          closing_range_start(),
+          closing_range_end(),
+          closing_range_is_certain(),
+          closing_range_is_inclusive()
         )
     })
 
@@ -81,11 +127,12 @@ databaseServer <- function(id) {
       "address_3",
       "village_town_city",
       "postcode",
-      #"local_authority_district",
+      "lad",
       "region",
       "country",
       "year_opened",
-      "year_closed"
+      "year_closed",
+      "notes"
     )
 
     output$searchTable <- renderDT({

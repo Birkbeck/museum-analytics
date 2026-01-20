@@ -43,9 +43,6 @@ class ActorsPreprocessor(FilePreprocessor):
             row["region"] = ""
             row["country"] = ""
 
-        m = super().preprocess(self.museums, header_row=0)
-        print(m[0])
-
         preprocessed_museum_rows = [
             {
                 "actor_id": "museum" + museum["museum_id"],

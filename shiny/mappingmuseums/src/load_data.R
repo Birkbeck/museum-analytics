@@ -254,6 +254,12 @@ accreditation_labels <- reactive({
     unique() |>
     arrange(desc(label))
 })
+lad_labels <- reactive({
+  museums_including_crown_dependencies() |>
+    select(label=lad) |>
+    unique() |>
+    arrange(label)
+})
 region_labels <- reactive({
   museums_including_crown_dependencies() |>
     select(label=region) |>

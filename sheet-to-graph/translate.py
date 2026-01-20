@@ -124,7 +124,7 @@ if __name__ == "__main__":
     output_directory_id = file_loader.values["output_csvs_directory"]
     credentials_file_name = "credentials.json"
     postcode_to_lat_long = PostcodeToLatLong(
-        "../data/ONSPD_FEB_2024_UK", WikidataConnection()
+        "../data/ONSPD_FEB_2024_UK", WikidataConnection(file_loader.values["email"])
     )
 
     print("Defining Tables")
@@ -1405,6 +1405,7 @@ if __name__ == "__main__":
         + ":"
         + museums_df.loc[~certain_opened_mask, "year_opened_2"].astype(str)
     )
+
     museums_df["year_closed"] = museums_df["year_closed_1"].astype(str)
     certain_closed_mask = museums_df["year_closed_1"] == museums_df["year_closed_2"]
     museums_df.loc[~certain_closed_mask, "year_closed"] = (
@@ -1412,7 +1413,7 @@ if __name__ == "__main__":
         + ":"
         + museums_df.loc[~certain_closed_mask, "year_closed_2"].astype(str)
     )
-    not_closed_mark = museums_df["year_closed_1"] != 9999
+    not_closed_mark = museums_df["year_closed_1"] == "9999"
     museums_df.loc[not_closed_mark, "year_closed"] = "N/A"
 
     # create vectors for museums for search tab
