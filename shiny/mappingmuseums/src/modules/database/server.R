@@ -113,31 +113,13 @@ databaseServer <- function(id) {
         )
     })
 
-    search_results_columns <- c(
-      "museum_id",
-      "museum_name",
-      "governance_broad",
-      "governance",
-      "size",
-      "subject_broad",
-      "subject",
-      "accreditation",
-      "address_1",
-      "address_2",
-      "address_3",
-      "village_town_city",
-      "postcode",
-      "lad",
-      "region",
-      "country",
-      "year_opened",
-      "year_closed",
-      "notes"
-    )
+    search_results_columns <- reactive({
+      mm_db_choices[mm_db_choices %in% input$tableSelect]
+    })
 
     output$searchTable <- renderDT({
       filtered_museums() |>
-        select(all_of(search_results_columns))
+        select(all_of(search_results_columns()))
     }, options=list(pageLength=100, dom="liptlip"))
     # l = page length menu
     # i = info text

@@ -2,6 +2,50 @@ db_tooltip_search <- "Enter free text to search all fields of the Mapping Museum
 
 tooltip_village_town_city <- "The village, town, or city where the museum is located."
 tooltip_local_authority_district <- "The local authority district (2023 boundaries) where the museum is located."
+tooltip_show_columns <- "Select which columns should appear in the results table."
+
+mm_db_choices <- c(
+  "museum_id",
+  "museum_name",
+  "governance_broad",
+  "governance",
+  "size",
+  "subject_broad",
+  "subject",
+  "accreditation",
+  "address_1",
+  "address_2",
+  "address_3",
+  "village_town_city",
+  "postcode",
+  "lad",
+  "region",
+  "country",
+  "year_opened",
+  "year_closed",
+  "notes"
+)
+
+mm_db_selected <- c(
+  "museum_id",
+  "museum_name",
+  "governance_broad",
+  "governance",
+  "size",
+  "subject",
+  "accreditation",
+  "address_1",
+  "address_2",
+  "address_3",
+  "village_town_city",
+  "postcode",
+  "lad",
+  "region",
+  "country",
+  "year_opened",
+  "year_closed",
+  "notes"
+)
 
 databaseUI <- function(id) {
 
@@ -248,6 +292,20 @@ databaseUI <- function(id) {
     br(),
 
     actionButton(NS(id, "reset"), "Reset"),
+
+    search_form_item(
+      "Show columns",
+      tooltip_show_columns,
+      virtualSelectInput(
+        NS(id, "tableSelect"),
+        label="",
+        choices=mm_db_choices,
+        selected=mm_db_selected,
+        multiple=TRUE,
+        disableSelectAll=FALSE,
+        search=TRUE
+      )
+    ),
 
     p(""),
     hr(),
