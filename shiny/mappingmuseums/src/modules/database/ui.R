@@ -1,5 +1,6 @@
 db_tooltip_search <- "Enter free text to search all fields of the Mapping Museums database"
 
+tooltip_museum_country <- "the country or territory where the museum is located."
 tooltip_village_town_city <- "The village, town, or city where the museum is located."
 tooltip_local_authority_district <- "The local authority district (2023 boundaries) where the museum is located."
 tooltip_existence_or_open_close <- "Filter museums according to when they were open (they had opened before the start of the time period and closed during or after the time period) or according to their opening and closure dates (specify the time period during which their opening occurred and the time period during which their closure occurred)."
@@ -69,6 +70,23 @@ databaseUI <- function(id) {
 
     tags$details(
       tags$summary("Museum attributes"),
+
+      search_form_item(
+        "Accreditation",
+        tooltip_museum_accreditation,
+        pickerInput(
+          NS(id, "accreditationFilter"), 
+          "",
+          choices=accreditation_labels()$label,
+          selected=accreditation_labels()$label,
+          options=pickerOptions(
+            actionsBox=TRUE, 
+            size=10,
+            selectedTextFormat="count > 3"
+          ), 
+          multiple=TRUE
+        )   
+      ),
   
       search_form_item(
         "Governance",
@@ -88,7 +106,7 @@ databaseUI <- function(id) {
       ),
       
       search_form_item(
-        "Museum size",
+        "Size",
         tooltip_museum_size,
         pickerInput(
           NS(id, "sizeFilter"), 
@@ -105,7 +123,7 @@ databaseUI <- function(id) {
       ),
       
       search_form_item(
-        "Museum subject",
+        "Subject",
         tooltip_museum_subject,
         pickerInput(
           NS(id, "subjectFilter"), 
@@ -122,7 +140,7 @@ databaseUI <- function(id) {
       ),
       
       search_form_item(
-        "Museum subject (specific)",
+        "Subject (specific)",
         tooltip_museum_subject_specific,
         pickerInput(
           NS(id, "subjectSpecificFilter"), 
@@ -136,16 +154,23 @@ databaseUI <- function(id) {
           ), 
           multiple=TRUE
         )
-      ),
+      )
+    ),
       
+  
+    hr(),
+
+    tags$details(
+      tags$summary("Museum location"),
+
       search_form_item(
-        "Museum accreditation",
-        tooltip_museum_accreditation,
+        "Country",
+        tooltip_museum_country,
         pickerInput(
-          NS(id, "accreditationFilter"), 
+          NS(id, "countryFilter"), 
           "",
-          choices=accreditation_labels()$label,
-          selected=accreditation_labels()$label,
+          choices=country_labels()$label,
+          selected=country_labels()$label,
           options=pickerOptions(
             actionsBox=TRUE, 
             size=10,
@@ -153,36 +178,6 @@ databaseUI <- function(id) {
           ), 
           multiple=TRUE
         )   
-      )
-    ),
-  
-    hr(),
-
-    tags$details(
-      tags$summary("Museum location"),
-  
-      search_form_item(
-        "Village / Town / City",
-        tooltip_village_town_city,
-        textInput(
-          NS(id, "townFilter"), 
-          label="",
-          value=""
-        ) 
-      ),
-  
-      search_form_item(
-        "Local Authority District",
-        tooltip_local_authority_district,
-        virtualSelectInput(
-          NS(id, "ladFilter"),
-          "",
-          choices=lad_labels()$label,
-          selected=lad_labels()$label,
-          multiple=TRUE,
-          disableSelectAll=FALSE,
-          search=TRUE
-        )
       ),
   
       search_form_item(
@@ -200,7 +195,32 @@ databaseUI <- function(id) {
           ), 
           multiple=TRUE
         )   
-      )
+      ),
+  
+      search_form_item(
+        "Local Authority District",
+        tooltip_local_authority_district,
+        virtualSelectInput(
+          NS(id, "ladFilter"),
+          "",
+          choices=lad_labels()$label,
+          selected=lad_labels()$label,
+          multiple=TRUE,
+          disableSelectAll=FALSE,
+          search=TRUE
+        )
+      ),
+  
+      search_form_item(
+        "Village / Town / City",
+        tooltip_village_town_city,
+        textInput(
+          NS(id, "townFilter"), 
+          label="",
+          value=""
+        ) 
+      ),
+      
     ),
   
     hr(),

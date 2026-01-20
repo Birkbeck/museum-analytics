@@ -11,16 +11,17 @@ databaseServer <- function(id) {
     term_to_col <- setNames(seq_along(vocab), vocab)
 
     free_text_search <- reactive({input$freeText})
+    accreditation_filter <- reactive({input$accreditationFilter})
     governance_filter <- reactive({input$governanceFilter})
     size_filter <- reactive({input$sizeFilter})
     subject_filter <- reactive({input$subjectFilter})
     subject_specific_filter <- reactive({input$subjectSpecificFilter})
-    accreditation_filter <- reactive({input$accreditationFilter})
-    town_substring_filter <- reactive({input$townFilter})
-    lad_filter <- reactive({input$ladFilter})
+    country_filter <- reactive({input$countryFilter})
     region_filter <- reactive({input$regionFilter})
-    existence_or_open_close <- reactive({input$existenceOrOpenClose})
+    lad_filter <- reactive({input$ladFilter})
+    town_substring_filter <- reactive({input$townFilter})
 
+    existence_or_open_close <- reactive({input$existenceOrOpenClose})
     # determine opening and closing filters
     opening_range_is_certain <- reactive({
       if (existence_or_open_close() == "Museums that were open in time period") {
@@ -231,6 +232,9 @@ databaseServer <- function(id) {
 
     observeEvent(input$reset, {
       updatePickerInput(
+        session, "accreditationFilter", selected=accreditation_labels()$label
+      )
+      updatePickerInput(
         session, "governanceFilter", selected=governance_broad_labels()$label
       )
       updatePickerInput(
@@ -243,16 +247,16 @@ databaseServer <- function(id) {
         session, "subjectSpecificFilter", selected=subject_labels()$label
       )
       updatePickerInput(
-        session, "accreditationFilter", selected=accreditation_labels()$label
+        session, "countryFilter", selected=country_labels()$label
       )
-      updateTextInput(
-        session, "townFilter", value = ""
+      updatePickerInput(
+        session, "regionFilter", selected=region_labels()$label
       )
       updateSelectInput(
         session, "ladFilter", selected=lad_labels()$label
       )
-      updatePickerInput(
-        session, "regionFilter", selected=region_labels()$label
+      updateTextInput(
+        session, "townFilter", value = ""
       )
       updateRadioButtons(
         session, "existenceOrOpenClose", selected="Museums that were open in time period"
@@ -285,11 +289,14 @@ databaseServer <- function(id) {
       museums_including_crown_dependencies() |>
         filter(
           museum_id %in% relevant_museums,
+          accreditation %in% accreditation_filter(),
           governance_broad %in% governance_filter(),
           size %in% size_filter(),
           subject_broad %in% subject_filter(),
           subject %in% subject_specific_filter(),
-          accreditation %in% accreditation_filter(),
+          country %in% country_filter(),
+          region %in% region_filter(),
+          lad %in% lad_filter(),
           (
             grepl(
               town_substring_filter(),
@@ -297,9 +304,7 @@ databaseServer <- function(id) {
               ignore.case=TRUE
             )
             | town_substring_filter() == ""
-          ),
-          lad %in% lad_filter(),
-          region %in% region_filter()
+          )
         ) |>
         filter_by_year(
           "opened",
