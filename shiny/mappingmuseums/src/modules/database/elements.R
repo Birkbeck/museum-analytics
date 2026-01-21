@@ -6,7 +6,15 @@ make_query_vec <- function(query, term_to_col, idf, ncol_X) {
 
   cols <- term_to_col[tokens]
   cols <- cols[!is.na(cols)]
-  if (!length(cols)) return(sparseVector(length = ncol_X))
+
+  # create zero vector when there are no matching terms
+  if (!length(cols)) {
+    return(
+      sparseVector(
+        i = integer(0), x = numeric(0), length = ncol_X
+      )
+    )
+  }
 
   tab <- table(cols)
   j <- as.integer(names(tab))
