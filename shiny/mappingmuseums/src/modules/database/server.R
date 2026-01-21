@@ -278,18 +278,17 @@ databaseServer <- function(id) {
     })
 
     filtered_museums <- reactive({
-      # TODO: rank results by score
       if (free_text_search() == "") {
-        relevant_museums <- museum_ids
+        museum_scores <- data.frame(museum_id=museum_ids) |> mutate(score=1)
       } else {
         museum_scores <- score_query(
           free_text_search(), X, museum_ids, term_to_col, idf
         ) |> filter(score > 0)
-        relevant_museums <- museum_scores$museum_id
       }
       museums_including_crown_dependencies() |>
+        left_join(museum_scores, by="museum_id") |>
         filter(
-          museum_id %in% relevant_museums,
+          score > 0,
           accreditation %in% accreditation_filter(),
           governance_broad %in% governance_filter(),
           size %in% size_filter(),
@@ -320,7 +319,8 @@ databaseServer <- function(id) {
           closing_range_end(),
           closing_range_is_certain(),
           closing_range_is_inclusive()
-        )
+        ) |>
+        arrange(desc(score))
     })
 
     search_results_columns <- reactive({
