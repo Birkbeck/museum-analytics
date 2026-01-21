@@ -19,7 +19,9 @@ databaseServer <- function(id) {
     country_filter <- reactive({input$countryFilter})
     region_filter <- reactive({input$regionFilter})
     lad_filter <- reactive({input$ladFilter})
-    town_substring_filter <- reactive({input$townFilter})
+    town_substring_filter <- reactive({
+      gsub("[[:punct:]]", "", input$townFilter)
+    })
 
     existence_or_open_close <- reactive({input$existenceOrOpenClose})
     # determine opening and closing filters
@@ -300,7 +302,7 @@ databaseServer <- function(id) {
           (
             grepl(
               town_substring_filter(),
-              village_town_city,
+              place,
               ignore.case=TRUE
             )
             | town_substring_filter() == ""

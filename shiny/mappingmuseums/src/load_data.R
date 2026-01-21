@@ -205,6 +205,11 @@ museums_including_crown_dependencies <- reactive({
       by="museum_id"
     ) |>
     mutate(
+      place = gsub(
+        "[[:punct:]]",
+        "",
+        paste(address_1, address_2, address_3, village_town_city, postcode, lad, region)
+      ),
       outcome_event_type=factor(outcome_event_type, museum_attribute_ordering),
       outcome_recipient_type=factor(outcome_recipient_type, museum_attribute_ordering),
       outcome_recipient_count=factor(outcome_recipient_count, museum_attribute_ordering),
