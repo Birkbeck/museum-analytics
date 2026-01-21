@@ -19,8 +19,8 @@ databaseServer <- function(id) {
     country_filter <- reactive({input$countryFilter})
     region_filter <- reactive({input$regionFilter})
     lad_filter <- reactive({input$ladFilter})
-    town_substring_filter <- reactive({
-      gsub("[[:punct:]]", "", input$townFilter)
+    address_substring_filter <- reactive({
+      gsub("[[:punct:]]", "", input$addressFilter)
     })
 
     existence_or_open_close <- reactive({input$existenceOrOpenClose})
@@ -258,7 +258,7 @@ databaseServer <- function(id) {
         session, "ladFilter", selected=lad_labels()$label
       )
       updateTextInput(
-        session, "townFilter", value = ""
+        session, "addressFilter", value = ""
       )
       updateRadioButtons(
         session, "existenceOrOpenClose", selected="Museums that were open in time period"
@@ -299,11 +299,11 @@ databaseServer <- function(id) {
           lad %in% lad_filter(),
           (
             grepl(
-              town_substring_filter(),
+              address_substring_filter(),
               place,
               ignore.case=TRUE
             )
-            | town_substring_filter() == ""
+            | address_substring_filter() == ""
           )
         ) |>
         filter_by_year(

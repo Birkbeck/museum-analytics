@@ -1,7 +1,7 @@
 db_tooltip_search <- "Enter free text to search all fields of the Mapping Museums database"
 
-tooltip_museum_country <- "the country or territory where the museum is located."
-tooltip_village_town_city <- "The village, town, or city where the museum is located."
+tooltip_museum_country <- "The country or territory where the museum is located."
+tooltip_address <- "Search for museums by address, town, or postcode."
 tooltip_local_authority_district <- "The local authority district (2023 boundaries) where the museum is located."
 tooltip_existence_or_open_close <- "Filter museums according to when they were open (they had opened before the start of the time period and closed during or after the time period) or according to their opening and closure dates (specify the time period during which their opening occurred and the time period during which their closure occurred)."
 tooltip_show_columns <- "Select which columns should appear in the results table."
@@ -212,10 +212,10 @@ databaseUI <- function(id) {
       ),
   
       search_form_item(
-        "Village / Town / City",
-        tooltip_village_town_city,
+        "Address",
+        tooltip_address,
         textInput(
-          NS(id, "townFilter"), 
+          NS(id, "addressFilter"), 
           label="",
           value=""
         ) 
