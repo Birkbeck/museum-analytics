@@ -3,6 +3,7 @@ make_query_vec <- function(query, term_to_col, idf, ncol_X) {
   q <- tolower(query)
   tokens <- unlist(strsplit(gsub("[^a-z0-9 ]+", " ", q), "\\s+"))
   tokens <- tokens[nzchar(tokens)]
+  tokens <- wordStem(tokens, language = "en")
 
   cols <- term_to_col[tokens]
   cols <- cols[!is.na(cols)]

@@ -10,11 +10,13 @@ The script does the following:
 
 from functools import lru_cache
 import json
+import re
 
 from geopy.distance import geodesic
+from nltk.stem.snowball import SnowballStemmer
 import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, TfidfVectorizer
 from scipy import sparse
 from scipy.io import mmwrite
 
@@ -1439,8 +1441,20 @@ if __name__ == "__main__":
     museum_documents_df = museums_df[["museum_id", "document"]]
     museum_ids = museum_documents_df["museum_id"].astype(str).to_numpy()
     museum_documents = museum_documents_df["document"].fillna("").astype(str).to_list()
+    stemmer = SnowballStemmer("english")
+    token_re = re.compile(r"[a-z0-9]+")
+    stem_analyzer = lambda text: [
+        stemmer.stem(t)
+        for t in token_re.findall(text.lower())
+        if t not in ENGLISH_STOP_WORDS
+    ]
     vectorizer = TfidfVectorizer(
-        lowercase=True, stop_words="english", ngram_range=(1, 2), min_df=2, max_df=0.95
+        analyzer=stem_analyzer,
+        lowercase=True,
+        ngram_range=(1, 1),
+        min_df=2,
+        max_df=0.95,
+        norm="l2",
     )
     X = vectorizer.fit_transform(museum_documents)
     pd.Series(museum_ids, name="museum_id").to_csv("museum_ids.csv", index=False)

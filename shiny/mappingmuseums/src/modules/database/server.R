@@ -3,11 +3,11 @@ source("src/modules/database/elements.R")
 databaseServer <- function(id) {
   moduleServer(id, function(input, output, session) {
 
-    museum_ids <- read_csv("museum_ids.csv", show_col_types = FALSE)$museum_id
-    X <- readMM("tfidf.mtx")
+    museum_ids <- read_csv("data/drive-files/museum_ids.csv", show_col_types = FALSE)$museum_id
+    X <- readMM("data/drive-files/tfidf.mtx")
     X <- as(X, "dgCMatrix")  # efficient column-compressed
-    vocab <- read_csv("vocab.csv", show_col_types = FALSE)$term
-    idf <- read_csv("idf.csv", show_col_types = FALSE)$idf
+    vocab <- read_csv("data/drive-files/vocab.csv", show_col_types = FALSE)$term
+    idf <- read_csv("data/drive-files/idf.csv", show_col_types = FALSE)$idf
     term_to_col <- setNames(seq_along(vocab), vocab)
 
     free_text_search <- reactive({input$freeText})
@@ -285,7 +285,6 @@ databaseServer <- function(id) {
         museum_scores <- score_query(
           free_text_search(), X, museum_ids, term_to_col, idf
         ) |> filter(score > 0)
-        print(museum_scores)
         relevant_museums <- museum_scores$museum_id
       }
       museums_including_crown_dependencies() |>

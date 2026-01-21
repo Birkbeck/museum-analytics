@@ -16,6 +16,7 @@ google-auth-oauthlib = "*"
 geopy = "*"
 scikit-learn = "*"
 scipy = "*"
+nltk = "*"
 
 [dev-packages]
 
