@@ -120,12 +120,12 @@ databaseServer <- function(id) {
               multiple=FALSE,
               width=120
             ),
-            p("were open between"),
+            p("were open anytime between"),
             selectInput(
               NS(id, "existedStart"),
               "",
               choices=c("pre-1960", seq(1960, 2025, by=1)),
-              selected="pre-1960",
+              selected="1960",
               multiple=FALSE,
               width=120
             ),
