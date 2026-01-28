@@ -1,3 +1,3 @@
-export function trash_museums(): void {
+export function trashMuseums(): void {
   const ss = SpreadsheetApp.getActive();
 }

@@ -1,3 +1,3 @@
-export function edit_museums(): void {
+export function editMuseums(): void {
   const ss = SpreadsheetApp.getActive();
 }

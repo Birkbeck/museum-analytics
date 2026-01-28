@@ -1,9 +1,9 @@
 import { onOpenMenu } from "./ui";
-import { add_museums } from "./add";
-import { edit_museums } from "./edit";
-import { trash_museums } from "./trash";
-import { restore_museums } from "./restore";
-import { permanently_delete_museums } from "./permanently_delete";
+import { addMuseums } from "./add";
+import { editMuseums } from "./edit";
+import { trashMuseums } from "./trash";
+import { restoreMuseums } from "./restore";
+import { permanentlyDeleteMuseums } from "./permanently-delete";
 
 declare const global: any;
 
@@ -11,8 +11,8 @@ declare const global: any;
 global.onOpen = () => onOpenMenu();
 
 // expose menu handlers
-global.add_museums = () => add_museums();
-global.edit_museums = () => edit_museums();
-global.trash_museums = () => trash_museums();
-global.restore_museums = () => restore_museums();
-global.permanently_delete_museums = () => permanently_delete_museums();
+global.addMuseums = () => addMuseums();
+global.editMuseums = () => editMuseums();
+global.trashMuseums = () => trashMuseums();
+global.restoreMuseums = () => restoreMuseums();
+global.permanentlyDeleteMuseums = () => permanentlyDeleteMuseums();
