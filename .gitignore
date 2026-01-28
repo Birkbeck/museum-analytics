@@ -4,9 +4,13 @@
 *__pycache__*
 *.Rproj*
 *.nb.html
+*node_modules/
 
 data/ONSPD*
 data/dispersal-sheet-2*
+
+mm-db-manager/.clasp.json
+mm-db-manager/dist/
 
 sheet-to-graph/credentials.json
 sheet-to-graph/output.xlsx
