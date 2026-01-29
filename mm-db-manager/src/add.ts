@@ -6,6 +6,11 @@ import {
     formatErrors
 } from "./format-errors";
 import {
+    asTrimmedString,
+    getBroadType,
+    splitYearRange
+} from "./normalizers";
+import {
     validateRow
 } from "./validators";
 
@@ -55,10 +60,6 @@ export function addMuseums(): void {
     }
 }
 
-function asTrimmedString(v: unknown): string {
-    return typeof v === "string" ? v.trim() : String(v ?? "").trim();
-}
-
 function addRow(ss: GoogleAppsScript.Spreadsheet.Spreadsheet, rowValues: unknown[]): void {
     const dbSheet = ss.getSheetByName(DB_SHEET.NAME);
     if (!dbSheet) throw new Error(`Missing sheet: ${DB_SHEET.NAME}`);
@@ -82,6 +83,7 @@ function addRow(ss: GoogleAppsScript.Spreadsheet.Spreadsheet, rowValues: unknown
 	outRow[DB_SHEET.ACCREDITATION_CHANGE_DATE] = asTrimmedString(
 	    rowValues[ADD_SHEET.ACCREDITATION_CHANGE_DATE]
 	);
+	outRow[DB_SHEET.GOVERNANCE_BROAD] = getBroadType(rowValues[ADD_SHEET.GOVERNANCE]);
 	outRow[DB_SHEET.GOVERNANCE] = asTrimmedString(rowValues[ADD_SHEET.GOVERNANCE]);
 	outRow[DB_SHEET.GOVERNANCE_SOURCE] = asTrimmedString(rowValues[ADD_SHEET.GOVERNANCE_SOURCE]);
 	outRow[DB_SHEET.PREVIOUS_GOVERNANCE] = asTrimmedString(rowValues[ADD_SHEET.PREVIOUS_GOVERNANCE]);
@@ -93,6 +95,7 @@ function addRow(ss: GoogleAppsScript.Spreadsheet.Spreadsheet, rowValues: unknown
 	);
 	outRow[DB_SHEET.SIZE] = asTrimmedString(rowValues[ADD_SHEET.SIZE]);
 	outRow[DB_SHEET.SIZE_SOURCE] = asTrimmedString(rowValues[ADD_SHEET.SIZE_SOURCE]);
+	outRow[DB_SHEET.SUBJECT_BROAD] = getBroadType(rowValues[ADD_SHEET.SUBJECT]);
 	outRow[DB_SHEET.SUBJECT] = asTrimmedString(rowValues[ADD_SHEET.SUBJECT]);
 	const [opened1, opened2] = splitYearRange(rowValues[ADD_SHEET.YEAR_OPENED]);
 	outRow[DB_SHEET.YEAR_OPENED_1] = opened1;
@@ -150,12 +153,4 @@ function nextMuseumId(dbSheet: GoogleAppsScript.Spreadsheet.Sheet): string {
 	}
 	return `mm.new.${max + 1}`;
     });
-}
-
-function splitYearRange(value: unknown): [string, string] {
-    if (typeof value !== "string") return ["", ""];
-    const trimmed = value.trim();
-    if (!trimmed) return ["", ""];
-    const [start, end] = trimmed.split("/");
-    return [start, end ?? start];
 }
