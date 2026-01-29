@@ -5,7 +5,7 @@ import {
   SUBJECT_VALUES
 } from "./allowed-values";
 
-export function validateRow(values: unknown[], columns: Record<string, number>): string[] {
+export function validateRow(values: unknown[], columns: Record<string, number|string>): string[] {
     const errors: string[] = [];
     if (isEmpty(values[columns.MUSEUM_NAME])) {
 	errors.push("Museum must have a name.")

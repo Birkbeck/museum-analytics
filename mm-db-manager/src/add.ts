@@ -1,4 +1,11 @@
 import {
+    DB_SHEET,
+    ADD_SHEET,
+} from "./config";
+import {
+    formatErrors
+} from "./format-errors";
+import {
     validateRow
 } from "./validators";
 
@@ -14,7 +21,7 @@ export function addMuseums(): void {
 	SpreadsheetApp.getUi().alert("No rows to add.");
 	return;
     }
-    const numRows = lastRow - ADD_SHEET.HEADER_ROW + 1;
+    const numRows = lastRow - (ADD_SHEET.HEADER_ROW + 1);
     // add 1 to header row to account for 1-indexing
     // add 1 to header row to exclude header from returned range
     const range = addSheet.getRange(ADD_SHEET.HEADER_ROW + 2, 1, numRows, lastCol);
@@ -59,7 +66,7 @@ function addRow(ss: GoogleAppsScript.Spreadsheet.Spreadsheet, rowValues: unknown
 	const dbLastCol = dbSheet.getLastColumn();
 	const newRowIndex = dbSheet.getLastRow() + 1;
 	const outRow: unknown[] = new Array(dbLastCol).fill("");
-	outRow[DB_SHEET.ID] = nextMuseumIdNoLock(dbSheet);
+	outRow[DB_SHEET.ID] = nextMuseumId(dbSheet);
 	// Copy fields (0-indexed constants)
 	outRow[DB_SHEET.MUSEUM_NAME] = asTrimmedString(
 	    rowValues[ADD_SHEET.MUSEUM_NAME]);

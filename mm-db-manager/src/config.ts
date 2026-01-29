@@ -35,8 +35,8 @@ export const DB_SHEET = {
 
 export const ADD_SHEET = {
     NAME: "Add",
-    HEADER_ROW: 0
-    READY_TO_COMMIT: 0
+    HEADER_ROW: 0,
+    READY_TO_COMMIT: 0,
     MUSEUM_NAME: 1,
     ALTERNATIVE_NAME: 2,
     WIKIDATA_ID: 3,
@@ -101,7 +101,7 @@ export const DELETE_SHEET = {
     HEADER_ROW: 0,
     READY_TO_DELETE: 0,
     MUSEUM: 1,
-    NAME: 2,
+    MUSEUM_NAME: 2,
     ALTERNATIVE_NAME: 3,
     WIKIDATA_ID: 4,
     ADDRESS_1: 5,
