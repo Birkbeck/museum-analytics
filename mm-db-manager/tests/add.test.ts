@@ -2,7 +2,7 @@
 
 import { addMuseums } from "../src/add";
 import { validateRow } from "../src/validators";
-import { ADD_SHEET, DB_SHEET } from "../src/config";
+import { ADD_SHEET, DB_SHEET, NEW_ID_SHEET } from "../src/config";
 
 jest.mock("../src/validators", () => ({
     validateRow: jest.fn(),
@@ -10,7 +10,9 @@ jest.mock("../src/validators", () => ({
 
 type MockRange = {
     getValues: jest.Mock;
+    getValue?: jest.Mock;
     setValues?: jest.Mock;
+    setValue?: jest.Mock;
 };
 
 type MockAddSheet = {
@@ -23,6 +25,10 @@ type MockAddSheet = {
 type MockDbSheet = {
     getLastRow: jest.Mock;
     getLastColumn: jest.Mock;
+    getRange: jest.Mock;
+};
+
+type MockIdSheet = {
     getRange: jest.Mock;
 };
 
@@ -143,13 +149,18 @@ describe("addMuseums (SpreadsheetApp mocked; real config)", () => {
 	    getRange: jest.fn(() => addRange as any),
 	    deleteRow: jest.fn(),
 	};
+	const idRange: MockRange = {
+	    getValues: jest.fn(() => [[10]]),
+	    getValue: jest.fn(() => 10),
+	    setValue: jest.fn(() => null)
+	}
+	const idSheet: MockIdSheet = {
+	    getRange: jest.fn(() => idRange as any)
+	};
 	
 	(validateRow as jest.Mock).mockReturnValueOnce([]);
 	const dbLastCol = DB_SHEET.NOTES + 1;
 	
-	const dbIdScanRange: MockRange = {
-	    getValues: jest.fn(() => [["mm.new.2"], ["mm.new.10"], ["mm.new.7"]]),
-	};
 	const dbWriteRange: MockRange = {
 	    getValues: jest.fn(),
 	    setValues: jest.fn(),
@@ -159,9 +170,6 @@ describe("addMuseums (SpreadsheetApp mocked; real config)", () => {
 	    getLastRow: jest.fn(() => DB_SHEET.HEADER_ROW + 1 + 3),
 	    getLastColumn: jest.fn(() => dbLastCol),
 	    getRange: jest.fn((row: number, col: number, numRows: number, numCols: number) => {
-		if (numCols === 1 && col === DB_SHEET.ID + 1) {
-		    return dbIdScanRange as any;
-		}
 		if (col === 1 && numRows === 1 && numCols === dbLastCol) {
 		    return dbWriteRange as any;
 		}
@@ -172,6 +180,7 @@ describe("addMuseums (SpreadsheetApp mocked; real config)", () => {
 	    getSheetByName: jest.fn((name: string) => {
 		if (name === ADD_SHEET.NAME) return addSheet as any;
 		if (name === DB_SHEET.NAME) return dbSheet as any;
+		if (name === NEW_ID_SHEET.NAME) return idSheet as any;
 		return null;
 	    }),
 	};

@@ -18,6 +18,7 @@
  */
 
 import { DB_SHEET, ADD_SHEET } from "./config";
+import { allocateNextMuseumId } from "./id";
 import { formatErrors } from "./format-errors";
 import { validateRow } from "./validators";
 import { withDocumentLock } from "./lock";
@@ -88,12 +89,10 @@ export function addMuseums(): void {
 	if (!dbSheet) {
 	    throw new Error(`Missing sheet: ${DB_SHEET.NAME}`);
 	}
-	let maxId = getMaxMuseumIdNumber(dbSheet);
 	// delete bottom-up on Add sheet
 	actions.sort((a, b) => b.sheetRowNumber - a.sheetRowNumber);
 	for (const a of actions) {
-	    maxId += 1;
-	    const museumId = `mm.new.${maxId}`;
+	    const museumId = allocateNextMuseumId(ss);
 	    const dbRowNumber = dbSheet.getLastRow() + 1; // append
 	    insertFormToDB({
 		dbSheet,
@@ -143,34 +142,4 @@ function getErrorsAndActions(readyRows: ReadyRow[]): ErrorsAndActions {
 	actions.push({ sheetRowNumber, rowValues });
     }
     return { errorsByRow, actions };
-}
-
-/**
- * Scans the DB ID column and returns the maximum numeric suffix for IDs matching:
- *   mm.new.<n>
- *
- * Returns 0 if there are no matches (so the next ID is mm.new.1).
- *
- * Call this inside a document lock for a uniqueness guarantees.
- */
-export function getMaxMuseumIdNumber(dbSheet: GoogleAppsScript.Spreadsheet.Sheet): number {
-    const lastRow1 = dbSheet.getLastRow();
-    const headerRow1 = DB_SHEET.HEADER_ROW + 1;
-    if (lastRow1 <= headerRow1) {
-	return 0;
-    }
-    const numDataRows = lastRow1 - headerRow1;
-    const idValues = dbSheet
-	.getRange(headerRow1 + 1, DB_SHEET.ID + 1, numDataRows, 1)
-	.getValues();
-    const re = /^mm\.new\.(\d+)$/;
-    let max = 0;
-    for (const [cell] of idValues) {
-	const s = typeof cell === "string" ? cell.trim() : String(cell ?? "").trim();
-	const m = re.exec(s);
-	if (!m) continue;
-	const n = Number(m[1]);
-	if (Number.isFinite(n) && n > max) max = n;
-    }
-    return max;
 }

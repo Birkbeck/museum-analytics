@@ -164,3 +164,8 @@ export const TRASH_SHEET = {
     PRIMARY_PROVENANCE_OF_DATA: 30,
     NOTES: 31
 }
+
+export const NEW_ID_SHEET = {
+  NAME: "New IDs",
+  LAST_ID: "A1",
+};
