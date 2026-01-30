@@ -3,7 +3,12 @@
  */
 
 import { DB_SHEET } from "./config";
-import { asTrimmedString, getBroadType, splitYearRange } from "./normalizers";
+import {
+    asTrimmedString,
+    getBroadType,
+    joinYearRange,
+    splitYearRange
+} from "./normalizers";
 
 type DbFieldKey =
     | "ID"
@@ -175,4 +180,71 @@ export function insertDatabaseToDatabase(args: {
 	outRow[destMapping[key]] = sourceRowValues[sourceMapping[key]];
     }
     destSheet.getRange(destRowNumber, 1, 1, destLastCol).setValues([outRow]);
+}
+
+/**
+ * Translates a DB row (split-year columns, broad columns, etc.) into a form row
+ * for Edit/Delete-style sheets (single YEAR_OPENED/YEAR_CLOSED cells, no broad cols).
+ *
+ * Contract:
+ * - `formMapping` must include the required form columns for your sheet:
+ *   MUSEUM, MUSEUM_NAME, ... YEAR_OPENED, YEAR_CLOSED, etc.
+ * - This function does NOT decide which DB row to read; callers pass `dbRowValues`.
+ *
+ * Behaviour:
+ * - Writes a full-width form row (clears other form columns not set here).
+ * - Leaves the form “ready” boolean untouched if `preserveReadyColumn` is true.
+ */
+export function insertDatabaseToForm(args: {
+    formSheet: GoogleAppsScript.Spreadsheet.Sheet;
+    formRowNumber: number; // 1-indexed
+    formMapping: Record<string, number | string>; // EDIT_SHEET or DELETE_SHEET mapping object
+    dbRowValues: unknown[]; // 1D row array from DB
+    preserveReadyColumn?: boolean; // default true
+}): void {
+    const {
+	formSheet,
+	formRowNumber,
+	formMapping,
+	dbRowValues,
+	preserveReadyColumn = true,
+    } = args;
+    const lastCol = formSheet.getLastColumn();
+    // Start from blanks to clear stale data in the form row.
+    const outRow: unknown[] = new Array(lastCol).fill("");
+    const id = dbRowValues[DB_SHEET.ID];
+    const name = dbRowValues[DB_SHEET.MUSEUM_NAME];
+    outRow[formMapping.MUSEUM] = id && name ? `${id} - ${name}` : id || name;
+    outRow[formMapping.MUSEUM_NAME] = dbRowValues[DB_SHEET.MUSEUM_NAME];
+    outRow[formMapping.ALTERNATIVE_NAME] = dbRowValues[DB_SHEET.ALTERNATIVE_NAME];
+    outRow[formMapping.WIKIDATA_ID] = dbRowValues[DB_SHEET.WIKIDATA_ID];
+    outRow[formMapping.ADDRESS_1] = dbRowValues[DB_SHEET.ADDRESS_1];
+    outRow[formMapping.ADDRESS_2] = dbRowValues[DB_SHEET.ADDRESS_2];
+    outRow[formMapping.ADDRESS_3] = dbRowValues[DB_SHEET.ADDRESS_3];
+    outRow[formMapping.VILLAGE_TOWN_CITY] = dbRowValues[DB_SHEET.VILLAGE_TOWN_CITY];
+    outRow[formMapping.POSTCODE] = dbRowValues[DB_SHEET.POSTCODE];
+    outRow[formMapping.ACCREDITATION] = dbRowValues[DB_SHEET.ACCREDITATION];
+    outRow[formMapping.ACCREDITATION_NUMBER] = dbRowValues[DB_SHEET.ACCREDITATION_NUMBER];
+    outRow[formMapping.ACCREDITATION_CHANGE_DATE] = dbRowValues[DB_SHEET.ACCREDITATION_CHANGE_DATE];
+    outRow[formMapping.GOVERNANCE] = dbRowValues[DB_SHEET.GOVERNANCE];
+    outRow[formMapping.GOVERNANCE_SOURCE] = dbRowValues[DB_SHEET.GOVERNANCE_SOURCE];
+    outRow[formMapping.PREVIOUS_GOVERNANCE] = dbRowValues[DB_SHEET.PREVIOUS_GOVERNANCE];
+    outRow[formMapping.PREVIOUS_GOVERNANCE_START] = dbRowValues[DB_SHEET.PREVIOUS_GOVERNANCE_START];
+    outRow[formMapping.PREVIOUS_GOVERNANCE_END] = dbRowValues[DB_SHEET.PREVIOUS_GOVERNANCE_END];
+    outRow[formMapping.SIZE] = dbRowValues[DB_SHEET.SIZE];
+    outRow[formMapping.SIZE_SOURCE] = dbRowValues[DB_SHEET.SIZE_SOURCE];
+    outRow[formMapping.SUBJECT] = dbRowValues[DB_SHEET.SUBJECT];
+    outRow[formMapping.YEAR_OPENED] = joinYearRange(
+	dbRowValues[DB_SHEET.YEAR_OPENED_1],
+	dbRowValues[DB_SHEET.YEAR_OPENED_2]
+    );
+    outRow[formMapping.YEAR_OPENED_SOURCE] = dbRowValues[DB_SHEET.YEAR_OPENED_SOURCE];
+    outRow[formMapping.YEAR_CLOSED] = joinYearRange(
+	dbRowValues[DB_SHEET.YEAR_CLOSED_1],
+	dbRowValues[DB_SHEET.YEAR_CLOSED_2]
+    );
+    outRow[formMapping.YEAR_CLOSED_SOURCE] = dbRowValues[DB_SHEET.YEAR_CLOSED_SOURCE];
+    outRow[formMapping.PRIMARY_PROVENANCE_OF_DATA] = dbRowValues[DB_SHEET.PRIMARY_PROVENANCE_OF_DATA];
+    outRow[formMapping.NOTES] = dbRowValues[DB_SHEET.NOTES];
+    formSheet.getRange(formRowNumber, 1, 1, lastCol).setValues([outRow]);
 }

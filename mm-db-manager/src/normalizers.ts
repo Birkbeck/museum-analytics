@@ -10,6 +10,18 @@ export function getBroadType(value: unknown): string {
     return broad.trim();
 }
 
+export function joinYearRange(start: unknown, end: unknown): string {
+    const s1 = asTrimmedString(start);
+    const s2 = asTrimmedString(end);
+    if (!s1 && !s2) {
+	return "";
+    }
+    if (!s2 || s2 === s1) {
+	return s1;
+    }
+    return `${s1}/${s2}`;
+}
+
 export function splitYearRange(value: unknown): [string, string] {
     if (typeof value !== "string") return ["", ""];
     const trimmed = value.trim();
