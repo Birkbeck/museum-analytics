@@ -19,7 +19,7 @@
 
 import { DB_SHEET, EDIT_SHEET } from "./config";
 import { formatErrors } from "./format-errors";
-import { asTrimmedString } from "./normalizers";
+import { asTrimmedString, parseMuseumId } from "./normalizers";
 import { validateRow } from "./validators";
 import { withDocumentLock } from "./lock";
 import { insertFormToDB } from "./insert";
@@ -152,16 +152,6 @@ function getErrorsAndActions(readyRows: ReadyRow[]): ErrorsAndActions {
 	actions.push({ sheetRowNumber, museumId: museumId!, rowValues });
     }
     return { errorsByRow, actions };
-}
-
-function parseMuseumId(value: unknown): string | null {
-    if (typeof value !== "string") return null;
-    const s = value.trim();
-    if (!s) return null;
-    const m = /^(.+?)\s*-\s*.+$/.exec(s);
-    if (!m) return null;
-    const id = m[1].trim();
-    return id ? id : null;
 }
 
 function buildDbIdRowMap(dbSheet: GoogleAppsScript.Spreadsheet.Sheet): Map<string, number> {

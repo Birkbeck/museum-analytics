@@ -17,3 +17,22 @@ export function splitYearRange(value: unknown): [string, string] {
     const [start, end] = trimmed.split("/");
     return [start, end ?? start];
 }
+
+export function parseMuseumId(value: unknown): string | null {
+    if (typeof value !== "string") {
+	return null;
+    }
+    const s = value.trim();
+    if (!s) {
+	return null;
+    }
+    const m = /^(.+?)\s*-\s*.+$/.exec(s);
+    if (!m) {
+	return null;
+    }
+    const id = m[1].trim();
+    if (!id) {
+	return null;
+    }
+    return id;
+}

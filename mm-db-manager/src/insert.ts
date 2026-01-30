@@ -5,6 +5,71 @@
 import { DB_SHEET } from "./config";
 import { asTrimmedString, getBroadType, splitYearRange } from "./normalizers";
 
+type DbFieldKey =
+    | "ID"
+    | "MUSEUM_NAME"
+    | "ALTERNATIVE_NAME"
+    | "WIKIDATA_ID"
+    | "ADDRESS_1"
+    | "ADDRESS_2"
+    | "ADDRESS_3"
+    | "VILLAGE_TOWN_CITY"
+    | "POSTCODE"
+    | "ACCREDITATION"
+    | "ACCREDITATION_NUMBER"
+    | "ACCREDITATION_CHANGE_DATE"
+    | "GOVERNANCE_BROAD"
+    | "GOVERNANCE"
+    | "GOVERNANCE_SOURCE"
+    | "PREVIOUS_GOVERNANCE"
+    | "PREVIOUS_GOVERNANCE_START"
+    | "PREVIOUS_GOVERNANCE_END"
+    | "SIZE"
+    | "SIZE_SOURCE"
+    | "SUBJECT_BROAD"
+    | "SUBJECT"
+    | "YEAR_OPENED_1"
+    | "YEAR_OPENED_2"
+    | "YEAR_OPENED_SOURCE"
+    | "YEAR_CLOSED_1"
+    | "YEAR_CLOSED_2"
+    | "YEAR_CLOSED_SOURCE"
+    | "PRIMARY_PROVENANCE_OF_DATA"
+    | "NOTES";
+
+const DB_FIELDS: DbFieldKey[] = [
+    "ID",
+    "MUSEUM_NAME",
+    "ALTERNATIVE_NAME",
+    "WIKIDATA_ID",
+    "ADDRESS_1",
+    "ADDRESS_2",
+    "ADDRESS_3",
+    "VILLAGE_TOWN_CITY",
+    "POSTCODE",
+    "ACCREDITATION",
+    "ACCREDITATION_NUMBER",
+    "ACCREDITATION_CHANGE_DATE",
+    "GOVERNANCE_BROAD",
+    "GOVERNANCE",
+    "GOVERNANCE_SOURCE",
+    "PREVIOUS_GOVERNANCE",
+    "PREVIOUS_GOVERNANCE_START",
+    "PREVIOUS_GOVERNANCE_END",
+    "SIZE",
+    "SIZE_SOURCE",
+    "SUBJECT_BROAD",
+    "SUBJECT",
+    "YEAR_OPENED_1",
+    "YEAR_OPENED_2",
+    "YEAR_OPENED_SOURCE",
+    "YEAR_CLOSED_1",
+    "YEAR_CLOSED_2",
+    "YEAR_CLOSED_SOURCE",
+    "PRIMARY_PROVENANCE_OF_DATA",
+    "NOTES",
+];
+
 /**
  * Writes a Database row derived from a form row (e.g. Add or Edit sheet).
  *
@@ -82,4 +147,32 @@ export function insertFormToDB(args: {
     );
     outRow[DB_SHEET.NOTES] = asTrimmedString(rowValues[formSheet.NOTES]);
     dbSheet.getRange(dbRowNumber, 1, 1, dbLastCol).setValues([outRow]);
+}
+
+/**
+ * Copies all DB fields from a source row into a destination row.
+ *
+ * Behaviour:
+ * - Writes a FULL fresh row (starts from blanks), so any destination-only columns
+ *   not in DbFieldKey are cleared.
+ * - Does not set any non-DB fields (e.g. Trash flags, display columns).
+ *
+ * Callers decide:
+ * - whether to append (destRowNumber = lastRow + 1) or overwrite
+ * - whether to lock
+ */
+export function insertDatabaseToDatabase(args: {
+    destSheet: GoogleAppsScript.Spreadsheet.Sheet;
+    destRowNumber: number; // 1-indexed
+    destMapping: Record<DbFieldKey, number>;
+    sourceRowValues: unknown[];
+    sourceMapping: Record<DbFieldKey, number>;
+}): void {
+    const { destSheet, destRowNumber, destMapping, sourceRowValues, sourceMapping } = args;
+    const destLastCol = destSheet.getLastColumn();
+    const outRow: unknown[] = new Array(destLastCol).fill("");
+    for (const key of DB_FIELDS) {
+	outRow[destMapping[key]] = sourceRowValues[sourceMapping[key]];
+    }
+    destSheet.getRange(destRowNumber, 1, 1, destLastCol).setValues([outRow]);
 }
