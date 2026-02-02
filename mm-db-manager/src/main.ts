@@ -1,18 +1,24 @@
 import { onOpenMenu } from "./ui";
-import { addMuseums } from "./add";
-import { editMuseums } from "./edit";
-import { trashMuseums } from "./trash";
-import { restoreMuseums } from "./restore";
-import { permanentlyDeleteMuseums } from "./permanently-delete";
+import { addMuseums as addMuseums_ } from "./add";
+import { editMuseums as editMuseums_ } from "./edit";
+import { trashMuseums as trashMuseums_ } from "./trash";
+import { restoreMuseums as restoreMuseums_ } from "./restore";
+import { permanentlyDeleteMuseums as permanentlyDeleteMuseums_ } from "./permanently-delete";
 
-declare const global: any;
+function onOpenImpl(e?: GoogleAppsScript.Events.SheetsOnOpen): void {
+  onOpenMenu();
+}
+function addMuseums(): void { addMuseums_(); }
+function editMuseums(): void { editMuseums_(); }
+function trashMuseums(): void { trashMuseums_(); }
+function restoreMuseums(): void { restoreMuseums_(); }
+function permanentlyDeleteMuseums(): void { permanentlyDeleteMuseums_(); }
 
-// expose triggers
-global.onOpen = () => onOpenMenu();
-
-// expose menu handlers
-global.addMuseums = () => addMuseums();
-global.editMuseums = () => editMuseums();
-global.trashMuseums = () => trashMuseums();
-global.restoreMuseums = () => restoreMuseums();
-global.permanentlyDeleteMuseums = () => permanentlyDeleteMuseums();
+Object.assign(globalThis as any, {
+  __mm_onOpen: onOpen,
+  __mm_addMuseums: addMuseums,
+  __mm_editMuseums: editMuseums,
+  __mm_trashMuseums: trashMuseums,
+  __mm_restoreMuseums: restoreMuseums,
+  __mm_permanentlyDeleteMuseums: permanentlyDeleteMuseums,
+});
