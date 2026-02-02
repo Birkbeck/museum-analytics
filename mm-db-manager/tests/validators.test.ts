@@ -165,6 +165,7 @@ describe("isValidAccreditationNumber", () => {
 
 describe("isValidYearRange", () => {
     test.each([
+	[1999],
 	["1999"],
 	["0000"],
 	["1999/2000"],
@@ -177,13 +178,13 @@ describe("isValidYearRange", () => {
     test.each([
 	["1999/1998"],
 	["199"],
+	[199],
 	["19999"],
 	["1999/20"],
 	["1999 / 2000"],
 	["1999-2000"],
 	["1999:2000"],
 	["abcd"],
-	[1999],
 	[null],
 	[undefined],
     ])("rejects %p", (v) => {

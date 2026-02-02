@@ -137,12 +137,13 @@ export function isValidAccreditationNumber(value: unknown): boolean {
 }
 
 export function isValidYearRange(value: unknown): boolean {
-    if (typeof value !== "string") {
-	return false;
+    if (typeof value !== "string" && typeof value !== "number") {
+        return false;
     }
-    const trimmed = value.trim();
+    const trimmed = String(value).trim();
+    // Must be YYYY or YYYY/YYYY
     if (!/^\d{4}(?:\/\d{4})?$/.test(trimmed)) {
-	return false;
+        return false;
     }
     const [startStr, endStr] = trimmed.split("/");
     const start = Number(startStr);
