@@ -1,3 +1,9 @@
+export const INSTRUCTIONS_SHEET = {
+    NAME: "Instructions",
+    DATE_ROW: 1,
+    DATE_COL: 1
+}
+
 export const DB_SHEET = {
     NAME: "Database (read only)",
     HEADER_ROW: 0,

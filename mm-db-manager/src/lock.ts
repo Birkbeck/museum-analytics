@@ -11,4 +11,3 @@ export function withDocumentLock<T>(fn: () => T): T {
 	lock.releaseLock();
     }
 }
-

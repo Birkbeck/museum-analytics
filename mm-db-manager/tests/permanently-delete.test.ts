@@ -1,10 +1,11 @@
 // Integration-ish tests for permanentlyDeleteMuseums() with SpreadsheetApp mocked.
 
 import { permanentlyDeleteMuseums } from "../src/permanently-delete";
-import { TRASH_SHEET } from "../src/config";
+import { TRASH_SHEET, INSTRUCTIONS_SHEET } from "../src/config";
 
 type MockRange = {
     getValues: jest.Mock;
+    setValue?: jest.Mock;
 };
 
 type MockTrashSheet = {
@@ -13,6 +14,10 @@ type MockTrashSheet = {
     getRange: jest.Mock;
     deleteRow: jest.Mock;
 };
+
+type MockInstructionSheet = {
+    getRange: jest.Mock;
+}
 
 type MockSpreadsheet = {
     getSheetByName: jest.Mock;
@@ -37,6 +42,12 @@ describe("permanentlyDeleteMuseums (SpreadsheetApp mocked)", () => {
 	(globalThis as any).SpreadsheetApp = {
 	    getActive: jest.fn(),
 	    getUi: jest.fn(() => ui),
+	};
+	(globalThis as any).LockService = {
+	    getDocumentLock: () => ({
+		waitLock: jest.fn(),
+		releaseLock: jest.fn(),
+	    }),
 	};
     });
     
@@ -115,9 +126,17 @@ describe("permanentlyDeleteMuseums (SpreadsheetApp mocked)", () => {
 	    getRange: jest.fn(() => range as any),
 	    deleteRow: jest.fn(),
 	};
+	const instructionRange: MockRange = {
+	    getValues: jest.fn(() => [[]]),
+	    setValue: jest.fn(() => null)
+	}
+	const instructionSheet: MockInstructionSheet = {
+	    getRange: jest.fn(() => instructionRange as any)
+	};
 	const ss: MockSpreadsheet = {
 	    getSheetByName: jest.fn((name: string) => {
 		if (name === TRASH_SHEET.NAME) return trashSheet as any;
+		if (name === INSTRUCTIONS_SHEET.NAME) return instructionSheet as any;
 		return null;
 	    }),
 	};

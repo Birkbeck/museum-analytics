@@ -22,6 +22,7 @@ import { allocateNextMuseumId } from "./id";
 import { formatErrors } from "./format-errors";
 import { validateRow } from "./validators";
 import { withDocumentLock } from "./lock";
+import { logDatabaseChangeDate } from "./log-date";
 import { insertFormToDB } from "./insert";
 import { deleteFormRow } from "./remove";
 
@@ -108,6 +109,9 @@ export function addMuseums(): void {
     if (errorsByRow.length > 0) {
 	SpreadsheetApp.getUi().alert(formatErrors(errorsByRow, addedCount));
     } else {
+	withDocumentLock(() => {
+	    logDatabaseChangeDate();
+	});
 	SpreadsheetApp.getUi().alert(
 	    addedCount === 1
 		? `Added ${addedCount} museum to Database.`

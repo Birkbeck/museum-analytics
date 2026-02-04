@@ -8,7 +8,8 @@ import {
 } from "../src/validators";
 import {
     EDIT_SHEET,
-    DB_SHEET
+    DB_SHEET,
+    INSTRUCTIONS_SHEET,
 } from "../src/config";
 
 jest.mock("../src/validators", () => ({
@@ -18,6 +19,7 @@ jest.mock("../src/validators", () => ({
 type MockRange = {
     getValues: jest.Mock;
     setValues?: jest.Mock;
+    setValue?: jest.Mock;
 };
 
 type MockEditSheet = {
@@ -32,6 +34,10 @@ type MockDbSheet = {
     getLastColumn: jest.Mock;
     getRange: jest.Mock;
 };
+
+type MockInstructionSheet = {
+    getRange: jest.Mock;
+}
 
 type MockSpreadsheet = {
     getSheetByName: jest.Mock;
@@ -223,10 +229,18 @@ describe("editMuseums (SpreadsheetApp mocked; real config)", () => {
 		return { getValues: jest.fn(), setValues: jest.fn() } as any;
 	    }),
 	};
+	const instructionRange: MockRange = {
+	    getValues: jest.fn(() => [[]]),
+	    setValue: jest.fn(() => null)
+	}
+	const instructionSheet: MockInstructionSheet = {
+	    getRange: jest.fn(() => instructionRange as any)
+	};
 	const ss: MockSpreadsheet = {
 	    getSheetByName: jest.fn((name: string) => {
 		if (name === EDIT_SHEET.NAME) return editSheet as any;
 		if (name === DB_SHEET.NAME) return dbSheet as any;
+		if (name === INSTRUCTIONS_SHEET.NAME) return instructionSheet as any;
 		return null;
 	    }),
 	};

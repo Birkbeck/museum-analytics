@@ -1,5 +1,7 @@
 import { TRASH_SHEET } from "./config";
 import { formatErrors } from "./format-errors";
+import { withDocumentLock } from "./lock";
+import { logDatabaseChangeDate } from "./log-date";
 
 type RowError = { row: number; errors: string[] };
 
@@ -66,6 +68,9 @@ export function permanentlyDeleteMuseums(): void {
     if (errorsByRow.length > 0) {
 	SpreadsheetApp.getUi().alert(formatErrors(errorsByRow, deletedCount));
     } else {
+	withDocumentLock(() => {
+	    logDatabaseChangeDate();
+	});
 	SpreadsheetApp.getUi().alert(
 	    deletedCount === 1
 		? `Permanently deleted ${deletedCount} museum.`

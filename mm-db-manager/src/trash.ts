@@ -2,6 +2,7 @@ import { DB_SHEET, DELETE_SHEET, TRASH_SHEET } from "./config";
 import { formatErrors } from "./format-errors";
 import { asTrimmedString, parseMuseumId } from "./normalizers";
 import { withDocumentLock } from "./lock";
+import { logDatabaseChangeDate } from "./log-date";
 import { insertDatabaseToDatabase } from "./insert";
 
 type RowError = { row: number; errors: string[] };
@@ -110,6 +111,9 @@ export function trashMuseums(): void {
     if (errorsByRow.length > 0) {
 	SpreadsheetApp.getUi().alert(formatErrors(errorsByRow, trashedCount));
     } else {
+	withDocumentLock(() => {
+	    logDatabaseChangeDate();
+	});
 	SpreadsheetApp.getUi().alert(
 	    trashedCount === 1
 		? `Moved ${trashedCount} museum to Trash.`

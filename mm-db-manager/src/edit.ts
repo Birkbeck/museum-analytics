@@ -22,6 +22,7 @@ import { formatErrors } from "./format-errors";
 import { asTrimmedString, parseMuseumId } from "./normalizers";
 import { validateRow } from "./validators";
 import { withDocumentLock } from "./lock";
+import { logDatabaseChangeDate } from "./log-date";
 import { insertFormToDB } from "./insert";
 import { deleteFormRow } from "./remove";
 
@@ -114,6 +115,9 @@ export function editMuseums(): void {
     if (errorsByRow.length > 0) {
 	SpreadsheetApp.getUi().alert(formatErrors(errorsByRow, editedCount));
     } else {
+	withDocumentLock(() => {
+	    logDatabaseChangeDate();
+	});
 	SpreadsheetApp.getUi().alert(
 	    editedCount === 1
 		? `Edited ${editedCount} museum in Database.`

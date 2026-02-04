@@ -2,6 +2,7 @@ import { DB_SHEET, TRASH_SHEET } from "./config";
 import { formatErrors } from "./format-errors";
 import { asTrimmedString } from "./normalizers";
 import { withDocumentLock } from "./lock";
+import { logDatabaseChangeDate } from "./log-date";
 import { insertDatabaseToDatabase } from "./insert";
 
 type RowError = { row: number; errors: string[] };
@@ -97,6 +98,9 @@ export function restoreMuseums(): void {
     if (errorsByRow.length > 0) {
 	SpreadsheetApp.getUi().alert(formatErrors(errorsByRow, restoredCount));
     } else {
+	withDocumentLock(() => {
+	    logDatabaseChangeDate();
+	});
 	SpreadsheetApp.getUi().alert(
 	    restoredCount === 1
 		? `Restored ${restoredCount} museum to Database.`

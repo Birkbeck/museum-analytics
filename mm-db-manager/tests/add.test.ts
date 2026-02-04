@@ -2,7 +2,7 @@
 
 import { addMuseums } from "../src/add";
 import { validateRow } from "../src/validators";
-import { ADD_SHEET, DB_SHEET, NEW_ID_SHEET } from "../src/config";
+import { ADD_SHEET, DB_SHEET, INSTRUCTIONS_SHEET, NEW_ID_SHEET } from "../src/config";
 
 jest.mock("../src/validators", () => ({
     validateRow: jest.fn(),
@@ -31,6 +31,10 @@ type MockDbSheet = {
 type MockIdSheet = {
     getRange: jest.Mock;
 };
+
+type MockInstructionSheet = {
+    getRange: jest.Mock;
+}
 
 type MockSpreadsheet = {
     getSheetByName: jest.Mock;
@@ -157,6 +161,13 @@ describe("addMuseums (SpreadsheetApp mocked; real config)", () => {
 	const idSheet: MockIdSheet = {
 	    getRange: jest.fn(() => idRange as any)
 	};
+	const instructionRange: MockRange = {
+	    getValues: jest.fn(() => [[]]),
+	    setValue: jest.fn(() => null)
+	}
+	const instructionSheet: MockInstructionSheet = {
+	    getRange: jest.fn(() => instructionRange as any)
+	};
 	
 	(validateRow as jest.Mock).mockReturnValueOnce([]);
 	const dbLastCol = DB_SHEET.NOTES + 1;
@@ -181,6 +192,7 @@ describe("addMuseums (SpreadsheetApp mocked; real config)", () => {
 		if (name === ADD_SHEET.NAME) return addSheet as any;
 		if (name === DB_SHEET.NAME) return dbSheet as any;
 		if (name === NEW_ID_SHEET.NAME) return idSheet as any;
+		if (name === INSTRUCTIONS_SHEET.NAME) return instructionSheet as any;
 		return null;
 	    }),
 	};

@@ -1,11 +1,12 @@
 // Integration-ish tests for restoreMuseums() with SpreadsheetApp mocked
 
 import { restoreMuseums } from "../src/restore";
-import { DB_SHEET, TRASH_SHEET } from "../src/config";
+import { DB_SHEET, INSTRUCTIONS_SHEET, TRASH_SHEET } from "../src/config";
 
 type MockRange = {
     getValues: jest.Mock;
     setValues?: jest.Mock;
+    setValue?: jest.Mock;
 };
 
 type MockTrashSheet = {
@@ -20,6 +21,10 @@ type MockDbSheet = {
     getLastColumn: jest.Mock;
     getRange: jest.Mock;
 };
+
+type MockInstructionSheet = {
+    getRange: jest.Mock;
+}
 
 type MockSpreadsheet = {
     getSheetByName: jest.Mock;
@@ -199,10 +204,18 @@ describe("restoreMuseums (SpreadsheetApp mocked; real insertDatabaseToDatabase)"
 		return { getValues: jest.fn(), setValues: jest.fn() } as any;
 	    }),
 	};
+	const instructionRange: MockRange = {
+	    getValues: jest.fn(() => [[]]),
+	    setValue: jest.fn(() => null)
+	}
+	const instructionSheet: MockInstructionSheet = {
+	    getRange: jest.fn(() => instructionRange as any)
+	};
 	const ss: MockSpreadsheet = {
 	    getSheetByName: jest.fn((name: string) => {
 		if (name === TRASH_SHEET.NAME) return trashSheet as any;
 		if (name === DB_SHEET.NAME) return dbSheet as any;
+		if (name === INSTRUCTIONS_SHEET.NAME) return instructionSheet as any;
 		return null;
 	    }),
 	};
