@@ -23,9 +23,13 @@ export function joinYearRange(start: unknown, end: unknown): string {
 }
 
 export function splitYearRange(value: unknown): [string, string] {
-    if (typeof value !== "string") return ["", ""];
-    const trimmed = value.trim();
-    if (!trimmed) return ["", ""];
+    if (typeof value !== "string" && typeof value !== "number") {
+        return ["", ""];
+    }
+    const trimmed = String(value).trim();
+    if (!trimmed) {
+        return ["", ""];
+    }
     const [start, end] = trimmed.split("/");
     return [start, end ?? start];
 }

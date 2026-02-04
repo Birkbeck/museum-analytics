@@ -169,3 +169,9 @@ export const NEW_ID_SHEET = {
   NAME: "New IDs",
   LAST_ID: "A1",
 };
+
+export const MUSEUM_LIST_SHEET = {
+  NAME: "Museum List",
+  HEADER_ROW: 0,
+  VALUE: 0, // Column A: "id - name"
+};

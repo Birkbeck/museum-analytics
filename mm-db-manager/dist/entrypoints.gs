@@ -11,6 +11,13 @@ function onOpen(e) {
   return globalThis.__mm_onOpen(e);
 }
 
+function onEdit(e) {
+  if (!globalThis.__mm_onEdit) {
+    throw new Error("__mm_onEdit implementation not found on globalThis");
+  }
+  return globalThis.__mm_onEdit(e);
+}
+
 function addMuseums() {
   if (!globalThis.__mm_addMuseums) {
     throw new Error("__mm_addMuseums implementation not found on globalThis");

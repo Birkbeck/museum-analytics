@@ -87,7 +87,11 @@ export function trashMuseums(): void {
 	for (const a of resolved) {
 	    const dbLastCol = dbSheet.getLastColumn();
 	    const dbRowValues = dbSheet.getRange(a.dbRowNumber, 1, 1, dbLastCol).getValues()[0];
-	    const trashRowNumber = trashSheet.getLastRow() + 1;
+	    const trashRowNumber = findFirstBlankRow(
+		trashSheet,
+		TRASH_SHEET.ID + 1,
+		TRASH_SHEET.HEADER_ROW + 1
+	    );
 	    insertDatabaseToDatabase({
 		destSheet: trashSheet,
 		destRowNumber: trashRowNumber,
@@ -166,4 +170,30 @@ function buildDbIdRowMap(dbSheet: GoogleAppsScript.Spreadsheet.Sheet): Map<strin
 	map.set(id, sheetRowNumber);
     }
     return map;
+}
+
+/**
+ * Finds the first row (1-indexed) after the header where the given column is blank.
+ * If no blank row is found within the scan range, returns the next row.
+ *
+ * - `column` is 1-indexed
+ * - `headerRow` is 1-indexed
+ */
+export function findFirstBlankRow(
+  sheet: GoogleAppsScript.Spreadsheet.Sheet,
+  column: number,
+  headerRow: number,
+  scanLimit = 2000
+): number {
+  const startRow = headerRow + 1;
+  const values = sheet
+    .getRange(startRow, column, scanLimit, 1)
+    .getValues() ?? [];
+  for (let i = 0; i < values.length; i++) {
+    if (String(values[i][0] ?? "").trim() === "") {
+      return startRow + i;
+    }
+  }
+  // No blank rows found → append after scanned range
+  return startRow + values.length;
 }
