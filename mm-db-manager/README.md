@@ -15,7 +15,13 @@ npm install -g @google/clasp
 Login to the Google Account which owns the sheet and script:
 
 ```
-clasp login
+clasp login --user prod
+```
+
+If you want to run a testing sheet, you also need to login to the account where the testing sheet is (this can be the same as the account with the production sheet, but does not need to be).
+
+```
+clasp login --user test
 ```
 
 Find the script ID of the Apps Script and clone it locally:
@@ -32,7 +38,19 @@ https://script.google.com/home/usersettings
 
 ## Deploying
 
-Push the code to the Google Apps Script:
+Check any changes you have made do not break the tests:
+
+```
+npm run test
+```
+
+Ideally, you should also test the sheet in Google Sheets using a testing sheet:
+
+```
+npm run push:test
+```
+
+When you are happy with the changes, push the code to the production Google Apps Script:
 
 ```
 npm run push

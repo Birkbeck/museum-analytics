@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "node esbuild.mjs && cp appsscript.json dist/appsscript.json",
-    "push": "npm run build && clasp push",
+    "push": "cp .clasp.prod.json .clasp.json && npm run build && clasp push --user prod",
+    "push:test": "cp .clasp.test.json .clasp.json && npm run build && clasp push --user test",
     "watch": "clasp push --watch",
     "test": "jest",
     "test:watch": "jest --watch"
