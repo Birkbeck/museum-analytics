@@ -5,6 +5,7 @@
 *.Rproj*
 *.nb.html
 *node_modules/
+*.egg-info/
 
 data/ONSPD*
 data/dispersal-sheet-2*
@@ -14,6 +15,7 @@ mm-db-manager/apps-script/.clasp.prod.json
 mm-db-manager/apps-script/.clasp.test.json
 mm-db-manager/apps-script/dist/code.gs
 mm-db-manager/apps-script/dist/appsscript.json
+mm-db-manager/cloud/.env
 
 sheet-to-graph/credentials.json
 sheet-to-graph/output.xlsx
