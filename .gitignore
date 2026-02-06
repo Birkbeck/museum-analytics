@@ -9,11 +9,11 @@
 data/ONSPD*
 data/dispersal-sheet-2*
 
-mm-db-manager/.clasp.json
-mm-db-manager/.clasp.prod.json
-mm-db-manager/.clasp.test.json
-mm-db-manager/dist/code.gs
-mm-db-manager/dist/appsscript.json
+mm-db-manager/apps-script/.clasp.json
+mm-db-manager/apps-script/.clasp.prod.json
+mm-db-manager/apps-script/.clasp.test.json
+mm-db-manager/apps-script/dist/code.gs
+mm-db-manager/apps-script/dist/appsscript.json
 
 sheet-to-graph/credentials.json
 sheet-to-graph/output.xlsx
