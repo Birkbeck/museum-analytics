@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, List, Tuple
 
@@ -9,9 +8,9 @@ from mm_db_cloud.models.add_museums import (
     AddMuseumsResponse,
     RowError,
 )
-from mm_db_cloud.services.id_allocator import allocate_next_ids
-from mm_db_cloud.utils.add_row_mapper import map_add_row_to_db_row
-from mm_db_cloud.utils.validators_add import validate_add_row
+from mm_db_cloud.services.id_allocator import IdAllocator
+from mm_db_cloud.utils.row_mapper import map_add_row_to_db_row
+from mm_db_cloud.utils.validators import validate_form_row
 from mm_db_cloud.config.sheet_config import (
     ADD_LAST_COL_INDEX,
     ADD_READY_TO_COMMIT,
@@ -23,7 +22,6 @@ from mm_db_cloud.config.sheet_config import (
 
 
 def _is_ready_cell(v: Any) -> bool:
-    # Add sheet checkbox cells often come through as True/False (or "TRUE"/"FALSE")
     if v is True:
         return True
     if isinstance(v, str) and v.strip().lower() == "true":
@@ -40,10 +38,9 @@ def _pad_row(row: List[Any], total_cols: int) -> List[Any]:
 class AddMuseumsService:
     def __init__(self, sheets_service) -> None:
         self.sheets = sheets_service
+        self.id_allocator = IdAllocator(sheets_service)
 
     def run(self, req: AddMuseumsRequest, spreadsheet_id: str) -> AddMuseumsResponse:
-        # Read Add sheet rows (A:Z covers 26 cols)
-        # Data starts on row 2 because HEADER_ROW=0 (row 1 headers).
         add_values = self.sheets.get_values(
             spreadsheet_id,
             f"{ADD_SHEET_NAME}!A2:Z",
@@ -62,7 +59,7 @@ class AddMuseumsService:
         skipped_not_ready = 0
 
         for i, row in enumerate(add_values):
-            sheet_row_number = 2 + i  # 1-indexed row number in the sheet
+            sheet_row_number = 2 + i
             row = _pad_row(row, ADD_LAST_COL_INDEX + 1)
             if not _is_ready_cell(row[ADD_READY_TO_COMMIT]):
                 skipped_not_ready += 1
@@ -97,32 +94,30 @@ class AddMuseumsService:
                 message="No valid rows marked ready to commit.",
             )
 
-        # Allocate IDs in one go (sequential)
-        new_ids = allocate_next_ids(self.sheets, spreadsheet_id, count=len(actions))
+        # ✅ Allocate IDs via OO allocator
+        new_ids = self.id_allocator.allocate(
+            spreadsheet_id=spreadsheet_id,
+            count=len(actions),
+        )
 
-        # Perform writes (append) then deletes bottom-up
         added_count = 0
 
         if not req.dryRun:
-            # Append each mapped row
             for museum_id, (sheet_row_number, add_row) in zip(new_ids, actions):
                 db_row = map_add_row_to_db_row(add_row, museum_id=museum_id)
                 self.sheets.append_row(spreadsheet_id, DB_SHEET_NAME, db_row)
                 added_count += 1
 
-            # Delete committed rows bottom-up so indices don't shift
             add_sheet_id = self.sheets.get_sheet_id_by_name(
                 spreadsheet_id, ADD_SHEET_NAME
             )
             for sheet_row_number, _ in sorted(
                 actions, key=lambda x: x[0], reverse=True
             ):
-                # Convert 1-indexed row to 0-based startIndex; endIndex is exclusive
                 start = sheet_row_number - 1
                 end = sheet_row_number
                 self.sheets.delete_rows(spreadsheet_id, add_sheet_id, start, end)
 
-            # Log database change date (Instructions!A1)
             now = datetime.now(timezone.utc).isoformat(timespec="seconds")
             self.sheets.batch_update_values(
                 spreadsheet_id,
@@ -133,10 +128,10 @@ class AddMuseumsService:
         else:
             added_count = len(actions)
 
-        msg = (
+        message = (
             f"Dry run: would add {added_count} museum(s) to Database."
             if req.dryRun
-            else (f"Added {added_count} museum(s) to Database.")
+            else f"Added {added_count} museum(s) to Database."
         )
 
         return AddMuseumsResponse(
@@ -144,5 +139,5 @@ class AddMuseumsService:
             addedCount=added_count,
             errorsByRow=errors_by_row,
             skippedNotReady=skipped_not_ready,
-            message=msg,
+            message=message,
         )

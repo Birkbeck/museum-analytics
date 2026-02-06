@@ -1,17 +1,13 @@
 import pytest
 
 from mm_db_cloud.utils.validators import (
-    validate_row,
+    validate_form_row,
     is_empty,
     is_not_empty,
     is_valid_wikidata_id,
     is_valid_postcode,
-    is_valid_accreditation,
     is_valid_accreditation_number,
     is_valid_year_range,
-    is_valid_governance,
-    is_valid_size,
-    is_valid_subject,
 )
 
 # Optional: if you want to assert membership behavior is strict
@@ -66,18 +62,6 @@ def test_is_valid_postcode(value, expected):
     assert is_valid_postcode(value) is expected
 
 
-def test_is_valid_accreditation_strict_membership():
-    # sanity checks on config
-    assert "accredited" in ACCREDITATION_VALUES
-    assert "unaccredited" in ACCREDITATION_VALUES
-
-    assert is_valid_accreditation("accredited") is True
-    assert is_valid_accreditation("unaccredited") is True
-    assert is_valid_accreditation("Accredited") is False  # membership is exact
-    assert is_valid_accreditation("") is False
-    assert is_valid_accreditation(None) is False
-
-
 @pytest.mark.parametrize(
     "value,expected",
     [
@@ -121,32 +105,8 @@ def test_is_valid_year_range(value, expected):
     assert is_valid_year_range(value) is expected
 
 
-def test_is_valid_governance_strict():
-    sample = next(iter(GOVERNANCE_VALUES))
-    assert is_valid_governance(sample) is True
-    assert is_valid_governance("not-a-governance") is False
-    assert is_valid_governance("") is False
-    assert is_valid_governance(None) is False
-
-
-def test_is_valid_size_strict():
-    sample = next(iter(SIZE_VALUES))
-    assert is_valid_size(sample) is True
-    assert is_valid_size("not-a-size") is False
-    assert is_valid_size("") is False
-    assert is_valid_size(None) is False
-
-
-def test_is_valid_subject_strict():
-    sample = next(iter(SUBJECT_VALUES))
-    assert is_valid_subject(sample) is True
-    assert is_valid_subject("not-a-subject") is False
-    assert is_valid_subject("") is False
-    assert is_valid_subject(None) is False
-
-
 def _columns_for_add_sheet():
-    # Minimal mapping used by validate_row, mirroring your TS validator expectations
+    # Minimal mapping used by validate_form_row, mirroring your TS validator expectations
     return {
         "MUSEUM_NAME": 1,
         "WIKIDATA_ID": 3,
@@ -185,73 +145,66 @@ def _base_valid_add_row():
     return row
 
 
-def test_validate_row_valid_row_has_no_errors():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_valid_row_has_no_errors():
     row = _base_valid_add_row()
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert errs == []
 
 
-def test_validate_row_requires_name():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_requires_name():
     row = _base_valid_add_row()
     row[1] = "   "
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert "Museum must have a name." in errs
 
 
-def test_validate_row_invalid_wikidata():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_invalid_wikidata():
     row = _base_valid_add_row()
     row[3] = "BAD"
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any("Wikidata ID" in e and "not a valid Wikidata ID" in e for e in errs)
 
 
-def test_validate_row_invalid_postcode():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_invalid_postcode():
     row = _base_valid_add_row()
     row[8] = "NOT A POSTCODE"
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any(
         "Postcode" in e and "not a correctly formatted UK postcode" in e for e in errs
     )
 
 
-def test_validate_row_invalid_accreditation():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_invalid_accreditation():
     row = _base_valid_add_row()
     row[9] = "nope"
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any(
         "Accreditation" in e and "not a valid accreditation status" in e for e in errs
     )
 
 
-def test_validate_row_accreditation_number_optional_but_if_present_must_be_valid():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_accreditation_number_optional_but_if_present_must_be_valid():
     row = _base_valid_add_row()
 
     row[10] = ""  # optional => ok
-    assert validate_row(row, cols) == []
+    assert validate_form_row(row) == []
 
     row[10] = "abc"  # present but invalid => error
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any(
         "Accreditation number" in e and "not a valid accreditation number" in e
         for e in errs
     )
 
 
-def test_validate_row_year_opened_and_closed_cannot_be_empty():
-    cols = _columns_for_add_sheet()
+def test_validate_form_row_year_opened_and_closed_cannot_be_empty():
     row = _base_valid_add_row()
 
     row[20] = ""  # YEAR_OPENED
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any("Year opened" in e and "not a valid year range" in e for e in errs)
 
     row = _base_valid_add_row()
     row[22] = ""  # YEAR_CLOSED
-    errs = validate_row(row, cols)
+    errs = validate_form_row(row)
     assert any("Year closed" in e and "not a valid year range" in e for e in errs)

@@ -6,9 +6,7 @@ from flask import Blueprint, jsonify, request
 from mm_db_cloud.models.add_museums import AddMuseumsRequest
 from mm_db_cloud.services.add_museums_service import AddMuseumsService
 from mm_db_cloud.services.sheets_service import SheetsService
-from mm_db_cloud.services.auth import (
-    verify_hmac_or_unauthorized,
-)  # adjust to your real function name
+from mm_db_cloud.services.auth import verify_request
 
 
 bp = Blueprint("add_museums_domain", __name__)

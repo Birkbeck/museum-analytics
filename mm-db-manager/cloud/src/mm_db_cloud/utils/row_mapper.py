@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, List, Tuple
 
-from mm_db_cloud.utils.sheet_config import (
+from mm_db_cloud.config.sheet_config import (
     ADD_ACCREDITATION,
     ADD_ACCREDITATION_CHANGE_DATE,
     ADD_ACCREDITATION_NUMBER,
