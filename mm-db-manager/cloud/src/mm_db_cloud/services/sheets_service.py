@@ -7,14 +7,6 @@ from google.auth.credentials import with_scopes_if_required
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from mm_db_cloud.models.common import (
-    AppendOp,
-    ClearOp,
-    CopyPasteOp,
-    DeleteRowsOp,
-    SheetOp,
-    UpdateOp,
-)
 
 SHEETS_SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -112,79 +104,6 @@ class SheetsService:
             .batchUpdate(spreadsheetId=spreadsheet_id, body={"requests": requests})
             .execute()
         )
-
-    def apply_ops(self, spreadsheet_id: str, ops: List[SheetOp]) -> Dict[str, Any]:
-        """
-        Applies ops in a sane grouping:
-          1) values batch updates (update)
-          2) clears (clear)
-          3) structural requests (deleteRows/copyPaste) via batchUpdate
-          4) appends (append) last
-        """
-        value_updates: List[Tuple[str, List[List[Any]]]] = []
-        clears: List[str] = []
-        structural_requests: List[Dict[str, Any]] = []
-        appends: List[AppendOp] = []
-
-        for op in ops:
-            if isinstance(op, UpdateOp):
-                value_updates.append((op.rangeA1, op.values))
-            elif isinstance(op, ClearOp):
-                clears.append(op.rangeA1)
-            elif isinstance(op, DeleteRowsOp):
-                structural_requests.append(
-                    {
-                        "deleteDimension": {
-                            "range": {
-                                "sheetId": op.sheetId,
-                                "dimension": "ROWS",
-                                "startIndex": op.startIndex,
-                                "endIndex": op.endIndex,
-                            }
-                        }
-                    }
-                )
-            elif isinstance(op, CopyPasteOp):
-                structural_requests.append(
-                    {
-                        "copyPaste": {
-                            "source": op.source,
-                            "destination": op.destination,
-                            "pasteType": op.pasteType,
-                        }
-                    }
-                )
-            elif isinstance(op, AppendOp):
-                appends.append(op)
-            else:
-                raise ValueError(f"Unhandled op type: {op}")
-
-        result: Dict[str, Any] = {
-            "valueUpdates": None,
-            "clears": [],
-            "structural": None,
-            "appends": [],
-        }
-
-        if value_updates:
-            result["valueUpdates"] = self.batch_update_values(
-                spreadsheet_id, value_updates
-            )
-
-        for r in clears:
-            result["clears"].append(self.clear_range(spreadsheet_id, r))
-
-        if structural_requests:
-            result["structural"] = self.batch_update_structural(
-                spreadsheet_id, structural_requests
-            )
-
-        for a in appends:
-            result["appends"].append(
-                self.append_row(spreadsheet_id, a.sheetName, a.rowValues)
-            )
-
-        return result
 
     def get_values(self, spreadsheet_id: str, range_a1: str) -> List[List[Any]]:
         resp = (
