@@ -31,3 +31,7 @@ where = ["src"]
 markers = [
   "integration: tests that hit real external services (Sheets/HTTP)",
 ]
+addopts = "-q"
+
+[tool.pytest_env]
+env_files = [".env"]

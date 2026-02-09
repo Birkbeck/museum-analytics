@@ -1,24 +1,24 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 @dataclass(frozen=True)
-class AddMuseumsRequest:
+class EditMuseumsRequest:
     pass
 
 
 @dataclass(frozen=True)
 class RowError:
-    row: int  # 1-indexed row number on Add sheet
+    row: int
     errors: List[str]
 
 
 @dataclass(frozen=True)
-class AddMuseumsResponse:
+class EditMuseumsResponse:
     ok: bool
-    addedCount: int
+    editedCount: int
     errorsByRow: List[RowError]
     skippedNotReady: int
     message: str
@@ -26,7 +26,7 @@ class AddMuseumsResponse:
     def to_dict(self) -> Dict[str, Any]:
         return {
             "ok": self.ok,
-            "addedCount": self.addedCount,
+            "editedCount": self.editedCount,
             "errorsByRow": [
                 {"row": e.row, "errors": e.errors} for e in self.errorsByRow
             ],

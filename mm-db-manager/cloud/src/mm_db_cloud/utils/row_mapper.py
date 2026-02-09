@@ -1,65 +1,8 @@
 from __future__ import annotations
 
-from typing import Any, List, Tuple
+from typing import Any, List, Type
 
-from mm_db_cloud.config.sheet_config import (
-    ADD_ACCREDITATION,
-    ADD_ACCREDITATION_CHANGE_DATE,
-    ADD_ACCREDITATION_NUMBER,
-    ADD_ADDRESS_1,
-    ADD_ADDRESS_2,
-    ADD_ADDRESS_3,
-    ADD_ALTERNATIVE_NAME,
-    ADD_GOVERNANCE,
-    ADD_GOVERNANCE_SOURCE,
-    ADD_MUSEUM_NAME,
-    ADD_NOTES,
-    ADD_POSTCODE,
-    ADD_PREVIOUS_GOVERNANCE,
-    ADD_PREVIOUS_GOVERNANCE_END,
-    ADD_PREVIOUS_GOVERNANCE_START,
-    ADD_PRIMARY_PROVENANCE_OF_DATA,
-    ADD_SIZE,
-    ADD_SIZE_SOURCE,
-    ADD_SUBJECT,
-    ADD_VILLAGE_TOWN_CITY,
-    ADD_WIKIDATA_ID,
-    ADD_YEAR_CLOSED,
-    ADD_YEAR_CLOSED_SOURCE,
-    ADD_YEAR_OPENED,
-    ADD_YEAR_OPENED_SOURCE,
-    DB_ACCREDITATION,
-    DB_ACCREDITATION_CHANGE_DATE,
-    DB_ACCREDITATION_NUMBER,
-    DB_ADDRESS_1,
-    DB_ADDRESS_2,
-    DB_ADDRESS_3,
-    DB_ALTERNATIVE_NAME,
-    DB_GOVERNANCE,
-    DB_GOVERNANCE_BROAD,
-    DB_GOVERNANCE_SOURCE,
-    DB_ID,
-    DB_MUSEUM_NAME,
-    DB_NOTES,
-    DB_POSTCODE,
-    DB_PREVIOUS_GOVERNANCE,
-    DB_PREVIOUS_GOVERNANCE_END,
-    DB_PREVIOUS_GOVERNANCE_START,
-    DB_PRIMARY_PROVENANCE_OF_DATA,
-    DB_SIZE,
-    DB_SIZE_SOURCE,
-    DB_SUBJECT,
-    DB_SUBJECT_BROAD,
-    DB_TOTAL_COLS,
-    DB_VILLAGE_TOWN_CITY,
-    DB_WIKIDATA_ID,
-    DB_YEAR_CLOSED_1,
-    DB_YEAR_CLOSED_2,
-    DB_YEAR_CLOSED_SOURCE,
-    DB_YEAR_OPENED_1,
-    DB_YEAR_OPENED_2,
-    DB_YEAR_OPENED_SOURCE,
-)
+from mm_db_cloud.config.sheet_config import Database
 
 
 def _get(values: List[Any], idx: int) -> Any:
@@ -74,54 +17,139 @@ def split_year_range(value: Any) -> tuple[str, str]:
         return ("", "")
     if "/" in s:
         a, b = s.split("/", 1)
-        return (a.strip(), b.strip())
+        a = a.strip()
+        b = b.strip()
+        # match your TS: if end missing, treat as start
+        return (a, b if b else a)
     return (s, s)
 
 
-def map_add_row_to_db_row(add_row: List[Any], museum_id: str) -> List[Any]:
-    out: List[Any] = [""] * DB_TOTAL_COLS
+def map_form_row_to_db_row(
+    form_row: List[Any],
+    museum_id: str,
+    form_sheet_cls: Type[Any],
+) -> List[Any]:
+    """
+    Map a form row (Add/Edit/Delete-style) into a full DB row.
 
-    out[DB_ID] = museum_id
-    out[DB_MUSEUM_NAME] = _get(add_row, ADD_MUSEUM_NAME)
-    out[DB_ALTERNATIVE_NAME] = _get(add_row, ADD_ALTERNATIVE_NAME)
-    out[DB_WIKIDATA_ID] = _get(add_row, ADD_WIKIDATA_ID)
+    - `form_sheet_cls` is a config class like Add/Edit/Delete exposing column indices
+      (MUSEUM_NAME, WIKIDATA_ID, POSTCODE, YEAR_OPENED, YEAR_CLOSED, etc.)
+    - Broad fields are left blank (as in your previous mapper) unless you later
+      define mapping rules.
+    """
+    out: List[Any] = [""] * (
+        Database.NOTES + 1
+    )  # DB_TOTAL_COLS inferred from last col index
 
-    out[DB_ADDRESS_1] = _get(add_row, ADD_ADDRESS_1)
-    out[DB_ADDRESS_2] = _get(add_row, ADD_ADDRESS_2)
-    out[DB_ADDRESS_3] = _get(add_row, ADD_ADDRESS_3)
-    out[DB_VILLAGE_TOWN_CITY] = _get(add_row, ADD_VILLAGE_TOWN_CITY)
-    out[DB_POSTCODE] = _get(add_row, ADD_POSTCODE)
+    out[Database.ID] = museum_id
+    out[Database.MUSEUM_NAME] = _get(form_row, form_sheet_cls.MUSEUM_NAME)
+    out[Database.ALTERNATIVE_NAME] = _get(form_row, form_sheet_cls.ALTERNATIVE_NAME)
+    out[Database.WIKIDATA_ID] = _get(form_row, form_sheet_cls.WIKIDATA_ID)
 
-    out[DB_ACCREDITATION] = _get(add_row, ADD_ACCREDITATION)
-    out[DB_ACCREDITATION_NUMBER] = _get(add_row, ADD_ACCREDITATION_NUMBER)
-    out[DB_ACCREDITATION_CHANGE_DATE] = _get(add_row, ADD_ACCREDITATION_CHANGE_DATE)
+    out[Database.ADDRESS_1] = _get(form_row, form_sheet_cls.ADDRESS_1)
+    out[Database.ADDRESS_2] = _get(form_row, form_sheet_cls.ADDRESS_2)
+    out[Database.ADDRESS_3] = _get(form_row, form_sheet_cls.ADDRESS_3)
+    out[Database.VILLAGE_TOWN_CITY] = _get(form_row, form_sheet_cls.VILLAGE_TOWN_CITY)
+    out[Database.POSTCODE] = _get(form_row, form_sheet_cls.POSTCODE)
+
+    out[Database.ACCREDITATION] = _get(form_row, form_sheet_cls.ACCREDITATION)
+    out[Database.ACCREDITATION_NUMBER] = _get(
+        form_row, form_sheet_cls.ACCREDITATION_NUMBER
+    )
+    out[Database.ACCREDITATION_CHANGE_DATE] = _get(
+        form_row, form_sheet_cls.ACCREDITATION_CHANGE_DATE
+    )
 
     # Broad fields: left blank unless/until you define mapping rules
-    out[DB_GOVERNANCE_BROAD] = ""
-    out[DB_GOVERNANCE] = _get(add_row, ADD_GOVERNANCE)
-    out[DB_GOVERNANCE_SOURCE] = _get(add_row, ADD_GOVERNANCE_SOURCE)
+    out[Database.GOVERNANCE_BROAD] = ""
+    out[Database.GOVERNANCE] = _get(form_row, form_sheet_cls.GOVERNANCE)
+    out[Database.GOVERNANCE_SOURCE] = _get(form_row, form_sheet_cls.GOVERNANCE_SOURCE)
 
-    out[DB_PREVIOUS_GOVERNANCE] = _get(add_row, ADD_PREVIOUS_GOVERNANCE)
-    out[DB_PREVIOUS_GOVERNANCE_START] = _get(add_row, ADD_PREVIOUS_GOVERNANCE_START)
-    out[DB_PREVIOUS_GOVERNANCE_END] = _get(add_row, ADD_PREVIOUS_GOVERNANCE_END)
+    out[Database.PREVIOUS_GOVERNANCE] = _get(
+        form_row, form_sheet_cls.PREVIOUS_GOVERNANCE
+    )
+    out[Database.PREVIOUS_GOVERNANCE_START] = _get(
+        form_row, form_sheet_cls.PREVIOUS_GOVERNANCE_START
+    )
+    out[Database.PREVIOUS_GOVERNANCE_END] = _get(
+        form_row, form_sheet_cls.PREVIOUS_GOVERNANCE_END
+    )
 
-    out[DB_SIZE] = _get(add_row, ADD_SIZE)
-    out[DB_SIZE_SOURCE] = _get(add_row, ADD_SIZE_SOURCE)
+    out[Database.SIZE] = _get(form_row, form_sheet_cls.SIZE)
+    out[Database.SIZE_SOURCE] = _get(form_row, form_sheet_cls.SIZE_SOURCE)
 
-    out[DB_SUBJECT_BROAD] = ""
-    out[DB_SUBJECT] = _get(add_row, ADD_SUBJECT)
+    out[Database.SUBJECT_BROAD] = ""
+    out[Database.SUBJECT] = _get(form_row, form_sheet_cls.SUBJECT)
 
-    y1, y2 = split_year_range(_get(add_row, ADD_YEAR_OPENED))
-    out[DB_YEAR_OPENED_1] = y1
-    out[DB_YEAR_OPENED_2] = y2
-    out[DB_YEAR_OPENED_SOURCE] = _get(add_row, ADD_YEAR_OPENED_SOURCE)
+    y1, y2 = split_year_range(_get(form_row, form_sheet_cls.YEAR_OPENED))
+    out[Database.YEAR_OPENED_1] = y1
+    out[Database.YEAR_OPENED_2] = y2
+    out[Database.YEAR_OPENED_SOURCE] = _get(form_row, form_sheet_cls.YEAR_OPENED_SOURCE)
 
-    c1, c2 = split_year_range(_get(add_row, ADD_YEAR_CLOSED))
-    out[DB_YEAR_CLOSED_1] = c1
-    out[DB_YEAR_CLOSED_2] = c2
-    out[DB_YEAR_CLOSED_SOURCE] = _get(add_row, ADD_YEAR_CLOSED_SOURCE)
+    c1, c2 = split_year_range(_get(form_row, form_sheet_cls.YEAR_CLOSED))
+    out[Database.YEAR_CLOSED_1] = c1
+    out[Database.YEAR_CLOSED_2] = c2
+    out[Database.YEAR_CLOSED_SOURCE] = _get(form_row, form_sheet_cls.YEAR_CLOSED_SOURCE)
 
-    out[DB_PRIMARY_PROVENANCE_OF_DATA] = _get(add_row, ADD_PRIMARY_PROVENANCE_OF_DATA)
-    out[DB_NOTES] = _get(add_row, ADD_NOTES)
+    out[Database.PRIMARY_PROVENANCE_OF_DATA] = _get(
+        form_row, form_sheet_cls.PRIMARY_PROVENANCE_OF_DATA
+    )
+    out[Database.NOTES] = _get(form_row, form_sheet_cls.NOTES)
+
+    return out
+
+
+def map_db_row_to_db_row(
+    source_row: List[Any],
+    *,
+    source_sheet_cls: Type,
+    dest_sheet_cls: Type,
+) -> List[Any]:
+    """
+    Copy DB fields from source_sheet_cls into dest_sheet_cls by explicit field list.
+
+    Intended for:
+      - Database -> Trash
+      - Trash -> Database
+    """
+
+    # Explicit DB field names only (NO metadata like HEADER_ROW / SHEET_NAME).
+    fields = [
+        "ID",
+        "MUSEUM_NAME",
+        "ALTERNATIVE_NAME",
+        "WIKIDATA_ID",
+        "ADDRESS_1",
+        "ADDRESS_2",
+        "ADDRESS_3",
+        "VILLAGE_TOWN_CITY",
+        "POSTCODE",
+        "ACCREDITATION",
+        "ACCREDITATION_NUMBER",
+        "ACCREDITATION_CHANGE_DATE",
+        "GOVERNANCE_BROAD",
+        "GOVERNANCE",
+        "GOVERNANCE_SOURCE",
+        "PREVIOUS_GOVERNANCE",
+        "PREVIOUS_GOVERNANCE_START",
+        "PREVIOUS_GOVERNANCE_END",
+        "SIZE",
+        "SIZE_SOURCE",
+        "SUBJECT_BROAD",
+        "SUBJECT",
+        "YEAR_OPENED_1",
+        "YEAR_OPENED_2",
+        "YEAR_OPENED_SOURCE",
+        "YEAR_CLOSED_1",
+        "YEAR_CLOSED_2",
+        "YEAR_CLOSED_SOURCE",
+        "PRIMARY_PROVENANCE_OF_DATA",
+        "NOTES",
+    ]
+
+    out: List[Any] = [""] * dest_sheet_cls.TOTAL_COLS
+
+    for name in fields:
+        out[getattr(dest_sheet_cls, name)] = source_row[getattr(source_sheet_cls, name)]
 
     return out

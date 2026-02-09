@@ -5,12 +5,7 @@ from typing import Any, List, Optional
 
 from googleapiclient.errors import HttpError
 
-from mm_db_cloud.config.sheet_config import (
-    DB_SHEET_NAME,
-    TRASH_SHEET_NAME,
-    NEW_ID_SHEET_NAME,
-    NEW_ID_LAST_ID_A1,
-)
+from mm_db_cloud.config.sheet_config import Database, Trash, NewIds
 
 _MM_NEW_RE = re.compile(r"\bmm\.new\.(\d+)\b", re.IGNORECASE)
 
@@ -32,7 +27,7 @@ class IdAllocator:
         self._ensure_id_sheet_seeded(spreadsheet_id)
 
         # Read counter cell
-        counter_range = f"{NEW_ID_SHEET_NAME}!{NEW_ID_LAST_ID_A1}"
+        counter_range = f"{NewIds.SHEET_NAME}!{NewIds.LAST_ID}"
         raw = self.sheets.get_single_value(spreadsheet_id, counter_range)
         last_issued = self._parse_counter_cell(raw)
 
@@ -54,7 +49,7 @@ class IdAllocator:
         """
         try:
             sheet_id = self.sheets.get_sheet_id_by_name(
-                spreadsheet_id, NEW_ID_SHEET_NAME
+                spreadsheet_id, NewIds.SHEET_NAME
             )
             # Sheet exists; nothing else to do.
             return
@@ -62,12 +57,12 @@ class IdAllocator:
             sheet_id = None
 
         # Create sheet
-        self.sheets.create_sheet(spreadsheet_id, NEW_ID_SHEET_NAME)
-        sheet_id = self.sheets.get_sheet_id_by_name(spreadsheet_id, NEW_ID_SHEET_NAME)
+        self.sheets.create_sheet(spreadsheet_id, NewIds.SHEET_NAME)
+        sheet_id = self.sheets.get_sheet_id_by_name(spreadsheet_id, NewIds.SHEET_NAME)
 
         # Seed with max existing found in DB + Trash
         max_existing = self._find_max_mm_new_suffix_in_db_and_trash(spreadsheet_id)
-        counter_range = f"{NEW_ID_SHEET_NAME}!{NEW_ID_LAST_ID_A1}"
+        counter_range = f"{NewIds.SHEET_NAME}!{NewIds.LAST_ID}"
         self.sheets.batch_update_values(
             spreadsheet_id,
             updates=[(counter_range, [[max_existing]])],
@@ -81,9 +76,8 @@ class IdAllocator:
 
     def _find_max_mm_new_suffix_in_db_and_trash(self, spreadsheet_id: str) -> int:
         # DB IDs are column A
-        db_vals = self.sheets.get_values(spreadsheet_id, f"{DB_SHEET_NAME}!A:Z")
-        # Trash has ID in column C but your TS scans *any* cell; easiest is scan A:AF-ish.
-        trash_vals = self.sheets.get_values(spreadsheet_id, f"{TRASH_SHEET_NAME}!A:AF")
+        db_vals = self.sheets.get_values(spreadsheet_id, f"{Database.SHEET_NAME}!A:Z")
+        trash_vals = self.sheets.get_values(spreadsheet_id, f"{Trash.SHEET_NAME}!A:AF")
         return max(
             self._max_suffix_in_grid(db_vals), self._max_suffix_in_grid(trash_vals)
         )

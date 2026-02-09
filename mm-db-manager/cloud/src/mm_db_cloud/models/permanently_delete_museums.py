@@ -5,31 +5,31 @@ from typing import Any, Dict, List, Optional
 
 
 @dataclass(frozen=True)
-class AddMuseumsRequest:
-    pass
-
-
-@dataclass(frozen=True)
 class RowError:
-    row: int  # 1-indexed row number on Add sheet
+    row: int
     errors: List[str]
 
 
 @dataclass(frozen=True)
-class AddMuseumsResponse:
+class PermanentlyDeleteMuseumsRequest:
+    pass
+
+
+@dataclass(frozen=True)
+class PermanentlyDeleteMuseumsResponse:
     ok: bool
-    addedCount: int
+    deletedCount: int
     errorsByRow: List[RowError]
-    skippedNotReady: int
+    skippedNotMarked: int
     message: str
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "ok": self.ok,
-            "addedCount": self.addedCount,
+            "deletedCount": self.deletedCount,
             "errorsByRow": [
                 {"row": e.row, "errors": e.errors} for e in self.errorsByRow
             ],
-            "skippedNotReady": self.skippedNotReady,
+            "skippedNotReady": self.skippedNotMarked,
             "message": self.message,
         }

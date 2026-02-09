@@ -5,20 +5,20 @@ from typing import Any, Dict, List, Optional
 
 
 @dataclass(frozen=True)
-class AddMuseumsRequest:
-    pass
-
-
-@dataclass(frozen=True)
 class RowError:
-    row: int  # 1-indexed row number on Add sheet
+    row: int
     errors: List[str]
 
 
 @dataclass(frozen=True)
-class AddMuseumsResponse:
+class TrashMuseumsRequest:
+    pass
+
+
+@dataclass(frozen=True)
+class TrashMuseumsResponse:
     ok: bool
-    addedCount: int
+    trashedCount: int
     errorsByRow: List[RowError]
     skippedNotReady: int
     message: str
@@ -26,7 +26,7 @@ class AddMuseumsResponse:
     def to_dict(self) -> Dict[str, Any]:
         return {
             "ok": self.ok,
-            "addedCount": self.addedCount,
+            "trashedCount": self.trashedCount,
             "errorsByRow": [
                 {"row": e.row, "errors": e.errors} for e in self.errorsByRow
             ],

@@ -28,6 +28,41 @@ class SheetsService:
         creds = with_scopes_if_required(creds, scopes=SHEETS_SCOPES)
         self._service = build("sheets", "v4", credentials=creds, cache_discovery=False)
 
+    def col_to_a1(self, col_1_indexed: int) -> str:
+        """
+        Convert a 1-indexed column number to A1 column letters.
+        1->A, 2->B, ... 26->Z, 27->AA, etc.
+        """
+        if col_1_indexed < 1:
+            raise ValueError("col_1_indexed must be >= 1")
+
+        n = col_1_indexed
+        letters = ""
+        while n > 0:
+            n, rem = divmod(n - 1, 26)
+            letters = chr(ord("A") + rem) + letters
+        return letters
+
+    def find_first_blank_row(
+        self,
+        spreadsheet_id: str,
+        sheet_name: str,
+        col_1_indexed: int,
+        header_row_1_indexed: int,
+        scan_limit: int = 2000,
+    ) -> int:
+        start_row = header_row_1_indexed + 1
+        col_letter = self.col_to_a1(col_1_indexed)
+        range_a1 = f"{sheet_name}!{col_letter}{start_row}:{col_letter}{start_row + scan_limit - 1}"
+        vals = self.get_values(spreadsheet_id, range_a1)
+
+        for i, row in enumerate(vals):
+            v = row[0] if row else ""
+            if str(v or "").strip() == "":
+                return start_row + i
+
+        return start_row + len(vals)
+
     def append_row(
         self, spreadsheet_id: str, sheet_name: str, row_values: List[Any]
     ) -> Dict[str, Any]:
