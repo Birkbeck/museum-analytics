@@ -1,202 +1,90 @@
-// Integration-ish tests for permanentlyDeleteMuseums() with SpreadsheetApp mocked.
-
 import { permanentlyDeleteMuseums } from "../src/permanently-delete";
-import { TRASH_SHEET, INSTRUCTIONS_SHEET } from "../src/config";
 
-type MockRange = {
-    getValues: jest.Mock;
-    setValue?: jest.Mock;
-};
-
-type MockTrashSheet = {
-    getLastRow: jest.Mock;
-    getLastColumn: jest.Mock;
-    getRange: jest.Mock;
-    deleteRow: jest.Mock;
-};
-
-type MockInstructionSheet = {
-    getRange: jest.Mock;
-}
-
-type MockSpreadsheet = {
-    getSheetByName: jest.Mock;
+type FetchResponse = {
+    getResponseCode: jest.Mock;
+    getContentText: jest.Mock;
 };
 
 function makeUi() {
     return { alert: jest.fn() };
 }
 
-function buildRow(lastCol: number, values: Record<number, unknown>): unknown[] {
-    const row = new Array(lastCol).fill("");
-    for (const [k, v] of Object.entries(values)) {
-	row[Number(k)] = v;
-    }
-    return row;
+function makeFetchResponse(status: number, body: unknown): FetchResponse {
+    return {
+        getResponseCode: jest.fn(() => status),
+        getContentText: jest.fn(() => JSON.stringify(body)),
+    };
 }
 
-describe("permanentlyDeleteMuseums (SpreadsheetApp mocked)", () => {
+describe("permanentlyDeleteMuseums (cloud API)", () => {
     beforeEach(() => {
-	jest.resetAllMocks();
-	const ui = makeUi();
-	(globalThis as any).SpreadsheetApp = {
-	    getActive: jest.fn(),
-	    getUi: jest.fn(() => ui),
-	};
-	(globalThis as any).LockService = {
-	    getDocumentLock: () => ({
-		waitLock: jest.fn(),
-		releaseLock: jest.fn(),
-	    }),
-	};
+        jest.resetAllMocks();
+        const ui = makeUi();
+        (globalThis as any).SpreadsheetApp = {
+            getUi: jest.fn(() => ui),
+        };
+        (globalThis as any).PropertiesService = {
+            getScriptProperties: () => ({
+                getProperty: jest.fn((key: string) => {
+                    if (key === "MM_DB_CLOUD_API_BASE_URL") return "https://example.com/api";
+                    if (key === "MM_DB_CLOUD_API_HMAC_SECRET") return null;
+                    return null;
+                }),
+            }),
+        };
+        (globalThis as any).UrlFetchApp = {
+            fetch: jest.fn(),
+        };
     });
-    
-    test("alerts when there are no rows in Trash", () => {
-	const trashSheet: MockTrashSheet = {
-	    getLastRow: jest.fn(() => TRASH_SHEET.HEADER_ROW + 1),
-	    getLastColumn: jest.fn(() => 10),
-	    getRange: jest.fn(),
-	    deleteRow: jest.fn(),
-	};
-	const ss: MockSpreadsheet = {
-	    getSheetByName: jest.fn((name: string) => {
-		if (name === TRASH_SHEET.NAME) return trashSheet as any;
-		return null;
-	    }),
-	};
-	
-	(globalThis as any).SpreadsheetApp.getActive.mockReturnValue(ss);
-	
-	permanentlyDeleteMuseums();
-	const ui = (globalThis as any).SpreadsheetApp.getUi();
-	expect(ui.alert).toHaveBeenCalledWith("No items to permanently delete.");
-	expect(trashSheet.deleteRow).not.toHaveBeenCalled();
-    });
-    
-    test("alerts when no rows are marked for permanent deletion", () => {
-	const lastCol = (TRASH_SHEET as any).NOTES + 1;
-	const row1 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: false,
-	});
-	const row2 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: false,
-	});
-	const range: MockRange = {
-	    getValues: jest.fn(() => [row1, row2]),
-	};
-	const trashSheet: MockTrashSheet = {
-	    getLastRow: jest.fn(() => TRASH_SHEET.HEADER_ROW + 1 + 2),
-	    getLastColumn: jest.fn(() => lastCol),
-	    getRange: jest.fn(() => range as any),
-	    deleteRow: jest.fn(),
-	};
-	const ss: MockSpreadsheet = {
-	    getSheetByName: jest.fn((name: string) => {
-		if (name === TRASH_SHEET.NAME) return trashSheet as any;
-		return null;
-	    }),
-	};
-	
-	(globalThis as any).SpreadsheetApp.getActive.mockReturnValue(ss);
-	
-	permanentlyDeleteMuseums();
-	const ui = (globalThis as any).SpreadsheetApp.getUi();
-	expect(ui.alert).toHaveBeenCalledWith("No rows marked for permanent deletion.");
-	expect(trashSheet.deleteRow).not.toHaveBeenCalled();
-    });
-    
-    test("deletes only rows marked PERMANENTLY_DELETE=true (bottom-up) and alerts count", () => {
-	const lastCol = (TRASH_SHEET as any).NOTES + 1;
-	// 3 data rows; mark rows 1 and 3 for deletion
-	const row1 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: true,
-	});
-	const row2 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: false,
-	});
-	const row3 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: true,
-	});
-	const range: MockRange = {
-	    getValues: jest.fn(() => [row1, row2, row3]),
-	};
-	const trashSheet: MockTrashSheet = {
-	    getLastRow: jest.fn(() => TRASH_SHEET.HEADER_ROW + 1 + 3),
-	    getLastColumn: jest.fn(() => lastCol),
-	    getRange: jest.fn(() => range as any),
-	    deleteRow: jest.fn(),
-	};
-	const instructionRange: MockRange = {
-	    getValues: jest.fn(() => [[]]),
-	    setValue: jest.fn(() => null)
-	}
-	const instructionSheet: MockInstructionSheet = {
-	    getRange: jest.fn(() => instructionRange as any)
-	};
-	const ss: MockSpreadsheet = {
-	    getSheetByName: jest.fn((name: string) => {
-		if (name === TRASH_SHEET.NAME) return trashSheet as any;
-		if (name === INSTRUCTIONS_SHEET.NAME) return instructionSheet as any;
-		return null;
-	    }),
-	};
-	
-	(globalThis as any).SpreadsheetApp.getActive.mockReturnValue(ss);
-	
-	permanentlyDeleteMuseums();
 
-	// Row numbers in sheet are 1-indexed:
-	// header row is 1 (HEADER_ROW=0), so data rows are 2,3,4.
-	// Delete bottom-up => row 4 first then row 2.
-	expect(trashSheet.deleteRow).toHaveBeenCalledTimes(2);
-	expect(trashSheet.deleteRow.mock.calls[0][0]).toBe(TRASH_SHEET.HEADER_ROW + 4);
-	expect(trashSheet.deleteRow.mock.calls[1][0]).toBe(TRASH_SHEET.HEADER_ROW + 2);
-	const ui = (globalThis as any).SpreadsheetApp.getUi();
-	expect(ui.alert).toHaveBeenCalledTimes(1);
-	expect(ui.alert.mock.calls[0][0]).toContain("Permanently deleted 2");
+    test("alerts success message from API", () => {
+        const resp = makeFetchResponse(200, {
+            ok: true,
+            deletedCount: 4,
+            errorsByRow: [],
+            skippedNotMarked: 0,
+            message: "Permanently deleted 4 museums.",
+        });
+        (globalThis as any).UrlFetchApp.fetch.mockReturnValue(resp);
+
+        permanentlyDeleteMuseums();
+
+        const ui = (globalThis as any).SpreadsheetApp.getUi();
+        expect(ui.alert).toHaveBeenCalledWith("Permanently deleted 4 museums.");
+        const [url] = (globalThis as any).UrlFetchApp.fetch.mock.calls[0];
+        expect(url).toBe("https://example.com/api/permanentlyDeleteMuseums");
     });
-    
-    test("if a deleteRow throws, reports formatted errors and continues", () => {
-	const lastCol = (TRASH_SHEET as any).NOTES + 1;
-	const row1 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: true,
-	});
-	const row2 = buildRow(lastCol, {
-	    [TRASH_SHEET.PERMANENTLY_DELETE]: true,
-	});
-	const range: MockRange = {
-	    getValues: jest.fn(() => [row1, row2]),
-	};
-	const trashSheet: MockTrashSheet = {
-	    getLastRow: jest.fn(() => TRASH_SHEET.HEADER_ROW + 1 + 2),
-	    getLastColumn: jest.fn(() => lastCol),
-	    getRange: jest.fn(() => range as any),
-	    deleteRow: jest
-		.fn()
-            // delete bottom-up => tries row 3 then row 2
-		.mockImplementationOnce(() => {
-		    throw new Error("boom");
-		})
-		.mockImplementationOnce(() => {}),
-	};
-	const ss: MockSpreadsheet = {
-	    getSheetByName: jest.fn((name: string) => {
-		if (name === TRASH_SHEET.NAME) return trashSheet as any;
-		return null;
-	    }),
-	};
-	
-	(globalThis as any).SpreadsheetApp.getActive.mockReturnValue(ss);
-	
-	permanentlyDeleteMuseums();
-	
-	expect(trashSheet.deleteRow).toHaveBeenCalledTimes(2);
-	const ui = (globalThis as any).SpreadsheetApp.getUi();
-	expect(ui.alert).toHaveBeenCalledTimes(1);
-	const msg = ui.alert.mock.calls[0][0];
-	expect(typeof msg).toBe("string");
-	expect(msg).toContain("could not");
-	expect(msg).toContain("Row");
-	expect(msg).toContain("1");
+
+    test("alerts formatted errors when API returns row errors", () => {
+        const resp = makeFetchResponse(200, {
+            ok: true,
+            deletedCount: 1,
+            errorsByRow: [{ row: 6, errors: ["Failed to permanently delete row."] }],
+            skippedNotMarked: 0,
+            message: "Permanently deleted 1 museum.",
+        });
+        (globalThis as any).UrlFetchApp.fetch.mockReturnValue(resp);
+
+        permanentlyDeleteMuseums();
+
+        const ui = (globalThis as any).SpreadsheetApp.getUi();
+        const msg = ui.alert.mock.calls[0][0];
+        expect(msg).toContain("Row 6");
+        expect(msg).toContain("Failed to permanently delete row.");
+    });
+
+    test("alerts error when API returns HTTP error", () => {
+        const resp = makeFetchResponse(400, {
+            ok: false,
+            error: "Bad request",
+        });
+        (globalThis as any).UrlFetchApp.fetch.mockReturnValue(resp);
+
+        permanentlyDeleteMuseums();
+
+        const ui = (globalThis as any).SpreadsheetApp.getUi();
+        const msg = ui.alert.mock.calls[0][0];
+        expect(msg).toContain("Permanent delete failed.");
+        expect(msg).toContain("Bad request");
     });
 });
