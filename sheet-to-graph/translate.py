@@ -10,10 +10,15 @@ The script does the following:
 
 from functools import lru_cache
 import json
+import re
 
 from geopy.distance import geodesic
+from nltk.stem.snowball import SnowballStemmer
 import numpy as np
 import pandas as pd
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, TfidfVectorizer
+from scipy import sparse
+from scipy.io import mmwrite
 
 from sheet_to_graph import (
     Column,
@@ -121,7 +126,7 @@ if __name__ == "__main__":
     output_directory_id = file_loader.values["output_csvs_directory"]
     credentials_file_name = "credentials.json"
     postcode_to_lat_long = PostcodeToLatLong(
-        "../data/ONSPD_FEB_2024_UK", WikidataConnection()
+        "../data/ONSPD_FEB_2024_UK", WikidataConnection(file_loader.values["email"])
     )
 
     print("Defining Tables")
@@ -394,6 +399,7 @@ if __name__ == "__main__":
             Column("actor_county", ignore=True),
             Column("actor_postcode", ignore=True),
             Column("actor_country", ignore=True),
+            Column("actor_note", property_of="actor_id"),
             OptionalColumn("size", property_of="actor_id"),
             OptionalColumn("governance", property_of="actor_id"),
             OptionalColumn("governance_broad", property_of="actor_id"),
@@ -1381,14 +1387,18 @@ if __name__ == "__main__":
         "address_3",
         "village_town_city",
         "postcode",
+        "lad",
         "bng_x",
         "bng_y",
+        "notes",
     ]
     museums_df["museum_id"] = museums_df["mm_id"]
     museums_df["museum_name"] = museums_df["actor_name"]
     museums_df["all"] = "all"
     museums_df["region"] = museums_df["region_x"]
     museums_df["country"] = museums_df["country_x"]
+    museums_df["lad"] = museums_df["local_authority_name"]
+    museums_df["notes"] = museums_df["actor_note"]
 
     museums_df["year_opened"] = museums_df["year_opened_1"].astype(str)
     certain_opened_mask = museums_df["year_opened_1"] == museums_df["year_opened_2"]
@@ -1397,6 +1407,7 @@ if __name__ == "__main__":
         + ":"
         + museums_df.loc[~certain_opened_mask, "year_opened_2"].astype(str)
     )
+
     museums_df["year_closed"] = museums_df["year_closed_1"].astype(str)
     certain_closed_mask = museums_df["year_closed_1"] == museums_df["year_closed_2"]
     museums_df.loc[~certain_closed_mask, "year_closed"] = (
@@ -1404,8 +1415,54 @@ if __name__ == "__main__":
         + ":"
         + museums_df.loc[~certain_closed_mask, "year_closed_2"].astype(str)
     )
-    not_closed_mark = museums_df["year_closed_1"] != 9999
+    not_closed_mark = museums_df["year_closed_1"] == "9999"
     museums_df.loc[not_closed_mark, "year_closed"] = "N/A"
+
+    # create vectors for museums for search tab
+    document_columns = [
+        "museum_name",
+        "governance",
+        "governance_broad",
+        "size",
+        "subject",
+        "accreditation",
+        "region",
+        "address_1",
+        "address_2",
+        "address_3",
+        "village_town_city",
+        "postcode",
+        "lad",
+        "notes",
+    ]
+    museums_df["document"] = (
+        museums_df[document_columns].astype(str).agg(" ".join, axis=1)
+    )
+    museum_documents_df = museums_df[["museum_id", "document"]]
+    museum_ids = museum_documents_df["museum_id"].astype(str).to_numpy()
+    museum_documents = museum_documents_df["document"].fillna("").astype(str).to_list()
+    stemmer = SnowballStemmer("english")
+    token_re = re.compile(r"[a-z0-9]+")
+    stem_analyzer = lambda text: [
+        stemmer.stem(t)
+        for t in token_re.findall(text.lower())
+        if t not in ENGLISH_STOP_WORDS
+    ]
+    vectorizer = TfidfVectorizer(
+        analyzer=stem_analyzer,
+        lowercase=True,
+        ngram_range=(1, 1),
+        min_df=2,
+        max_df=0.95,
+        norm="l2",
+    )
+    X = vectorizer.fit_transform(museum_documents)
+    pd.Series(museum_ids, name="museum_id").to_csv("museum_ids.csv", index=False)
+    mmwrite("tfidf.mtx", X.tocoo())
+    vocab = vectorizer.get_feature_names_out()
+    pd.Series(vocab, name="term").to_csv("vocab.csv", index=False)
+    idf = vectorizer.idf_
+    pd.Series(idf, name="idf").to_csv("idf.csv", index=False)
 
     museums_df = museums_df[museum_columns]
 

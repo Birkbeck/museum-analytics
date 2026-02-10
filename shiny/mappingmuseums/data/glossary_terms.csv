@@ -14,6 +14,7 @@ Handling object,Objects that are not part of a museum’s collection and are use
 Initial museum,The museum that originally had possession of the objects or collections.
 Last known event,Museum objects sometimes move several times or go through several stages in the disposal process. This refers to the last move or stage in a sequence.
 Most,50% or over of a collection
+Museum, "For the purposes of this research we defined museums as having a permanent collection, to have artefacts from the collection on display, to be regularly open to the public, and to have a threshold (i.e. not just objects in a corridor)."
 Museum attribute,"Our data is classified according to a museums’ size, governance, accreditation status, and location; we refer to them collectively as ‘attributes’."
 Object type,The specific item disposed of
 Recipient,"The individual, group, or organisation who took possession of an object, group of objects, or collection from a closed museum."
@@ -23,3 +24,5 @@ Sender,"The individual, group, or organisation, other than the originating museu
 Size,"Estimated according to the annual number of visits. Small: 0 - 10,000 visits; Medium: 10,000 - 50,000 visits; Large: 50,000 - 1,000,000 visits; Huge: More than 1,000,000 visits."
 Transaction counts,"The number of transfers or sales between a sender and recipient. The sender (individual, group, or organisation) may make several sales or transfers to a single recipient hence the transaction counts are not identical to the number of recipients involved."
 Transfer,"Process in which objects are given to another individual, group, or organisation, usually involving formal change in ownership."
+Year closed, "refers to the date when the museum stopped being accessible to the public on a regular basis. We have used a date range where the year of closure is uncertain."
+Year opened, "refers to the date when the museum was first accessible to the public on a regular basis. We have used a date range where the year of opening is uncertain."

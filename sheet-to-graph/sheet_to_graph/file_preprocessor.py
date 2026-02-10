@@ -15,8 +15,13 @@ class FilePreprocessor:
                 for h in rows[header_row]
             ]
         )
-        return [
+        results = [
             {"row_number": index + header_row + 2}
             | dict(zip(header, [element.strip() for element in row]))
             for index, row in enumerate(rows[header_row + 1 :])
         ]
+        for result in results:
+            for column_name in header:
+                if column_name not in result:
+                    result[column_name] = ""
+        return results

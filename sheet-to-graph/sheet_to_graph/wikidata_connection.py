@@ -2,6 +2,15 @@ import requests
 
 
 class WikidataConnection:
+    def __init__(self, email):
+        self.session = requests.Session()
+        self.session.headers.update(
+            {
+                "User-Agent": f"museum-object-flows/1.0 (contact: {email})",
+                "Accept": "application/json",
+            }
+        )
+
     def search_entities(self, search_term, limit=3):
         url = "https://www.wikidata.org/w/api.php"
         params = {
@@ -11,21 +20,23 @@ class WikidataConnection:
             "search": search_term,
             "limit": limit,
         }
-        response_data = requests.get(url, params=params).json()
-        results = []
-        for item in response_data.get("search", []):
-            results.append(
-                {
-                    "id": item.get("id"),
-                    "label": item.get("label"),
-                    "description": item.get("description"),
-                }
-            )
-            return results
+        response = self.session.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        response_data = response.json()
+        return [
+            {
+                "id": item.get("id"),
+                "label": item.get("label"),
+                "description": item.get("description"),
+            }
+            for item in response_data.get("search", [])
+        ]
 
     def get_entity_properties(self, qid):
         url = f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json"
-        response_data = requests.get(url).json()
+        response = self.session.get(url)
+        response.raise_for_status()
+        response_data = response.json()
         entity = response_data["entities"][qid]
         claims = entity.get("claims", {})
         properties = {}

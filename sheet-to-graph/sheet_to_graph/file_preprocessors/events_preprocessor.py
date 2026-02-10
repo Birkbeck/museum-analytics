@@ -83,6 +83,7 @@ class EventsPreprocessor(FilePreprocessor):
                         "actor_county": "",
                         "actor_postcode": "",
                         "actor_country": "",
+                        "actor_note": "",
                     }
                 )
                 row["actor_recipient_id"] = actor_id

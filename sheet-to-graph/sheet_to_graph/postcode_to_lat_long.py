@@ -190,16 +190,28 @@ class PostcodeToLatLong:
         return self._update_saved_info("postcode", postcode, blank_details)
 
     def _add_new_city_country(self, key: str):
+        region = (
+            "Channel Islands"
+            if "Channel Islands" in key
+            else "Isle of Man"
+            if "Isle of Man" in key
+            else None
+        )
+        lad = region
         geo_info = {
             "lat": None,
             "long": None,
             "bng_x": None,
             "bng_y": None,
-            "region": None,
+            "region": region,
             "lad23cd": None,
-            "lad23nm": None,
+            "lad23nm": lad,
         }
-        results = self.wikidata_connection.search_entities(key)
+        results = None
+        try:
+            results = self.wikidata_connection.search_entities(key)
+        except Exception as e:
+            print(e)
         results = results if results is not None else []
         for result in results:
             properties = self.wikidata_connection.get_entity_properties(result["id"])

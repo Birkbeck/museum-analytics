@@ -63,3 +63,52 @@ form_item <- function(title, content, item) {
     item
   )
 }
+
+search_form_item <- function(title, content, item) {
+  tagList(
+    tags$style(HTML("
+      .search-form-item-flex {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .search-form-label {
+        width: 240px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        line-height: 1.1;
+      }
+      .search-form-field {
+        flex: 1;
+        min-width: 300px;
+      }
+      /* Remove Shiny's default spacing around inputs */
+      .search-form-item-flex .form-group {
+        margin-bottom: 0 !important;
+      }
+    ")),
+    tags$div(
+      class = "search-form-item-flex",
+      tags$div(
+        class = "search-form-label",
+        tags$span(paste0(title, ":")),
+        tags$i(
+          class = "fa fa-info-circle",
+          style = "color: #007bff; cursor: pointer;",
+          `data-toggle` = "popover",
+          `data-placement` = "right",
+          title = title,
+          `data-content` = content
+        ),
+        tags$script(popover_js)
+      ),
+      tags$div(
+        class = "search-form-field",
+        item
+      )
+    )
+  )
+}

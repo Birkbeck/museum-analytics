@@ -9,6 +9,7 @@ library(htmlwidgets)
 library(igraph)
 library(janitor)
 library(jsonlite)
+library(Matrix)
 library(plotly)
 library(readr)
 library(shiny)
@@ -16,6 +17,7 @@ library(shinyBS)
 library(shinycssloaders)
 library(shinyjs)
 library(shinyWidgets)
+library(SnowballC)
 library(tidyverse)
 library(yaml)
 
@@ -31,8 +33,8 @@ source("src/ui_elements.R")
 source("src/modules/home/ui.R")
 source("src/modules/home/server.R")
 
-source("src/modules/help/ui.R")
-source("src/modules/help/server.R")
+source("src/modules/database/ui.R")
+source("src/modules/database/server.R")
 
 source("src/modules/snapshot/ui.R")
 source("src/modules/snapshot/server.R")
@@ -69,6 +71,9 @@ source("src/modules/data_collection_analysis/server.R")
 
 source("src/modules/interpreting_data/ui.R")
 source("src/modules/interpreting_data/server.R")
+
+source("src/modules/help/ui.R")
+source("src/modules/help/server.R")
 
 PRODUCTION <- FALSE
 USE_PASSWORD <- FALSE 
@@ -150,9 +155,14 @@ make_app_content_ui <- function() {
       ),
       tabPanel(
         value="mappingMuseums",
-        tags$span("Mapping Museums", title=""),
+        tags$span("All Museums", title=""),
         tabsetPanel(
           id="tabPanelMappingMuseums",
+          tabPanel(
+            value="database",
+            tags$span("Database search", title="Search the Mapping Museums database"),
+            databaseUI("database")
+          ),
           tabPanel(
             value="sectorSnapshot",
             tags$span(
@@ -191,12 +201,20 @@ make_app_content_ui <- function() {
               title="What happens to collections after closure"
             ),
             outcomesUI("outcomes")
+          ),
+          tabPanel(
+            value="lengthOfDisposal",
+            tags$span(
+              "Disposal Period",
+              title="How long it takes for museums to close"
+            ),
+            lengthUI("length")
           )
         )
       ),
       tabPanel(
         value="detailsOfDispersal",
-        tags$span("Details of Dispersal", title=""),
+        tags$span("Details of Disposal", title=""),
         tabsetPanel(
           id="tabPanelDetailsOfDispersal",
           tabPanel(
@@ -214,14 +232,6 @@ make_app_content_ui <- function() {
               title="The flow of objects away from closed museums"
             ),
             dispersalUI("dispersal")
-          ),
-          tabPanel(
-            value="lengthOfDisposal",
-            tags$span(
-              "Length of disposal",
-              title="How long it takes for museums to close"
-            ),
-            lengthUI("length")
           )
         )
       ),
@@ -327,6 +337,8 @@ function(input, output, session) {
       })
       # home
       homeServer("home")
+      # database
+      databaseServer("database")
       # mapping museums
       snapshotServer("snapshot")
       changesServer("changes")
