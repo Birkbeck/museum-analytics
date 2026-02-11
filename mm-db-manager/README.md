@@ -9,7 +9,6 @@ This directory contains code for a Google Sheets based database management syste
 ## Deployment
 
 After any changes to the code in `cloud`, re-deploy by navigating to `terraform` and running the deploy command:
-
 ```
 cd terraform
 terraform apply -var=project_id=mm-db-manager
@@ -20,7 +19,6 @@ After any changes to the code in `apps-script`, follow instructions in `apps-scr
 ## Changing the secret
 
 The cloud-run Flask app uses an HMAC secret to prevent unauthorised use of the app. To generate a new secret, run:
-
 ```
 python generate-secret.py
 ```
@@ -28,8 +26,15 @@ python generate-secret.py
 Copy the generated string and store it in both the Apps Script project and the Google Cloud project.
 
 In Apps Script, go to Apps Script → Project Settings → Script Properties → Add:
-
 ```
-API_BASE_URL = url_generated_by_terraform (should only change if you deploy to a new account)
-API_HMAC_SECRET = your_generated_secret
+API_BASE_URL = URL_GENERATED_BY_TERRAFORM (should only change if you deploy to a new account)
+API_HMAC_SECRET = YOUR_GENERATED_SECRET
+```
+
+Update the secret for the google cloud project.
+
+Create/update the secret in secret manager:
+```
+gcloud secrets create mm-db-manager-hmac-secret --replication-policy=automatic 2>/dev/null || true
+printf '%s' "YOUR_GENERATED_SECRET" | gcloud secrets versions add mm-db-manager-hmac-secret --data-file=-
 ```

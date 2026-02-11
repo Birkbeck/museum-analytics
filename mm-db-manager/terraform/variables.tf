@@ -76,3 +76,9 @@ variable "allow_unauthenticated" {
   description = "Allow unauthenticated invocations."
   default     = true
 }
+
+variable "function_service_account_email" {
+  type        = string
+  description = "Service account email used by the Cloud Function at runtime. Leave empty to use the default Compute Engine service account."
+  default     = ""
+}
