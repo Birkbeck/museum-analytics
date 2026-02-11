@@ -5,23 +5,15 @@ type CloudResponseBase = {
     details?: unknown;
 };
 
-const CLOUD_API_BASE_URL_PROP = "MM_DB_CLOUD_API_BASE_URL";
-const CLOUD_API_HMAC_SECRET_PROP = "MM_DB_CLOUD_API_HMAC_SECRET";
-
 function getCloudApiBaseUrl(): string {
-    const props = PropertiesService.getScriptProperties();
-    const url = props.getProperty(CLOUD_API_BASE_URL_PROP);
-    if (!url) {
-        throw new Error(
-            `Missing Script Property ${CLOUD_API_BASE_URL_PROP}. Set it to your Cloud Function base URL.`
-        );
-    }
-    return url.replace(/\/+$/, "");
+    const url = PropertiesService.getScriptProperties().getProperty('API_BASE_URL');
+    if (!url) throw new Error('Missing Script Property API_BASE_URL');
+    return url;
 }
 
 function getCloudApiHmacSecret(): string | null {
     const props = PropertiesService.getScriptProperties();
-    return props.getProperty(CLOUD_API_HMAC_SECRET_PROP);
+    return props.getProperty("API_HMAC_SECRET");
 }
 
 function signPayload(payload: string, secret: string): string {
