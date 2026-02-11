@@ -10,6 +10,7 @@ resource "google_project_service" "required" {
     "run.googleapis.com",
     "storage.googleapis.com",
     "secretmanager.googleapis.com",
+    "sheets.googleapis.com",
   ])
 
   service            = each.key
@@ -117,7 +118,12 @@ resource "google_cloudfunctions2_function" "flask" {
     # Explicitly set runtime SA so IAM bindings are deterministic.
     service_account_email = local.function_sa_email
 
-    environment_variables = var.environment_variables
+    environment_variables = merge(
+      var.environment_variables,
+      {
+        MM_DB_SPREADSHEET_ID = var.mm_db_spreadsheet_id
+      }
+    )
 
     # Inject Secret Manager secret as env var HMAC_SECRET (read at runtime)
     secret_environment_variables {
@@ -145,4 +151,14 @@ resource "google_cloudfunctions2_function_iam_member" "invoker" {
   cloud_function = google_cloudfunctions2_function.flask.name
   role           = "roles/cloudfunctions.invoker"
   member         = "allUsers"
+}
+
+resource "google_cloud_run_v2_service_iam_member" "public_invoker" {
+  count    = var.allow_unauthenticated ? 1 : 0
+  project  = var.project_id
+  location = var.region
+  name     = var.function_name
+
+  role   = "roles/run.invoker"
+  member = "allUsers"
 }

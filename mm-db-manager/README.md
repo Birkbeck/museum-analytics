@@ -8,10 +8,16 @@ This directory contains code for a Google Sheets based database management syste
 
 ## Deployment
 
+Make sure there is a file `terraform/terraform.tfvars` containing:
+```
+project_id            = "THE_GOOGLE_CLOUD_PROJECT_ID"
+mm_db_spreadsheet_id  = "THE_GOOGLE_SHEETS_SPREADSHEET_ID"
+```
+
 After any changes to the code in `cloud`, re-deploy by navigating to `terraform` and running the deploy command:
 ```
 cd terraform
-terraform apply -var=project_id=mm-db-manager
+terraform apply
 ```
 
 After any changes to the code in `apps-script`, follow instructions in `apps-script/README.md` to redeploy to the Apps Script project.
@@ -37,4 +43,13 @@ Create/update the secret in secret manager:
 ```
 gcloud secrets create mm-db-manager-hmac-secret --replication-policy=automatic 2>/dev/null || true
 printf '%s' "YOUR_GENERATED_SECRET" | gcloud secrets versions add mm-db-manager-hmac-secret --data-file=-
+```
+
+## Accessing Logs
+
+To read logs from Google Cloud run the command below with limit set to the number of lines required:
+```
+gcloud logging read \
+'resource.type="cloud_run_revision" AND resource.labels.service_name="mm-db-manager"' \
+--limit=50 --format="value(textPayload)"
 ```

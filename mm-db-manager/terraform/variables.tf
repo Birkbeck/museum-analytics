@@ -36,7 +36,7 @@ variable "entry_point" {
 variable "memory" {
   type        = string
   description = "Memory allocation for the function."
-  default     = "256Mi"
+  default     = "512Mi"
 }
 
 variable "timeout_seconds" {
@@ -81,4 +81,9 @@ variable "function_service_account_email" {
   type        = string
   description = "Service account email used by the Cloud Function at runtime. Leave empty to use the default Compute Engine service account."
   default     = ""
+}
+
+variable "mm_db_spreadsheet_id" {
+  type        = string
+  description = "Pinned spreadsheet ID used by the backend to read/write the DB sheet."
 }

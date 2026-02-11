@@ -13,6 +13,8 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.*
+terraform.tfvars
+terraform.tfvars.*
 
 data/ONSPD*
 data/dispersal-sheet-2*
