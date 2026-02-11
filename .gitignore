@@ -1,14 +1,19 @@
 *.DS_Store
+.RData
 .Rhistory
 *~*
 *__pycache__*
 *.Rproj*
 *.nb.html
+*.env*
 *node_modules/
 *.egg-info/
+*.zip
 
 data/ONSPD*
 data/dispersal-sheet-2*
+data/dispersal_sheets/
+data/wip-sheet*
 
 mm-db-manager/apps-script/.clasp.json
 mm-db-manager/apps-script/.clasp.prod.json
