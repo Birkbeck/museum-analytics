@@ -9,6 +9,9 @@
 *node_modules/
 *.egg-info/
 *.zip
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
 
 data/ONSPD*
 data/dispersal-sheet-2*
