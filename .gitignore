@@ -9,6 +9,7 @@
 *node_modules/
 *.egg-info/
 *.zip
+.secret.txt
 .terraform/
 terraform.tfstate
 terraform.tfstate.*

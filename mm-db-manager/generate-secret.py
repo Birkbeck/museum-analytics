@@ -1,3 +1,4 @@
 import secrets
 
-print(secrets.token_urlsafe(32))
+with open(".secret.txt", "w") as f:
+    f.write(secrets.token_urlsafe(32))
