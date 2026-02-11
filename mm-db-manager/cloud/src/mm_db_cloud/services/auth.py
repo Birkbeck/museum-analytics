@@ -19,8 +19,7 @@ def verify_request(request: Request) -> None:
       X-Signature: base64(hmac_sha256(secret, raw_body))
     """
     if not _HMAC_SECRET:
-        # If you leave this unset, auth is disabled (not recommended).
-        return
+        raise RuntimeError("HMAC_SECRET environment variable is not set")
 
     sig = request.headers.get("X-Signature", "")
     if not sig:
