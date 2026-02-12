@@ -14,12 +14,8 @@ import time
 
 from dotenv import load_dotenv
 from geopy.distance import geodesic
-from nltk.stem.snowball import SnowballStemmer
 import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, TfidfVectorizer
-from scipy import sparse
-from scipy.io import mmwrite
 
 from sheet_to_graph import (
     Column,

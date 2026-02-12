@@ -37,7 +37,7 @@ backup-spreadsheet:
 	@cd sheet-to-graph && pipenv run python backup_and_anonymize_dispersal_spreadsheet.py
 
 translate-data:
-	@cd sheet-to-graph && pipenv run python translate.py
+	@cd sheet-to-graph/cloud && pipenv run python translate.py
 
 generate-taxonomies:
 	Rscript generate-taxonomies.R
