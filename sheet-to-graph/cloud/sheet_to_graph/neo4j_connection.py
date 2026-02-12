@@ -1,6 +1,5 @@
 from collections import defaultdict, Counter
 import csv
-import neo4j
 
 from .queries import Queries
 
@@ -15,6 +14,8 @@ class Neo4jConnection:
         self.driver = None
 
     def open(self):
+        import neo4j
+
         self.driver = neo4j.GraphDatabase.driver(
             self.uri, auth=(self.user, self.password)
         )
@@ -26,6 +27,8 @@ class Neo4jConnection:
         self.run_query(Queries.delete_everything)
 
     def run_query(self, query: str, arguments: dict = None):
+        import neo4j
+
         def _run_query(query, arguments):
             arguments = {} if arguments is None else arguments
             with self.driver.session() as session:

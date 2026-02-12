@@ -1,5 +1,3 @@
-import openpyxl
-
 from .base import SheetSource
 
 
@@ -9,6 +7,8 @@ class ExcelSheetSource(SheetSource):
         self.sheet_name = sheet_name
 
     def get_rows(self):
+        import openpyxl
+
         workbook = openpyxl.load_workbook(self.filename)
         spreadsheet = workbook[self.sheet_name]
         return [

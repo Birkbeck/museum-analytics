@@ -1,0 +1,27 @@
+[project]
+name = "sheet-to-graph"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "dotenv",
+  "pandas",
+  "requests",
+  "google-api-python-client",
+  "google-auth-oauthlib",
+  "geopy",
+  "edtf",
+  "bng-latlon",
+]
+
+[project.optional-dependencies]
+excel = [
+  "openpyxl",
+] # if you need to read from excel
+
+neo4j = [
+  "neo4j",
+] # if you need to generate a neo4j database
+
+dev = [
+  "pytest",
+]

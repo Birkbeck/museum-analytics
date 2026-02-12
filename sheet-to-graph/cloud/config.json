@@ -1,6 +1,6 @@
 {
     "dispersal_sheet_input_id": "1Xxr8ndgVSs5G5e_R7SSKYZpExoEFu8GfIUMVMYTbBnA",
-    "dispersal_sheet_anon_id": "1vQRe5JyduQ1AHXtKReSZN_4Sx6DL8dPmyMMatzlE4bk",
+    "dispersal_sheet_anon_id": "1fCJtfjIP8gfw3ZsUPbda_crNiJYDgJAJOwEVZXo51iY",
     "dispersal_sheet_backups_id": "1UuQYPXU7IQf5J2JvroOWKb7NYlLGNOCz",
     "dispersal_sheet_file": "../../data/dispersal_sheets/dispersal-sheet-2025-07-24.xlsx",
     "dispersal_sheet_anon": "../../data/dispersal_sheets/dispersal-sheet-anonymized.xlsx",
@@ -18,31 +18,31 @@
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "actor-types-hierarchy",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"event types": {
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "event-types-hierarchy",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"super-event types": {
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "super-event-types-hierarchy",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"default recipient types": {
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "default-recipient-types",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"super causes hierarchy": {
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "closure-causes-hierarchy",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"museums": {
 	    "file": "../../data/mapping_museums_data/mapping-museums-data.csv",
@@ -54,13 +54,13 @@
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "model-v1-actors",
-	    "backend": "excel"
+	    "backend": "google"
 	},
 	"events": {
 	    "file": "",
 	    "spreadsheet_id": "",
 	    "sheet": "model-v1-events",
-	    "backend": "excel"
+	    "backend": "google"
 	}
     }
 }

@@ -26,6 +26,8 @@ class FileLoader:
 
         if sheet_config.get("file", "") == "":
             sheet_config["file"] = self.values["dispersal_sheet_anon"]
+        if sheet_config.get("spreadsheet_id", "") == "":
+            sheet_config["spreadsheet_id"] = self.values["dispersal_sheet_anon_id"]
 
         source = make_sheet_source(
             sheet_config,

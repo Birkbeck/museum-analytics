@@ -1,6 +1,3 @@
-import openpyxl
-
-
 class ExcelWriter:
     """This class generates an excel file containing tables.
     Use save_sheets to translate a dictionary of key: table pairs into an xlsx file.
@@ -11,6 +8,8 @@ class ExcelWriter:
         self.file_name = file_name
 
     def save_sheets(self, replacements: dict):
+        import openpyxl
+
         workbook = openpyxl.Workbook()
         for replacement, table in replacements.items():
             worksheet = workbook.create_sheet(title=replacement)
