@@ -10,6 +10,7 @@ The script does the following:
 
 import json
 import re
+import time
 
 from dotenv import load_dotenv
 from geopy.distance import geodesic
@@ -62,16 +63,7 @@ from sheet_to_graph.rules import (
 )
 
 
-if __name__ == "__main__":
-    load_dotenv()
-    google_service = GoogleUtils.get_sheets_service()
-    file_loader = FileLoader.from_config_file("config.json", google_service)
-    output_directory_id = file_loader.values["output_csvs_directory"]
-    credentials_file_name = "credentials.json"
-    postcode_to_lat_long = PostcodeToLatLong(
-        "../data/ONSPD_FEB_2024_UK", WikidataConnection(file_loader.values["email"])
-    )
-
+def validate_and_translate_data(output_directory_id, file_loader, postcode_to_lat_long):
     print("Defining Tables")
     actor_types = Table(
         "Actor Types",
@@ -1563,3 +1555,22 @@ if __name__ == "__main__":
     GoogleUtils.save_df_to_drive_as_csv(
         museums_df, file_loader.values["museums_output"]
     )
+
+
+if __name__ == "__main__":
+    start = time.time()
+    load_dotenv()
+    file_loader = FileLoader.from_config_file(
+        "config.json", GoogleUtils.get_sheets_service
+    )
+    output_directory_id = file_loader.values["output_csvs_directory"]
+    with PostcodeToLatLong(
+        "../data/ONSPD_FEB_2024_UK",
+        WikidataConnection(file_loader.values["email"]),
+        GoogleUtils.get_drive_service,
+        file_loader.values["postcode_to_lat_long_directory"],
+    ) as p:
+        validate_and_translate_data(output_directory_id, file_loader, p)
+    end = time.time()
+    period = end - start
+    print(f"Completed in {period} seconds.")

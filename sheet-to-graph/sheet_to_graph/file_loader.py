@@ -11,15 +11,15 @@ class FileLoader:
     The sheet_name must match with a sheet pointed to in the config file.
     """
 
-    def __init__(self, values, google_service=None):
+    def __init__(self, values, google_service_factory=None):
         self.values = values
-        self.google_service = google_service
+        self.google_service_factory = google_service_factory
 
     @classmethod
-    def from_config_file(cls, filename: str, google_service=None):
+    def from_config_file(cls, filename: str, google_service_factory=None):
         with open(filename, "r", encoding="utf-8") as f:
             values = json.load(f)
-        return cls(values, google_service=google_service)
+        return cls(values, google_service_factory=google_service_factory)
 
     def get_sheet_as_list_of_lists(self, sheet_name: str):
         sheet_config = copy.deepcopy(self.values["sheets"][sheet_name])
@@ -27,5 +27,10 @@ class FileLoader:
         if sheet_config.get("file", "") == "":
             sheet_config["file"] = self.values["dispersal_sheet_anon"]
 
-        source = make_sheet_source(sheet_config, google_service=self.google_service)
+        source = make_sheet_source(
+            sheet_config,
+            google_service=self.google_service_factory()
+            if self.google_service_factory is not None
+            else None,
+        )
         return source.get_rows()
