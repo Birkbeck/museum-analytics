@@ -17,6 +17,7 @@ geopy = "*"
 scikit-learn = "*"
 scipy = "*"
 nltk = "*"
+dotenv = "*"
 
 [dev-packages]
 
