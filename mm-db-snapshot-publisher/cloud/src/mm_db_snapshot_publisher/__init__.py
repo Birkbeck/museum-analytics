@@ -1,2 +1,3 @@
 from .google_utils import GoogleUtils
+from .museum_search_preprocessor import MuseumSearchPreprocessor
 from .postcode_to_lat_long import PostcodeToLatLong

@@ -175,3 +175,57 @@ class GoogleUtils:
                     raise
                 time.sleep(backoff_base_seconds * (2**attempt))
         raise last_exc
+
+    @classmethod
+    def save_bytes_to_drive(
+        cls,
+        data: bytes,
+        file_id: str,
+        *,
+        mimetype: str,
+        retries: int = 3,
+        resumable: bool = True,
+        backoff_base_seconds: float = 1.0,
+        drive_service: Optional[object] = None,
+    ):
+        last_exc = None
+        for attempt in range(retries):
+            try:
+                drive = (
+                    drive_service
+                    if (drive_service is not None and attempt == 0)
+                    else cls.get_drive_service(fresh=(attempt > 0))
+                )
+                media = MediaIoBaseUpload(
+                    io.BytesIO(data), mimetype=mimetype, resumable=resumable
+                )
+                request = drive.files().update(
+                    fileId=file_id, media_body=media, fields="id,name,modifiedTime"
+                )
+
+                if resumable:
+                    resp = None
+                    while resp is None:
+                        _, resp = request.next_chunk()
+                    return resp
+
+                return request.execute()
+            except Exception as e:
+                last_exc = e
+                if not cls._is_transient_upload_error(e) or attempt == retries - 1:
+                    raise
+                time.sleep(backoff_base_seconds * (2**attempt))
+        raise last_exc
+
+    @classmethod
+    def save_text_to_drive(
+        cls,
+        text: str,
+        file_id: str,
+        *,
+        mimetype: str = "text/plain; charset=utf-8",
+        **kwargs,
+    ):
+        return cls.save_bytes_to_drive(
+            text.encode("utf-8"), file_id, mimetype=mimetype, **kwargs
+        )
