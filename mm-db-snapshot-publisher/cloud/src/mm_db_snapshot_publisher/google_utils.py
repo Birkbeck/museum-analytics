@@ -101,6 +101,40 @@ class GoogleUtils:
         return False
 
     @classmethod
+    def read_sheet_to_df(
+        cls,
+        spreadsheet_id: str,
+        tab_name: str,
+        *,
+        retries: int = 3,
+        backoff_base_seconds: float = 1.0,
+        sheets_service: Optional[object] = None,
+    ) -> pd.DataFrame:
+        last_exc = None
+        for attempt in range(retries):
+            try:
+                if sheets_service is not None and attempt == 0:
+                    sheets = sheets_service
+                else:
+                    sheets = cls.get_sheets_service(fresh=(attempt > 0))
+                response = (
+                    sheets.spreadsheets()
+                    .values()
+                    .get(spreadsheetId=spreadsheet_id, range=tab_name)
+                    .execute()
+                )
+                values = response.get("values", [])
+                if not values:
+                    return pd.DataFrame()
+                return pd.DataFrame(values[1:], columns=values[0])
+            except Exception as e:
+                last_exc = e
+                if not cls._is_transient_upload_error(e) or attempt == retries - 1:
+                    raise
+                time.sleep(backoff_base_seconds * (2**attempt))
+        raise last_exc
+
+    @classmethod
     def save_df_to_drive_as_csv(
         cls,
         df: pd.DataFrame,
