@@ -15,6 +15,7 @@ dependencies = [
     "snowballstemmer>=3.0.1",
     "scipy>=1.17.0",
     "scikit-learn>=1.8.0",
+    "google-cloud-storage>=3.9.0",
 ]
 
 [tool.setuptools]
