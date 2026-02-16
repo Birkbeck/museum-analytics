@@ -8,7 +8,7 @@ Run with command
 uv run main.py
 ```
 
-## Uploading the database to Google Storage Bucket
+## Uploading the database to Google Cloud Storage Bucket
 
 Use gcloud to upload the sqlite database:
 
@@ -16,7 +16,7 @@ Use gcloud to upload the sqlite database:
 gcloud storage cp postcode_lookup.sqlite gs://museum-analytics-geo-db/onspd/postcode_lookup.sqlite
 ```
 
-## Setting up a Google Storage Bucket
+## Setting up a Google Cloud Storage Bucket
 
 If, you are redeploying to a new project, navigate to `terraform` and initialize
 
