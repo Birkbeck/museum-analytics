@@ -3,7 +3,7 @@ name = "mm-db-snapshot-publisher"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "python-dotenv>=1.0.0",
     "pandas>=3.0.0",

@@ -1,14 +1,12 @@
 import io
-import os
 import socket
 import ssl
 import time
-from typing import Optional
+from typing import Optional, Sequence
 
-import pandas as pd
 import httplib2
-from google.oauth2.credentials import Credentials
-from google.auth.transport.requests import Request
+import pandas as pd
+import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaIoBaseUpload
@@ -16,43 +14,26 @@ from googleapiclient.http import MediaIoBaseUpload
 
 class GoogleUtils:
     """
-    Utilities for building Google API service clients using a user's OAuth credentials.
+    Utilities for building Google API service clients using Application Default Credentials (ADC).
     """
 
     _drive_service = None
     _sheets_service = None
 
-    _SCOPES = [
+    _SCOPES: Sequence[str] = (
         "https://www.googleapis.com/auth/drive",
         "https://www.googleapis.com/auth/spreadsheets",
-    ]
+    )
 
     @classmethod
-    def _creds(cls):
-        client_id = os.environ["OAUTH_CLIENT_ID"]
-        client_secret = os.environ["OAUTH_CLIENT_SECRET"]
-        refresh_token = os.environ["OAUTH_REFRESH_TOKEN"]
-
-        creds = Credentials(
-            token=None,
-            refresh_token=refresh_token,
-            token_uri="https://oauth2.googleapis.com/token",
-            client_id=client_id,
-            client_secret=client_secret,
-            scopes=cls._SCOPES,
-        )
-        creds.refresh(Request())
+    def _adc_creds(cls):
+        creds, _ = google.auth.default(scopes=list(cls._SCOPES))
         return creds
 
     @classmethod
     def get_drive_service(cls, fresh: bool = False):
-        """
-        Return a Google Drive API service.
-
-        If fresh=True, bypass the cache and build a new client.
-        """
         if fresh or cls._drive_service is None:
-            svc = build("drive", "v3", credentials=cls._creds())
+            svc = build("drive", "v3", credentials=cls._adc_creds())
             if not fresh:
                 cls._drive_service = svc
             return svc
@@ -60,13 +41,8 @@ class GoogleUtils:
 
     @classmethod
     def get_sheets_service(cls, fresh: bool = False):
-        """
-        Return a Google Sheets API service.
-
-        If fresh=True, bypass the cache and build a new client.
-        """
         if fresh or cls._sheets_service is None:
-            svc = build("sheets", "v4", credentials=cls._creds())
+            svc = build("sheets", "v4", credentials=cls._adc_creds())
             if not fresh:
                 cls._sheets_service = svc
             return svc

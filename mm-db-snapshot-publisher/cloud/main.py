@@ -1,3 +1,4 @@
+import hmac
 import os
 import time
 
@@ -46,12 +47,13 @@ def publish(request):
     """
     start = time.time()
 
-    # basic auth via shared secret header
     expected = os.environ.get("PUBLISH_TOKEN")
     if expected:
-        token = request.headers.get("X-Publish-Token")
-        if token != expected:
+        token = request.headers.get("X-Publish-Token", "")
+        if not hmac.compare_digest(token, expected):
             return ("Unauthorized", 401)
+    if request.method != "POST":
+        return ("Method Not Allowed", 405)
 
     spreadsheet_id = os.environ["MAPPING_MUSEUMS_SPREADSHEET_ID"]
     database_tab = os.environ["MAPPING_MUSEUMS_DATABASE_TAB"]
