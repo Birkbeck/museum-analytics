@@ -1,33 +1,37 @@
 import os
 import time
 
-from dotenv import load_dotenv
 import pandas as pd
 
 from mm_db_snapshot_publisher import (
     GoogleUtils,
     MuseumSearchPreprocessor,
-    PostcodeToLatLong,
+    PostcodeGeoDB,
 )
 
 
-if __name__ == "__main__":
+def publish(request):
+    """
+    Cloud Function entrypoint (HTTP).
+    """
     start = time.time()
-    load_dotenv()
+
+    # basic auth via shared secret header
+    expected = os.environ.get("PUBLISH_TOKEN")
+    if expected:
+        token = request.headers.get("X-Publish-Token")
+        if token != expected:
+            return ("Unauthorized", 401)
 
     spreadsheet_id = os.environ["MAPPING_MUSEUMS_SPREADSHEET_ID"]
     database_tab = os.environ["MAPPING_MUSEUMS_DATABASE_TAB"]
-    postcode_to_lat_long_directory = os.environ["POSTCODE_TO_LAT_LONG_DIRECTORY"]
+    postcode_geo_db = os.environ["POSTCODE_GEO_DB"]
 
     museums_data = GoogleUtils.read_sheet_to_df(spreadsheet_id, database_tab).rename(
         columns={"id": "museum_id", "name": "museum_name"}
     )
 
-    with PostcodeToLatLong(
-        "../../data/ONSPD_FEB_2024_UK",
-        GoogleUtils.get_drive_service,
-        postcode_to_lat_long_directory,
-    ) as p:
+    with PostcodeGeoDB(postcode_geo_db) as p:
         geo_df = (
             museums_data["postcode"].fillna("").map(p.get_geo_info).apply(pd.Series)
         )
@@ -51,6 +55,7 @@ if __name__ == "__main__":
             "lad",
             "notes",
         ],
+        ngram_range=(1, 2),
     )
 
     search_structures = search_preprocessor.vectorize_museums()
@@ -68,23 +73,35 @@ if __name__ == "__main__":
     )
     GoogleUtils.save_df_to_drive_as_csv(
         pd.DataFrame({"museum_id": pd.Series(ids).fillna("").astype(str)}),
-        os.environ["TFIDF_MUSEUM_IDS_FILE_ID"],
+        file_id=os.environ["TFIDF_MUSEUM_IDS_FILE_ID"],
         drive_service=drive,
     )
     GoogleUtils.save_df_to_drive_as_csv(
         pd.DataFrame({"term": vocab}),
-        os.environ["TFIDF_VOCAB_FILE_ID"],
+        file_id=os.environ["TFIDF_VOCAB_FILE_ID"],
         drive_service=drive,
     )
     GoogleUtils.save_df_to_drive_as_csv(
         pd.DataFrame({"idf": idf}),
-        os.environ["TFIDF_IDF_FILE_ID"],
+        file_id=os.environ["TFIDF_IDF_FILE_ID"],
         drive_service=drive,
     )
     GoogleUtils.save_df_to_drive_as_csv(
         museums_data,
-        os.environ["MUSEUMS_FILE_ID"],
+        file_id=os.environ["MUSEUMS_FILE_ID"],
         drive_service=drive,
     )
 
-    print(f"Completed in {time.time() - start} seconds.")
+    timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+    GoogleUtils.save_df_to_drive_as_csv(
+        museums_data,
+        directory_id=os.environ["MM_DB_SNAPSHOTS"],
+        filename=f"mapping_museums_database_{timestamp}.csv",
+        drive_service=drive,
+    )
+
+    elapsed = time.time() - start
+    return (
+        {"status": "success", "seconds": elapsed, "rows": int(len(museums_data))},
+        200,
+    )

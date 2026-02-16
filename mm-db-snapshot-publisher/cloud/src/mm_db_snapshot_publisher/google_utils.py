@@ -138,30 +138,59 @@ class GoogleUtils:
     def save_df_to_drive_as_csv(
         cls,
         df: pd.DataFrame,
-        file_id: str,
         *,
+        file_id: Optional[str] = None,
+        directory_id: Optional[str] = None,
+        filename: Optional[str] = None,
         retries: int = 3,
         resumable: bool = True,
         backoff_base_seconds: float = 1.0,
         drive_service: Optional[object] = None,
     ):
+        """
+        Save DataFrame as CSV to Google Drive.
+
+        - If file_id is provided: overwrite that existing file.
+        - Else if directory_id is provided: create a NEW CSV file in that Drive folder.
+          (You also need to provide filename)
+        """
+        if (file_id is None) == (directory_id is None):
+            raise ValueError("Provide exactly one of file_id or directory_id.")
         csv_bytes = df.to_csv(index=False).encode("utf-8")
         last_exc = None
         for attempt in range(retries):
             try:
-                if drive_service is not None and attempt == 0:
-                    drive = drive_service
-                else:
-                    drive = cls.get_drive_service(fresh=(attempt > 0))
+                drive = (
+                    drive_service
+                    if (drive_service is not None and attempt == 0)
+                    else cls.get_drive_service(fresh=(attempt > 0))
+                )
                 media = MediaIoBaseUpload(
                     io.BytesIO(csv_bytes),
                     mimetype="text/csv",
                     resumable=resumable,
                 )
-                request = drive.files().update(
-                    fileId=file_id,
+                if file_id is not None:
+                    request = drive.files().update(
+                        fileId=file_id,
+                        media_body=media,
+                        fields="id,name,modifiedTime",
+                    )
+                    if resumable:
+                        response = None
+                        while response is None:
+                            _, response = request.next_chunk()
+                        return response
+                    return request.execute()
+                metadata = {
+                    "name": filename,
+                    "parents": [directory_id],
+                    "mimeType": "text/csv",
+                }
+                request = drive.files().create(
+                    body=metadata,
                     media_body=media,
-                    fields="id,name,modifiedTime",
+                    fields="id,name,modifiedTime,parents",
                 )
                 if resumable:
                     response = None
@@ -216,6 +245,14 @@ class GoogleUtils:
                     raise
                 time.sleep(backoff_base_seconds * (2**attempt))
         raise last_exc
+
+    @staticmethod
+    def _media_from_bytes(data: bytes, mimetype: str):
+        return MediaIoBaseUpload(
+            io.BytesIO(data),
+            mimetype=mimetype,
+            resumable=False,
+        )
 
     @classmethod
     def save_text_to_drive(
