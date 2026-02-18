@@ -43,6 +43,9 @@ class AddMuseumsService:
 
         for i, row in enumerate(rows):
             sheet_row_number = Add.HEADER_ROW + 2 + i  # 1-indexed
+            if not row:
+                skipped_not_ready += 1
+                continue
             if not _is_ready_cell(row[Add.READY_TO_COMMIT]):
                 skipped_not_ready += 1
                 continue

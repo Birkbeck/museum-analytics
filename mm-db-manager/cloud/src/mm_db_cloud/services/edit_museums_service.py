@@ -43,6 +43,9 @@ class EditMuseumsService:
 
         for i, row in enumerate(rows):
             sheet_row_number = Edit.HEADER_ROW + 2 + i  # 1-indexed
+            if not row:
+                skipped_not_ready += 1
+                continue
             if not _is_ready_cell(row[Edit.READY_TO_COMMIT]):
                 skipped_not_ready += 1
                 continue
@@ -63,9 +66,11 @@ class EditMuseumsService:
         # Validate rows + parse museum IDs
         for sheet_row_number, row in ready_rows:
             errs: List[str] = []
-
-            museum_cell = row[Edit.MUSEUM]
-            museum_id = parse_museum_id(museum_cell)
+            try:
+                museum_cell = row[Edit.MUSEUM]
+                museum_id = parse_museum_id(museum_cell)
+            except IndexError:
+                museum_id = None
             if not museum_id:
                 errs.append(
                     f'Museum "{as_trimmed_string(museum_cell)}" is not valid. '

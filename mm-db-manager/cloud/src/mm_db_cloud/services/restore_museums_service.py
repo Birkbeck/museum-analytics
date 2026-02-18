@@ -40,6 +40,9 @@ class RestoreMuseumsService:
 
         for i, row in enumerate(rows):
             sheet_row_number = Trash.HEADER_ROW + 2 + i  # 1-indexed
+            if not row:
+                skipped_not_marked += 1
+                continue
             if not _is_ready_cell(row[Trash.RESTORE]):
                 skipped_not_ready += 1
                 continue

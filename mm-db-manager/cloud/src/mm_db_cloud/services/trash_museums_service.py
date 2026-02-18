@@ -41,6 +41,9 @@ class TrashMuseumsService:
 
         for i, row in enumerate(rows):
             sheet_row_number = Delete.HEADER_ROW + 2 + i  # 1-indexed
+            if not row:
+                skipped_not_ready += 1
+                continue
             if not _is_ready_cell(row[Delete.READY_TO_DELETE]):
                 skipped_not_ready += 1
                 continue
@@ -60,8 +63,11 @@ class TrashMuseumsService:
 
         # Parse museum IDs (no other validation here, matching TS)
         for sheet_row_number, row in ready_rows:
-            museum_cell = row[Delete.MUSEUM]
-            museum_id = parse_museum_id(museum_cell)
+            try:
+                museum_cell = row[Delete.MUSEUM]
+                museum_id = parse_museum_id(museum_cell)
+            except IndexError:
+                museum_id = None
             if not museum_id:
                 errors_by_row.append(
                     RowError(

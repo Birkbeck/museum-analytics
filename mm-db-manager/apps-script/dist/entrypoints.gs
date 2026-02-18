@@ -52,3 +52,10 @@ function permanentlyDeleteMuseums() {
   }
   return globalThis.__mm_permanentlyDeleteMuseums();
 }
+
+function publishDatabase() {
+  if (!globalThis.__mm_publishDatabase) {
+    throw new Error("__mm_publishDatabase implementation not found on globalThis");
+  }
+  return globalThis.__mm_publishDatabase();
+}

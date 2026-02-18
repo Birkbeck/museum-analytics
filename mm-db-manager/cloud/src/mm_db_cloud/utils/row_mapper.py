@@ -19,7 +19,6 @@ def split_year_range(value: Any) -> tuple[str, str]:
         a, b = s.split("/", 1)
         a = a.strip()
         b = b.strip()
-        # match your TS: if end missing, treat as start
         return (a, b if b else a)
     return (s, s)
 
@@ -150,6 +149,8 @@ def map_db_row_to_db_row(
     out: List[Any] = [""] * dest_sheet_cls.TOTAL_COLS
 
     for name in fields:
-        out[getattr(dest_sheet_cls, name)] = source_row[getattr(source_sheet_cls, name)]
+        src_idx = getattr(source_sheet_cls, name)
+        dest_idx = getattr(dest_sheet_cls, name)
+        out[dest_idx] = _get(source_row, src_idx)
 
     return out

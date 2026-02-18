@@ -6,5 +6,6 @@ export function onOpenMenu(): void {
     .addItem("Trash selected museums in Delete", "trashMuseums")
     .addItem("Permanently delete selected museums in Trash", "permanentlyDeleteMuseums")
     .addItem("Restore selected museums in Trash", "restoreMuseums")
+    .addItem("Publish database", "publishDatabase")
     .addToUi();
 }
