@@ -70,6 +70,41 @@ resource "google_storage_bucket_object" "source" {
 }
 
 ############################################################
+# Public snapshots bucket (for Shiny to read)
+############################################################
+
+resource "google_storage_bucket" "snapshots" {
+  name                        = "mapping-museums-database"
+  location                    = var.region
+  uniform_bucket_level_access = true
+
+  # Optional but sensible
+  versioning {
+    enabled = true
+  }
+
+  depends_on = [google_project_service.required]
+}
+
+# Allow the function runtime SA to write objects
+resource "google_storage_bucket_iam_member" "snapshots_writer" {
+  bucket = google_storage_bucket.snapshots.name
+  role   = "roles/storage.objectAdmin"
+  member = "serviceAccount:${local.function_sa_email}"
+
+  depends_on = [google_storage_bucket.snapshots]
+}
+
+# Allow public read-only access to objects
+resource "google_storage_bucket_iam_member" "snapshots_public_read" {
+  bucket = google_storage_bucket.snapshots.name
+  role   = "roles/storage.objectViewer"
+  member = "allUsers"
+
+  depends_on = [google_storage_bucket.snapshots]
+}
+
+############################################################
 # Secret Manager (container + IAM + env injection)
 ############################################################
 
@@ -127,6 +162,7 @@ resource "google_cloudfunctions2_function" "publisher" {
 
   service_config {
     available_memory   = var.memory
+    available_cpu      = var.cpu
     timeout_seconds    = var.timeout_seconds
     min_instance_count = var.min_instance_count
     max_instance_count = var.max_instance_count
@@ -136,7 +172,12 @@ resource "google_cloudfunctions2_function" "publisher" {
     service_account_email = local.function_sa_email
 
     # Non-secret env vars (IDs, paths, etc.)
-    environment_variables = var.environment_variables
+    environment_variables = merge(
+      var.environment_variables,
+      {
+        SNAPSHOT_BUCKET = google_storage_bucket.snapshots.name
+      }
+    )
 
     # Inject Secret Manager secret as env var PUBLISH_TOKEN (read at runtime)
     secret_environment_variables {
@@ -151,7 +192,10 @@ resource "google_cloudfunctions2_function" "publisher" {
     google_project_service.required,
     google_secret_manager_secret_iam_member.publish_token_accessor,
     google_storage_bucket_iam_member.geo_db_reader,
+    google_storage_bucket_iam_member.snapshots_writer,
+    google_storage_bucket_iam_member.snapshots_public_read,
   ]
+
 }
 
 ############################################################

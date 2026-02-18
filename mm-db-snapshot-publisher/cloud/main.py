@@ -10,6 +10,11 @@ from mm_db_snapshot_publisher import (
     MuseumSearchPreprocessor,
     PostcodeGeoDB,
 )
+from mm_db_snapshot_publisher.cloud_storage_utils import (
+    _gcs_bucket,
+    _upload_bytes,
+    _upload_df_csv,
+)
 
 
 def _resolve_postcode_sqlite_path() -> str:
@@ -95,45 +100,67 @@ def publish(request):
     vocab = search_structures["vocab"]
     idf = search_structures["idf"]
 
-    drive = GoogleUtils.get_drive_service()
-
-    GoogleUtils.save_bytes_to_drive(
-        MuseumSearchPreprocessor.sparse_to_mtx_bytes(X),
-        os.environ["TFIDF_MTX_FILE_ID"],
-        mimetype="text/plain",
-        drive_service=drive,
-    )
-    GoogleUtils.save_df_to_drive_as_csv(
-        pd.DataFrame({"museum_id": pd.Series(ids).fillna("").astype(str)}),
-        file_id=os.environ["TFIDF_MUSEUM_IDS_FILE_ID"],
-        drive_service=drive,
-    )
-    GoogleUtils.save_df_to_drive_as_csv(
-        pd.DataFrame({"term": vocab}),
-        file_id=os.environ["TFIDF_VOCAB_FILE_ID"],
-        drive_service=drive,
-    )
-    GoogleUtils.save_df_to_drive_as_csv(
-        pd.DataFrame({"idf": idf}),
-        file_id=os.environ["TFIDF_IDF_FILE_ID"],
-        drive_service=drive,
-    )
-    GoogleUtils.save_df_to_drive_as_csv(
-        museums_data,
-        file_id=os.environ["MUSEUMS_FILE_ID"],
-        drive_service=drive,
-    )
-
+    # ---- GCS outputs ----
+    bucket, cache_control = _gcs_bucket()
     timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
-    GoogleUtils.save_df_to_drive_as_csv(
+
+    # Stable "latest" paths (Shiny can always read these)
+    latest_base = "latest"
+    # Versioned snapshot paths (nice for history/rollback)
+    versioned_base = "snapshots"
+
+    urls = {}
+
+    # TF-IDF matrix as MatrixMarket text
+    mtx_bytes = MuseumSearchPreprocessor.sparse_to_mtx_bytes(X)
+    urls["tfidf_mtx"] = _upload_bytes(
+        bucket,
+        f"{latest_base}/tfidf.mtx",
+        mtx_bytes,
+        content_type="text/plain; charset=utf-8",
+        cache_control=cache_control,
+    )
+    urls["museum_ids"] = _upload_df_csv(
+        bucket,
+        f"{latest_base}/museum_ids.csv",
+        pd.DataFrame({"museum_id": pd.Series(ids).fillna("").astype(str)}),
+        cache_control=cache_control,
+    )
+    urls["idf"] = _upload_df_csv(
+        bucket,
+        f"{latest_base}/idf.csv",
+        pd.DataFrame({"idf": idf}),
+        cache_control=cache_control,
+    )
+    urls["vocab"] = _upload_df_csv(
+        bucket,
+        f"{latest_base}/vocab.csv",
+        pd.DataFrame({"vocab": vocab}),
+        cache_control=cache_control,
+    )
+
+    urls["museums_latest"] = _upload_df_csv(
+        bucket,
+        f"{latest_base}/museums.csv",
         museums_data,
-        directory_id=os.environ["MM_DB_SNAPSHOTS"],
-        filename=f"mapping_museums_database_{timestamp}.csv",
-        drive_service=drive,
+        cache_control=cache_control,
+    )
+    urls["museums_snapshot"] = _upload_df_csv(
+        bucket,
+        f"{versioned_base}/museums_{timestamp}.csv",
+        museums_data,
+        cache_control=cache_control,
     )
 
     elapsed = time.time() - start
     return (
-        {"status": "success", "seconds": elapsed, "rows": int(len(museums_data))},
+        {
+            "status": "success",
+            "seconds": elapsed,
+            "rows": int(len(museums_data)),
+            "bucket": bucket.name,
+            "timestamp": timestamp,
+            "urls": urls,
+        },
         200,
     )

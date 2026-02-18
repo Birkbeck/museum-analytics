@@ -27,9 +27,14 @@ variable "entry_point" {
   default = "publish"
 }
 
+variable "cpu" {
+  type    = string
+  default = "1"
+}
+
 variable "memory" {
   type    = string
-  default = "1024M"
+  default = "2Gi"
 }
 
 variable "timeout_seconds" {

@@ -24,7 +24,7 @@ Make sure there is a file `terraform/terraform.tfvars` containing:
 project_id            = "THE_GOOGLE_CLOUD_PROJECT_ID"
 region                = "eg us-central1"
 geo_bucket_name       = "the name of the bucket where the geo-database is saved"
-environment_vars = {
+environment_variables = {
   MAPPING_MUSEUMS_SPREADSHEET_ID = "..."
   MAPPING_MUSEUMS_DATABASE_TAB   = "..."
   POSTCODE_GEO_DB         = "/tmp/postcode_lookup.sqlite"
