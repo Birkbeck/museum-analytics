@@ -7,7 +7,7 @@ from .rule import Rule
 from .file_loader import FileLoader
 from .file_preprocessor import FilePreprocessor
 from .neo4j_connection import Neo4jConnection
-from .postcode_to_lat_long import PostcodeToLatLong
+from .postcode_geo_db import PostcodeToLatLong
 from .queries import Queries
 from .table import Table
 from .wikidata_connection import WikidataConnection

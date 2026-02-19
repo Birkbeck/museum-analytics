@@ -3,7 +3,6 @@ name = "sheet-to-graph"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-  "dotenv",
   "pandas",
   "requests",
   "google-api-python-client",
@@ -11,6 +10,11 @@ dependencies = [
   "geopy",
   "edtf",
   "bng-latlon",
+  "functions-framework>=3.10.1",
+  "google-auth>=2.48.0",
+  "google-auth-httplib2>=0.3.0",
+  "python-dotenv>=1.2.1",
+  "google-cloud-storage>=3.9.0",
 ]
 
 [project.optional-dependencies]
