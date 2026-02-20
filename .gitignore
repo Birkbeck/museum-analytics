@@ -15,19 +15,19 @@ terraform.tfstate
 terraform.tfstate.*
 terraform.tfvars
 terraform.tfvars.*
+
+*.clasp.json
+*.clasp.prod.json
+*.clasp.test.json
+**/dist/Code.gs
+**/dist/appsscript.json
+
 *.sqlite
 
 data/ONSPD*
 data/dispersal-sheet-2*
 data/dispersal_sheets/
 data/wip-sheet*
-
-mm-db-manager/apps-script/.clasp.json
-mm-db-manager/apps-script/.clasp.prod.json
-mm-db-manager/apps-script/.clasp.test.json
-mm-db-manager/apps-script/dist/code.gs
-mm-db-manager/apps-script/dist/appsscript.json
-mm-db-manager/cloud/.env
 
 sheet-to-graph/credentials.json
 sheet-to-graph/output.xlsx
